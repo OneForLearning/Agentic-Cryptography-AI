@@ -1,0 +1,58 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes         227
+
+which yields [[g1 ]]g2 = [[g2 ]]−1
+                                g1 mod n and thus [[g2 ]]g1 is invertible modulo n.
+Suppose that we are given an oracle for Class [n, g1 ]. Feeding g2 and w into the
+oracle respectively gives [[g2 ]]g1 and [[w]]g1 , and by straightforward deduction :
+                                                −1
+                           [[w]]g2 = [[w]]g1 [[g2 ]]g1 mod n .
+
+                                                                                  t
+                                                                                  u
+
+    Lemma 7 essentially means that the complexity of Class [n, g] is independant
+from g. This enables us to look upon it as a computational problem which purely
+relies on n. Formally,
+
+Definition 8. We call Composite Residuosity Class Problem the computational
+problem Class [n] defined as follows : given w ∈ Z∗n2 and g ∈ B, compute [[w]]g .
+
+    We now proceed to find out which connections exist between the Composite
+Residuosity Class Problem and standard number-theoretic problems. We state
+first :
+
+Theorem 9. Class [n]       ⇐      Fact [n].
+
+   Before proving the theorem, observe that the set
+
+                        Sn = u < n2 | u = 1 mod n
+
+is a multiplicative subgroup of integers modulo n2 over which the function L
+such that
+                                             u−1
+                            ∀u ∈ Sn L(u) =
+                                               n
+is clearly well-defined.
+
+Lemma 10. For any w ∈ Z∗n2, L(wλ mod n2 ) = λ [[w]]1+n mod n.
+
+Proof (of Lemma 10). Since 1 + n ∈ B, there exists a unique pair (a, b) in the
+set Zn × Z∗n such that w = (1 + n)a bn mod n2 . By definition, a = [[w]]1+n . Then
+
+               wλ = (1 + n)aλ bnλ = (1 + n)aλ = 1 + aλn mod n2 ,
+
+which yields the announced result.
+                                                     −1
+Proof (of Theorem 9). Since [[g] 1+n = [[1 + n]]g mod n is invertible, a conse-
+quence of Lemma 10 is that L(g λ mod n2 ) is invertible modulo n. Now, factoring
+n obviously leads to the knowledge of λ. Therefore, for any g ∈ B and w ∈ Z∗n2 ,
+we can compute
+
+             L(wλ mod n2 )   λ [[w]]1+n   [[w]]1+n
+                λ
+                           =            =           = [[w]]g mod n ,            (2)
+             L(g mod n )
+                       2     λ [[g]]1+n    [ g]]1+n
+
+by virtue of Equation 1.                                                          t
+                                                                                  u

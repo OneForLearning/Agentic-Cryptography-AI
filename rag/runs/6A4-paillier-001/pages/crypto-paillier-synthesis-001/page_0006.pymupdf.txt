@@ -1,0 +1,33 @@
+Le cryptosystème de Paillier    synthèse technique                                             6
+
+
+8 Postérité et usages actuels
+
+   Au-delà de son intérêt théorique, ce trapdoor est devenu l'un des deux ou trois  chevaux
+de trait  du chi rement homomorphe partiel, aux côtés d'ElGamal (homomorphe multipli-
+catif). On le retrouve aujourd'hui, sous des formes souvent adaptées ou combinées à d'autres
+primitives :
+
+     vote électronique    dépouillement homomorphe des bulletins chi  rés, sans jamais dé-
+      chi rer un bulletin individuel ;
+
+     partage de secret et cryptographie à seuil   variantes distribuées de la clé λ (Paillier
+     à seuil) ;
+
+     calcul multipartite sécurisé et private set intersection (PSI)   l'homomorphisme
+      additif sert de brique pour comparer ou agréger des données chi rées appartenant à des
+      parties di érentes ;
+
+     agrégation sécurisée en apprentissage fédéré   sommation de gradients ou de sta-
+      tistiques chi rés sans exposer les contributions individuelles ;
+
+     point de comparaison pour le chi rement totalement homomorphe (FHE)
+       les schémas modernes (BGV, BFV, CKKS) généralisent, à un coût bien plus élevé, l'idée
+      d'opérer directement sur des données chi rées que Paillier a rendue praticable pour une
+      seule opération (l'addition).
+
+Référence
+
+    P. Paillier,  Public-Key Cryptosystems Based on Composite Degree Residuosity Classes   ,
+in J. Stern (Ed.), Advances in Cryptology   EUROCRYPT'99, Lecture Notes in Computer
+Science, vol. 1592, p. 223 238, Springer-Verlag, 1999.

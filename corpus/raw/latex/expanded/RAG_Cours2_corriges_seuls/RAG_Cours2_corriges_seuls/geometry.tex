@@ -1,0 +1,1031 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[
+    fancytheorems, 
+    fancyproofs, 
+    noindent, 
+]{adam}
+
+\usepackage{quiver}
+\usepackage{mdsymbol}
+
+\title{Geometry}
+\author{Adam Kelly (\texttt{ak2316@cam.ac.uk})}
+\date{\today}
+
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle 
+
+% This is a short description of the course. It should give a little flavour of what the course is about, and what will be roughly covered in the notes.
+
+This article constitutes my notes for the `Geometry' course, held in Lent 2022 at Cambridge. These notes are \emph{not a transcription of the lectures}, and differ significantly in quite a few areas. Still, all lectured material should be covered.
+
+
+
+\tableofcontents
+
+\section{Topological and Smooth Surfaces}
+
+\subsection{Topological Surfaces}
+
+We will begin immediately with a definition that will occupy us for some time.
+
+\begin{definition}[Topological Surface]
+    A topological surface is a topological space $\Sigma$ such that
+    \begin{enumerate}[label=(\roman*)]
+        \item Each $p \in \Sigma$ has an open neighborhood $U$ with $p \in U$ such that $U$ is homeomorphic to $\mathbb{R}^2$, with its usual Euclidean topology.
+        \item $\Sigma$ is Hausdorff and second countable.
+    \end{enumerate}    
+\end{definition}
+
+Recall that a space $X$ is Hausdorff if for $p \neq q$ in $X$ there exists disjoint open sets $p \in U$ and $q \in V$ in $X$, and that a space is second countable it's topology has a countable basis.
+In some ways, the real nature of topological spaces comes from the condition (a), and the condition (b) is really there for technical honesty.
+
+\subsection{Examples of Topological Surfaces}
+
+Let's now take some to consider some examples of topological surfaces.
+
+\begin{example}[$\mathbb{R}^2$]
+    The plane $\mathbb{R}^2$ is a topological surface.
+\end{example}
+
+\begin{example}[Subsets of $\mathbb{R}^2$]
+    Any open subset of $\mathbb{R}^2$ is a topological surface. For example
+    \begin{enumerate}[label=(\roman*)]
+        \item $\mathbb{R}^2 \backslash \{0\}$ is a topological surface;
+        \item Let $Z = \{(0, 0) \} \cup \{(1, 1/n) \mid n \in \N\}$, then $\mathbb{R}^2 \backslash Z$ is a topological surface.
+    \end{enumerate}
+\end{example}
+
+\begin{example}[Graphs]
+    Let $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ be a continuous function. Then the \vocab{graph} 
+    $$\Gamma_f = \{(x, y, f(x, y)) \mid (x, y) \in \mathbb{R}^2\} \subseteq \mathbb{R}^3 \text{ (subspace topology)}.$$
+    
+    Recall that if $X$ and $Y$ are topological spaces, the product topology on $X \times Y$ has basis open sets $U \times V$ with $U \subseteq X$ and $V \subseteq Y$ both open sets.
+
+    It has the feature that $f: Z \rightarrow X \times Y$ is continuous if and only if $\pi_x \circ f: Z \rightarrow X$ and $\pi_y \circ f: Z \rightarrow Y$ are continuous.
+
+    So if $\Gamma_f \subseteq X \times Y$ and $f: X \rightarrow Y$ is continuous then $\Gamma_f$ is homeomorphic to $X$, with the map $s: x \mapsto (x, f(x))$, so that $\left.\pi\right|_{\Gamma_f}$ and $s$ are inverse homeomorphisms.
+
+    So $\Gamma_f \cong \mathbb{R}^2$ for \emph{any} continuous $f: \mathbb{R}^2 \rightarrow \mathbb{R}$, and $\Gamma_f$ is a topological surface.
+\end{example}
+
+As a note, the topological surface $\Gamma_f$ is independent of $f$. Later on as we develop more tools in geometry we will be able to better reflect the structure of the function $f$. 
+
+\begin{example}[Stereographic Projection]
+    Consider the sphere
+    $$
+S^2 = \{(x, y, t) \in \mathbb{R}^3 \mid x^2 + y^2 + z^2 =1 \}.
+    $$
+
+    We can consider the stereographic projection
+    \begin{align*}
+        \pi_+ : S^2 \backslash \{(0, 0, 1)\} &\rightarrow \mathbb{R}^2 (z = 0) \subseteq \mathbb{R}^3 \\
+        (x, y, t) &\mapsto \left(\frac{x}{1 - t}, \frac{y}{1 - t}\right).
+    \end{align*}
+    Such a projection is shown below.
+
+    \begin{center}
+        
+
+% Gradient Info
+  
+\tikzset {_dgh8fcybk/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -128.7 bp }  }  \pgftransformscale{1.32 }  }}}
+\pgfdeclareradialshading{_var369p8e}{\pgfpoint{-72bp}{104bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0.78,0.88,1);
+rgb(400bp)=(0.78,0.88,1)}
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp9621550874774156] 
+\draw   (119.66,91.2) -- (378.29,91.2) -- (330.63,158.95) -- (72,158.95) -- cycle ;
+%Shape: Circle [id:dp7711674031779723] 
+\path  [shading=_var369p8e,_dgh8fcybk] (168,120.2) .. controls (168,86.51) and (195.31,59.2) .. (229,59.2) .. controls (262.69,59.2) and (290,86.51) .. (290,120.2) .. controls (290,153.89) and (262.69,181.2) .. (229,181.2) .. controls (195.31,181.2) and (168,153.89) .. (168,120.2) -- cycle ; % for fading 
+ \draw   (168,120.2) .. controls (168,86.51) and (195.31,59.2) .. (229,59.2) .. controls (262.69,59.2) and (290,86.51) .. (290,120.2) .. controls (290,153.89) and (262.69,181.2) .. (229,181.2) .. controls (195.31,181.2) and (168,153.89) .. (168,120.2) -- cycle ; % for border 
+
+%Shape: Ellipse [id:dp7010564209713763] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}] (168,120.2) .. controls (168,110.55) and (195.31,102.74) .. (229,102.74) .. controls (262.69,102.74) and (290,110.55) .. (290,120.2) .. controls (290,129.85) and (262.69,137.66) .. (229,137.66) .. controls (195.31,137.66) and (168,129.85) .. (168,120.2) -- cycle ;
+%Straight Lines [id:da601420156609989] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (229,59.2) -- (275,102.03) ;
+%Shape: Circle [id:dp9581781475680486] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (224.75,59.2) .. controls (224.75,56.85) and (226.65,54.95) .. (229,54.95) .. controls (231.35,54.95) and (233.25,56.85) .. (233.25,59.2) .. controls (233.25,61.55) and (231.35,63.45) .. (229,63.45) .. controls (226.65,63.45) and (224.75,61.55) .. (224.75,59.2) -- cycle ;
+%Straight Lines [id:da4941203681575539] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (275,102.03) -- (322,148.45) ;
+%Straight Lines [id:da7315894591096315] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (322,148.45) -- (346,172.95) ;
+%Shape: Circle [id:dp7248118504557512] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (270.75,102.03) .. controls (270.75,99.69) and (272.65,97.78) .. (275,97.78) .. controls (277.35,97.78) and (279.25,99.69) .. (279.25,102.03) .. controls (279.25,104.38) and (277.35,106.28) .. (275,106.28) .. controls (272.65,106.28) and (270.75,104.38) .. (270.75,102.03) -- cycle ;
+%Shape: Circle [id:dp13443566890481096] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (317.75,148.45) .. controls (317.75,146.1) and (319.65,144.2) .. (322,144.2) .. controls (324.35,144.2) and (326.25,146.1) .. (326.25,148.45) .. controls (326.25,150.8) and (324.35,152.7) .. (322,152.7) .. controls (319.65,152.7) and (317.75,150.8) .. (317.75,148.45) -- cycle ;
+%Straight Lines [id:da5636421496414195] 
+\draw    (72,158.95) -- (330.63,158.95) ;
+
+% Text Node
+\draw (312.6,122.5) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$\pi _{+}( p)$};
+% Text Node
+\draw (221.8,37.3) node [anchor=north west][inner sep=0.75pt]    {$N$};
+% Text Node
+\draw (254.2,88.5) node [anchor=north west][inner sep=0.75pt]    {$p$};
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+    Note that $\pi_{+}$ is continuous and has an inverse
+    $$
+    (u, v) \mapsto \left(\frac{2u}{u^2 + v^2 + 1}, \frac{2v}{u^2 + v^2 + 1}, \frac{u^2 + v^2 - 1}{u^2 + v^2 + 1}\right).
+    $$
+    So $\pi_+$ is a continuous bijection with continuous inverse and hence a homeomorphism.
+
+    Of course we could also have projected from the south pole, to get a homeomorphism $\pi_-$ from $S^2 \backslash \{0, 0, -1\}$ to $\mathbb{R}^2$, so indeed every point lies in an open set which is homeomorphic through either $\pi_+$ or $\pi_-$ to $\mathbb{R}^2$. So $S^2$ is a topological surface.
+\end{example}
+
+\begin{remark}
+    $S^2$ is compact as a topological space, since it is a closed bounded set in $\mathbb{R}^3$.
+\end{remark}
+
+\begin{example}[Real Projective Plane]
+    The group $\mathbb{Z}/2\mathbb{Z}$ acts on $S^2$ by homeomorphisms via the \vocab{antipodal map} $a: S^2 \rightarrow S^2$ with
+    $$
+    a(x, y, t) = (-x, -y, -t).
+    $$
+    That is, there exists a homeomorphism $\mathbb{Z}/2\mathbb{Z} \rightarrow \operatorname{Homeo}(S^2)$ sending the non-identity element to $a$.
+
+    The \vocab{real projective plane} is the quotient space of $S^2$ given by identifying every point with its antipodal image: $\mathbb{R} \PP^2 = S^2/(\mathbb{Z}/2\mathbb{Z}) = S^2/\sim$ with $x \sim a(x)$.
+
+    Note that $\sim$ is the equivalence relation of belonging to the same orbit under the given action.
+
+    As a set, $\mathbb{R} \PP^2$ is naturally in bijection with the set of straight lines in $\mathbb{R}^3$ through the origin, with the bijection given by mapping lines with the identified points on the sphere that they pass through.
+    \begin{center}
+        
+
+% Gradient Info
+  
+\tikzset {_52kankop7/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -128.7 bp }  }  \pgftransformscale{1.32 }  }}}
+\pgfdeclareradialshading{_4ataw6yqb}{\pgfpoint{-72bp}{104bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0.78,0.88,1);
+rgb(400bp)=(0.78,0.88,1)}
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Shape: Circle [id:dp9158198273647966] 
+\path  [shading=_4ataw6yqb,_52kankop7] (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for fading 
+ \draw   (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for border 
+
+%Shape: Ellipse [id:dp9820685265727336] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}] (168,73) .. controls (168,63.35) and (195.31,55.54) .. (229,55.54) .. controls (262.69,55.54) and (290,63.35) .. (290,73) .. controls (290,82.65) and (262.69,90.46) .. (229,90.46) .. controls (195.31,90.46) and (168,82.65) .. (168,73) -- cycle ;
+%Straight Lines [id:da5819287923563754] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (177.33,93.25) -- (275,54.83) ;
+%Shape: Circle [id:dp5576782083705247] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (224.75,73) .. controls (224.75,70.65) and (226.65,68.75) .. (229,68.75) .. controls (231.35,68.75) and (233.25,70.65) .. (233.25,73) .. controls (233.25,75.35) and (231.35,77.25) .. (229,77.25) .. controls (226.65,77.25) and (224.75,75.35) .. (224.75,73) -- cycle ;
+%Straight Lines [id:da1474048195066866] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (275,54.83) -- (372.67,16.42) ;
+%Shape: Circle [id:dp7710725956210569] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (270.75,54.83) .. controls (270.75,52.49) and (272.65,50.58) .. (275,50.58) .. controls (277.35,50.58) and (279.25,52.49) .. (279.25,54.83) .. controls (279.25,57.18) and (277.35,59.08) .. (275,59.08) .. controls (272.65,59.08) and (270.75,57.18) .. (270.75,54.83) -- cycle ;
+%Straight Lines [id:da21359057500415712] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (79.67,131.67) -- (177.33,93.25) ;
+%Shape: Circle [id:dp001468373157834657] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (173.08,93.25) .. controls (173.08,90.9) and (174.99,89) .. (177.33,89) .. controls (179.68,89) and (181.58,90.9) .. (181.58,93.25) .. controls (181.58,95.6) and (179.68,97.5) .. (177.33,97.5) .. controls (174.99,97.5) and (173.08,95.6) .. (173.08,93.25) -- cycle ;
+
+% Text Node
+\draw (331.67,11.57) node [anchor=north west][inner sep=0.75pt]    {$\ell $};
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+    We can also check that $\mathbb{R}\PP^2$ is a topological surface. 
+    
+    We must first check that it is Hausdorff. Recall that if $X$ is a space and $q: X \rightarrow Y$ is a quotient map, then $V \in Y$ is open if and only if $q^{-1}(V) \in X$ is open.
+
+    \begin{center}
+        
+
+        % Gradient Info
+          
+        \tikzset {_xqhjp23by/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -128.7 bp }  }  \pgftransformscale{1.32 }  }}}
+        \pgfdeclareradialshading{_u4k2fy3b5}{\pgfpoint{-72bp}{104bp}}{rgb(0bp)=(1,1,1);
+        rgb(0bp)=(1,1,1);
+        rgb(25bp)=(0.78,0.88,1);
+        rgb(400bp)=(0.78,0.88,1)}
+        \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+        
+        \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+        %uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+        
+        %Shape: Circle [id:dp6622324342535655] 
+        \path  [shading=_u4k2fy3b5,_xqhjp23by] (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for fading 
+         \draw   (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for border 
+        
+        %Shape: Ellipse [id:dp7154492097345231] 
+        \draw  [dash pattern={on 0.84pt off 2.51pt}] (168,73) .. controls (168,63.35) and (195.31,55.54) .. (229,55.54) .. controls (262.69,55.54) and (290,63.35) .. (290,73) .. controls (290,82.65) and (262.69,90.46) .. (229,90.46) .. controls (195.31,90.46) and (168,82.65) .. (168,73) -- cycle ;
+        %Shape: Circle [id:dp1416961048393608] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (257.15,118.2) .. controls (257.15,115.85) and (259.05,113.95) .. (261.4,113.95) .. controls (263.75,113.95) and (265.65,115.85) .. (265.65,118.2) .. controls (265.65,120.55) and (263.75,122.45) .. (261.4,122.45) .. controls (259.05,122.45) and (257.15,120.55) .. (257.15,118.2) -- cycle ;
+        %Shape: Circle [id:dp6541042949762148] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (264.75,37.63) .. controls (264.75,35.29) and (266.65,33.38) .. (269,33.38) .. controls (271.35,33.38) and (273.25,35.29) .. (273.25,37.63) .. controls (273.25,39.98) and (271.35,41.88) .. (269,41.88) .. controls (266.65,41.88) and (264.75,39.98) .. (264.75,37.63) -- cycle ;
+        %Shape: Circle [id:dp3717908849425047] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (191.08,28.05) .. controls (191.08,25.7) and (192.99,23.8) .. (195.33,23.8) .. controls (197.68,23.8) and (199.58,25.7) .. (199.58,28.05) .. controls (199.58,30.4) and (197.68,32.3) .. (195.33,32.3) .. controls (192.99,32.3) and (191.08,30.4) .. (191.08,28.05) -- cycle ;
+        %Shape: Circle [id:dp48147546135749275] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (187.15,114.03) .. controls (187.15,111.69) and (189.05,109.78) .. (191.4,109.78) .. controls (193.75,109.78) and (195.65,111.69) .. (195.65,114.03) .. controls (195.65,116.38) and (193.75,118.28) .. (191.4,118.28) .. controls (189.05,118.28) and (187.15,116.38) .. (187.15,114.03) -- cycle ;
+        %Curve Lines [id:da617904657863573] 
+        \draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (259.2,20.6) .. controls (242.8,28.6) and (256.8,67.8) .. (284.2,46.8) ;
+        %Curve Lines [id:da8882017467035133] 
+        \draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (178.4,106.6) .. controls (203.2,92.6) and (213,112) .. (198.8,126.2) ;
+        %Curve Lines [id:da718360696826156] 
+        \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (207.2,15.8) .. controls (227.2,46.2) and (180,48.2) .. (177.2,41.8) ;
+        %Curve Lines [id:da9625606480931335] 
+        \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (278.8,107.4) .. controls (256.4,91) and (233.6,125) .. (248,130.6) ;
+        
+        % Text Node
+        \draw (280.47,23.17) node [anchor=north west][inner sep=0.75pt]    {$p$};
+        % Text Node
+        \draw (166.07,120.6) node [anchor=north west][inner sep=0.75pt]    {$-p$};
+        % Text Node
+        \draw (268.07,120.6) node [anchor=north west][inner sep=0.75pt]    {$q$};
+        % Text Node
+        \draw (171.67,4.6) node [anchor=north west][inner sep=0.75pt]    {$-q$};
+        
+        
+        \end{tikzpicture}
+        
+            \end{center}
+        
+
+    If $[p] \neq [q] \in \mathbb{R}\PP^2$ then $\pm p$ and $\pm q \in S^2$ are distinct antipodal points. We can then take small open discs\footnote{We could take small balls $B_{\pm p}(\delta)$ and $B_{\pm q}(\delta)$ ($\delta \ll$ 1 small), which meet $S^2$ in open sets. If $q: S^2 \rightarrow \mathbb{R}\PP^2$ is the quotient map, then $q(B_{p}(\delta))$ \emph{is} open since $q^{-1}(q(B_{p}(\delta))) = B_{p}(\delta) \cup (-B_{p}(\delta))$, the union with the antipodal image.} about these in $S^2$ as in the picture, which give us disjoint open neighborhoods of $[p]$ or $[q]$ in $\mathbb{R} \PP^2$. That is, it's Hausdorff.
+
+    We can also check that $\mathbb{R}\PP^2$ is second countable. We know that $U$ be a countable basis for the topology on $S^2$, and without loss of generality for all $u \in U$, the antipodal image is in $U$.
+    Let $\overline{U}$ be the family of opens ets in $\mathbb{R}\PP^2$ of the form $q(u) \cup q(-u), u \in U$.
+    Now if $V \subseteq \mathbb{R}\PP^2$ is open, by definition $q^{-1}(V)$ is open in $S^2$, and so $q^{-1}(V)$ contains some $u \in U$ and hence contains $u \cup (-u)$. So $\overline{U}$ is a countable base for the quotient topology on $\mathbb{R}\PP^2$.
+
+    Finally, let $p \in S^2$ and let $[p] \in \mathbb{R}\PP^2$ be it's image.
+    Let $\overline{D}$ be a small\footnote{Contained in an open hemisphere} closed disc neighborhood of $p \in S^2$.
+
+    \begin{center}
+        
+
+% Gradient Info
+  
+\tikzset {_uh7h7p9fi/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -128.7 bp }  }  \pgftransformscale{1.32 }  }}}
+\pgfdeclareradialshading{_r893scinr}{\pgfpoint{-72bp}{104bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0.78,0.88,1);
+rgb(400bp)=(0.78,0.88,1)}
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Shape: Circle [id:dp6134291728044772] 
+\path  [shading=_r893scinr,_uh7h7p9fi] (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for fading 
+ \draw   (168,73) .. controls (168,39.31) and (195.31,12) .. (229,12) .. controls (262.69,12) and (290,39.31) .. (290,73) .. controls (290,106.69) and (262.69,134) .. (229,134) .. controls (195.31,134) and (168,106.69) .. (168,73) -- cycle ; % for border 
+
+%Shape: Ellipse [id:dp23237974780055493] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}] (168,73) .. controls (168,63.35) and (195.31,55.54) .. (229,55.54) .. controls (262.69,55.54) and (290,63.35) .. (290,73) .. controls (290,82.65) and (262.69,90.46) .. (229,90.46) .. controls (195.31,90.46) and (168,82.65) .. (168,73) -- cycle ;
+%Shape: Circle [id:dp218060194467266] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (243.42,46.63) .. controls (243.42,44.29) and (245.32,42.38) .. (247.67,42.38) .. controls (250.01,42.38) and (251.92,44.29) .. (251.92,46.63) .. controls (251.92,48.98) and (250.01,50.88) .. (247.67,50.88) .. controls (245.32,50.88) and (243.42,48.98) .. (243.42,46.63) -- cycle ;
+%Shape: Ellipse [id:dp6209060771777748] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] (225.71,46.63) .. controls (225.71,35.46) and (235.54,26.4) .. (247.67,26.4) .. controls (259.79,26.4) and (269.63,35.46) .. (269.63,46.63) .. controls (269.63,57.81) and (259.79,66.87) .. (247.67,66.87) .. controls (235.54,66.87) and (225.71,57.81) .. (225.71,46.63) -- cycle ;
+
+% Text Node
+\draw (254.47,33.83) node [anchor=north west][inner sep=0.75pt]    {$p$};
+% Text Node
+\draw (213.47,20.83) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$\overline{D}$};
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+    Then the quotient map $q|_{\overline{D}} : \overline{D} \rightarrow q(\overline{D}) \subseteq \mathbb{R} \PP^2$ is a continuous map from a compact space to a Hausdorff space.
+    Also, on $\overline{D}$ the map $q$ is injective.
+So by the topological inverse function theorem, this map $q|_{\overline{D}}$ is a homeomorphism. This induces (by taking interiors) a homeomorphism $q|_{D}: D \rightarrow q(D) \in \mathbb{R}\PP^2$. So $[p] \in q(D)$ has an open neighborhood in $\mathbb{R}\PP^2$ homeomorphic to an open disk, and we are done.
+
+\end{example}
+
+\begin{example}[Torus]
+    Let $S^1 = \{z \in \mathbb{C} \mid |z| = 1\}$, and define the \vocab{torus} $S_1 \times S_1$ with the subspace topology from $\mathbb{C}^2$ (which is the product topology). We will show that the torus is a topological surface.
+
+    Consider the map
+    \begin{align*}
+        \mathbb{R}^2 &\xrightarrow{\ e\ } S^1 \times S^1 \subseteq \mathbb{C} \times \mathbb{C} \\
+        (s, t) & \longmapsto (e^{2\pi i s}, e^{2 \pi i t}).
+    \end{align*}
+
+    Note that this induces a map (in a set theoretic sense)
+    \begin{center}
+        % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXG1hdGhiYntSfV4yIl0sWzAsMiwiXFxSXjIvXFxaXjIiXSxbMiwwLCJTXjFcXHRpbWVzIFNeMSJdLFswLDFdLFswLDIsImUiXSxbMSwyLCJcXGhhdHtlfSJdXQ==
+        \begin{tikzcd}[ampersand replacement=\&]
+            {\mathbb{R}^2} \&\& {S^1\times S^1} \\
+            \\
+            {\mathbb{R}^2/\mathbb{Z}^2}
+            \arrow[from=1-1, to=3-1]
+            \arrow["e", from=1-1, to=1-3]
+            \arrow["{\hat{e}}", from=3-1, to=1-3]
+        \end{tikzcd}
+    \end{center}
+    that is, on the equivalence relation on $\mathbb{R}^2$ given by translating by $\pi^2$, $e$ is constant on equivalence classes and so induces a map of sets $\mathbb{R}^2/\mathbb{Z}^2 \rightarrow S^1 \times S^1$. Note we viewing $\mathbb{R}^2/\mathbb{Z}^2$ as the quotient space for $q: \mathbb{R}^2 \rightarrow \mathbb{R}^2/\mathbb{Z}^2$.
+
+    So the map $[0, 1]^2 \hookrightarrow \mathbb{R}^2 \xrightarrow{q} \mathbb{R}^2/\mathbb{Z}^2$ is onto, \emph{so} $\mathbb{R}^2/\mathbb{Z}^2$ is compact. So $\hat{e}$ is a continuous map from a compact space to a Hausdorff space and is a bijection, and is thus a homeomorphism by the topological inverse function theorem.
+
+    Note we already know that $S^1 \times S^1$ is compact and Hausdorff (closed and bounded in $\mathbb{R}^4$). As for $S^2 \rightarrow \mathbb{R}\PP^2$, pick $[p] = q(p)$ for $p \in \mathbb{R}^2$ and some small closed disc $\overline{D}(p) \subseteq \mathbb{R}^2$ such that for all non-zero integers $n, m$ we have $\overline{D}(p) \cap (\overline{D}(p) + (n, m)) = \emptyset$.
+    Then $e|_{\overline{D}(p)}$ is injective and $q|_{\overline{D}(p)}$ is injective.
+    Now restricting to the open disc as before, we get an open disc neighborhood of $[p] \in S^1 \times S^1$.
+    Since $[p]$ is arbitrary, $S^1 \times S^1$ is a topological surface.
+
+    Another viewpoint: $\mathbb{R}^2/\mathbb{Z}^2$ is also given by imposing on $[0, 1]^2$ the equivalence relation generated by $(x, 0) \sim (x, 1)$, $(0, y) \sim (1, y)$.
+    \begin{center}
+        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Straight Lines [id:da8677021966335143] 
+\draw    (350,30) -- (460,30) ;
+\draw [shift={(405,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da23039877923398766] 
+\draw    (350,120) -- (460,120) ;
+\draw [shift={(405,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da5789690290109974] 
+\draw    (350,120) -- (350,30) ;
+\draw [shift={(350,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da42781107006682806] 
+\draw    (460,120) -- (460,30) ;
+\draw [shift={(460,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+
+
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+\end{example}
+
+\begin{example}[Gluing Edges]
+    Let $P$ be a planar Euclidean polygon. We will assume the edges are \emph{oriented} and paired. For simplicity, we can suppose the Euclidean length of $e$ and $e'$ if $\{e, e'\}$ are paired.
+    
+    \begin{center}
+        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Straight Lines [id:da8677021966335143] 
+\draw    (160,30) -- (270,30) ;
+\draw [shift={(215,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da23039877923398766] 
+\draw    (160,120) -- (270,120) ;
+\draw [shift={(215,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da5789690290109974] 
+\draw    (160,120) -- (160,30) ;
+\draw [shift={(160,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da42781107006682806] 
+\draw    (270,120) -- (270,30) ;
+\draw [shift={(270,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5875269260975049] 
+\draw    (300,30) -- (410,30) ;
+\draw [shift={(355,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da49746172569639246] 
+\draw    (300,120) -- (410,120) ;
+\draw [shift={(355,120)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da6916094237179262] 
+\draw    (300,120) -- (300,30) ;
+\draw [shift={(300,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da1888172617232342] 
+\draw    (410,120) -- (410,30) ;
+\draw [shift={(410,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da14721572976206643] 
+\draw    (440,77.63) -- (467.5,30) ;
+\draw [shift={(453.75,53.82)}, rotate = 120] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da8513545957538318] 
+\draw    (467.5,30) -- (522.5,30) ;
+\draw [shift={(495,30)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da8128090253491065] 
+\draw    (522.5,30) -- (550,77.63) ;
+\draw [shift={(536.25,53.82)}, rotate = 240] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (17.64,-3.29) .. controls (13.66,-1.4) and (10.02,-0.3) .. (6.71,0) .. controls (10.02,0.3) and (13.66,1.4) .. (17.64,3.29)(10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da706789823943629] 
+\draw    (550,77.63) -- (522.5,125.26) ;
+\draw [shift={(536.25,101.45)}, rotate = 300] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da8168509195344371] 
+\draw    (522.5,125.26) -- (467.5,125.26) ;
+\draw [shift={(495,125.26)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da057899271526199] 
+\draw    (467.5,125.26) -- (440,77.63) ;
+\draw [shift={(453.75,101.45)}, rotate = 240] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (17.64,-3.29) .. controls (13.66,-1.4) and (10.02,-0.3) .. (6.71,0) .. controls (10.02,0.3) and (13.66,1.4) .. (17.64,3.29)(10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+    If $\{e, e'\}$ are paired edges, there is a unique isometry from $e$ to $e'$ respecting their orientations, say $f_{e e'}: e \rightarrow e'$.
+    These maps generate an equivalence relation on $P$, where I identify $x \in P$ with $f_{ee'}(x)$ whenever $x \in e$. 
+
+    \textbf{Lemma}. $P/\sim$ (with the quotient topology) is a topological surface.
+
+    Before we prove this, we will consider the specific example of the torus as $[0, 1]^2/\sim$.
+
+    \begin{center}
+        
+
+        \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+        
+        \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+        %uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+        
+        %Straight Lines [id:da8677021966335143] 
+        \draw    (350,30) -- (460,30) ;
+        \draw [shift={(405,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da23039877923398766] 
+        \draw    (350,120) -- (460,120) ;
+        \draw [shift={(405,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da5789690290109974] 
+        \draw    (350,120) -- (350,30) ;
+        \draw [shift={(350,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+        %Straight Lines [id:da42781107006682806] 
+        \draw    (460,120) -- (460,30) ;
+        \draw [shift={(460,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+        
+        
+        
+        
+        \end{tikzpicture}
+        
+            \end{center}
+
+    If $P = [0, 1]$ and $p$ is in the interior of $P$, then picking $\delta > 0$ sufficiently small so that $B_p(\delta)$ and $\overline{B_p(\delta)}$ in $\mathbb{R}^2$ lie in the interior of $P$. Now we argue as before: the quotient map is injective on $\overline{B_p(\delta)}$ and a homoemorphism on its interior.
+    If $p$ is on an edge of $P$, then we take two half disks of sufficiently small radius $\delta$ so that they don't meet a vertex of $P$.
+
+    \begin{center}
+        
+
+
+        \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+        \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+        %uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+        
+        %Shape: Chord [id:dp19152806356372287] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (460,55) .. controls (460,55) and (460,55) .. (460,55) .. controls (460,55) and (460,55) .. (460,55) .. controls (468.1,55) and (474.67,61.72) .. (474.67,70) .. controls (474.67,78.28) and (468.1,85) .. (460,85) .. controls (459.93,85) and (459.85,85) .. (459.78,85) -- cycle ;
+        %Shape: Chord [id:dp08307026163054543] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 189; green, 16; blue, 224 }  ,fill opacity=1 ] (459.99,85) .. controls (459.97,85) and (459.94,85) .. (459.91,85) .. controls (451.81,85) and (445.25,78.28) .. (445.25,70) .. controls (445.25,61.72) and (451.81,55) .. (459.91,55) .. controls (459.94,55) and (459.97,55) .. (460,55) -- cycle ;
+        %Shape: Chord [id:dp7404388900087537] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 189; green, 16; blue, 224 }  ,fill opacity=1 ] (270.33,70.75) .. controls (270.3,70.75) and (270.28,70.75) .. (270.25,70.75) .. controls (262.15,70.75) and (255.58,64.03) .. (255.58,55.75) .. controls (255.58,47.47) and (262.15,40.75) .. (270.25,40.75) .. controls (270.28,40.75) and (270.31,40.75) .. (270.34,40.75) -- cycle ;
+        %Shape: Chord [id:dp22118559447255692] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (160.25,40.75) .. controls (160.25,40.75) and (160.25,40.75) .. (160.25,40.75) .. controls (160.25,40.75) and (160.25,40.75) .. (160.25,40.75) .. controls (168.35,40.75) and (174.92,47.47) .. (174.92,55.75) .. controls (174.92,64.03) and (168.35,70.75) .. (160.25,70.75) .. controls (160.18,70.75) and (160.1,70.75) .. (160.03,70.75) -- cycle ;
+        %Straight Lines [id:da43490849384746944] 
+        \draw    (160,30) -- (270,30) ;
+        \draw [shift={(215,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da02586878084495514] 
+        \draw    (160,120) -- (270,120) ;
+        \draw [shift={(215,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da2970227178900944] 
+        \draw    (160,120) -- (160,30) ;
+        \draw [shift={(160,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+        %Straight Lines [id:da5665318796507586] 
+        \draw    (270,120) -- (270,30) ;
+        \draw [shift={(270,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+        %Shape: Circle [id:dp012642865485829713] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (156,55.75) .. controls (156,53.4) and (157.9,51.5) .. (160.25,51.5) .. controls (162.6,51.5) and (164.5,53.4) .. (164.5,55.75) .. controls (164.5,58.1) and (162.6,60) .. (160.25,60) .. controls (157.9,60) and (156,58.1) .. (156,55.75) -- cycle ;
+        %Shape: Circle [id:dp41106517067181514] 
+        \draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (266,55.75) .. controls (266,53.4) and (267.9,51.5) .. (270.25,51.5) .. controls (272.6,51.5) and (274.5,53.4) .. (274.5,55.75) .. controls (274.5,58.1) and (272.6,60) .. (270.25,60) .. controls (267.9,60) and (266,58.1) .. (266,55.75) -- cycle ;
+        %Curve Lines [id:da6042082411971041] 
+        \draw    (300,40) .. controls (339.4,10.45) and (369.74,15.99) .. (398.68,38.94) ;
+        \draw [shift={(400,40)}, rotate = 219.09] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da8873145389110244] 
+        \draw    (460,12) -- (460,128) ;
+        \draw [shift={(460,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        \draw [shift={(460,10)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        %Straight Lines [id:da20083574573053142] 
+        \draw    (392,70) -- (528,70) ;
+        \draw [shift={(530,70)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        \draw [shift={(390,70)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+        
+        % Text Node
+        \draw (141,42.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ]  {$p$};
+        % Text Node
+        \draw (277,52.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ]  {$p'$};
+        % Text Node
+        \draw (147,122.4) node [anchor=north west][inner sep=0.75pt]    {$P$};
+        % Text Node
+        \draw (391,122.4) node [anchor=north west][inner sep=0.75pt]    {$\mathbb{R}^{2}$};
+        % Text Node
+        \draw (471,42.4) node [anchor=north west][inner sep=0.75pt]    {$D$};
+        % Text Node
+        \draw (174,52.4) node [anchor=north west][inner sep=0.75pt]    {$U$};
+        % Text Node
+        \draw (239,52.4) node [anchor=north west][inner sep=0.75pt]    {$V$};
+        
+        
+        \end{tikzpicture}
+        
+
+    \end{center}
+
+Then we can define a map $f$ from the union of these half disks to the disk of the same radius at the origin of $\mathbb{R}^2$ as above. 
+
+Explicitly, we define $f_U$ and $f_V$ such that they are continuous on the half disks $U, V \in [0, 1]^2$. These induce a continuous map on $q(U)$ and $q(V) \subseteq T^2$, ($q: [0, 1]^2 \rightarrow [0, 1]^2/\sim = T^2$). In $T^2$, the half disks $q(U)$ and $q(V)$ overlap \emph{but} overlaps agree on the closed intersection locus (as $f_U$ and $f_V$ are compatible with the equivalence relation). So $f_U$ and $f_V$ glue to define a continuous map $f$ on an open neighborhood $[p] \in T^2$ to $B_0(\delta) \subseteq \mathbb{R}^2$.
+
+Now we can apply our `usual argument' (pass toa closed disk, apply the topological inverse function theorem, pass back to the interior) to show that if $[q] \in R^2$ lies on the image of an edge of $[0, 1]^2$, it has an open neighborhood homeomorphic to a disk.
+
+Analogously, at a vertex of $[0, 1]^2$, the same argument with a slight modification works.
+\begin{center}
+    
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Shape: Pie [id:dp8064775069441674] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (474.88,70) .. controls (474.88,70) and (474.88,70) .. (474.88,70) .. controls (474.88,70) and (474.88,70) .. (474.88,70) .. controls (474.88,78.28) and (468.22,85) .. (460,85) -- (460,70) -- cycle ;
+%Shape: Pie [id:dp9018456714302134] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 144; green, 19; blue, 254 }  ,fill opacity=1 ] (460,55) .. controls (460,55) and (460,55) .. (460,55) .. controls (468.22,55) and (474.88,61.72) .. (474.88,70) .. controls (474.88,70.03) and (474.87,70.06) .. (474.87,70.09) -- (460,70) -- cycle ;
+%Shape: Pie [id:dp49066208667849565] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (445.13,69.87) .. controls (445.19,61.7) and (451.74,55.08) .. (459.85,55) -- (460,70) -- cycle ;
+%Shape: Pie [id:dp3745820077077817] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (460.16,85) .. controls (460.11,85) and (460.05,85) .. (460,85) .. controls (451.78,85) and (445.13,78.28) .. (445.13,70) .. controls (445.13,69.84) and (445.13,69.68) .. (445.13,69.51) -- (460,70) -- cycle ;
+%Shape: Pie [id:dp7400728219066701] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (174.88,30) .. controls (174.88,30) and (174.88,30) .. (174.88,30) .. controls (174.88,30) and (174.88,30) .. (174.88,30) .. controls (174.88,38.28) and (168.22,45) .. (160,45) -- (160,30) -- cycle ;
+%Shape: Pie [id:dp9946660942421215] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 144; green, 19; blue, 254 }  ,fill opacity=1 ] (160,105) .. controls (168.22,105) and (174.88,111.72) .. (174.88,120) .. controls (174.88,120.03) and (174.87,120.06) .. (174.87,120.09) -- (160,120) -- cycle ;
+%Shape: Pie [id:dp23559820712134139] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (255.13,119.87) .. controls (255.19,111.7) and (261.74,105.08) .. (269.85,105) -- (270,120) -- cycle ;
+%Shape: Pie [id:dp44668804458299216] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (270.16,45) .. controls (270.11,45) and (270.05,45) .. (270,45) .. controls (261.78,45) and (255.13,38.28) .. (255.13,30) .. controls (255.13,29.84) and (255.13,29.68) .. (255.13,29.51) -- (270,30) -- cycle ;
+%Straight Lines [id:da6277825936298185] 
+\draw    (160,30) -- (270,30) ;
+\draw [shift={(215,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da1928467828804079] 
+\draw    (160,120) -- (270,120) ;
+\draw [shift={(215,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da17179080567808214] 
+\draw    (160,120) -- (160,30) ;
+\draw [shift={(160,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da1882407863532929] 
+\draw    (270,120) -- (270,30) ;
+\draw [shift={(270,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Curve Lines [id:da6787089768591394] 
+\draw    (300,40) .. controls (339.4,10.45) and (369.74,15.99) .. (398.68,38.94) ;
+\draw [shift={(400,40)}, rotate = 219.09] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da6745216215523295] 
+\draw    (460,12) -- (460,128) ;
+\draw [shift={(460,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+\draw [shift={(460,10)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da6300633700329288] 
+\draw    (392,70) -- (528,70) ;
+\draw [shift={(530,70)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+\draw [shift={(390,70)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% Text Node
+\draw (147,122.4) node [anchor=north west][inner sep=0.75pt]    {$P$};
+% Text Node
+\draw (391,122.4) node [anchor=north west][inner sep=0.75pt]    {$\mathbb{R}^{2}$};
+% Text Node
+\draw (471,42.4) node [anchor=north west][inner sep=0.75pt]    {$D$};
+
+
+\end{tikzpicture}
+
+
+\end{center}
+
+
+This shows that $[0, 1]^n / \sim$ is a topological surface.
+
+\textbf{For a general planar polygon $P$}. We will now see how to address the general case.
+We again are trying to show that each point has an open neighborhood that is homeomorphic to a disk. For interior points, a suitably sizes disk (so that it does not intersect with edges or vertices).
+
+Now we have our equivalence relation on points in the polygon $x \sim f_{ee'}(x)$ where $x \in e \in \operatorname{Edge}(P)$ and $e, e'$ are paired with $f: e \rightarrow e'$ compatible with orientation. This relation induces an equivalence relation on $\operatorname{Vert}(P)$.
+
+If $v \in \operatorname{Vert}(p)$ has $r$ vertices in it's equivalence class, there exists $r$ sections in $P$ of total angle $\alpha_v$. Any sector can be identified with our favorite sector $(r, \theta) \in \mathbb{R}^2$ with $0 \leq r < \delta$ and $\theta \in [0, \alpha_v/r]$, which is homeomorphic to a disk.
+
+To see that $P/\sim$ is Hausdorff, we can take disks on the interior with a sufficiently small radius and distinct points will have disjoint disks. For second countable, consider disks on the interior of $P$ with radional radii and center, and if $e \in \operatorname{Edge}(P)$ then $e \mapsto [0, \operatorname{length}(e)]$ is an isometry, so take only half disks on $e$ which are centered at radional radii. And at vertices, allow rational radius sectors. This gives a countable basis.
+
+
+\end{example}
+
+\begin{example}[Connect Sum]
+    Given topological surfaces $\Sigma_1$ and $\Sigma_2$, we can remove an open disk from each and glue the resulting boundary circles.
+    \begin{center}
+        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,264); %set diagram left start at 0, and has height of 264
+
+%Shape: Polygon Curved [id:ds23092670908468982] 
+\draw   (151.42,13.5) .. controls (161.42,8.5) and (263.82,7.5) .. (243.82,27.5) .. controls (223.82,47.5) and (223.82,57.5) .. (243.82,87.5) .. controls (263.82,117.5) and (173.82,117.5) .. (153.82,87.5) .. controls (133.82,57.5) and (141.42,53.5) .. (141.42,43.5) .. controls (141.42,33.5) and (141.42,18.5) .. (151.42,13.5) -- cycle ;
+%Shape: Ellipse [id:dp8690012052686209] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][dash pattern={on 4.5pt off 4.5pt}] (181.42,83.5) .. controls (181.42,72.45) and (192.61,63.5) .. (206.42,63.5) .. controls (220.22,63.5) and (231.42,72.45) .. (231.42,83.5) .. controls (231.42,94.55) and (220.22,103.5) .. (206.42,103.5) .. controls (192.61,103.5) and (181.42,94.55) .. (181.42,83.5) -- cycle ;
+%Curve Lines [id:da48090323293124504] 
+\draw    (161.42,33.5) .. controls (168.42,40.5) and (190.42,42.1) .. (201.42,33.5) ;
+%Curve Lines [id:da4993245884380173] 
+\draw    (195.42,36.5) .. controls (190.82,31.9) and (170.62,32.1) .. (166.42,36.5) ;
+%Shape: Polygon Curved [id:ds02819393118941127] 
+\draw   (314.72,23.5) .. controls (324.72,18.5) and (365.8,18.6) .. (380,40) .. controls (394.2,61.4) and (443.8,36.2) .. (460,60) .. controls (476.2,83.8) and (410,110) .. (390,80) .. controls (370,50) and (310.6,93.8) .. (290,80) .. controls (269.4,66.2) and (304.72,28.5) .. (314.72,23.5) -- cycle ;
+%Shape: Ellipse [id:dp20587815532253928] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][dash pattern={on 4.5pt off 4.5pt}] (297,63) .. controls (297,57.48) and (303.72,53) .. (312,53) .. controls (320.28,53) and (327,57.48) .. (327,63) .. controls (327,68.52) and (320.28,73) .. (312,73) .. controls (303.72,73) and (297,68.52) .. (297,63) -- cycle ;
+%Curve Lines [id:da6703282110854694] 
+\draw    (324.72,43.5) .. controls (331.72,50.5) and (353.72,52.1) .. (364.72,43.5) ;
+%Curve Lines [id:da9543971323835057] 
+\draw    (358.72,46.5) .. controls (354.12,41.9) and (333.92,42.1) .. (329.72,46.5) ;
+%Curve Lines [id:da9854855073902014] 
+\draw    (400,64.13) .. controls (407,71.13) and (429,72.73) .. (440,64.13) ;
+%Curve Lines [id:da34286221876508605] 
+\draw    (434,67.13) .. controls (429.4,62.53) and (409.2,62.73) .. (405,67.13) ;
+%Shape: Polygon Curved [id:ds42009985613789946] 
+\draw   (184.72,153.5) .. controls (215,146.2) and (210.2,151) .. (230,170) .. controls (249.8,189) and (320.6,165.4) .. (340,190) .. controls (359.4,214.6) and (344.6,247) .. (290,230) .. controls (235.4,213) and (210.2,220.2) .. (160,210) .. controls (109.8,199.8) and (154.44,160.8) .. (184.72,153.5) -- cycle ;
+%Curve Lines [id:da7043527326865702] 
+\draw    (170,170.38) .. controls (177,177.38) and (199,178.98) .. (210,170.38) ;
+%Curve Lines [id:da06585957049626234] 
+\draw    (204,173.38) .. controls (199.4,168.78) and (179.2,168.98) .. (175,173.38) ;
+%Curve Lines [id:da29024936577184723] 
+\draw    (250,190.38) .. controls (257,197.38) and (279,198.98) .. (290,190.38) ;
+%Curve Lines [id:da781291913898559] 
+\draw    (284,193.38) .. controls (279.4,188.78) and (259.2,188.98) .. (255,193.38) ;
+%Curve Lines [id:da017965701892596053] 
+\draw    (290,200.38) .. controls (297,207.38) and (319,208.98) .. (330,200.38) ;
+%Curve Lines [id:da9180721180833686] 
+\draw    (324,203.38) .. controls (319.4,198.78) and (299.2,198.98) .. (295,203.38) ;
+%Shape: Ellipse [id:dp8566081737085667] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][dash pattern={on 4.5pt off 4.5pt}] (207.23,212.59) .. controls (201.4,206.7) and (204.63,194.05) .. (214.45,184.34) .. controls (224.26,174.63) and (236.94,171.52) .. (242.77,177.41) .. controls (248.6,183.3) and (245.37,195.95) .. (235.55,205.66) .. controls (225.74,215.37) and (213.06,218.48) .. (207.23,212.59) -- cycle ;
+
+% Text Node
+\draw (161,60.4) node [anchor=north west][inner sep=0.75pt]    {$D _{1}$};
+% Text Node
+\draw (331.72,49.9) node [anchor=north west][inner sep=0.75pt]    {$D _{2}$};
+% Text Node
+\draw (286.6,104.96) node [anchor=north west][inner sep=0.75pt]  [font=\Large,rotate=-89.92]  {$\longrightsquigarrow $};
+% Text Node
+\draw (174,220.4) node [anchor=north west][inner sep=0.75pt]    {$D _{1} \ \rightarrow D _{2}$};
+
+
+\end{tikzpicture}
+
+    \end{center}
+
+Explicitly, I take $\Sigma_1 \backslash D_1$ and $\Sigma_2 \backslash D_2$ and impose an equivalence relation
+$$
+\theta \in D_1 \sim \theta \in D_2,
+$$
+where $\theta$ parameterises $S_1 = \delta D_i$.
+
+The result $\Sigma_1 \# \Sigma_2$ is the \vocab{connect sum} of $\Sigma_1$ and $\Sigma_2$. Note that in principle this connect sum depends on a number of choices, but we suppress this from the notation.
+
+Indeed, the connect sum of topological surfaces is a topological surface. This is proved as before.
+\end{example}
+
+
+\subsection{Subdivisions and Triangulations}
+
+Before discussing smooth surfaces, we want to talk a bit about subdivisions and triangulations of compact surfaces.
+
+\begin{definition}[Subdivision]
+    A \vocab{subdivision} of a compact topological surface $\Sigma$ consists of 
+    \begin{enumerate}[label=(\roman*)]
+        \item A finite set $V \subseteq \Sigma$ of \vocab{vertices};
+        \item A finite collection of continuous embeddings $\{e_i : [0, 1] \rightarrow \Sigma\}$ called \vocab{edges}, each of which has endpoints in $V$, and any two of which meet at endpoints;
+        \item The connected components of $\Sigma \backslash \left[V \cup \bigcup_i e_i([0, 1])\right]$ are each homeomorphic to an open disk called a \vocab{face}.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Triangulation]
+    A subdivision is a \vocab{triangulation} if each \emph{closed} face (the closure of a face) contains exactly 3 edges and two closed faces are either disjoint or meet in exactly one edge.    
+\end{definition}
+
+\begin{example}[Subdivisions and Triangulations of $S^2$ and $T^2$]
+    The cube displays a subdivision of the sphere $S^2$, and the tetrahedron displays a triangulation of the sphere $S^2$.
+    \begin{center}
+        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,244); %set diagram left start at 0, and has height of 244
+
+%Shape: Rectangle [id:dp12152596218890155] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 182; green, 212; blue, 249 }  ,fill opacity=1 ] (225.85,55.85) -- (148.85,55.85) -- (115.85,88.85) -- (192.85,88.85) -- cycle ;
+%Shape: Rectangle [id:dp035059452508980904] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 152; green, 188; blue, 230 }  ,fill opacity=1 ] (225.85,132.85) -- (225.85,55.85) -- (192.85,88.85) -- (192.85,165.85) -- cycle ;
+%Shape: Rectangle [id:dp9943472041786197] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 209; green, 230; blue, 255 }  ,fill opacity=1 ] (115.85,88.85) -- (192.85,88.85) -- (192.85,165.85) -- (115.85,165.85) -- cycle ;
+%Shape: Cube [id:dp11527525445665532] 
+\draw   (115.85,88.85) -- (148.85,55.85) -- (225.85,55.85) -- (225.85,132.85) -- (192.85,165.85) -- (115.85,165.85) -- cycle ; \draw   (225.85,55.85) -- (192.85,88.85) -- (115.85,88.85) ; \draw   (192.85,88.85) -- (192.85,165.85) ;
+%Straight Lines [id:da4831227774897875] 
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (148.85,55.85) -- (148.85,132.85) ;
+%Straight Lines [id:da2787548459365017] 
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (148.85,132.85) -- (115.85,165.85) ;
+%Straight Lines [id:da8102829398689619] 
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (148.85,132.85) -- (225.85,132.85) ;
+%Shape: Ellipse [id:dp1915747789781148] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (111.69,165.85) .. controls (111.69,163.55) and (113.55,161.69) .. (115.85,161.69) .. controls (118.14,161.69) and (120,163.55) .. (120,165.85) .. controls (120,168.14) and (118.14,170) .. (115.85,170) .. controls (113.55,170) and (111.69,168.14) .. (111.69,165.85) -- cycle ;
+%Shape: Ellipse [id:dp8804541970616069] 
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.23 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.39 ][line width=0.75]  (144.69,132.85) .. controls (144.69,130.55) and (146.55,128.69) .. (148.85,128.69) .. controls (151.14,128.69) and (153,130.55) .. (153,132.85) .. controls (153,135.14) and (151.14,137) .. (148.85,137) .. controls (146.55,137) and (144.69,135.14) .. (144.69,132.85) -- cycle ;
+%Shape: Ellipse [id:dp5078294661053482] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (188.69,165.85) .. controls (188.69,163.55) and (190.55,161.69) .. (192.85,161.69) .. controls (195.14,161.69) and (197,163.55) .. (197,165.85) .. controls (197,168.14) and (195.14,170) .. (192.85,170) .. controls (190.55,170) and (188.69,168.14) .. (188.69,165.85) -- cycle ;
+%Shape: Ellipse [id:dp10180324009634467] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (221.69,132.85) .. controls (221.69,130.55) and (223.55,128.69) .. (225.85,128.69) .. controls (228.14,128.69) and (230,130.55) .. (230,132.85) .. controls (230,135.14) and (228.14,137) .. (225.85,137) .. controls (223.55,137) and (221.69,135.14) .. (221.69,132.85) -- cycle ;
+%Shape: Ellipse [id:dp16528984269639002] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (221.69,55.85) .. controls (221.69,53.55) and (223.55,51.69) .. (225.85,51.69) .. controls (228.14,51.69) and (230,53.55) .. (230,55.85) .. controls (230,58.14) and (228.14,60) .. (225.85,60) .. controls (223.55,60) and (221.69,58.14) .. (221.69,55.85) -- cycle ;
+%Shape: Ellipse [id:dp1237020715875723] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (188.69,88.85) .. controls (188.69,86.55) and (190.55,84.69) .. (192.85,84.69) .. controls (195.14,84.69) and (197,86.55) .. (197,88.85) .. controls (197,91.14) and (195.14,93) .. (192.85,93) .. controls (190.55,93) and (188.69,91.14) .. (188.69,88.85) -- cycle ;
+%Shape: Ellipse [id:dp5030262122106042] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (144.69,55.85) .. controls (144.69,53.55) and (146.55,51.69) .. (148.85,51.69) .. controls (151.14,51.69) and (153,53.55) .. (153,55.85) .. controls (153,58.14) and (151.14,60) .. (148.85,60) .. controls (146.55,60) and (144.69,58.14) .. (144.69,55.85) -- cycle ;
+%Shape: Ellipse [id:dp12929305362506116] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (111.69,88.85) .. controls (111.69,86.55) and (113.55,84.69) .. (115.85,84.69) .. controls (118.14,84.69) and (120,86.55) .. (120,88.85) .. controls (120,91.14) and (118.14,93) .. (115.85,93) .. controls (113.55,93) and (111.69,91.14) .. (111.69,88.85) -- cycle ;
+%Shape: Triangle [id:dp8062352185383339] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 215; green, 234; blue, 255 }  ,fill opacity=1 ] (442.51,53.32) -- (510.22,139.89) -- (428.32,171.85) -- cycle ;
+%Shape: Triangle [id:dp05457338928621458] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 173; green, 211; blue, 255 }  ,fill opacity=1 ] (442.65,54.15) -- (428.32,171.85) -- (374.15,139.7) -- cycle ;
+%Straight Lines [id:da8363463978881072] 
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.21 ][line width=0.75]  [dash pattern={on 0.84pt off 2.51pt}]  (374.09,139.79) -- (510.19,139.79) ;
+%Straight Lines [id:da1644750768194676] 
+\draw [line width=0.75]    (374.09,139.79) -- (442.21,53.44) ;
+%Straight Lines [id:da08882914983446755] 
+\draw [line width=0.75]    (510.19,139.79) -- (442.14,53.53) ;
+%Straight Lines [id:da8312021384176638] 
+\draw [line width=0.75]    (510.19,139.79) -- (428.3,171.82) ;
+%Straight Lines [id:da3732106229271195] 
+\draw [line width=0.75]    (428.3,171.82) -- (374.16,139.7) ;
+%Straight Lines [id:da9839493560854018] 
+\draw [line width=0.75]    (428.3,171.82) -- (442.14,53.53) ;
+%Shape: Ellipse [id:dp2622907046671237] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (438.49,54.15) .. controls (438.49,51.86) and (440.35,50) .. (442.65,50) .. controls (444.94,50) and (446.8,51.86) .. (446.8,54.15) .. controls (446.8,56.45) and (444.94,58.31) .. (442.65,58.31) .. controls (440.35,58.31) and (438.49,56.45) .. (438.49,54.15) -- cycle ;
+%Shape: Ellipse [id:dp5424843067912464] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (370,139.7) .. controls (370,137.4) and (371.86,135.54) .. (374.15,135.54) .. controls (376.45,135.54) and (378.31,137.4) .. (378.31,139.7) .. controls (378.31,141.99) and (376.45,143.85) .. (374.15,143.85) .. controls (371.86,143.85) and (370,141.99) .. (370,139.7) -- cycle ;
+%Shape: Ellipse [id:dp6938129031785223] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (424.17,171.85) .. controls (424.17,169.56) and (426.03,167.7) .. (428.32,167.7) .. controls (430.62,167.7) and (432.48,169.56) .. (432.48,171.85) .. controls (432.48,174.15) and (430.62,176.01) .. (428.32,176.01) .. controls (426.03,176.01) and (424.17,174.15) .. (424.17,171.85) -- cycle ;
+%Shape: Ellipse [id:dp6689611152922632] 
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (506.03,139.79) .. controls (506.03,137.5) and (507.89,135.64) .. (510.19,135.64) .. controls (512.48,135.64) and (514.34,137.5) .. (514.34,139.79) .. controls (514.34,142.09) and (512.48,143.95) .. (510.19,143.95) .. controls (507.89,143.95) and (506.03,142.09) .. (506.03,139.79) -- cycle ;
+
+% Text Node
+\draw (102,188) node [anchor=north west][inner sep=0.75pt]   [align=left] {Subdivision of $\displaystyle S^{2}$};
+% Text Node
+\draw (381,188) node [anchor=north west][inner sep=0.75pt]   [align=left] {Triangulation of $\displaystyle S^{2}$};
+
+
+\end{tikzpicture}
+
+    \end{center}
+One convenient way of displaying a subdivision is with the diagrams we had for specifying surfaces by gluing edges. For example, the below shows a subdivision of $T^2$ with 1 vertex, 2 edges and 1 face.
+\begin{center}
+    
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Straight Lines [id:da2792473728899614] 
+\draw    (160,30) -- (270,30) ;
+\draw [shift={(215,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da4964617159545144] 
+\draw    (160,120) -- (270,120) ;
+\draw [shift={(215,120)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da6129675677797295] 
+\draw    (160,120) -- (160,30) ;
+\draw [shift={(160,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da13782820139687413] 
+\draw    (270,120) -- (270,30) ;
+\draw [shift={(270,75)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Curve Lines [id:da843628114669517] 
+\draw    (460.12,72.88) .. controls (471.5,84.25) and (507.25,86.85) .. (525.12,72.88) ;
+%Curve Lines [id:da9846540277481948] 
+\draw    (515.37,77.75) .. controls (507.9,70.28) and (475.07,70.6) .. (468.25,77.75) ;
+%Shape: Ellipse [id:dp43811406196145675] 
+\draw   (430,79.38) .. controls (430,56.94) and (459.1,38.75) .. (495,38.75) .. controls (530.9,38.75) and (560,56.94) .. (560,79.38) .. controls (560,101.81) and (530.9,120) .. (495,120) .. controls (459.1,120) and (430,101.81) .. (430,79.38) -- cycle ;
+%Curve Lines [id:da22534913784313249] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (430,80) .. controls (469,118.75) and (523,116.75) .. (560,80) ;
+%Curve Lines [id:da9619919820462295] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (430,80) .. controls (452,41.25) and (528.5,40.25) .. (560,80) ;
+%Curve Lines [id:da8174512510455962] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (490,83) .. controls (495,85.75) and (497.5,113.75) .. (490,120) ;
+%Curve Lines [id:da34988134658909553] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (490,83) .. controls (484.5,87.75) and (483,113.25) .. (490,120) ;
+%Shape: Ellipse [id:dp30293703391871185] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ][line width=0.75]  (482,107.85) .. controls (482,105.55) and (483.86,103.69) .. (486.15,103.69) .. controls (488.45,103.69) and (490.31,105.55) .. (490.31,107.85) .. controls (490.31,110.14) and (488.45,112) .. (486.15,112) .. controls (483.86,112) and (482,110.14) .. (482,107.85) -- cycle ;
+%Curve Lines [id:da31742119094369037] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (380,130) .. controls (425.87,155.25) and (439.72,140.31) .. (478.81,110.9) ;
+\draw [shift={(480,110)}, rotate = 143.13] [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% Text Node
+\draw (151,138) node [anchor=north west][inner sep=0.75pt]   [align=left] {Subdivision of $\displaystyle T^{2}$};
+% Text Node
+\draw (309,111) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ] [align=left] {2 Edges, 1 Vertex};
+
+
+\end{tikzpicture}
+
+\end{center}
+
+As a more degenerate example, a single vertex of $S^2$ is indeed a subdivision, leaving 1 vertex, 0 edges and 1 face.
+\end{example}
+
+Indeed, the notion of subdivisions gives us an interesting topological invariant for compact topological surfaces.
+
+\begin{definition}[Euler Characteristic]
+    The \vocab{Euler characteristic} of a subdivision is the number 
+    $$
+    V - E + F
+    $$
+    where $V$ is number of vertices, $E$ is the number of edges and $F$ is the number of faces.
+\end{definition}
+
+\begin{theorem}[Euler's Relation]~
+    \vspace*{-1.5\baselineskip}
+\begin{enumerate}[label=(\roman*)]
+    \item Every compact topological surface admits subdivisions, and indeed triangulations.
+    \item The Euler characteristic, denoted $\chi(\Sigma)$, does not depend on the choice of subdivision, and thus defines a topological invariant of the surface.
+\end{enumerate}
+\end{theorem}
+
+We aren't going to prove this theorem because it's relatively hard and won't really say anything about the true nature of what is going on.
+A nice proof will be given in a course on Algebraic Topology.
+
+\begin{example}[Euler's Relation for Various Surfaces]
+    Considering some of our previous examples, we can see that
+    \begin{enumerate}[label=(\roman*)]
+        \item $\chi(S^2) = 2$;
+        \item $\chi(T^2) = 0$;
+        \item If $\Sigma_1$ and $\Sigma_2$ are compact topological surfaces, we can form $\Sigma_1 \# \Sigma_2$ by removing an open disk which is the face of a triangulation, and gluing the boundary circles gives us that
+        $$
+        \chi(\Sigma_1 \# \Sigma_2) = \chi(\Sigma_1) + \chi(\Sigma_2) - 2.
+        $$
+        In particular, if a surface has $g$ holes, then considering it as homeomorphic to connect sum of $g$ copies of $T^2$, we get that $\chi(\Sigma_g) = 2 - 2g$. The number $g$ is called the \vocab{genus} of $\Sigma$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Charts and Atlases}
+
+Recall that if $\Sigma$ is a topological surface, each $p \in \Sigma$ lies in an open neighbourhood $p \in U \subseteq \Sigma$ with $U$ homeomorphic to an open disk.
+
+\begin{definition}[Chart]
+    A pair $(U, \phi)$ where $U \subseteq \Sigma$ and $\phi$ is a homeomorphism $\phi: U \rightarrow V$ where $V$ is open in $\mathbb{R}^2$ is called a \vocab{chart} for $\Sigma$.
+\end{definition}
+
+\begin{definition}[Atlas]
+    A collection of charts $\{(U_i, \phi_i) \mid i \in I\}$ such that $\bigcup_{i \in I} U_i = \Sigma$ is called an \vocab{atlas} for $\Sigma$.
+\end{definition}
+
+\begin{example}[Trivial Example of an Atlas]
+    Recall that any open subset $U$ of $\mathbb{R}^2$ is a topological surface. Then taking $(U, \operatorname{Id})$ gives us an atlas with one chart. 
+\end{example}
+
+\begin{example}[Atlas for $S^2$]
+    For $S^2$, we have an atlas with 2 charts, the 2 stereographic projections.
+\end{example}
+
+\begin{definition}[Transition Maps]
+    Let $(U_1, \phi_1)$ and $(U_2, \phi_2)$ be charts containing a point $p$ on a topological surface $\Sigma$.
+    \begin{center}
+        
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,315); %set diagram left start at 0, and has height of 315
+
+%Shape: Path Data [id:dp019553757401191252] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=0.2 ] (240,255) .. controls (240,263.28) and (224.33,270) .. (205,270) .. controls (204.89,270) and (204.79,270) .. (204.68,270) .. controls (201.7,267.06) and (200,263.64) .. (200,260) .. controls (200,251.79) and (208.65,244.74) .. (221.02,241.66) .. controls (232.29,244.15) and (240,249.19) .. (240,255) -- cycle ;
+%Shape: Path Data [id:dp24276589649513092] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=0.2 ] (400,240) .. controls (403.83,240) and (407.5,240.36) .. (410.87,241.02) .. controls (414.11,245.01) and (416,249.82) .. (416,255) .. controls (416,260.18) and (414.11,264.99) .. (410.87,268.98) .. controls (407.5,269.64) and (403.83,270) .. (400,270) .. controls (383.43,270) and (370,263.28) .. (370,255) .. controls (370,246.72) and (383.43,240) .. (400,240) -- cycle ;
+%Shape: Path Data [id:dp09796809086314018] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=0.2 ] (305.33,122.67) .. controls (305.33,134.89) and (295.65,144.86) .. (283.53,145.32) .. controls (278.14,141.17) and (274.67,134.66) .. (274.67,127.33) .. controls (274.67,115.11) and (284.35,105.14) .. (296.47,104.68) .. controls (301.86,108.83) and (305.33,115.34) .. (305.33,122.67) -- cycle ;
+%Shape: Polygon Curved [id:ds7095918404686692] 
+\draw   (229.18,80.36) .. controls (241.44,74.78) and (291.76,74.89) .. (309.16,98.77) .. controls (326.56,122.64) and (387.32,94.53) .. (407.17,121.08) .. controls (427.02,147.63) and (336.76,203.03) .. (312.26,169.56) .. controls (287.76,136.09) and (224.14,158.79) .. (198.9,143.39) .. controls (173.66,128) and (216.93,85.94) .. (229.18,80.36) -- cycle ;
+%Curve Lines [id:da18331565679370598] 
+\draw    (215.5,110.42) .. controls (221.36,118.23) and (239.79,120.01) .. (249,110.42) ;
+%Curve Lines [id:da576658372467886] 
+\draw    (243.97,113.77) .. controls (240.12,108.63) and (223.2,108.86) .. (219.69,113.77) ;
+%Curve Lines [id:da7636386743100172] 
+\draw    (347.33,123.46) .. controls (354.8,131.27) and (378.27,133.05) .. (390,123.46) ;
+%Curve Lines [id:da07193806885436627] 
+\draw    (383.6,126.8) .. controls (378.69,121.67) and (357.14,121.89) .. (352.66,126.8) ;
+%Shape: Circle [id:dp786749563505935] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (284,127.25) .. controls (284,124.9) and (285.9,123) .. (288.25,123) .. controls (290.6,123) and (292.5,124.9) .. (292.5,127.25) .. controls (292.5,129.6) and (290.6,131.5) .. (288.25,131.5) .. controls (285.9,131.5) and (284,129.6) .. (284,127.25) -- cycle ;
+%Shape: Circle [id:dp3185974187130436] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] (260,122.67) .. controls (260,110.15) and (270.15,100) .. (282.67,100) .. controls (295.19,100) and (305.33,110.15) .. (305.33,122.67) .. controls (305.33,135.19) and (295.19,145.33) .. (282.67,145.33) .. controls (270.15,145.33) and (260,135.19) .. (260,122.67) -- cycle ;
+%Shape: Circle [id:dp33857165577509596] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] (274.67,127.33) .. controls (274.67,114.81) and (284.81,104.67) .. (297.33,104.67) .. controls (309.85,104.67) and (320,114.81) .. (320,127.33) .. controls (320,139.85) and (309.85,150) .. (297.33,150) .. controls (284.81,150) and (274.67,139.85) .. (274.67,127.33) -- cycle ;
+%Shape: Parallelogram [id:dp07551633753566489] 
+\draw   (162.02,230) -- (265,230) -- (242.98,280) -- (140,280) -- cycle ;
+%Shape: Parallelogram [id:dp931384769198357] 
+\draw   (372.02,230) -- (475,230) -- (452.98,280) -- (350,280) -- cycle ;
+%Curve Lines [id:da7729008053297273] 
+\draw [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,draw opacity=1 ]   (260,140) .. controls (214.69,142.2) and (197.19,187.19) .. (180.75,218.58) ;
+\draw [shift={(180,220)}, rotate = 297.93] [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Curve Lines [id:da685041351732079] 
+\draw [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,draw opacity=1 ]   (320,140) .. controls (340.79,135.28) and (395.88,167.9) .. (419.3,218.46) ;
+\draw [shift={(420,220)}, rotate = 245.91] [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Ellipse [id:dp07767152455305415] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] (170,255) .. controls (170,246.72) and (185.67,240) .. (205,240) .. controls (224.33,240) and (240,246.72) .. (240,255) .. controls (240,263.28) and (224.33,270) .. (205,270) .. controls (185.67,270) and (170,263.28) .. (170,255) -- cycle ;
+%Shape: Ellipse [id:dp9357255906838657] 
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ] (370,255) .. controls (370,246.72) and (383.43,240) .. (400,240) .. controls (416.57,240) and (430,246.72) .. (430,255) .. controls (430,263.28) and (416.57,270) .. (400,270) .. controls (383.43,270) and (370,263.28) .. (370,255) -- cycle ;
+%Shape: Circle [id:dp5331273349796806] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (211.5,255.75) .. controls (211.5,253.4) and (213.4,251.5) .. (215.75,251.5) .. controls (218.1,251.5) and (220,253.4) .. (220,255.75) .. controls (220,258.1) and (218.1,260) .. (215.75,260) .. controls (213.4,260) and (211.5,258.1) .. (211.5,255.75) -- cycle ;
+%Shape: Circle [id:dp38149586769758015] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (380,255.75) .. controls (380,253.4) and (381.9,251.5) .. (384.25,251.5) .. controls (386.6,251.5) and (388.5,253.4) .. (388.5,255.75) .. controls (388.5,258.1) and (386.6,260) .. (384.25,260) .. controls (381.9,260) and (380,258.1) .. (380,255.75) -- cycle ;
+%Curve Lines [id:da5433343003133908] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (230,240) .. controls (269.6,210.3) and (323.25,208.6) .. (378.33,239.07) ;
+\draw [shift={(380,240)}, rotate = 209.45] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% Text Node
+\draw (295,115.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$p$};
+% Text Node
+\draw (251,83.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$U_{1}$};
+% Text Node
+\draw (320,112.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$U_{2}$};
+% Text Node
+\draw (211,62.4) node [anchor=north west][inner sep=0.75pt]    {$\Sigma $};
+% Text Node
+\draw (171,152.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,opacity=1 ]  {$\phi _{1}$};
+% Text Node
+\draw (411,152.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 144; green, 19; blue, 254 }  ,opacity=1 ]  {$\phi _{2}$};
+% Text Node
+\draw (147,260.4) node [anchor=north west][inner sep=0.75pt]    {$V_{1}$};
+% Text Node
+\draw (427,260.4) node [anchor=north west][inner sep=0.75pt]    {$V_{2}$};
+% Text Node
+\draw (224,202.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$\phi _{1}( U_{1} \cap U_{2})\rightarrow \phi _{2}( U_{1} \cap U_{2})$};
+
+
+\end{tikzpicture}
+
+    \end{center}
+    Considering the intersection, we get a map $\phi_1(U_1 \cap U_2) \rightarrow \phi_2(U_1 \cap U_2)$. Such a map is called a \vocab{transition map} between the charts, and this is a homeomorphism of open sets in $\mathbb{R}^2$.
+\end{definition}
+
+
+\subsection{Smooth Surfaces}
+
+Recall that if $V$ and $V'$ are open subsets of $\mathbb{R}^n$, then a map $f: V \rightarrow V'$ is \vocab{smooth} if it is infinitely differentiable. If $f$ is a homeomorphism between $V$ and $V'$, then we call it a \vocab{diffeomorphism} if it's smooth and has a smooth inverse.
+
+\begin{definition}[Abstract Smooth Surface]
+    An \vocab{abstract smooth surface} $\Sigma$ is a topological surface with an atlas of charts $\{(U_i, \phi_i) \mid i \in I\}$ with $\bigcup_{i \in I} U_i = \Sigma$ such that all of the transition maps $\phi_j(U_i \cap U_j) \rightarrow \phi_i(U_i \cap U_j)$ are diffeomorphisms of open sets in $\mathbb{R}^2$.
+\end{definition}
+
+\begin{remark}
+    It would \emph{not} make sense to ask for the maps $\phi_i$ themselves to be smooth, as $\Sigma$ is just a topological space.
+\end{remark}
+
+\begin{example}[$S^2$ with Stereographic Projection]
+    The atlas of 2 charts with stereographic projection gives $S^2$ the structure of an abstract smooth surface.
+\end{example}
+
+\begin{remark}[Philosophical]
+    Being a topological surface is \emph{structure}, one can ask if a topological space $X$ is a topological surface or not. But being an abstract smooth surface is \emph{data}, in that one has to be given an atlas of charts with smooth transition maths with smooth inverses, and there could be many.
+\end{remark}
+
+\begin{definition}[Smooth at a Point]
+    Let $\Sigma$ be an abstract smooth surface, and if $f: \Sigma \rightarrow \mathbb{R}^n$ is a continuous map then we say that $f$ is \vocab{smooth} at $p \in \Sigma$ if whenever $(U, \phi)$ is a chart at $p$ belonging to the smooth atlas for $\Sigma$, the map $f \circ \phi^{-1}: \phi(U) \rightarrow \mathbb{R}^n$ is smooth.
+\end{definition}
+
+Note that smoothness of $f$ at $p$ is \emph{independent} of the choice of chart since the transition maps between two such are diffeomorphisms.
+
+\begin{definition}[Smoothness of Maps Between Surfaces]
+    If $\Sigma_1$ and $\Sigma_2$ are abstract smooth surfaces, a map $f: \Sigma_1 \rightarrow \Sigma_2$ is smooth if ``it is smooth in the local charts''. That is, given charts $(U, \phi)$ at $p$ and $(U', \phi')$ at $f(p)$ in our chosen smooth atlases, we want $\phi 
+    \circ f \circ \phi^{-1}$ to be smooth at $\phi(p)$.
+\end{definition}
+
+Again, smoothness of $f$ does not depend on our choice of charts at $p$ and $f(p)$ provided I take charts from our smooth atlas..
+
+We can now say what it means for abstract smooth surfaces to be diffeomorphic.
+
+\begin{definition}[Diffeomorphic]
+    Two abstract smooth surfaces $\Sigma_1$ and $\Sigma_2$ are \vocab{diffeomorphic} if there exists a homeomorphism $f: \Sigma_1 \rightarrow \Sigma_2$ which is smooth and has a smooth inverse.
+\end{definition}
+
+\begin{remark}
+    We often pass from a given smooth atlas for an abstract smooth surfaces $\Sigma$ to the maximal `compatible' such atlas, that is, I add to the atlas $\{(U_i, \phi_i) \mid i \in I\}$ for $\Sigma$ \emph{all} charts $(V, \psi)$ with the property that the transition maps are  still all diffeomorphisms. Such a process technically involved Zorn's lemma.
+\end{remark}
+
+So far, this has all been rather abstract, but in this course what we really care about is smooth surfaces in $\mathbb{R}^3$. Recall if $V \subseteq \mathbb{R}^n$ and $V' \subseteq \mathbb{R}^m$ are open subsets then $f: V \rightarrow V'$ is smooth if it is infinitely differentiable.
+
+\begin{definition}[Smoothness of Maps on Subsets of $\mathbb{R}^n$]
+    If $Z \subseteq \mathbb{R}^n$ is an arbitrary subset, we say that a continuous map $f: Z \rightarrow \mathbb{R}^m$ is \vocab{smooth} at a point $p \in Z$ if there exists an open set $B \subseteq \mathbb{R}^n$ with $p \in B$ and a smooth map $F: B \rightarrow \mathbb{R}^m$ such that
+    $$
+\left.F\right|_{B \cap Z} = \left.f\right|_{B \cap Z}.
+    $$
+    That is, $f$ is \emph{locally} the restriction of a smooth map defined on an open set.
+\end{definition}
+
+\end{document}

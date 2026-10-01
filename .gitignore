@@ -1,0 +1,40 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+logs/*.log
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+chroma_db/
+qdrant_storage/
+*.sqlite3
+*.bin
+*.safetensors
+*.pt
+*.pdf
+data/
+models/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+
+# Generated RAG artifacts
+corpus/processed/
+
+# Vector / lexical databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated indexes and embeddings
+embeddings/
+indexes/
+qdrant_storage/

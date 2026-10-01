@@ -1,0 +1,48 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes      225
+
+2     Deciding Composite Residuosity
+
+We begin by briefly introducing composite degree residues as a natural instance
+of higher degree residues, and give some basic related facts. The originality of our
+setting resides in using of a square number as modulus. As said before, n = pq
+is the product of two large primes.
+
+Definition 1. A number z is said to be a n-th residue modulo n2 if there exists
+a number y ∈ Z∗n2 such that
+
+                                 z = y n mod n2 .
+
+    The set of n-th residues is a multiplicative subgroup of Z∗n2 of order φ(n).
+Each n-th residue z has exactly n √roots of degree n, among which exactly one
+is strictly smaller than n (namely n z mod n). The n-th roots of unity are the
+numbers of the form (1 + n)x = 1 + xn mod n2 .
+   The problem of deciding n-th residuosity, i.e. distinguishing n-th residues
+from non n-th residues will be denoted by CR [n]. Observe that like the prob-
+lems of deciding quadratic or higher degree residuosity, CR [n] is a random-self-
+reducible problem that is, all of its instances are polynomially equivalent. Each
+case is thus an average case and the problem is either uniformly intractable or
+uniformly polynomial. We refer to [1,8] for detailed references on random-self-
+reducibility and the cryptographic significance of this feature.
+   As for prime residuosity (cf. [3,16]), deciding n-th residuosity is believed to
+be computationally hard. Accordingly, we will assume that :
+
+Conjecture 2. There exists no polynomial time distinguisher for n-th residues
+modulo n2 , i.e. CR [n] is intractable.
+
+    This intractability hypothesis will be refered to as the Decisional Composite
+Residuosity Assumption (DCRA) throughout this paper. Recall that due to the
+random-self-reducibility, the validity of the DCRA only depends on the choice
+of n.
+
+
+3     Computing Composite Residuosity Classes
+
+We now proceed to describe the number-theoretic framework underlying the
+cryptosystems introduced in sections 4, 5 and 6. Let g be some element of Z∗n2
+and denote by Eg the integer-valued function defined by
+
+                           Zn × Z∗n 7−→ Z∗n2
+                             (x, y) 7−→ g x · y n mod n2
+
+Depending on g, Eg may feature some interesting properties. More specifically,
+Lemma 3. If the order of g is a nonzero multiple of n then Eg is bijective.

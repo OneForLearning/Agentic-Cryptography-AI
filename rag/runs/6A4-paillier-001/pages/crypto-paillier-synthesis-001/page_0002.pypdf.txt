@@ -1,0 +1,47 @@
+Le cryptosystème de Paillier  synthèse technique 2
+1 Contexte et portée du papier
+Au moment de sa publication à EUROCRYPT'99, la cryptographie à clé publique reposait
+essentiellement sur deux familles de trappes : l'extraction de racines e-ièmes modulo un nombre
+dicile à factoriser (RSA et ses variantes), et le logarithme discret dans un groupe ni (Die-
+Hellman, ElGamal, DSA). Paillier propose une troisième famille, fondée sur la résiduosité de
+degré composite modulo n2, où n =pq est un module RSA classique.
+Cette famille n'est pas totalement nouvelle dans son principe : elle prolonge une lignée de
+cryptosystèmes fondés sur la résiduosité de degrés variés (Goldwasser-Micali pour le degré 2, Be-
+naloh pour un degré premier, puis Naccache-Stern et Okamoto-Uchiyama). L'apport de Paillier
+est de pousser cette idée jusqu'au degré n lui-même, ce qui produit une structure algébrique
+particulièrement riche : un problème de décision (la résiduosité), un problème de calcul (la
+ classe  de résiduosité, qui se comporte comme un logarithme discret partiel), et surtout une
+propriété d' homomorphisme additif qui a fait la postérité du schéma bien au-delà de la
+cryptographie académique des années 2000.
+2 Cadre algébrique : résiduosité de degré composite
+2.1 Notations de base
+Soit n = pq le produit de deux grands nombres premiers. On note φ(n) = (p− 1)(q− 1)
+l'indicatrice d'Euler et λ =λ(n) = lcm(p− 1,q− 1) la fonction de Carmichael. Le groupe Z∗
+n2
+est d'ordre nφ(n), et le théorème de Carmichael donne, pour tout w∈ Z∗
+n2 :
+wλ≡ 1 (mod n), w nλ≡ 1 (mod n2).
+Ces deux congruences sont le moteur de toute la construction : la première dit que λ  tue  le
+groupe modulo n, la seconde qu'il le tue modulo n2 dès qu'on l'a multiplié par n.
+2.2 Résidus de degré n modulo n2
+Dénition 1. Un élément z∈ Z∗
+n2 est un résidu de degré n modulo n2 s'il existe y∈ Z∗
+n2 tel
+que z≡yn (mod n2).
+L'ensemble de ces résidus forme un sous-groupe multiplicatif de Z∗
+n2 d'ordre φ(n). Un fait
+remarquable, spécique au choix du module n2 : chaque résidu de degré n possède exactement
+n racines n-ièmes distinctes modulo n2, et les racines n-ièmes de l'unité ont une forme explicite
+très simple,
+(1 +n)x≡ 1 +xn (mod n2) pour x∈ Zn.
+C'est cette linéarité déguisée  élever (1 +n) à la puissance x revient, modulo n2, à multiplier
+x par n  qui permettra plus loin un déchirement ecace sans jamais résoudre un vrai
+logarithme discret.
+Dénition 2. CR[n] est le problème de décision consistant à distinguer un résidu de degré n
+d'un non-résidu, modulo n2.
+Comme les problèmes de résiduosité quadratique ou de degré premier qui l'ont précédé,
+CR[n] est auto-réductible aléatoirement : toutes ses instances sont polynomialement équiva-
+lentes, si bien que le problème est soit uniformément facile, soit uniformément dicile. On pose
+alors l'hypothèse de travail centrale du papier :
+Conjecture 1 (DCRA  Decisional Composite Residuosity Assumption) . Il n 'existe pas de
+distingueur polynomial pour CR[n].

@@ -1,0 +1,46 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes              237
+
+referee for having (independently) proved that Class [n] ⇐ RSA [n, n]. Finally,
+Dan Boneh, Jean-Sébastien Coron, Helena Handschuh and David Naccache are
+acknowledged for their helpful discussions and comments during the completion
+of this work.
+
+
+References
+ 1. D. Angluin and D. Lichtenstein, Provable Security of Cryptosystems: A Survey,
+    Computer Science Department, Yale University, TR-288, 1983.
+ 2. M. Bellare and P. Rogaway, Random Oracles are Practical : a Paradigm for Design-
+    ing Efficient Protocols, In Proceedings of the First CCS, ACM Press, pp. 62–73,
+    1993.
+ 3. J. C. Benaloh, Verifiable Secret-Ballot Elections, PhD Thesis, Yale University, 1988.
+ 4. R. Cramer, R. Gennaro and B. Schoenmakers, A Secure And Optimally Effi-
+    cient Multi-Authority Election Scheme, LNCS 1233, Proceedings of Eurocrypt’97,
+    Springer-Verlag, pp. 103-118, 1997.
+ 5. W. Diffie and M. Hellman, New Directions in Cryptography, IEEE Transaction on
+    Information Theory, IT-22,6, pp. 644–654, 1995.
+ 6. C. Ding, D. Pei and A. Salomaa, Chinese Remainder Theorem - Applications in
+    Computing, Coding, Cryptography, World Scientific Publishing, 1996.
+ 7. T. ElGamal, A Public-Key Cryptosystem an a Signature Scheme Based on Discrete
+    Logarithms, IEEE Trans. on Information Theory, IT-31, pp. 469–472, 1985.
+ 8. J. Feigenbaum, Locally Random Reductions in Interactive Complexity Theory,
+    in Advances in Computational Complexity Theory, DIMACS Series on Discrete
+    Mathematics and Theoretical Computer Science, vol. 13, American Mathematical
+    Society, Providence, pp. 73–98, 1993.
+ 9. S. Goldwasser and S. Micali, Probabilistic Encryption, JCSS Vol. 28 No 2, pp.
+    270–299, 1984.
+10. K. Koyama, U. Maurer, T. Okamoto and S. Vanstone, New Public-Key Schemes
+    based on Elliptic Curves over the ring Zn, LNCS 576, Proceedings of Crypto’91,
+    Springer-Verlag, pp. 252–266, 1992.
+11. T. Matsumoto and H. Imai, Public Quadratic Polynomial-Tuples for Efficient
+    Signature-Verification and Message-Encryption, LNCS 330, Proceedings of Euro-
+    crypt’88, Springer-Verlag, pp. 419–453, 1988.
+12. U. Maurer and S. Wolf, On the Complexity of Breaking the Diffie-Hellman Protocol.
+13. R. Merkle and M. Hellman, Hiding Information and Signatures in Trapdoor Knap-
+    sacks, IEEE Trans. on Information Theory, Vol. 24, pp. 525–530, 1978.
+14. K. McCurley, A Key Distribution System Equivalent to Factoring, Journal of Cryp-
+    tology, Vol. 1, pp. 95–105, 1988.
+15. R. McEliece, A Public-Key Cryptosystem Based on Algebraic Coding Theory, DSN
+    Progress Report 42-44, Jet Propulsion Laboratories, Pasadena, 1978.
+16. D. Naccache and J. Stern, A New Public-Key Cryptosystem Based on Higher
+    Residues, LNCS 1403, Advances in Cryptology, Proceedings of Eurocrypt’98,
+    Springer-Verlag, pp. 308–318, 1998.

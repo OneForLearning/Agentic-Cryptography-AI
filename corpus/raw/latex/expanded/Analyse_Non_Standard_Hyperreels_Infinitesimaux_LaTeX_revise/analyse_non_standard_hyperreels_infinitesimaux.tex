@@ -1,0 +1,530 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{hyperref}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\HR}{{}^{*}\mathbb R}
+\newcommand{\ext}[1]{{}^{*}\!#1}
+\newcommand{\U}{\mathcal U}
+\DeclareMathOperator{\st}{st}
+\DeclareMathOperator{\Fin}{Fin}
+\title{Calculus with Infinitesimals:\\Hyperreal Numbers, Transfer and Standard Parts}
+\author{Revised adaptation of \emph{Calculus without Limits} by Eason Shao}
+\date{Original presentations: 2024; revised: 28 September 2026}
+\begin{document}
+\maketitle
+\paragraph{Provenance and scope.}
+This document consolidates the four overlapping sources in
+\texttt{calculus-without-limits}: Presentation, Semi-Finals, Finals and Poster.
+The original author is Eason Shao, St Paul's School. This is an editorial and
+mathematical adaptation, not an author-approved edition. It preserves the
+substantive topics while replacing invalid arguments and adding explicit
+foundations and proofs. Duplicate slides, overlays and informal numerical ratings
+are omitted. The original MIT notice is reproduced in Appendix~\ref{app:license}.
+The original visual ``microscope'' is expressed through precise relations in
+Section~\ref{sec:scales}. This is a targeted revision, not a formal certification.
+\paragraph{Logical framework.}
+We work in ordinary classical set theory with the axiom of choice. Real
+completeness, density of rationals and irrationals, elementary properties of
+absolutely convergent series, and the real intermediate value theorem are
+background results. The existence of a free ultrafilter is explained below.
+All statements mentioning ``every positive real'' quantify over standard reals;
+quantifiers over hyperreals are explicitly distinguished. The star on a function
+or set denotes its natural extension, never composition with the standard-part map.
+For retrieval, retain these hypotheses and the linked proof with each statement.
+\tableofcontents
+
+\section{Why an infinitesimal is not zero}
+\begin{proposition}[Archimedean property of the reals]\label{prop:archimedean}
+For real \(x,y>0\), some positive integer \(n\) satisfies \(nx>y\).
+In particular no nonzero real number has absolute value smaller than every
+positive real number.
+\end{proposition}
+\begin{proof}
+If \(\NN\) were bounded above in \(\RR\), let \(s=\sup\NN\). Some integer
+\(n>s-1\) would give \(n+1>s\), a contradiction. Thus choose \(n>y/x\).
+The second assertion also follows directly: for a nonzero real \(r\), the
+positive real \(|r|/2\) is smaller than \(|r|\).
+\end{proof}
+
+For nonzero \(h\), ordinary algebra gives
+\[
+\frac{(x+h)^2-x^2}{h}=2x+h.
+\]
+Taking a real limit as \(h\to0\), or taking a standard part for a nonzero
+hyperreal infinitesimal \(h\), gives the derivative \(2x\). Cancelling \(h\)
+uses its nonzero value. The later standard-part operation does not assert
+that \(h=0\). The title ``without limits'' refers to an alternative formulation
+of calculus, not an exemption from precise definitions or an assertion that
+classical limit concepts have become invalid.
+
+\section{A concrete hyperreal field}
+\begin{definition}[Free ultrafilter]\label{def:ultrafilter}
+A free ultrafilter \(\U\) on \(\NN=\{1,2,\ldots\}\) is a family of subsets
+containing \(\NN\), not containing the empty set, closed under finite intersections
+and under passing to supersets, such that exactly one of \(A\) and
+\(\NN\setminus A\) belongs to \(\U\) for every \(A\subseteq\NN\), and no
+finite set belongs to \(\U\). Consequently every cofinite set belongs to \(\U\).
+\end{definition}
+\begin{remark}[Existence assumption]\label{rem:choice}
+Start with the cofinite filter and apply Zorn's lemma to the proper filters
+containing it. The union of a chain is a proper filter, so a maximal one exists.
+If neither \(A\) nor its complement belonged to this maximal filter, adjoining
+\(A\) would still generate a proper filter: otherwise an existing filter member
+would be disjoint from \(A\), forcing its complement into the filter.
+This contradicts maximality. The resulting ultrafilter cannot contain a finite
+set, since it already contains its cofinite complement.
+Fix one such \(\U\) throughout this document.
+\end{remark}
+
+\begin{definition}[Ultrapower]\label{def:ultrapower}
+For real sequences \((x_n),(y_n)\), set
+\[
+(x_n)\sim(y_n)\quad\Longleftrightarrow\quad\{n:x_n=y_n\}\in\U.
+\]
+Define \(\HR=\RR^{\NN}/\!\sim\), with elements written \([x_n]\).
+Arithmetic is coordinatewise, and
+\[
+[x_n]<[y_n]\quad\Longleftrightarrow\quad\{n:x_n<y_n\}\in\U.
+\]
+Embed \(r\in\RR\) as the constant class \([r,r,\ldots]\).
+\end{definition}
+\begin{proposition}[Ordered-field extension]\label{prop:field}
+These operations and order are well defined and make \(\HR\) an ordered
+field containing an isomorphic copy of \(\RR\).
+\end{proposition}
+\begin{proof}
+Changing representatives on a set whose complement belongs to \(\U\) does not
+change any coordinatewise identity on the intersection of the relevant
+\(\U\)-large sets. This proves well-definedness and the field identities.
+Exactly one of \(\{x_n<y_n\},\{x_n=y_n\},\{x_n>y_n\}\) belongs to \(\U\),
+which gives trichotomy; order compatibility follows coordinatewise.
+If \(X=[x_n]\ne0\), the set \(A=\{n:x_n\ne0\}\) belongs to \(\U\).
+Take \(y_n=1/x_n\) on \(A\), and \(y_n=0\) elsewhere. Then \(XY=1\).
+Distinct constant sequences remain distinct, so the real embedding is injective.
+\end{proof}
+
+\begin{definition}[Finite, infinitesimal and infinite]\label{def:sizes}
+A hyperreal \(X\) is finite if \(|X|<M\) for some positive standard real \(M\).
+It is infinitesimal if \(|X|<r\) for every positive standard real \(r\).
+Zero is infinitesimal; a nonzero infinitesimal is explicitly required when dividing.
+A hyperreal is infinite if \(|X|>M\) for every positive standard real \(M\).
+Write \(X\approx Y\) when \(X-Y\) is infinitesimal.
+\end{definition}
+\begin{example}[Reciprocal infinite and infinitesimal elements]\label{ex:reciprocal}
+Let \(H=[n]\) and \(\varepsilon=[1/n]\). Then \(H\) is positive infinite,
+\(\varepsilon\) is positive infinitesimal, and \(H\varepsilon=1\).
+Indeed, each required inequality holds eventually in \(n\), hence on a
+cofinite set in \(\U\). More generally, if \(\omega\) is positive infinite,
+\(1/\omega\) is positive infinitesimal. An arbitrary infinitesimal and an
+arbitrary infinite element need not have product one; that relation must be imposed.
+\end{example}
+
+\section{Natural extensions and the scope of transfer}
+\begin{definition}[Extensions of sets and functions]\label{def:extension}
+For \(A\subseteq\RR\), define
+\[
+\ext A=\{[x_n]:\{n:x_n\in A\}\in\U\}.
+\]
+For \(f:\RR\to\RR\), define \(\ext f([x_n])=[f(x_n)]\).
+For \(f:D\to\RR\), the same definition on \(\ext D\) uses representatives
+in \(D\) on a \(\U\)-large set; values outside that set may be chosen arbitrarily.
+Finite-arity relations and operations are extended coordinatewise in the same way.
+In particular, \(\ext\NN\) and \(\ext\QQ\) are defined, and \(H=[n]\in\ext\NN\).
+\end{definition}
+\begin{theorem}[First-order transfer in the chosen structure]\label{thm:transfer}
+Consider the real ordered field together with any specified real functions,
+relations and named constants. For every first-order formula \(\varphi\) of
+this structure and hyperreal parameters \([a_n^1],\ldots,[a_n^k]\),
+\[
+\HR\models\varphi([a_n^1],\ldots,[a_n^k])
+\quad\Longleftrightarrow\quad
+\{n:\RR\models\varphi(a_n^1,\ldots,a_n^k)\}\in\U,
+\]
+where the functions and relations on the left are their natural extensions.
+In particular a sentence true in the real structure remains true in its
+ultrapower. This is the form of \L o\'s's theorem used here.
+\end{theorem}
+\begin{proof}
+Atomic formulas follow from the coordinatewise definitions. Intersections and
+the ultrafilter dichotomy prove the steps for conjunction and negation.
+For an existential formula, a hyperreal witness gives real coordinate witnesses
+on a \(\U\)-large set by induction. Conversely, if real witnesses exist on
+such a set, choose one at each index there and an arbitrary real elsewhere.
+Their class is a hyperreal witness by induction. Universal quantification follows
+from negation and existential quantification. Structural induction proves the formula.
+\end{proof}
+\begin{remark}[What is not being transferred]\label{rem:scope}
+This theorem is about first-order formulas in the specified structure.
+It does not allow unrestricted quantification over all subsets of \(\HR\),
+nor does it introduce predicates meaning ``standard'' or ``infinitesimal''.
+A fixed real function, even a discontinuous one, may be named and extended.
+The fact that a real function is continuous can also be expressed using
+quantifiers over numbers. Quantifiers in its transferred formula range over
+hyperreals, not just standard reals.
+\end{remark}
+\begin{example}[Arithmetic and Archimedean quantifiers]\label{ex:transfer}
+Commutativity and cancellation hold in the hyperreal field. For a nonzero
+infinitesimal \(\varepsilon\),
+\[
+\frac1{1+\varepsilon}=\frac{1-\varepsilon}{1-\varepsilon^2},
+\]
+since multiplying numerator and denominator by \(1-\varepsilon\) is legitimate.
+The real assertion \(\forall x\in\RR\ \exists n\in\NN\ (n>x)\) transfers to
+\(\forall X\in\HR\ \exists N\in\ext\NN\ (N>X)\).
+It does not assert that a standard natural number exceeds every hyperreal.
+Thus transfer is compatible with the infinite element \(H\).
+\end{example}
+
+\section{Standard parts and infinitesimal scales}\label{sec:scales}
+\begin{lemma}[Elementary infinitesimal algebra]\label{lem:algebra}
+A finite sum of infinitesimals is infinitesimal. The product of a finite
+hyperreal and an infinitesimal is infinitesimal. A real infinitesimal is zero.
+\end{lemma}
+\begin{proof}
+For a sum of \(k\ge1\) terms, bound each absolute value by \(r/k\) for any
+real \(r>0\). If \(|X|<M\) with real \(M>0\), bound the other factor by
+\(r/(M+1)\). For a nonzero real \(s\), use the threshold \(|s|/2\).
+\end{proof}
+\begin{theorem}[Existence and uniqueness of the standard part]\label{thm:st}
+Every finite \(X\in\HR\) is infinitely close to exactly one real \(r\).
+Define \(\st(X)=r\), with domain \(\Fin(\HR)\), the set of finite hyperreals.
+\end{theorem}
+\begin{proof}
+The real set \(A=\{a\in\RR:a<X\}\) is nonempty and bounded above because
+\(X\) is finite. Put \(r=\sup A\). For each real \(\delta>0\), some
+\(a\in A\) satisfies \(r-\delta<a<X\). Also \(X<r+\delta\), since otherwise
+\(r+\delta/2\in A\), contradicting the supremum. Hence \(|X-r|<\delta\).
+If \(X\approx s\) for another real \(s\), then \(r-s\) is a real infinitesimal
+by the triangle inequality, and is zero by Lemma~\ref{lem:algebra}.
+\end{proof}
+\begin{proposition}[Standard-part arithmetic]\label{prop:st-arithmetic}
+For finite \(X,Y\),
+\[
+\st(X+Y)=\st X+\st Y,\qquad \st(XY)=(\st X)(\st Y).
+\]
+If \(\st Y\ne0\), then \(X/Y\) is finite and
+\(\st(X/Y)=\st X/\st Y\).
+\end{proposition}
+\begin{proof}
+Write \(X=x+u\), \(Y=y+v\), with real \(x,y\) and infinitesimal \(u,v\).
+Expand the sum and product and use Lemma~\ref{lem:algebra} and uniqueness.
+If \(y\ne0\), then \(|Y|>|y|/2\), so \(1/Y\) is finite, and
+\(1/Y-1/y=-v/(yY)\) is infinitesimal. Apply the product formula.
+\end{proof}
+\begin{example}[Scales and the microscope interpretation]\label{ex:scales}
+For real \(a\), nonzero infinitesimal \(\varepsilon\), and each fixed standard
+integer \(k\), \(a+k\varepsilon\approx a\). Thus
+\(\st(2+\varepsilon)=2\) and \(\st(3-\varepsilon+\varepsilon^4)=3\).
+At an infinite scale, \(4H\), \(4H+1\) and \(4H+1+\varepsilon\) are all infinite,
+so none has a real standard part. However
+\((4H+1+\varepsilon)-(4H+1)=\varepsilon\), so the last two are infinitely close.
+A finite drawing of these scales is schematic, not an exhaustive real coordinate
+model of the hyperreal line. There is no smallest positive infinitesimal: if
+\(\varepsilon>0\) is infinitesimal, so is \(\varepsilon/2\).
+\end{example}
+
+\section{Limits and continuity: all infinitesimal probes}
+\begin{definition}[Classical finite limit]\label{def:limit}
+Let \(D\subseteq\RR\), let \(a\) be an accumulation point of \(D\), and
+let \(f:D\to\RR\). The assertion \(\lim_{x\to a}f(x)=L\in\RR\) means
+\[
+\forall r>0\ \exists\delta>0\ \forall x\in D:
+\quad0<|x-a|<\delta\ \Longrightarrow\ |f(x)-L|<r.
+\]
+All quantifiers here are over real numbers.
+\end{definition}
+\begin{theorem}[Nonstandard criterion for a finite limit]\label{thm:limit}
+In Definition~\ref{def:limit}, the limit equals \(L\) if and only if
+\[
+\ext f(X)\approx L\quad\hbox{for every }X\in\ext D
+\hbox{ with }X\approx a\hbox{ and }X\ne a.
+\]
+Equivalently all these values are finite and have standard part \(L\).
+\end{theorem}
+\begin{proof}
+Suppose the real limit holds. Fix a standard \(r>0\) and its real \(\delta>0\).
+Transfer the implication with these fixed parameters. Every admissible \(X\)
+is within \(\delta\) of \(a\), giving \(|\ext f(X)-L|<r\). As this holds for
+all standard \(r>0\), the difference is infinitesimal.
+Conversely, failure gives a real \(r_0>0\) and, for each integer \(n\), a point
+\(x_n\in D\) with \(0<|x_n-a|<1/n\) and \(|f(x_n)-L|\ge r_0\).
+The class \(X=[x_n]\) is infinitely close to \(a\), distinct from it, and
+\(|\ext f(X)-L|\ge r_0\), contradicting the asserted criterion.
+\end{proof}
+\begin{proposition}[One-sided and infinite-endpoint limits]\label{prop:other-limits}
+If the real domain contains a right neighbourhood of \(a\),
+\(\lim_{x\downarrow a} f(x)=L\in\RR\) precisely when
+\(\ext f(a+h)\approx L\) for every positive infinitesimal \(h\).
+For a left neighbourhood use every negative infinitesimal \(h\).
+If the domain contains a ray \((b,\infty)\), then
+\(\lim_{x\to+\infty}f(x)=L\in\RR\) precisely when
+\(\ext f(W)\approx L\) for every positive infinite \(W\).
+For a negative ray use every negative infinite \(W\).
+\end{proposition}
+\begin{proof}
+The one-sided proofs restrict the choices in Theorem~\ref{thm:limit} to the
+appropriate side. At \(+\infty\), transfer each real tail estimate. If the
+limit fails, choose \(x_n>\max\{b,n\}\) with a fixed positive error from \(L\).
+Then \([x_n]\) is a positive infinite counterexample. Reflect the variable
+for \(-\infty\).
+\end{proof}
+\begin{example}[A single infinite argument is not enough]\label{ex:single-probe}
+For \(f(x)=\sin x\), the positive infinite arguments
+\(W=[2\pi n]\) and \(V=[2\pi n+\pi/2]\) give respectively
+\(\ext f(W)=0\) and \(\ext f(V)=1\). Thus no limit at \(+\infty\) exists,
+even though the standard part at either chosen probe exists.
+\end{example}
+\begin{proposition}[Continuity criterion]\label{prop:continuity}
+For \(a\in D\), \(f:D\to\RR\) is continuous at \(a\) if and only if
+\(\ext f(X)\approx f(a)\) for every \(X\in\ext D\) with \(X\approx a\).
+\end{proposition}
+\begin{proof}
+Transfer the epsilon--delta continuity estimate as in Theorem~\ref{thm:limit}.
+If continuity fails, choose \(x_n\in D\) with \(|x_n-a|<1/n\) and a fixed
+positive lower bound for \(|f(x_n)-f(a)|\). The resulting class contradicts
+the criterion. At an isolated point the condition also holds: a real gap around
+\(a\) transfers, forcing any such \(X\) to equal \(a\).
+\end{proof}
+
+\section{Differentiation}
+\begin{theorem}[Derivative criterion]\label{thm:derivative}
+Let \(f:I\to\RR\), where \(I\) is an open real interval, and let \(a\in I\).
+Then \(f\) is differentiable at \(a\) with real derivative \(A\) if and only if
+for every nonzero infinitesimal \(h\),
+\[
+\frac{\ext f(a+h)-f(a)}{h}\approx A.
+\]
+In this case every displayed quotient is finite and its standard part is \(A\).
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:limit} to the real difference-quotient function
+\(q(t)=(f(a+t)-f(a))/t\), defined for \(t\ne0\) with \(a+t\in I\).
+Its natural extension is the displayed quotient, by coordinatewise evaluation.
+Every infinitesimal \(h\) is admissible because \(a\) is an interior point.
+\end{proof}
+\begin{example}[Polynomial derivative]\label{ex:polynomial}
+For a fixed standard integer \(m\ge1\) and \(f(x)=x^m\), the binomial formula gives
+\[
+\frac{(a+h)^m-a^m}{h}
+=ma^{m-1}+\sum_{j=2}^m\binom mj a^{m-j}h^{j-1}.
+\]
+The sum is finite, with real coefficients and positive powers of an infinitesimal,
+so it is infinitesimal. The criterion proves \(f'(a)=ma^{m-1}\).
+For \(m=0\), the constant function has derivative zero directly.
+For \(m=1\), the remainder is an empty sum. The fixed standard value of \(m\)
+is essential to this finite-sum argument.
+\end{example}
+\begin{example}[Why the sign of the infinitesimal matters]\label{ex:abs}
+At zero, \(f(x)=|x|\) gives quotient \(1\) for positive infinitesimals and \(-1\)
+for negative ones. A calculation with one selected positive \(h\) therefore
+cannot establish a two-sided derivative. Theorem~\ref{thm:derivative} shows
+that this function has no derivative at zero.
+\end{example}
+
+\section{The exponential: retaining the required precision}
+Define the real exponential by the absolutely convergent series
+\(E(t)=\sum_{k=0}^{\infty}t^k/k!\), and set \(e=E(1)\).
+The ratio test proves convergence for each real \(t\). The Cauchy product and
+binomial theorem give \(E(x+t)=E(x)E(t)\); this uses absolute convergence.
+Below \(e^x\) denotes \(E(x)\) for real \(x\); for hyperreal arguments it means
+\(\ext E\), not a new unproved operation on infinitesimals.
+\begin{lemma}[Quadratic error bound]\label{lem:exp-error}
+For real \(|t|\le1\), \(|E(t)-1-t|\le e\,t^2\).
+\end{lemma}
+\begin{proof}
+Absolute convergence gives
+\[
+|E(t)-1-t|\le\sum_{k=2}^{\infty}\frac{|t|^k}{k!}
+\le t^2\sum_{k=2}^{\infty}\frac1{k!}=(e-2)t^2\le e t^2.
+\]
+\end{proof}
+\begin{proposition}[Exponential derivative]\label{prop:exp-derivative}
+For every real \(a\), \(E'(a)=E(a)\).
+\end{proposition}
+\begin{proof}
+Transfer Lemma~\ref{lem:exp-error}. For every nonzero infinitesimal \(h\),
+\[
+\left|\frac{\ext E(h)-1}{h}-1\right|\le e|h|,
+\]
+so this quotient is infinitely close to one. The transferred addition law gives
+\[
+\frac{\ext E(a+h)-E(a)}h
+=E(a)\frac{\ext E(h)-1}h\approx E(a).
+\]
+Apply Theorem~\ref{thm:derivative}. No replacement of a base by an approximately
+equal base under an infinite exponent is used.
+\end{proof}
+\begin{proposition}[The classical sequence for \(e\)]\label{prop:e-sequence}
+With \(e=\sum_{k=0}^{\infty}1/k!\), one has
+\(\lim_{n\to\infty}(1+1/n)^n=e\). Consequently, for every positive infinite
+hypernatural \(N\in\ext\NN\),
+\[
+\st\big((1+1/N)^N\big)=e.
+\]
+The hypernatural power denotes the natural extension of the integer-power function.
+\end{proposition}
+\begin{proof}
+Expand
+\[
+(1+1/n)^n=\sum_{k=0}^n\frac1{k!}
+ \prod_{j=0}^{k-1}\left(1-\frac jn\right).
+\]
+Every factor in each product lies in \([0,1]\), so this is at most \(e\).
+For any fixed integer \(K\), the first \(K+1\) terms tend to
+\(\sum_{k=0}^K1/k!\) and form a lower bound for \(n\ge K\).
+Choosing \(K\) with a sufficiently small factorial-series tail proves convergence.
+Transfer the resulting real tail estimates to \(N\); every infinite hypernatural
+exceeds the standard threshold. The standard-part formula follows.
+\end{proof}
+\begin{remark}[What an approximation permits]\label{rem:precision}
+The exact exponential at an infinitesimal argument is generally not \(1+h\).
+For \(h>0\), transfer of \(E(t)\ge1+t+t^2/2\) for real \(t\ge0\) gives
+\(\ext E(h)>1+h\). The derivative proof works because the error divided by
+\(h\) is still infinitesimal, as shown above.
+In general, \(X\approx Y\) alone does not permit replacing \(X\) by \(Y\)
+inside a quotient by an infinitesimal: \(h\approx0\), but \(h/h=1\).
+Similarly, standard-part equality of two bases is not an exact equality that
+can be substituted under a variable or infinite exponent. Indeed,
+\(1+1/H\approx1\), but Proposition~\ref{prop:e-sequence} gives
+\(\st((1+1/H)^H)=e\), whereas \(1^H=1\). Since the series defining \(e\)
+has positive terms and begins with \(1+1+1/2\), these standard parts differ.
+\end{remark}
+
+\section{The Dirichlet function is not an obstruction}
+\begin{definition}[Dirichlet function and its extension]\label{def:dirichlet}
+Let \(D:\RR\to\{0,1\}\) be given by \(D(x)=1\) for \(x\in\QQ\), and
+\(D(x)=0\) otherwise. Its natural extension is well defined on all of \(\HR\):
+\[
+\ext D(X)=
+\begin{cases}1,&X\in\ext\QQ,\\0,&X\notin\ext\QQ.\end{cases}
+\]
+\end{definition}
+\begin{proof}[Verification of the extension formula]
+For \(X=[x_n]\), let \(A=\{n:x_n\in\QQ\}\). Exactly one of \(A\) and its
+complement lies in \(\U\). Hence \([D(x_n)]\) equals one or zero precisely
+as in the displayed cases. This agrees with Definition~\ref{def:extension}.
+\end{proof}
+\begin{proposition}[Discontinuity is preserved]\label{prop:dirichlet}
+At every real \(a\), the function \(D\) is discontinuous and has no two-sided
+limit. These facts hold equally in the classical and nonstandard formulations.
+\end{proposition}
+\begin{proof}
+By density, choose rationals \(q_n\) and irrationals \(r_n\), both distinct
+from \(a\), with \(|q_n-a|<1/n\) and \(|r_n-a|<1/n\).
+Then \(Q=[q_n]\) and \(R=[r_n]\) are distinct from \(a\) and infinitely close
+to it, but \(\ext D(Q)=1\) and \(\ext D(R)=0\).
+No real \(L\) can be infinitely close to both zero and one. Apply
+Theorem~\ref{thm:limit} and Proposition~\ref{prop:continuity}.
+\end{proof}
+\begin{example}[Hyperrational and non-hyperrational infinitesimals]\label{ex:hyperrational}
+For \(H=[n]\), the infinitesimal \(1/H=[1/n]\) belongs to \(\ext\QQ\), whereas
+\(\sqrt2/H=[\sqrt2/n]\) does not, since every coordinate \(\sqrt2/n\) is
+irrational. Thus \(\ext D(1/H)=1\) and \(\ext D(\sqrt2/H)=0\).
+Hyperrational does not mean standard rational.
+\end{example}
+\begin{remark}[A different map obtained from standard parts]\label{rem:wrong-extension}
+On finite hyperreals one may define \(G(X)=D(\st X)\), but this is not
+\(\ext D\). For example, \(\st(\sqrt2/H)=0\), so \(G(\sqrt2/H)=D(0)=1\),
+whereas \(\ext D(\sqrt2/H)=0\).
+A nonstandard continuity test using this different map would not test continuity
+of \(D\). The standard-part operation is not among the transferred real
+operations of Theorem~\ref{thm:transfer}.
+\end{remark}
+
+\section{Intermediate values and improper integrals}
+\begin{proposition}[Transferred intermediate values for a fixed function]\label{prop:ivt}
+Let \(f:[a,b]\to\RR\) be a fixed continuous real function. If \(Y\in\HR\)
+lies between \(f(a)\) and \(f(b)\), some \(X\in\ext{[a,b]}\) satisfies
+\(\ext f(X)=Y\).
+\end{proposition}
+\begin{proof}
+The ordinary intermediate value theorem for this fixed \(f,a,b\) is a
+first-order assertion about the number \(y\) and an existential number \(x\).
+Name \(f\) in the structure and apply Theorem~\ref{thm:transfer}.
+This argument does not assert an intermediate value theorem for every
+arbitrarily chosen map on the hyperreals.
+\end{proof}
+\begin{proposition}[Improper integrals through an extended primitive]\label{prop:improper}
+Let \(f:[a,\infty)\to\RR\) be Riemann integrable on every compact subinterval,
+and define the real function \(F(t)=\int_a^t f(x)\,dx\).
+The improper integral converges to \(L\in\RR\) if and only if
+\(\ext F(W)\approx L\) for every positive infinite hyperreal \(W\).
+\end{proposition}
+\begin{proof}
+By definition convergence of this improper integral is precisely
+\(\lim_{t\to+\infty}F(t)=L\). Apply Proposition~\ref{prop:other-limits}.
+Thus one may use an infinite cutoff in the extended \(F\), but equality of
+standard parts must hold for all such cutoffs. In particular \(W\) and \(2W\)
+have the same standard part of \(\ext F\) when the integral converges.
+\end{proof}
+\begin{example}[A convergent and a divergent cutoff]\label{ex:integrals}
+For \(f(x)=x^{-2}\) on \([1,\infty)\), the real identity \(F(t)=1-1/t\)
+transfers to \(\ext F(W)=1-1/W\). Every positive infinite \(W\) gives
+standard part one, so the improper integral is one.
+For \(f(x)=1\), \(F(t)=t-1\) and \(\ext F(W)=W-1\) is infinite; no real
+standard part exists and the improper integral does not converge to a finite value.
+\end{example}
+
+\section*{Sources and editorial status}
+\addcontentsline{toc}{section}{Sources and editorial status}
+The original source is Eason Shao's 2024 school presentation project
+\emph{Calculus without Limits}, also titled \emph{Intuition Mathematics vs.\ Deduction
+Mathematics} in its competition versions. This revision consolidates those
+versions; it is not a transcription of any textbook. Definitions, hypotheses
+and newly supplied proofs above are editorial work.
+For a primary-author reference on the foundational framework and the universal
+quantifier in the infinitesimal derivative criterion, see H. Jerome Keisler,
+\emph{Foundations of Infinitesimal Calculus}, online edition dated 19 June 2022,
+Chapters 1--3 and 15:
+\url{https://people.math.wisc.edu/~hkeisler/foundations.pdf}.
+
+The original bibliography consisted of Wikipedia pages on Calculus,
+History of calculus, Nonstandard analysis, Hyperreal number, Infinitesimal,
+Transfer principle, Limit (mathematics), Criticism of nonstandard analysis and
+Influence of nonstandard analysis. These are recorded as the original author's
+bibliographic context, not as independently verified authorities for this revision.
+The revised mathematical statements are accompanied by proofs or explicitly
+identified background assumptions. Historical date lists and subjective ratings
+from the slides are not retained as mathematical corpus content.
+
+\appendix
+\section{Original MIT licence notice}\label{app:license}
+\begingroup\small
+MIT License
+
+Copyright (c) 2024 Eason Shao
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+\endgroup
+\end{document}

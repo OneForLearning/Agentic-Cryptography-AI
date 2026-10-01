@@ -1,0 +1,19 @@
+{
+  "profile": "ace-6A5-code-backup-v1",
+  "files_before": {
+    "scripts/compare_pdf_extractors.py": "bb9891162da56ccff4ba094647be03c600700838303e8d49b0c7fb240f2c5895",
+    "scripts/extract_corpus.py": "89613c6ba454e3cfffcf1a2c19e33fa9bc13f52136e4e844fa00cb6c2345f623",
+    "scripts/math_review_proposals.json": null,
+    "scripts/prepare_math_review.py": null,
+    "src/livre_crypto_rag/math_review.py": null,
+    "tests/test_math_review.py": null
+  },
+  "files_installed": {
+    "scripts/compare_pdf_extractors.py": "884fb777b0d6d7157f38e5f18d9c8843796fb360e238155f6b4188d69c48eaf6",
+    "scripts/extract_corpus.py": "c6f41569dfebec3c12898b067492c6ba317492ba9c3cafd40e9c2b8b6dedb829",
+    "scripts/math_review_proposals.json": "3df4c46cf5c8c735018fa978675c9f8e8928790e0cca3b3aa9c6e6d97f0772e2",
+    "scripts/prepare_math_review.py": "1608f7e9d8987f4eecdb88ae53058912e950eee129bcf13dc4618eaf7f7fb199",
+    "src/livre_crypto_rag/math_review.py": "cfc5430c54ceb42f7fc16b1c8f12596ae969f12a603b6cb9ff566d64936ab362",
+    "tests/test_math_review.py": "60bef83a5124e13a0da23067e98f7c7a9b3961a6225b476d64eca83b0609f777"
+  }
+}

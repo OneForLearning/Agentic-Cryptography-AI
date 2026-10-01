@@ -1,0 +1,49 @@
+224     Pascal Paillier
+
+
+based on error correcting codes, Ajtai-Dwork’s scheme based on lattice prob-
+lems (cryptanalyzed by Nguyen and Stern in [18]), additive and multiplica-
+tive knapsack-type systems including Merkle-Hellman [13], Chor-Rivest (broken
+by Vaudenay in [29]) and Naccache-Stern [17]  ; ﬁnally, Matsumoto-Imai and
+Goubin-Patarin cryptosystems, based on multivariate polynomials, were succes-
+sively cryptanalyzed in [11] and [21].
+  We believe, however, that the cryptographic research had unnoticeably wit-
+nessed the progressive emergence of a third class of trapdoor techniques : ﬁrstly
+identiﬁed as trapdoors in the discrete log, they actually arise from the common
+algebraic setting of high degree residuosity classes. After Goldwasser-Micali’s
+scheme [9] based on quadratic residuosity, Benaloh’s homomorphic encryption
+function, originally designed for electronic voting and relying on prime residuos-
+ity, preﬁgured the ﬁrst attempt to exploit the plain resources of this theory. Later,
+Naccache and Stern [16], and independently Okamoto and Uchiyama [19] signif-
+icantly extended the encryption rate by investigating two diﬀerent approaches :
+residuosity of smooth degree in Z∗pq and residuosity of prime degree p in Z∗p2q
+respectively. In the meantime, other schemes like Vanstone-Zuccherato [28] on
+elliptic curves or Park-Won [20] explored the use of high degree residues in other
+settings.
+   In this paper, we propose a new trapdoor mechanism belonging to this family.
+By contrast to prime residuosity, our technique is based on composite residuosity
+classes i.e. of degree set to a hard-to-factor number n = pq where p and q are two
+large prime numbers. Easy to understand, we believe that our trapdoor provides
+a new cryptographic building-block for conceiving public-key cryptosystems.
+   In sections 2 and 3, we introduce our number-theoretic framework and inves-
+tigate in this context a new computational problem (the Composite Residuosity
+Class Problem), which intractability will be our main assumption. Further, we
+derive three homomorphic encryption schemes based on this problem, including
+a new trapdoor permutation. Probabilistic schemes will be proven semantically
+secure under appropriate intractability assumptions. All our polynomial reduc-
+tions are simple and stand in the standard model.
+
+Notations. We set n = pq where p and q are large primes : as usual, we will
+denote by φ(n) Euler’s totient function and by λ(n) Carmichael’s function1 taken
+on n, i.e. φ(n) = (p −1)(q −1) and λ(n) = lcm(p −1, q −1) in the present case.
+Recall that |Z∗n2| = φ(n2) = nφ(n) and that for any w ∈ Z∗n2,
+                       wλ = 1 mod n
+                        wnλ = 1 mod n2 ,
+
+which are due to Carmichael’s theorem. We denote by RSA [n, e] the (conven-
+tionally thought intractable) problem of extracting e-th roots modulo n where
+n = pq is of unknown factorisation. The relation P1 ⇐P2 (resp. P1 ≡P2)
+will denote that the problem P1 is polynomially reducible (resp. equivalent) to
+the problem P2.
+
+ 1 we will adopt λ instead of λ(n) for visual comfort.

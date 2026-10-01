@@ -1,0 +1,16 @@
+sources:
+  - id: crypto-paillier-001
+    title: "Public-Key Cryptosystems Based on Composite Degree Residuosity Classes"
+    author: "Pascal Paillier"
+    year: 1999
+    lang: en
+    domain: cryptographie
+    level: L3
+    type: article
+    topics:
+      - paillier
+      - cryptographie_asymetrique
+      - homomorphisme
+      - theorie_des_nombres
+    file: corpus/raw/crypto/paillier.pdf
+    source_url: null

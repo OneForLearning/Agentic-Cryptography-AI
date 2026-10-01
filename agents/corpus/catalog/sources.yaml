@@ -1,0 +1,19 @@
+sources:
+  - id: MATH-ALG-L2-001
+    title: "Exemple de cours sur les groupes"
+    author: "À compléter"
+    year: null
+    language: fr
+    domain: mathematiques
+    level: L2
+    document_type: cours
+    topics:
+      - groupes
+      - sous-groupes
+      - morphismes
+    file: "mathematiques/l2_prepa/exemple_groupes.pdf"
+    source_url: null
+    license: "À vérifier"
+    rights_status: non_verifie
+    authority_level: universitaire
+    trusted: false

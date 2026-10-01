@@ -1,0 +1,49 @@
+230      Pascal Paillier
+
+5     A New One-Way Trapdoor Permutation
+
+One-way trapdoor permutations are very rare cryptographic objects : we refer
+the reader to [22] for an exhaustive documentation on these. In this section, we
+show how to use the trapdoor technique introduced in the previous section to
+derive a permutation over Z∗n2 .
+   As before, n stands for the product of two large primes and g is chosen as in
+Equation 4.
+
+
+             Encryption :
+                            plaintext m < n2
+                            split m into m1 , m2 such that m = m1 + nm2
+                            ciphertext c = g m1 m2 n mod n2
+
+             Decryption :
+                            ciphertext c < n2
+                                   L(cλ mod n2 )
+             Step 1.        m1 =                  mod n
+                                   L(g λ mod n2 )
+             Step 2.        c0 = cg −m1 mod n
+                                      n−1 mod λ
+             Step 3.        m2 = c0               mod n
+                            plaintext m = m1 + nm2
+
+
+
+        Scheme 2. A Trapdoor Permutation Based on Composite Residuosity.
+
+
+    We first show the scheme’s correctness. Clearly, Step 1 correctly retrieves
+m1 = m mod n as in Scheme 1. Step 2 is actually an unblinding phase which
+is necessary to recover mn2 mod n. Step 3 is an RSA decryption with a public
+exponent e = n. The final step recombines2 the original message m. The fact that
+Scheme 2 is a permutation comes from the bijectivity of Eg . Again, trapdoorness
+is based on the factorisation of n. Regarding one-wayness, we state :
+
+Theorem 16. Scheme 2 is one-way if and only if RSA [n, n] is hard.
+
+Proof. a) Since Class [n] ⇐ RSA [n, n] (Theorem 11), extracting n-th roots
+modulo n is sufficient to compute m1 from Eg (m1 , m2 ). Retrieving m2 then
+requires one more additionnal extraction. Thus, inverting Scheme 2 cannot be
+harder than extracting n-th roots modulo n. b) Conversely, an oracle which
+inverts Scheme 2 allows root extraction : first query the oracle to get the two
+2
+    note that every public bijection m ↔ (m1 , m2 ) fits the scheme’s structure, but
+    euclidean division appears to be the most natural one.

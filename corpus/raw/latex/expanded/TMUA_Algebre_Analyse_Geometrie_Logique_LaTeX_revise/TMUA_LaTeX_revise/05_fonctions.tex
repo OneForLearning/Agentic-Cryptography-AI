@@ -1,0 +1,349 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xparse,multicol,enumitem,hyperref}
+\usepackage[a4paper,margin=25mm]{geometry}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Exercise}
+\newtheorem{examples}[theorem]{Exercises}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\pqty}[1]{\left(#1\right)}
+\newcommand{\bqty}[1]{\left[#1\right]}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\set}[2]{\left\{#1\mid #2\right\}}
+\newcommand{\ccintv}[2]{[#1,#2]}
+\newcommand{\oointv}[2]{(#1,#2)}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\pmqty}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\compl}{^{\mathrm{c}}}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\qif}{\quad\text{if}\quad}
+\newcommand{\qfor}{\quad\text{for}\quad}
+\newcommand{\qqtext}[1]{\quad\text{#1}\quad}
+\newcommand{\dd}[1]{\,\mathrm{d}#1}
+\NewDocumentCommand{\dv}{s o m g}{\IfNoValueTF{#4}{\frac{\mathrm{d}}{\mathrm{d}#3}}{\IfNoValueTF{#2}{\frac{\mathrm{d}#3}{\mathrm{d}#4}}{\frac{\mathrm{d}^{#2}#3}{\mathrm{d}#4^{#2}}}}}
+\newcommand{\SI}[2]{#1\,\text{#2}}
+\newcommand{\centi}{c}
+\newcommand{\metre}{m}
+\newcommand{\percent}{\%}
+
+\title{TMUA Lecture 5 -- Graphs of Functions and Miscellaneous Questions}
+\author{Eason Shao; revised edition}
+\date{2026-09-28}
+\begin{document}
+\maketitle
+\paragraph{Editorial scope and provenance.}
+Revised from Eason Shao's TMUA lecture notes; language and exercise attributions are retained.
+The supplied licence assigns CC BY-NC-SA 4.0 to the text and GNU GPL 3.0 to the source files
+(\url{https://creativecommons.org/licenses/by-nc-sa/4.0/};
+\url{https://www.gnu.org/licenses/gpl-3.0.html}).
+Revision: 2026-09-28. Missing personal-package macros have been defined locally;
+selected mathematical errors and missing hypotheses have been corrected.
+This is not an exhaustive certification of every exercise or its historical attribution.
+Exercise alternatives and attempted proofs are questions to assess, not asserted results.
+Keep each exercise with its statement, alternatives and any editorial explanation when indexing.
+Figures are replaced by textual mathematical descriptions. Syllabus remarks describe the
+source notes, not a verified current examination specification.
+Unless stated otherwise, variables are real and \(\NN=\{1,2,3,\ldots\}\).
+Explicit indices starting at zero override this convention.
+
+\tableofcontents
+
+
+\section{Functions and Graphs}\label{tmua-5-section-001}
+\subsection{Definitions}\label{tmua-5-subsection-001}
+
+For two sets \(A\) and \(B\), a \textbf{function}
+\[
+    \function{f}{A}{B}{x}{f\pqty{x}}
+\]
+is a relation where it maps \textbf{every} value \(a \in A\) to some \textbf{unique} value in \(b \in B\).
+
+\begin{problem}\label{tmua-5-unit-001}
+    How do we formalise this definition of a function?
+\end{problem}
+
+The set \(A\) is called its \textbf{domain} and the set \(B\) is called its \textbf{co-domain}. In TMUA, we always have \(B = \RR\) and \(A\) being a nice subset of \(\RR\) (i.e., a union of intervals).
+
+The set
+\[
+    \set{y \in B}{\exists x \in A: f\pqty{x} = y} = \set{f\pqty{x}}{x \in A}
+\]
+is the \textbf{image} or \textbf{range} of \(f\) (here range always means image, not co-domain). It is the set of values in the co-domain that the function can take.
+
+The \textbf{vertical line test} tests whether some graph (of a relation) is a function or not.
+
+\begin{example}\label{tmua-5-unit-002}
+    Determine if \(x = y^3\) and \(x = y^2\) are functions.
+\end{example}
+
+\begin{problem}\label{tmua-5-unit-003}
+    What is the point of having the co-domain in the definition?
+\end{problem}
+
+A function is \textbf{one-to-one}, or \textbf{injective}, if for all \(a \neq b\) in its domain, we have
+\[
+    f\pqty{a} \neq f\pqty{b}.
+\]
+
+Otherwise, we say a function is \textbf{many-to-one}.
+
+The \textbf{horizontal line test} tests whether some graph (of a function) is one-to-one or many-to-one.
+
+\begin{example}\label{tmua-5-unit-004}
+    Determine if \(y = x^2\) and \(y = x\) are one-to-one or many-to-one.
+\end{example}
+
+\subsection{Properties of Functions}\label{tmua-5-subsection-002}
+\subsubsection{Monotonicity}\label{tmua-5-subsubsection-001}
+
+A function \(f\) is \textbf{increasing} on a interval \(\ccintv{a}{b}\) (which must be entirely inside its domain), if for all \(a \leq x_1 \leq x_2 \leq b\), we have
+\[
+    f\pqty{x_1} \leq f\pqty{x_2}.
+\]
+
+Changing \(f\pqty{x_1} \geq f\pqty{x_2}\) gives the definition of a \textbf{decreasing} function.
+
+Recall from definition that we may use \(f'\) to see whether a function is increasing or decreasing.
+
+\subsubsection{Parity}\label{tmua-5-subsubsection-002}
+
+If a function's domain is symmetric about the origin, we may discuss the \textbf{parity} of a function.
+
+A function \(f\) is \textbf{odd} if
+\[
+    f\pqty{x} = - f\pqty{-x},
+\]
+and is \textbf{even} if
+\[
+    f\pqty{x} = f\pqty{-x}.
+\]
+
+The words odd and even come from the powers of \(x\) -- the function \(x\) raised to an even/odd power is even/odd.
+
+\begin{remark}\label{tmua-5-unit-005}
+    You may sometimes hear people refer to this as \textit{``odevity''} (in China) -- this is \textbf{not a proper terminology}.
+\end{remark}
+
+Assume \(a\ge0\) and \(f\) is integrable on \([-a,a]\) for the following parity identities. If \(f\) is odd, then
+\[
+    \int_{-a}^{a} f\pqty{x} \dd{x} = 0
+\]
+and if \(f\) is even, then
+\[
+    \int_{-a}^{a} f\pqty{x} \dd{x} = 2 \int_{0}^{a} f\pqty{x} \dd{x}.
+\]
+
+Note a function can be neither even nor odd, or both even and odd.
+
+\begin{example}\label{tmua-5-unit-006}
+    If \(f\) is a function defined on \(\RR\) and is both even and odd, what is \(f\)?
+\end{example}
+
+\subsubsection{Periodicity}\label{tmua-5-subsubsection-003}
+
+For a function \(f\) defined on \(\RR\), we say some real number \(T \neq 0\) is a \textbf{period} of \(f\), if
+\[
+    f \pqty{x + T} = f \pqty{x}
+\]
+for all \(x\). If such \(T\) exists, we say \(f\) is \textbf{periodic}.
+
+If we refer to \textbf{the period} of a function, we mean the \textbf{least positive period} (which does not necessarily exist).
+
+For example, the \(\sin\) function has all \(2 k \pi\) for \(k \neq 0\) and \(k \in \ZZ\) as its period, but \textbf{the period} of \(\sin\) is \(2 \pi\).
+
+\begin{problem}\label{tmua-5-unit-007}
+    A constant function is periodic but it does not have the least positive period. Can you find a non-constant function with this property?
+\end{problem}
+
+\subsubsection{Symmetry}\label{tmua-5-subsubsection-004}
+
+We say a function \(f\) is \textbf{symmetric} about the line \(x = a\), if
+\[
+    f\pqty{a + x} = f\pqty{a - x}
+\]  
+for all \(x\). Equivalently, this could be written as
+\[
+    f\pqty{x} = f\pqty{2a - x}
+\]
+for all \(x\).
+
+For \(h\ge0\) and \(f\) integrable on \([a-h,a+h]\), this gives
+\[
+    \int_{a-h}^{a+h} f(t)\,\mathrm{d}t = 2\int_a^{a+h} f(t)\,\mathrm{d}t.
+\]
+
+A function \(f\) is \textbf{rotationally symmetric by \(180 \degree\)} about a point \(\pqty{a, f\pqty{a}}\), if
+\[
+    f\pqty{a + x} - f\pqty{a} = f\pqty{a} - f\pqty{a - x}
+\]
+for all \(x\). Equivalently, this could be written as
+\[
+    f\pqty{a + x} + f\pqty{a - x} = 2 f\pqty{a},
+\]
+or
+\[
+    f\pqty{x} + f\pqty{2a - x} = 2 f\pqty{a}
+\]
+for all \(x\).
+
+For \(h\ge0\) and \(f\) integrable on \([a-h,a+h]\), this gives
+\[
+    \int_{a-h}^{a+h} f(t)\,\mathrm{d}t = 2h f(a).
+\]
+
+\textbf{Note parity is a special case of symmetry where \(a = 0\).}
+
+\begin{example}\label{tmua-5-unit-008}
+    Integrate
+    \[
+        \int_{0}^{4} x \pqty{x - 1} \pqty{x - 2} \pqty{x - 3} \pqty{x - 4} \dd{x}.
+    \]
+\end{example}
+
+\subsection{Graphs of Common Functions}\label{tmua-5-subsection-003}
+
+\textbf{Linear, Quadratic, Polynomials, Trigonometric} -- see previous lectures.
+
+The \textbf{absolute value} or \textbf{modulus function} \(y = \abs{x}\) is defined as
+\[
+    y = \abs{x} = \begin{cases}
+        x & \qif x \geq 0, \\
+        -x & \qif x < 0.
+    \end{cases}
+\]
+
+The \textbf{square root function} \(y = \sqrt{x}\) is \textbf{only defined on} \(x \geq 0\) and has range \(y \geq 0\).
+
+Let \(a > 0\). \textbf{Exponential functions} are functions of the form
+\[
+    f\pqty{x} = a^x \qqtext{where} a > 0,
+\]
+and \textbf{logarithmic functions} are their inverses, \(f\inverse\pqty{x} = \log_a x\) for \(a \neq 1\).
+
+The graphs differ for the cases \(0 < a < 1\) (in which case both are decreasing), \(a = 1\) (in which the logarithm does not exist) and \(a > 1\) (in which case both are increasing) -- \textbf{be very careful of the differing monotonic properties}.
+
+\subsection{Graph Transformations}\label{tmua-5-subsection-004}
+In the stretch descriptions take \(a>0\). For \(a<0\), use the positive scale \(\abs{a}\) (or its reciprocal for horizontal scaling), together with reflection in the corresponding axis. For \(a=0\), the horizontal reciprocal-scale description does not apply.
+
+\begin{itemize}
+    \item \textbf{The graph of \(\abs{f\pqty{x}}\)} is formed by:
+        \begin{itemize}
+            \item sketching \(y = f\pqty{x}\); then
+            \item reflecting the graph below the \(x\)-axis (\(y < 0\)) in the \(x\)-axis, removing the original.
+        \end{itemize}
+
+    \item \textbf{The graph of \(f\pqty{\abs{x}}\)} is formed by:
+        \begin{itemize}
+            \item sketching \(y = f\pqty{x}\) for \(x \geq 0\); then
+            \item reflecting the graph to the right of \(y\)-axis (\(x > 0\)) in the \(y\)-axis, keeping the original.
+        \end{itemize}
+
+    \item \textbf{The graph of \(f\pqty{x + a}\)} is formed by translating the graph of \(y = f\pqty{x}\) by \(a\) units in the \textbf{negative \(x\)-direction}.
+    \item \textbf{The graph of \(f\pqty{x} + a\)} is formed by translating the graph of \(y = f\pqty{x}\) by \(a\) units in the \textbf{positive \(y\)-direction}.
+    \item \textbf{The graph of \(f\pqty{ax}\)} is formed by stretching the graph of \(y = f\pqty{x}\) \textbf{in the \(x\)-axis by a scale factor of \(\flatfrac{1}{a}\)}.
+    \item \textbf{The graph of \(a f\pqty{x}\)} is formed by stretching the graph of \(y = f\pqty{x}\) \textbf{in the \(y\)-axis by a scale factor of \(a\)}.
+        
+\end{itemize}
+
+\begin{example}\label{tmua-5-unit-009}
+    Sketch the following functions:
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item \(\abs{x^2 - 4}\)
+            \item \(\abs{\sin x}\)
+            \item \(3 - \abs{x}\)
+            \item \(e^{\abs{x}}\)
+            \item \(2^{x + 1}\)
+            \item \(\sin\pqty{x + \frac{\pi}{6}}\)
+            \item \(x^3 + 3\)
+            \item \(\cos x - 2\)
+            \item \(\sqrt{2x}\)
+            \item \(\sin \pqty{3x}\)
+            \item \(5 \cos x\)
+            \item \(- \frac{1}{2} \sqrt{x}\)
+        \end{itemize}
+    \end{multicols}
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q18]\label{tmua-5-unit-010}
+    The graph of \(y = \log_{10} x\) is translated in the positive \(y\)-direction by \(2\) units. This translation is equivalent to a stretch of factor \(k\) parallel to the \(x\)-axis. Find \(k\).
+\end{example}
+
+\begin{example}[MAT 2014 Question I]\label{tmua-5-unit-011}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    The graph of the function
+    \[
+        y = 2^{x^2 - 4x + 3}
+    \]
+    can be obtained from the graph of \(y = 2^{x^2}\) by
+    \begin{enumerate}[label=(\alph*)]
+        \item a stretch parallel to the \(y\)-axis followed by a translation parallel to the \(y\)-axis.
+        \item a translation parallel to the \(x\)-axis followed by a stretch parallel to the \(y\)-axis.
+        \item a translation parallel to the \(x\)-axis followed by a stretch parallel to the \(x\)-axis.
+        \item a translation parallel to the \(x\)-axis followed by reflection in the \(y\)-axis.
+        \item reflection in the \(y\)-axis followed by translation parallel to the \(y\)-axis.
+    \end{enumerate}
+\end{example}
+
+\subsection{Application of Graphs of Functions}\label{tmua-5-subsection-005}
+
+Previously, we have seen the application of using graphs of functions to solve (qualitatively) a system of inequalities.
+
+We may also use graphs to solve a system of equations: the intersections of graphs correspond to solutions to the original system of equations.
+
+Similarly, the intersections of the graphs of \(f\) and \(g\) solve the equation \(f\pqty{x} = g\pqty{x}\). (Sometimes, we re-arrange the functions \(f\) and \(g\) to make the graph-sketching easier.)
+
+\begin{example}[TMUA 2016 P1 Q10]\label{tmua-5-unit-012}
+    How many solutions does the equation \(x \tan x = 1\) have in the interval \(-2 \pi \leq x \leq 2\pi\)?
+\end{example}
+
+\section{Miscellaneous Questions}\label{tmua-5-section-002}
+
+\subsection{Ratios}\label{tmua-5-subsection-006}
+
+Key idea: set the total to be \(1\) (or \(10\), or \(100\)).
+
+\begin{example}[TMUA 2016 P1 Q6]\label{tmua-5-unit-013}
+    \(P\), \(Q\) and \(R\) are each mixtures of red and white paint. The percentage by volume of red paint in \(P\) is \(\SI{30}{\percent}\). The percentage by volume of red paint in \(Q\) is \(\SI{20}{\percent}\).
+
+    The mixtures \(P\), \(Q\) and \(R\) are combined in the proportion \(12 : 5 : 3\) respectively.
+
+    If the resulting mixture contains \(\SI{25}{\percent}\) by volume of red paint, what percentage by volume of mixture \(R\) is red paint?
+\end{example}
+
+\begin{example}[TMUA 2016 P1 Q7]\label{tmua-5-unit-014}
+    \(\SI{60}{\percent}\) of a sports club's members are women and the remainder are men. This sports club offers the opportunity to play tennis or cricket. Every member plays exactly one of the two sports.
+
+    \(\flatfrac{2}{5}\) of the male members of the club play cricket; \(\flatfrac{2}{3}\) of the cricketing members of the club are women.
+
+    What is the probability that a member of the club, chosen at random, is a woman who plays tennis?
+\end{example}
+
+\subsection{Logical Deduction}\label{tmua-5-subsection-007}
+
+\begin{example}[TMUA 2017 P2 Q20]\label{tmua-5-unit-015}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    I have forgotten my \(5\)-character computer password, but I know that it consists of the letters \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, \texttt{e} in some order. When I enter a potential password into the computer, it tells me exactly how many of the letters are in the correct position.
+
+    When I enter \texttt{abcde}, it tells me that none of the letters are in the correct position. The same happens when I enter \texttt{cdbea} and \texttt{eadbc}.
+
+    Using the best strategy, how many \textbf{further} attempts must I make in order to \textbf{guarantee} that I can \textbf{deduce} the correct password?
+\end{example}
+
+
+\end{document}

@@ -1,0 +1,54 @@
+Le cryptosystème de Paillier    synthèse technique                                             4
+
+
+5 Trois cryptosystèmes dérivés
+
+5.1 Schéma 1     le chi rement probabiliste   Paillier
+
+    C'est la construction devenue emblématique, exploitant directement Eg pour chi rer et le
+  truc en L  pour déchi  rer.
+
+  Génération de clés : n = pq, λ = lcm(p −1, q −1), g ∈B. Clé publique : (n, g). Clé
+  privée : λ.
+  Chi rement d'un message m < n : tirer r < n au hasard, poser c = gmrn mod n2.
+                                   L(cλ mod n2)
+  Déchi rement de c < n2 : m =          mod n.
+                                 L(gλ mod n2)
+
+Théorème 2. Le schéma 1 est à sens unique si et seulement si la CCRA est vraie ;  il est
+sémantiquement sûr (IND-CPA) si et seulement si la DCRA est vraie.
+
+     Idée : Inverser le chi rement, c'est par dé nition calculer une classe de résiduosité : d'où
+       l'équivalence avec CCRA. Pour la sécurité sémantique : distinguer le chi ré de m0 de celui
+      de m1 revient exactement à décider si c g−m0 mod n2 est un résidu de degré n    c'est-à-dire
+     à résoudre CR[n].
+
+5.2 Schéma 2   une permutation à trappe (rare) sur Z∗n2
+   En exploitant la bijectivité de Eg, on obtient une permutation à trappe de tout Z∗n2   un
+objet cryptographique peu courant.
+
+  Chi rement de m < n2 : décomposer m = m1 + nm2 (division euclidienne par n), poser
+  c = gm1m2n mod n2.
+  Déchi rement : (1) retrouver m1 exactement comme au schéma 1 ; (2)   déblinder    :
+   c′ = c g−m1 mod n (= m2n mod n) ; (3) extraire m2 = c′ n−1 mod λ mod n   une extraction
+  RSA d'exposant public n.
+
+Théorème 3. Le schéma 2 est à sens unique si et seulement si RSA[n, n] est di  cile.
+
+  Un point de correction important : comme pour RSA, il faut m2 ∈Z∗n pour que tout fonc-
+tionne ; ce schéma n'est donc pas fait pour chi rer des messages courts (< n). En contrepartie,
+Paillier en tire directement un schéma de signature : le signataire calcule (s1, s2) par le même
+mécanisme que le déchi rement appliqué à h(m) (avec h vu comme un oracle aléatoire), et le
+véri eur teste h(m) ?= gs1s2n mod n2. La sécurité existentielle contre les attaques adaptatives se
+ramène, dans le modèle de l'oracle aléatoire, à la di  culté de RSA[n, n].
+
+5.3 Schéma 3    la variante à déchi rement rapide
+
+    L'idée est de ne plus utiliser tout le secret λ, mais un diviseur α choisi court (typiquement
+un nombre premier de 160 bits), en restreignant les chi rés au sous-groupe cyclique ⟨g⟩d'ordre
+lié à α.
+
+  Chi rement de m < n : tirer r < n, poser c = gm+nr mod n2.
+                         L(cα mod n2)
+  Déchi rement : m =           mod n.
+                        L(gα mod n2)

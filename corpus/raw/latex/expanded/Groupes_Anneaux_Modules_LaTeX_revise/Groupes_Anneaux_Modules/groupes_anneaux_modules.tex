@@ -1,0 +1,4019 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xparse,hyperref,geometry}
+\geometry{margin=24mm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{example*}{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{notation}[theorem]{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+% Editorial notation reconstructed from this course, not the missing eason.sty.
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\pqty}[1]{\left(#1\right)}
+\newcommand{\bqty}[1]{\left[#1\right]}
+\newcommand{\Bqty}[1]{\left\{#1\right\}}
+\newcommand{\angBrac}[1]{\langle #1\rangle}
+\newcommand{\bbrac}[1]{[\![#1]\!]}
+\newcommand{\set}[2]{\{#1\mid #2\}}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\functionmap}[3]{#1:#2\to #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\conjugate}[1]{\overline{#1}}
+\NewDocumentCommand{\vb}{s m}{\IfBooleanTF{#1}{\boldsymbol{#2}}{\mathbf{#2}}}
+\newcommand{\pmqty}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\bmqty}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\perm}[1]{(#1)}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\transpose}{^{\mathsf{T}}}
+\newcommand{\multiplicative}{^{\times}}
+\newcommand{\isomorphic}{\cong}
+\newcommand{\normalsub}{\trianglelefteq}
+\newcommand{\normalsup}{\trianglerighteq}
+\newcommand{\subgroup}{\leq}
+\newcommand{\supgroup}{\geq}
+\newcommand{\subring}{\subseteq}
+\newcommand{\submodule}{\subseteq}
+\newcommand{\idealsub}{\trianglelefteq}
+\newcommand{\actson}{\curvearrowright}
+\newcommand{\divides}{\mid}
+\newcommand{\notdivides}{\nmid}
+\newcommand{\nequiv}{\not\equiv}
+\newcommand{\mapsfrom}{\leftarrow}
+\newcommand{\identity}{\mathrm{id}}
+\newcommand{\zeroM}{0}
+\newcommand{\bigO}{O}
+\newcommand{\plusinfty}{+\infty}
+\newcommand{\minusinfty}{-\infty}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Fit}{\operatorname{Fit}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Inn}{\operatorname{Inn}}
+\newcommand{\Out}{\operatorname{Out}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\Syl}{\operatorname{Syl}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\ccl}{\operatorname{ccl}}
+\newcommand{\content}{\operatorname{content}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\img}{\operatorname{im}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\sign}{\operatorname{sgn}}
+\newcommand{\spn}{\operatorname{span}}
+\title{Groups, Rings and Modules -- revised text edition}
+\author{Source notes: Eason Shao\\Course: D. Ranganathan, DPMMS, Lent 2026}
+\date{}
+\begin{document}
+\maketitle
+These unofficial notes contain twenty course sections and two appendices. Missing personal style definitions have been reconstructed from their local mathematical use. This edition includes targeted mathematical corrections, but is not an exhaustive verification of every statement and proof. The geometric information needed from the two external illustrations is given as text. Thanks in the source are due to Aurelia Walker and Byron Duh\'{e}.
+\tableofcontents
+\section{Basic Concepts of Groups}
+
+\begin{definition}[Group]
+    \label{def:group}%
+    A \emph{group} is a triple \(\pqty{G, \cdot, e}\) where:
+    \begin{itemize}
+        \item \(G\) is a set;
+        \item \(\functiondomain{\cdot}{G \times G}{G}\) is a binary operation on \(G\); and
+        \item \(e\) is an element \(e \in G\);
+    \end{itemize}
+    such that the following properties hold:
+    \begin{itemize}
+        \item \emph{Associativity.} For all \(a, b, c \in G\), we have \(\pqty{a \cdot b} \cdot c = a \cdot \pqty{b \cdot c}\);
+        \item \emph{Identity.} For all \(a \in G\), we have \(e \cdot a = a \cdot e = a\);
+        \item \emph{Inverses.} For all \(a \in G\), there exists \(a \inverse \in G\), such that \(a \cdot a \inverse = a \inverse \cdot a = e\).
+    \end{itemize}
+
+    The size of \(G\) is called the \emph{order} of \(\pqty{G, \cdot, e}\), written by \(\abs{G}\).
+\end{definition}
+
+From now on we refer to the group just using \(G\), the set itself.
+
+\begin{proposition}[Inverses are Unique]
+    \label{prop:inverses-unique}%
+    Inverses are unique.
+\end{proposition}
+
+\begin{proof}
+    Left as an exercise. Outline: let \(a \in G\) have inverses \(x, y \in G\), and we expand \(x \cdot a \cdot y\) in different ways.
+\end{proof}
+
+\begin{definition}[Subgroup]
+    \label{def:subgroup}%
+    If \(G\) is a group, and \(H \subseteq G\) is a subset of \(G\), then we say \(H\) is a \emph{subgroup} of \(G\), if the following three conditions hold:
+    \begin{itemize}
+        \item \emph{Identity.} \(e \in H\);
+        \item \emph{Closure.} For any \(a, b \in H\), we have \(a \cdot b \in H\).
+        \item \emph{Inverses.} For every \(h\in H\), its inverse \(h^{-1}\) belongs to \(H\).
+    \end{itemize}
+\end{definition}
+
+With the restricted operation, associativity is inherited from $G$. The three conditions above therefore make $H$ a group with identity $e$.
+
+\begin{proposition}[Condition on Subgroup]
+    \label{prop:condition-subgroup}%
+    A \emph{non-empty} subset \(H \subseteq G\) is a subgroup if and only if for all \(h_1, h_2 \in H\), the product \(h_1 h_2\inverse \in H\).
+\end{proposition}
+
+\begin{proof}
+    Left as an exercise.
+\end{proof}
+
+\begin{definition}[Abelian Group]
+    \label{def:abelian-groups}%
+    A group \(G\) is \emph{abelian} if for all \(g_1, g_2 \in G\), we have \(g_1 g_2 = g_2 g_1\).
+\end{definition}
+
+We can classify all finitely-generated abelian groups: in fact they are just direct products of cyclic groups. However, the proof involves a result towards the end of this course (finite-generate modules over principal ideal domain) --- and this result implies Jordan Canonical Form's existence as well!
+
+\begin{examples}[Examples of Groups]
+    \label{ex:examples-of-groups}%
+    \(\pqty{\ZZ, +, 0}, \pqty{\QQ, +, 0}, \RR, \CC, \flatfrac{\ZZ}{n \ZZ}\) are examples of number groups.
+
+    The permutations/symmetries (bijections) of \(\Bqty{1, 2, \ldots, n}\) under composition, form a group called the symmetric group, written as \(S_n\).
+    
+    More generally, for \emph{any} set \(X\) (which could be infinite/uncountable), there is a group \(\Sym\pqty{X}\) defined in the same way.
+
+    The \emph{dihedral group} \(D_{2n}\) is the group of symmetries of a regular \(n\)-gon.
+
+    If we label the \(6\) vertices of the hexagon as \(1, 2, \ldots, 6\), then we see that element in \(D_{12}\) in fact \emph{permutes} the elements -- so in some sense, \(D_{12} \subseteq S_6\), and we will see that it means there is some \emph{injective} homomorphism from \(D_{12}\) to \(S_6\).
+
+    The \emph{general linear group over \(\RR\)}, denoted \(\GL\pqty{n, \RR}\) or \(\GL_n\pqty{\RR}\), is
+    \begin{align*}
+        \GL\pqty{n, \RR} &= \set{\functiondomain{f}{\RR^n}{\RR^n}}{f \text{ is a }\RR\text{--linear bijection}} \subseteq \Sym\pqty{\RR^n} \\
+        &= \Bqty{n \times n \emph{ invertible matrices over }\RR}.
+    \end{align*}
+
+    We have some examples of subgroups:
+    \begin{itemize}
+        \item The even permutations in \(S_n\) form the \emph{alternating group} \(A_n \subgroup S_n\).
+        \item The rotational symmetries of an \(n\)-gon as \(C_n \subgroup D_{2n}\).
+        \item The determinant-\(1\) matrices \(\SL\pqty{n, \RR} \subgroup \GL\pqty{n, \RR}\).
+    \end{itemize}
+
+    Other nice examples include \(C_2 \times C_2\) and the group
+    \[
+        Q_8 = \set{\pm 1, \pm i, \pm j, \pm k}{ij = k, ji = -k, i^2 = j^2 = k^2 = -1, \pqty{-1}^2 = 1}.
+    \]
+\end{examples}
+
+\begin{definition}[Coset]
+    \label{def:coset}%
+    Let \(G\) be a group and  \(g \in G\). Let \(H \subgroup G\) be a subgroup.
+    
+    The \emph{left-coset} \(gH\) is defined as
+    \[
+        gH = \set{x \in G}{x = gh \text{ for some } h \in H}.
+    \]
+\end{definition}
+
+Since \(e \in H\), we know for certain \(g \in gH\). Therefore, we have the cosets \(gH\) partition \(G\), meaning the cosets intersect trivially (no overlaps), and the union of cosets is \(G\).
+
+Furthermore, the map
+\[
+    \function{f}{H}{gH}{h}{gh}
+\]
+defines a bijection between \(H\) and \(gH\).
+
+\begin{theorem}[Lagrange]
+    \label{thm:lagrange}%
+    If \(G\) is a finite group and \(H \subgroup G\), then
+    \[
+        \abs{G} = \abs{H} \cdot \abs{G : H},
+    \]
+    where \(\abs{G : H}\) is the \emph{index of \(H\) in \(G\)}, the number of cosets of \(H\) in \(G\).
+\end{theorem}
+
+\begin{definition}[Order of an Element]
+    \label{def:order-of-element}%
+    Let \(G\) be a group and \(g \in G\). The \emph{order} of \(g\) is the smallest positive integer \(n \in \NN\) such that \(g^n = e\).
+
+    By convention, if no such \(n\) exists, we take \(n = \infty\).
+
+    We denote this as \(\ord\pqty{g}\).
+\end{definition}
+
+\begin{proposition}[Order of Element divides Order of Group]
+    \label{prop:order-of-element-divides-order-of-group}%
+    Let \(g \in G\). Then \(\ord\pqty{g}\) divides \(\abs{G}\).
+\end{proposition}
+
+\begin{proof}
+    Let \(g \in G\), and considering the subset
+    \[
+        H = \Bqty{e, g, g^2, \ldots, g^{n - 1}}
+    \]
+    where \(n = \ord\pqty{g}\). (If \(\ord\pqty{g} = \infty\), there is nothing to prove.)
+
+    \(H\) is a subgroup: since \(e \in H\), we have \(H \neq \emptyset\), hence we can apply subgroup test
+    \[
+        g^r \cdot g^{-s} = g^{r - s}
+    \]
+    lies in \(H\). (We may need to make \(r - s\) positive, but since \(g^n = e\), this is fine.)
+
+    Note the elements of \(H\) are distinct: if \(g^{i} = g^{j}\) for \(i \neq j\), and \(0 \leq i < j < n\), then \(g^{j - i} = e\), contradicting with the minimality of \(n\).
+
+    This is now a corollary of \autoref{thm:lagrange} (Lagrange's Theorem).
+\end{proof}
+
+\section{Normal Subgroups, Quotients, and Homomorphisms}
+
+Let \(H \subgroup G\), when are two cosets of \(H\) in \(G\) equal?
+
+If \(gH = g' H\), then \(g \in g' H\), so we can write \(g = g' h\) for some \(h \in H\). Hence, \(\pqty{g'}\inverse g \in H\). The argument is reversible.
+
+Therefore, we have
+\[
+    gH = g' H \iff \pqty{g'}\inverse g \in H.
+\]
+
+We denote the set of \emph{left-cosets} of \(H \subgroup G\) by
+\[
+    \flatfrac{G}{H} = \set{gH}{g \in G},
+\]
+and such set \emph{always exists} -- the normality of \(H\) in \(G\) gives this set a well-defined algebraic structure.
+
+The next question is, if \(\flatfrac{G}{H}\) carry a \emph{natural} group structure? A natural way to define a group operation is such that
+\[
+    g_1 H \cdot g_2 H = \pqty{g_1 g_2} H.
+\]
+
+But note this formula may depend on the way in which we write the cosets \(g_1 H\) and \(g_2 H\), i.e. the choice of the particular elements \(g_1, g_2 \in G\).
+
+If \(g_2 H = g_2' H\), then by previously, \(g_2' = g_2 h\) for some \(h \in H\). Therefore, we have
+\[
+    g_1 H \cdot g_2' H = \pqty{g_1 g_2' H} = g_1 g_2 h H = g_1 g_2 H,
+\]
+so this is fine. However, if \(g_1 H = g_1' H\), then \(g_1' = g_1 h\) for some \(h \in H\). We need
+\[
+    g_1 g_2 H = g_1 h g_2 H.
+\]
+
+But this is not necessarily true for all subgroups \(H \subgroup G\) and \(g_1, g_2 \in G\). It is certainly true for abelian groups -- but there is a weaker equivalent condition for this hold to hold, i.e.,
+\[
+    g_2 \inverse h g_2 \in H,
+\]
+for all \(h \in H\) and \(g_2 \in G\), in order for the proposed rule to define a well-defined group structure.
+
+\begin{definition}[Normality]
+    \label{def:normality}%
+    A subgroup \(H \subgroup G\) is \emph{normal}, if for all \(g \in G\), and \(h \in H\), we have \(g h g \inverse \in H\). We denote this as \(H \normalsub G\).
+\end{definition}
+
+\begin{definition}[Quotient Group]
+    \label{def:quotient-group}%
+    When \(H \normalsub G\), then \(\flatfrac{G}{H}\) does inherit a group structure by the rule above. We refer to this as the \emph{quotient group of \(G\) by \(H\)}, where the identity is \(H\).
+\end{definition}
+
+We recall the definition of a homomorphism in group theory.
+
+\begin{definition}[Group Homomorphism]
+    \label{def:group-homomorphism}%
+    Let \(G\) and \(H\) be groups. A \emph{homomorphism} from \(G\) to \(H\) is a function \(\functiondomain{f}{G}{H}\), such that for all \(g_1, g_2 \in G\),
+    \[
+        f\pqty{g_1 g_2} = f\pqty{g_1} f\pqty{g_2}.
+    \]
+\end{definition}
+
+It follows that we must have \(f\pqty{e_G} = e_H\) by calculating \(f\pqty{e_G \cdot e_G} = f\pqty{e_G}\).
+
+\begin{lemma}[Group Homomorphisms Respect Inverses]
+    \label{lem:group-homomorphisms-inverses}%
+    If \(\functiondomain{f}{G}{H}\) is a homomorphism, then \(f\pqty{g\inverse} = f\pqty{g}\inverse\).
+\end{lemma}
+
+\begin{proof}
+    We find \(f\pqty{g g\inverse}\) in two ways. First, note
+    \[
+        f\pqty{g g\inverse} = f\pqty{e_G} = e_H.
+    \]
+
+    On the other hand, we have
+    \[
+        f\pqty{g g\inverse} = f\pqty{g} f\pqty{g \inverse},
+    \]
+    which shows that
+    \[
+        f \pqty{g} f\pqty{g \inverse} = e_H.
+    \]
+
+    The result follows from the uniqueness of inverses.
+\end{proof}
+
+In other words, \emph{homomorphism are maps between groups that preserve the group structure}.
+
+\begin{definition}[Kernel, Image]
+    \label{def:group-homomorphism-kernel-image}%
+    Let \(\functionmap{f}{G}{H}\) be a homomorphism. The \emph{kernel} of \(f\) is given by
+    \[
+        \ker \pqty{f} = \set{g \in G}{f\pqty{g} = e_H}
+    \]
+    and the \emph{image} of \(f\) is given by
+    \[
+        \img \pqty{f} = \set{h \in H}{\exists g \in G: f\pqty{g} = h}.
+    \]
+\end{definition}
+
+\begin{proposition}[Kernels are Normal Subgroups, Images are Subgroups]
+    \label{prop:kernel-normal-subgroup-image-subgroup}%
+    Let \(\functiondomain{f}{G}{H}\) be a homomorphism. Then \(\ker\pqty{f} \normalsub G\) and \(\img\pqty{f} \subgroup H\).
+\end{proposition}
+
+\begin{proof}
+    Observe \(e \in \ker\pqty{f}\) so \(\ker\pqty{f} \neq \emptyset\). Now, if \(x, y \in \ker\pqty{f}\), then
+    \[
+        f\pqty{x y \inverse} = f\pqty{x} \cdot f\pqty{y}\inverse = e \cdot e\inverse = e
+    \]
+    so \(x y \inverse \in \ker \pqty{f}\). This shows \(\ker \pqty{f} \subgroup G\).
+
+    As for the normality, let \(x \in G\) and \(g \in \ker \pqty{f}\). We calculate
+    \[
+        f\pqty{x g x\inverse} = f\pqty{x} f\pqty{g} f\pqty{x}\inverse = f\pqty{x} f\pqty{x}\inverse = e
+    \]
+    so \(x g x\inverse \in \ker \pqty{f}\). This concludes that \(\ker \pqty{f} \normalsub G\).
+
+    For the image \(\img \pqty{f}\), observe that if \(a, b \in \img\pqty{f}\), say \(a = f\pqty{x}\) and \(b = f\pqty{y}\) for \(x, y \in G\), then we have
+    \[
+        a b \inverse = f\pqty{x} f\pqty{y}\inverse = f\pqty{x y \inverse} \in \img \pqty{f}
+    \]
+    and note \(e \in \img \pqty{f}\), so \(\img \pqty{f} \subgroup H\) indeed.
+\end{proof}
+
+\begin{remark}
+    For \(H \normalsub G\), observe that
+    \[
+        \function{q_H}{G}{\flatfrac{G}{H}}{g}{gH}
+    \]
+    is a homomorphism.
+\end{remark}
+
+\begin{definition}[Group Isomorphism]
+    \label{def:group-isomorphism}%
+    A group homomorphism \(\functiondomain{f}{G}{H}\) is an \emph{isomorphism} when it is a bijection. Two groups are said to be \emph{isomorphic} if there exists an isomorphism between them, denoted as \(G \isomorphic H\).
+\end{definition}
+
+\begin{theorem}[First Isomorphism Theorem for Groups]
+    \label{thm:first-isomorphism-theorem-groups}%
+    Let \(\functiondomain{f}{G}{H}\) be a homomorphism. Then \(\ker \pqty{f}\) is normal in \(G\), and the homomorphism 
+    \[
+        \function{\phi}{\flatfrac{G}{\ker \pqty{f}}}{\img \pqty{f}}{g \ker \pqty{f}}{f\pqty{g}}
+    \]
+    is an isomorphism. In particular,
+    \[
+        \flatfrac{G}{\ker \pqty{f}} \isomorphic \img \pqty{f}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    We have already shown the normality part previously.
+
+    We first show \(\phi\) is well-defined. Indeed, if \(g \ker f = g' \ker f\), then \(g' g\inverse \in \ker \pqty{f}\), so \(f\pqty{g' g\inverse} = e\). This gives \(f\pqty{g} = f\pqty{g'}\).
+
+    For the surjectivity of \(\phi\), let \(h \in \img \pqty{f}\), then \(h = f \pqty{g}\) for some \(g \in G\), and hence \(h = \phi\pqty{g \ker f}\).
+
+    For the injectivity of \(\phi\), if \(\phi\pqty{g \ker f} = \phi\pqty{g' \ker f}\), then \(f\pqty{g} = f\pqty{g'}\), which shows that \(g' g\inverse \in \ker f\). So \(g \ker f = g' \ker f\) and this gives injectivity.
+\end{proof}
+
+\begin{example*}[Multiplicative Group of \(\CC\)]
+    Consider the homomorphism
+    \[
+        \function{\exp}{\CC}{\CC\multiplicative}{z}{e^z.}
+    \]
+    
+    The kernel of \(\exp\) is \(2\pi i \ZZ\), so the first isomorphism theorem shows that
+    \[
+        \CC\multiplicative \isomorphic \flatfrac{\CC}{2\pi i \ZZ}.
+    \]
+\end{example*}
+
+\begin{theorem}[Second Isomorphism Theorem for Groups]
+    \label{thm:second-isomorphism-theorem-groups}%
+    Let \(H \subgroup G\) and \(K \normalsub G\). Then
+    \[
+        HK = \set{hk}{h \in H, k \in K}
+    \]
+    is a subgroup of \(G\), and \(H \cap K\) is normal in \(H\), then there is an isomorphism
+    \[
+        \flatfrac{HK}{K} \isomorphic \flatfrac{H}{H \cap K}.
+    \]
+\end{theorem}
+
+This theorem might seem unnatural at first, but the idea is as follows. We not only want to be able to take the quotient of the original group \(G\) with some normal subgroup \(K \normalsub G\) -- we want to take the quotient with \emph{any} subgroup \(H \subgroup G\), i.e., `\(\flatfrac{H}{K}\)'. But the problem is, \(K\) might not be entirely contained in \(H\). The above two quotients are both choices to make when we take such quotients, and what the theorem states is that they are in fact both isomorphic, to the `quotient'
+\[
+    \set{hK}{h \in H} \subgroup \set{gK}{g \in G} = \flatfrac{G}{K}.
+\]
+
+\begin{proof}
+    We first show \(HK\) is a subgroup. It certainly contains \(e = e \cdot e \in HK\) so it is non-empty. Let \(x = hk\) and \(y = h' k'\) for \(x, y \in HK\). We show that \(y x \inverse HK\). Observe that indeed
+    \begin{align*}
+        y x \inverse &= \pqty{h' k'}{h k}\inverse \\
+        &= h' k' k \inverse h\inverse \\
+        &= \pqty{h' h\inverse} h \pqty{k' k\inverse} h\inverse \\
+        &= \pqty{h' h\inverse} k'' \\
+        &\in HK,
+    \end{align*}
+    where \(k'' = h \pqty{k' k\inverse} h\inverse \in K\) since \(K \normalsub G\).
+
+    Consider the homomorphism
+    \[
+        \function{\phi}{H}{\flatfrac{G}{H}}{h}{hK}
+    \]
+    by restricting the quotient map. The kernel is
+    \[
+        \ker \phi = H \cap K.
+    \]
+
+    We apply the \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups) to \(\phi\), then we have
+    \[
+        \img \phi \isomorphic \flatfrac{H}{\ker \phi} = \flatfrac{H}{H \cap K}.
+    \]
+
+    Now, \(\img \phi\) is the set of \(K\)-cosets in \(G\) that are representable by elements of \(H\), i.e.
+    \[
+        \set{hK}{h \in H} \subseteq \flatfrac{G}{K}
+    \]
+    which is precisely \(\flatfrac{HK}{K}\). This finishes the proof.
+\end{proof}
+
+\begin{remark}[Correspondence between subgroups of \(\flatfrac{G}{K}\) and \(G\)]
+    Let \(\functiondomain{\phi}{G}{\flatfrac{G}{K}}\), the quotient map. There is a bijection between
+    \[
+        \Bqty{\text{subgroups of }\flatfrac{G}{K}},
+    \]
+    and
+    \[
+        \Bqty{\text{subgroups of }G\text{ that contain }K}.
+    \]
+
+    Given \(K \normalsub L \subgroup G\), we map this to
+    \[
+        L \mapsto \phi\pqty{L} = \flatfrac{L}{K} \subgroup \flatfrac{G}{K}.
+    \]
+
+    Conversely, let \(A \subgroup \flatfrac{G}{K}\), we map this to
+    \[
+        \set{g \in G}{gK \in A} = \phi\inverse\pqty{A} \mapsfrom A.
+    \]
+
+    Note that
+    \begin{enumerate}
+        \item The fact that these are inverses is a tedious but straightforward check;
+        \item The correspondence above matches \emph{normal} subgroups on the two sides (again, straightforward check).
+    \end{enumerate}
+\end{remark}
+
+\begin{theorem}[Third Isomorphism Theorem for Groups]
+    \label{thm:third-isomorphism-theorem-groups}%
+    Let \(K \subgroup L \subgroup G\) be normal subgroups of \(G\). Then there exists an isomorphism
+    \[
+        \flatfrac{\pqty{\flatfrac{G}{K}}}{\pqty{\flatfrac{L}{K}}} \isomorphic \flatfrac{G}{L}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Define a map
+    \[
+        \function{\phi}{\flatfrac{G}{K}}{\flatfrac{G}{L}}{gK}{gL}.
+    \]
+
+    This map is well-defined. Indeed, if \(gK = g'K\), then we know \(g' g\inverse \in L \subseteq L\), so \(gL = g'L\).
+
+    This is clearly a homomorphism by basic algebra. We now calculate the kernel, which is
+    \[
+        \ker \phi = \set{gK}{gL = L} = \set{gK}{g \in L} = \flatfrac{L}{K}.
+    \]
+
+    This finishes the proof by \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups).
+\end{proof}
+
+We often study groups by taking quotients of normal subgroups -- but this only works for groups with \emph{non-trivial} normal subgroups.
+
+\begin{definition}[Simplicity]
+    \label{def:simplicity}%
+    A group \(G\) is called \emph{simple} if the only normal subgroups of \(G\) are \(G\) and \(\Bqty{e}\).
+\end{definition}
+
+\begin{proposition}[Simplicity Condition of Abelian Groups]
+    \label{prop:abelian-group-simplicity}%
+    Let \(G\) be an abelian group. Then \(G\) is simple if and only if \(G \isomorphic C_p\) for some prime \(p\).
+\end{proposition}
+
+\begin{proof}
+    If \(G \isomorphic C_p\), then any non-identity element generates \(G\) (by \autoref{thm:lagrange} (Lagrange's Theorem)). So \(G\) is simple.
+
+    Conversely, if \(G\) is simple and abelian, take \(g \in G\) which is not in the identity. We look at the subgroup generated by \(g\), which is
+    \[
+        \angBrac{g} = \set{g^n}{n \in \ZZ}
+    \]
+
+    This is a subgroup of \(G\), and since \(G\) is abelian, the normality is automatic. Therefore, this subgroup must be \(G\) itself.
+
+    If \(G\) is an infinite cyclic group, then \(G \isomorphic \ZZ\) which is not simple, for example \(2\ZZ \subgroup \ZZ\).
+
+    If \(G\) is finite of order \(n\), say \(G \isomorphic C_m\). If \(q \divides m\) for any \(q\), take the subgroup generated by \(g^{\frac{m}{q}}\), where \(g\) generates \(G\). Normality is then automatic. Therefore, \(q = 1\) or \(m\) by simplicity, so \(m\) is prime.
+\end{proof}
+
+\begin{theorem}
+    \label{thm:infinite-chain-normal-subgroup}%
+    Let \(G\) be a finite group. Then there exist subgroups
+    \[
+        G = H_1 \normalsup H_2 \normalsup H_3 \normalsup \cdots \normalsup H_n = \Bqty{e}
+    \]
+    such that \(\flatfrac{H_i}{H_{i + 1}}\) is simple.
+\end{theorem}
+
+\begin{proof}
+    If \(G\) is simple, take \(H_2 = \Bqty{e}\), and we are done.
+
+    Otherwise, let \(H_2\) be a proper normal subgroup of maximal order in \(G\). We claim that \(\flatfrac{G}{H_2}\) is simple. If not, consider the quotient map
+    \[
+        \functiondomain{\pi}{G}{\flatfrac{G}{H_2}}.
+    \]
+
+    Indeed, if \(\flatfrac{G}{H_2}\) is a proper normal subgroup, by the correspondence, we can find such a proper normal subgroup in \(G\) that contains \(H_2\). This contradicts with the maximality of the order of \(\abs{H_2}\).
+
+    We simply repeat the argument to find \(H_3, H_4, \ldots\). Note that \(H_{i + 1} \neq H_i\), and hence \(\abs{H_{i + 1}} \lneq \abs{H_i}\), so the process terminates.
+\end{proof}
+
+\begin{remark}
+    We also have another infinite class of finite simple groups, that \(A_m\) for \(m \geq 5\) are all simple. We will prove this shortly.
+\end{remark}
+
+\section{Group Actions and Permutations}
+
+\begin{definition}[Symmetric Group]
+    \label{def:symmetric-group}
+    Let \(X\) be a set, and \(\Sym\pqty{X}\) be the set of permutations of \(X\)
+    \[
+        \Sym\pqty{X} = \set{\functiondomain{f}{X}{X}}{f\text{ is bijection}},
+    \]
+    equipped with the identity as the identity function. For \(f, g \in \Sym\pqty{X}\), we define the group operation as composition. This gives the \emph{symmetric group} of \(X\).
+    
+    If \(\bqty{n} = \Bqty{1, 2, \ldots, n}\), then we write \(\Sym\pqty{\bqty{n}} = S_n\).
+\end{definition}
+
+Recall from IA Groups, that it is often convenient to write \(\sigma \in S_n\) as a product of disjoint cycles. Furthermore, every \(\sigma \in S_n\) is a product of transpositions, and the number of such transpositions needed, although not fixed, has some `invariant', and is related to the \emph{sign} of \(\sigma\).
+
+\begin{definition}[Sign of Permutation]
+    \label{def:sign-of-permutation}%
+    The \emph{sign} of a permutation is defined as
+    \[
+        \function{\sign}{S_n}{\Bqty{\pm 1}}{\sigma}{\sign\pqty{\sigma} = \begin{cases}
+            1, & \sigma \text{ is a product of an even number of transpositions}, \\
+            -1, & \sigma \text{ is a product of an odd number of transpositions}.
+        \end{cases}}
+    \]
+\end{definition}
+
+We observe that \(\sign\) is a homomorphism, and it is surjective (onto) when \(n \geq 2\).
+
+Let \(X\) be a set and \(G\) be a group. We contemplate a homomorphism \(G \to \Sym\pqty{X}\). This is called a \emph{permutation representation} of \(G\).
+
+\begin{definition}[Action]
+    An \emph{action} of a group \(G\) on a set \(X\) is a function
+    \[
+        \function{\alpha}{G \times X}{X}{\pqty{g, x}}{g \ast x}
+    \]
+    satisfying
+    \begin{itemize}
+        \item \(e \ast x = x\) for all \(x \in X\);
+        \item \(\pqty{g_1 \cdot g_2} \ast x = g_1 \ast \pqty{g_2 \ast x}\) for all \(g_1, g_2 \in G\) and all \(x \in X\).
+    \end{itemize}
+\end{definition}
+
+We denote this as \(G \actson X\).
+
+Now, we think of the relation between
+\[
+    H = \Bqty{\text{Homomorphisms } G \to \Sym\pqty{X}} \qand \Bqty{\text{Actions } G \actson X} = A.
+\]
+
+These are just sets. But we are going to define some relationship between them. Let
+\[
+    \function{a}{H}{A}{
+        \functiondomain{f}{G}{\Sym\pqty{X}}}{
+            \function{a\pqty{\phi}}{G\times X}{X}{\pqty{g, x}}{\pqty{\phi\pqty{g}}\pqty{x}.}
+        }
+\]
+
+Note that \(a\pqty{\phi}\) is a group action by the homomorphism property, so this is a well-defined map.
+
+\begin{proposition}[Bijection between Permutation Representaion and Actions]
+    \label{prop:permutation-representation-actions}%
+    The map \(a\) defined above is a bijection.
+\end{proposition}
+
+\begin{proof}
+    We just construct an inverse map to \(a\). Let \(\functiondomain{\ast}{G \times X}{X}\) be an action. We map this to
+    \[
+        \function{\phi}{G}{\Sym\pqty{X}}{g}{\function{\phi\pqty{g}}{X}{X}{x}{g \ast x}.}
+    \]
+
+    We denote this as \(\phi\pqty{g} = g \ast - : X \to X\)
+
+    Now, we claim that \(\pqty{g\inverse} \ast -: X \to X\) is the inverse, since
+    \begin{align*}
+        \pqty{\phi\pqty{g\inverse} \circ \phi\pqty{g}} \pqty{x} &= \phi\pqty{g\inverse} \pqty{\phi\pqty{g} \pqty{x}} \\
+        &= g\inverse \ast \pqty{g \ast x} \\
+        &= \pqty{g\inverse \cdot g} \ast x \\
+        &= e \ast x \\
+        &= x
+    \end{align*}
+    so \(\phi\pqty{g\inverse} \circ \phi\pqty{g} = \identity_X\).
+
+    Similarly,
+    \[
+        \phi\pqty{g} \circ \phi\pqty{g\inverse} = \identity_X,
+    \]
+    which shows that \(\phi\pqty{g}\) is indeed \(\Sym\pqty{X}\).
+
+    To see \(\phi\) is indeed is a homomorphism, we see
+    \begin{align*}
+        \phi\pqty{g_1} \circ \phi\pqty{g_2} \pqty{x} &= \phi\pqty{g_1} \pqty{\phi\pqty{g_2} \pqty{x}} \\
+        &= g_1 \ast \pqty{g_2 \ast x} \\
+        &= \pqty{g_1 g_2} \ast x \\
+        &= \phi\pqty{g_1 g_2} \pqty{x}
+    \end{align*}
+    for all \(x \in X, g_1, g_2 \in G\), so we indeed have that \(\phi\pqty{g_1 g_2} = \phi\pqty{g_1} \circ \phi\pqty{g_2}\).
+\end{proof}
+
+\begin{notation}
+    For an action \(G \actson X\) given by the homomorphism \(\functiondomain{\phi}{G}{\Sym\pqty{X}}\), we denote
+    \begin{align*}
+        G^X &= \img \pqty{\phi} \subgroup \Sym\pqty{X}, \\
+        G_X &= \ker \pqty{\phi} \normalsub G.
+    \end{align*}
+\end{notation}
+
+By \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups), we have
+\[
+    G^X \isomorphic \flatfrac{G}{G_X}.
+\]
+
+\begin{figure}[ht!]
+    \centering
+    \par The four body diagonals of the cube with vertices $(\pm1,\pm1,\pm1)$ join each vertex to its negative; each pair is counted once.\par
+    \caption{Cube and its Diagonals}
+    \label{fig:cube-diagonals}
+\end{figure}
+
+\begin{example}[Symmetry of the Cube]
+    \label{ex:symmetry-of-cube}
+    Let \(G\) be the symmetry group of the cube, and let \(X\) be the set of diagonals (between opposite vertices), as in \autoref{fig:cube-diagonals}. Then \(G \actson X\).
+
+    Consider the associated  homomorphism \(\functiondomain{\phi}{G}{\Sym\pqty{X} \isomorphic S_4}\).
+    
+    We first show that \(\img \pqty{\phi} \isomorphic S_4\), and this can be shown by showing the transpositions lie in the image. This is trivial and left as an exercise.
+
+    Now, consider the kernel of this map. There are two maps that keeps the diagonal unchanged: one is trivial (the identity), and one is which sends every vertex to its opposite. This means \(\ker \pqty{\phi} \isomorphic C_2\).
+
+    Hence, we have
+    \[
+        \abs{G} = \abs{S_4} \cdot \abs{C_2} = 48
+    \]
+    by \autoref{thm:lagrange} (Lagrange's Theorem) and \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups).
+\end{example}
+
+\begin{example}[Cayley's Theorem]
+    \label{ex:cayley-theorem}%
+    For any group \(G\), we can write \(G\) act on (the underlying set) \(G\) by
+    \[
+        \function{\alpha}{G \times G}{G}{\pqty{g_1, g_2}}{g_1 g_2.}
+    \]
+
+    This induces a homomorphism \(\functiondomain{\phi}{G}{\Sym\pqty{G}}\). The kernel is
+    \[
+        \ker\pqty{\phi} = \set{g \in G}{g \cdot g_1 = g_1 \text{ for all }g_1 \in G} = \Bqty{e}.
+    \]
+
+    So we have \(\phi\) is injective, and hence \(G\) is some subgroup of \(\Sym\pqty{G}\) by \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups).
+
+    This tells us that the symmetric group is \emph{very} complicated!
+\end{example}
+
+\begin{example}[Left-Multiplication on Cosets and its Kernel]
+    \label{ex:left-multiplation-cosets}%
+    Let \(H \subgroup G\) and \(X = \flatfrac{G}{H}\). Let \(G \actson X\) by
+    \[
+        \function{\alpha}{G \times \flatfrac{G}{H}}{\flatfrac{G}{H}}{\pqty{g, g_1 H}}{\pqty{g \cdot g_1} H}.
+    \]
+
+    We get the corresponding homomorphism \(\functiondomain{\phi}{G}\Sym\pqty{X}\). Trivially, we have \(\ker\pqty{\phi} \subseteq H\).
+
+    But we have more to this. If \(g \in \ker \pqty{\phi}\), then
+    \[
+        g \cdot g_1 H = g_1 H
+    \]
+    for \emph{all} \(g_1 \in G\). Therefore,
+    \[
+        g_1 \inverse g g_1 \in H,
+    \]
+    so
+    \[
+        \ker\pqty{\phi} \subseteq \bigcap_{g_1 \in G} g_1 H g_1 \inverse.
+    \]
+
+    This argument is however, indeed, reversible: if
+    \[
+        g \in \bigcap_{g_1 \in G} g_1 H g_1 \inverse,
+    \]
+    then for each \(g_1 \in G\), we have
+    \[
+        g_1 \inverse g g_1 \in H,
+    \]
+    which means
+    \[
+        g g_1 H = g_1 H
+    \]
+    which means \(g \in \ker\pqty{\phi}\).
+
+    In other words, we have
+    \[
+        \ker\pqty{\phi} = \bigcap_{g_1 \in G} g_1 H g_1 \inverse.
+    \]
+
+    In the special case where \(H \normalsub G\), then \(\ker\pqty{\phi} = H\). But in the general case, the right-hand side is an intersection of subgroups, which induce a normal subgroup!
+\end{example}
+
+\begin{theorem}[Normal Subgroup in Subgroup]
+    \label{thm:normal-subgroup-contained-in-subgroup}%
+    Let \(G\) be finite and \(H \subgroup G\) of index \(n\). Then there exists a normal subgroup \(K \normalsub G\) which also satisfies \(K \subgroup H\), such that \(\flatfrac{G}{K}\) is isomorphic to  a subgroup of \(S_n\). Thus, \(\abs{\flatfrac{G}{K}}\) divides \(n!\) and \(\abs{\flatfrac{G}{K}} \geq n\).
+\end{theorem}
+
+\begin{proof}
+    Consider \(\functiondomain{\phi}{G}{\Sym\pqty{\flatfrac{G}{H}}}\) induced by the action considered in \autoref{ex:left-multiplation-cosets}. The kernel is normal in \(G\), and we let \(K = \ker \pqty{\phi}\). We have already shown it is contained in \(H\).
+
+    By \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups), we have
+    \[
+        \flatfrac{G}{K} \isomorphic \img \pqty{\phi} \subgroup \Sym\pqty{\flatfrac{G}{H}} \isomorphic S_n.
+    \]
+
+    \autoref{thm:lagrange} (Lagrange's Theorem) gives \(\abs{\flatfrac{G}{H}} \divides n!\), and \(K \subgroup H\), so \(\abs{\flatfrac{G}{K}} \geq \abs{\flatfrac{G}{H}} = n\).
+\end{proof}
+
+\begin{corollary}[Non-Abelian Simple Groups]
+    \label{cor:non-abelian-simple-group}%
+    Let \(G\) be a non-abelian simple group. Let \(H \subgroup G\) be a proper subgroup with index \(n > 1\). Then \(G\) is isomorphic to a subgroup of \(A_n\), where \(n \geq 5\).
+\end{corollary}
+
+\begin{proof}
+    We consider the same action \(G \actson \flatfrac{G}{X}\) by left-multiplication, and the homomorphism induced
+    \[
+        \functiondomain{\phi}{G}{\Sym\pqty{\flatfrac{G}{H}} \isomorphic S_n}.
+    \]
+
+    We look at its kernel. Since \(\ker \phi \normalsub G\), and \(G\) is simple, there are only two possibilities: \(\ker \phi = \Bqty{e}\) or \(\ker \phi = G\).
+
+    But since \(\ker \phi \subgroup H\), and \(H\) is a proper subgroup, we have \(\ker \phi = \Bqty{e}\), so the homomorphism is injective, and by \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups),
+    \[
+        G \isomorphic \img \pqty{\phi} \subgroup \Sym\pqty{\flatfrac{G}{H}} \isomorphic S_n.
+    \]
+
+    For simplicity of notation, identify \(G\) with \(\img \pqty{\phi}\) and \(\Sym\pqty{\flatfrac{G}{H}}\) with \(S_n\). We know that
+    \[
+        G \subgroup S_n
+    \]
+    and we in fact want \(G \subgroup A_n\), i.e., \(G \cap A_n = G\).
+
+    Since \(A_n \normalsub S_n\), we must have \(A_n \cap G \normalsub G\). This is by \autoref{thm:second-isomorphism-theorem-groups} (Second Isomorphism Theorem for Groups). But \(G\) is simple, so \(G \cap A_n = \Bqty{e}\), or \(G \cap A_n = G\).
+
+    We need to rule out the case where \(G\) intersects \(A_n\) trivially. To see this, again, using \autoref{thm:second-isomorphism-theorem-groups} (Second Isomorphism Theorem for Groups), if \(G \cap A_n = \Bqty{e}\), we see that
+    \[
+        G \isomorphic \flatfrac{G}{G \cap A_n} \isomorphic \flatfrac{G A_n}{A_n} \leq \flatfrac{S_n}{A_n} \isomorphic C_2,
+    \]
+    but this is stupid since \(G\) is non-abelian.
+
+    We last directly verify that \(S_1\) and \(S_2\) are abelian, and \(S_3\) and \(S_4\) has no non-abelian simple subgroup.
+\end{proof}
+
+\begin{definition}[Orbits, Stabalisers]
+    \label{def:orbits-stablisers}%
+    Let \(G \actson X\) be a group action. Let \(x \in X\).
+    
+    \begin{itemize}
+        \item The \emph{orbit} of \(x\), denoted as \(G x\), is defined to be
+        \[
+            G x = \set{gx}{g \in G} \subseteq x.
+        \]
+        \item The \emph{stabiliser}  of \(x\), denoted as \(G_x\),is defined to be
+        \[
+            \set{g \in G}{gx = x} \subgroup G.
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[Orbit--Stabiliser]
+    \label{thm:orbit-stabiliser}%
+    For \(G \actson X\) and \(x \in X\), the map \(\phi\) given as follows, is a bijection.
+
+    \[
+        \function{\phi}{Gx}{\flatfrac{G}{G_x}}{gx}{g G_x}
+    \]
+    
+    In particular, if \(G\) is finite, we have
+    \[
+        \abs{G} = \abs{Gx} \cdot \abs{G_x}.
+    \]
+\end{theorem}
+
+\section{Conjugacy, Centralisers and Normalisers}
+
+A group \(G\) can act on itself by conjugation as
+\[
+    \function{\ast}{G \times G}{G}{\pqty{g, h}}{g h g\inverse}.
+\]
+
+\begin{lemma}[Conjugation by Element gives Homomorphism from the Group to Itself]
+    \label{lem:conjugation-element-homomorphism-self}%
+    If we fix \(g \in G\), the permutation
+    \[
+        \function{\pi}{G}{G}{h}{ghg\inverse}
+    \]
+    gives a homomorphism from \(G\) to itself.
+\end{lemma}
+
+\begin{definition}[Automorphism, Automorphism Group]
+    \label{def:automorphism}%
+    Let \(G\) be a group. A permutation \(G \to G\) is an \emph{automorphism} if it is also a homomorphism.
+
+    The set of all automorphisms of \(G\) form a group, namely the \emph{automorphism group}, denoted as
+    \[
+        \Aut\pqty{G} = \set{\functiondomain{f}{G}{G}}{f \text{ is an automorphism}} \subgroup \Sym\pqty{G}.
+    \]
+\end{definition}
+
+\begin{example*}
+    Let \(G = \RR^2\) be under addition. Then \(\Aut\pqty{G} \supgroup \GL_2\pqty{\RR}\).
+\end{example*}
+
+\begin{notation}
+    The automorphisms given by conjugation action are called \emph{inner automorphisms}, denoted as \(\Inn\pqty{G}\). This is a normal subgroup of \(\Aut\pqty{G}\), and the quotient is the \emph{outer automorphism group}, denoted as \(\Out\pqty{G}\).
+\end{notation}
+
+\begin{definition}[Conjugation Class, Centraliser, Centre]
+    \label{def:ccl-centraliser-centre}%
+    Fix \(g \in G\). The \emph{conjugacy class} of \(g\) is the orbit under conjugation action, given by
+    \[
+        \ccl_G\pqty{g} = \set{hgh\inverse}{h \in G}.
+    \]
+
+    The \emph{centraliser} of \(g \in G\) is the stabiliser under conjugation action, given by
+    \[
+        C_G\pqty{g} = \set{h \in G}{h g h\inverse = g}.
+    \]
+
+    The \emph{centre} of \(G\) is the kernel of conjugation action, given by
+    \[
+        Z\pqty{G} = \set{z \in G}{\forall g \in G: zg = gz}.
+    \]
+\end{definition}
+
+\begin{proposition}[Size of Conjugacy Class]
+    \label{prop:size-conjugacy-class}%
+    Let \(G\) be a finite group. Then for all \(x \in G\), we have
+    \[
+        \abs{\ccl\pqty{x}} = \abs{G : C_G\pqty{x}} = \frac{\abs{G}}{\abs{C_G\pqty{x}}}.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Apply \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser Theorem).
+\end{proof}
+
+\begin{definition}[Normaliser]
+    \label{def:normaliser}%
+    Let \(H \subgroup G\). The \emph{normaliser} of \(H \in G\) is
+    \[
+        N_G \pqty{H} = \set{g \in G}{gHg\inverse = H}.
+    \]
+\end{definition}
+
+Observe that \(H \normalsub N_G\pqty{H}\), and in fact by definition, \(N_G\pqty{H}\) is the \emph{largest} subgroup of \(G\), inside which \(H\) is normal.
+
+\section{Simplicity of the Alternating Groups}
+
+Recall that a conjugacy class in \(S_n\) consists of the set of all elements of a fixed cycle type.
+
+\begin{example}
+    For example, all the \(\pqty{2, 3}\)-cycles in \(S_5\) form a conjugacy class.
+\end{example}
+
+\begin{theorem}[Simplicity of \(A_n\) for \(n \geq 5\)]
+    \label{thm:an-simple}%
+    Let \(n \geq 5\). Then \(A_n\) is simple.
+\end{theorem}
+
+\begin{proof}
+    There are three steps of the proof:
+    \begin{enumerate}
+        \item \(A_n\) is generated by \(3\)-cycles;
+        \item Any \(H \normalsub A_n\) that contains a \(3\)-cycle contains all of them;
+        \item Any non-trivial \(H \normalsub A_n\) does contain a \(3\)-cycle.
+    \end{enumerate}
+
+    It should be clear that the three statements combined gives the desired statement. Note in particular that the second statement is not trivial -- since we are working in \(A_n\), not \(S_n\).
+
+    \begin{proof}[\proofname\ of 1]
+        Any \(g \in A_n\) is a product of evenly-many transpositions. We consider pairs of transpositions, then this gives three possibilities:
+        \begin{itemize}
+            \item \(\perm{ab} \perm{ab} = e\).
+            \item \(\perm{ab} \perm{bc} = \perm{abc}\) is a \(3\)-cycle.
+            \item \(\perm{ab} \perm{cd} = \perm{acb} \perm{acd}\) is a product of \(3\)-cycles.
+        \end{itemize}
+    \end{proof}
+
+    \begin{proof}[\proofname\ of 2]
+        Any two \(3\)-cycles are conjugate when viewed in \(S_n\). Let \(\delta, \delta'\) be \(3\)-cycles, then we may write
+        \[
+            \delta' = \sigma \delta \sigma\inverse
+        \]
+        for \(\sigma \in S_n\). But observe that \(n \geq 5\), so there is some transposition \(\tau \in S_n\) disjoint from \(\delta\), which means it commutes with \(\delta\). Therefore,
+        \[
+            \delta' = \pqty{\sigma \tau} \delta \pqty{\tau\inverse \sigma\inverse} = \pqty{\sigma \tau} \delta \pqty{\sigma \tau}\inverse
+        \]
+        and hence \(\sigma \tau \in A_n\), showing \(\delta\) and \(\delta'\)are conjugate in \(A_n\).
+    \end{proof}
+
+    \begin{proof}[\proofname\ of 3]
+        Let \(H \normalsub A_n\) be non-trivial. There are several cases to consider.
+        \begin{enumerate}
+            \item If \(H\) contains an element with a cycle of length \(4\) or more in its decomposition, i.e., of the form \(\sigma = \perm{1 2 {\ldots} r} \tau\) for some \(\tau\) disjoint from \(\Bqty{1, 2, \ldots, r}\), and \(r \geq 4\). By the normality of \(H\), if \(\delta = \perm{1 2 3}\) then we have \(\delta\inverse \sigma \delta \in H\), and hence \(\sigma\inverse \delta\inverse \sigma \delta \in H\).
+            
+            Since \(\tau\) is disjoint with \(\Bqty{1, 2, 3}\) by assumption, it commutes with \(\delta\), and by assumption, also with \(\perm{1 2 {\ldots} r}\).
+
+            We now expand this product to get
+            \begin{align*}
+                \sigma\inverse \delta\inverse \sigma \delta &= \perm{r {\ldots} 2 1} \perm{1 3 2} \perm{1 2 {\ldots} r} \perm{1 2 3}\\
+                &= \perm{2 3 r},
+            \end{align*}
+            which gives a \(3\)-cycle.
+
+            \item If \(H\) contains an element with two or more cycles of length \(3\) in its decomposition, i.e., \(\sigma = \perm{1 2 3} \perm{4 5 6} \tau\), then we take \(\delta = \perm{1 2 4}\) and taking the similar expression \(\sigma \inverse \delta \inverse \sigma \delta\), which is a \(5\)-cycle, and we apply the first part.
+            
+            \item If \(H\) contains an element with only one cycle of length \(3\) in its decomposition, i.e., \(\sigma = \perm{1 2 3} \tau\) where \(\tau\) is a product of disjoint transpositions. If \(\tau\) contains anything more, then relabel and apply the first two parts. Then, we have
+            \[
+                \sigma^2 = \perm{1 2 3} \perm{1 2 3} = \perm{1 3 2}
+            \]
+            is indeed a \(3\)-cycle.
+
+            \item If elements of \(H\) are all made up of transpositions, i.e., \(\sigma = \perm{12} \perm{34} \tau\) where \(\tau\) is a product of transpositions. Let \(\delta = \perm{1 2 3}\) and let \(\mu = \sigma\inverse \delta\inverse \sigma \delta = \perm{14} \perm{23}\).
+            
+            Now, let
+            \[
+                \nu = \perm{1 5 2} \mu \perm{1 2 5} = \perm{1 3 4 5}.
+            \]
+
+            Since \(\mu \nu = \perm{1 2 3 4 5} \in H\), then \(H\) contains a \(3\)-cycle by the first part. 
+        \end{enumerate}
+
+        The proof then finishes by labelling \(\Bqty{1, 2, \ldots, n}\) with some permutation.
+    \end{proof}
+\end{proof}
+
+\begin{remark}
+    We did in fact use \(n \geq 5\) in the proof -- most obviously in the second claim, and also in the 4th case in the final claim as well.
+\end{remark}
+
+\section{Finite \(p\)-Groups}
+
+Let \(p\) be a prime. Groups of order \(p^n\) for \(n \geq 1\) are often called \(p\)-groups, which have certain properties that are interesting.
+
+\begin{theorem}[\(p\)-Groups have Non-Trivial Centres]
+    \label{thm:p-groups-non-trivial-centre}%
+    Let \(G\) be a \(p\)-group. Then the centre of \(G\) is non-trivial.
+\end{theorem}
+
+\begin{proof}
+    Let \(G \actson G\) by conjugation. Then the centre \(Z\pqty{G}\) is the set of all size-\(1\) orbits. The orbits in this case partition \(G\), so we can write
+    \[
+        \abs{G} = p^n = \abs{Z\pqty{G}} + \sum_{\abs{\ccl\pqty{g}} > 1} \abs{\ccl\pqty{g}}
+    \]
+
+    We know every conjugacy class has sizes that divide \(p^n\). If they are bigger than \(1\), then \(p\) divides the size. Therefore, \(p \divides \abs{G}\) and the sum of the conjugacy class sizes larger than \(1\).
+
+    Therefore, \(p \divides Z\pqty{G}\), giving \(\abs{Z\pqty{G}} \geq p\).
+\end{proof}
+
+\begin{theorem}[Groups of Order \(p^2\) is Abelian]
+    \label{thm:order-p2-abelian}%
+    A group of size \(p^2\) is always abelian.
+\end{theorem}
+
+\begin{lemma}[Quotient by Centre being Cyclic implies Abelian]
+    \label{lem:quotient-by-centre-cyclic-abelian}%
+    If \(\flatfrac{G}{Z\pqty{G}}\) is cyclic, then \(G\) is abelian.
+\end{lemma}
+
+\begin{proof}
+    That \(\flatfrac{G}{Z\pqty{G}}\) is cyclic implies that there is some coset \(x Z \pqty{G} \in \flatfrac{G}{Z\pqty{G}}\) that generates the whole quotient. In other words, every coset has the form \(x^m Z\pqty{G}\), for some \(m \geq 0\).
+
+    Since every \(g \in G\) can be written as some \(g = x^m z\) for some \(m \geq 0, z \in Z\pqty{G}\).
+
+    Let \(g = x^m z\) and \(h = x^n z'\), then
+    \[
+        g h = x^m z x^n z' = x^{m + n} z z' = x^{n + m} z' z = x^n z' x^m z = h g
+    \]
+    indeed. (Every element is a power of a fixed element times something that commutes with every element.)
+\end{proof}
+
+\begin{proof}[\proofname\ of \autoref{thm:order-p2-abelian}]
+    Using \autoref{thm:p-groups-non-trivial-centre}, we have \(Z\pqty{G}\) is either order \(p\) or \(p^2\), and in the latter case we are done.
+
+    But if \(\abs{Z\pqty{G}} = p\), then \(\flatfrac{G}{Z\pqty{G}}\) is cyclic, so \(G\) is abelian, contradicting with \(\abs{Z\pqty{G}} = p\).
+    
+    So \(\abs{Z\pqty{G}} = p^2\) and \(G\) is indeed abelian.
+\end{proof}
+
+\begin{theorem}[\(p\)-Groups have Subgroups of order Powers of \(p\)]
+    \label{thm:p-group-subgoup-order-power-of-p}
+    Let \(G\) be a \(p\)-group of size \(p^n\). Then \(G\) has a subgroup of size \(p^{k}\) for all \(0 \leq k \leq n\).
+\end{theorem}
+
+\begin{proof}
+    We conduct induction on \(n\). For the \(n = 1\) case, this is trivially true, since \(G \isomorphic C_p\).
+
+    If \(n > 1\), if \(k = 0\), take \(\Bqty{e}\), and so we are done.
+
+    Otherwise, note that the centre \(Z\pqty{G}\) is non-trivial, and choose \(x \in Z(G)\) with \(x \neq e\), we have \(\ord\pqty{x}\) is a power of \(p\). If we replace with a power of itself, we can assume it has order exactly \(p\). (Alternatively, \(p\) divides the order of \(Z\pqty{G}\) and apply Cauchy's Theorem.)
+
+    Then, \(\angBrac{x}\) has order \(p\), and since \(x \in Z\pqty{G}\), we have \(\angBrac{x} \normalsub G\). This allows us to take the quotient \(\flatfrac{G}{\angBrac{x}}\). This is a group of size \(p^{n - 1}\), and by induction it contains some subgroup of size \(p^{k - 1}\), call it \(L \subgroup \flatfrac{G}{\angBrac{x}}\).
+
+    But by the correspondence result (between the subgroups of \(G\) and subgroups of the quotient), we find some \(K \subgroup G\) containing \(\angBrac{x}\), such that \(\flatfrac{K}{\angBrac{x}} \isomorphic L\). This gives \(\abs{K} = p^k\) ad so we are done.
+\end{proof}
+
+\section{Finite Abelian Groups}
+
+\begin{theorem}[Classification of Finite Abelian Groups]
+    \label{thm:classification-finite-abelian-group}%
+    Let \(G\) be a finite abelian group. Then \(G\) must be a product of cyclic groups. More precisely, there exist positive integers \(d_1, \ldots, d_r\), such that
+    \[
+        G \isomorphic C_{d_1} \times \cdots \times C_{d_r}.
+    \]
+
+    Moreover, we can choose the \(d_i\) such that \(d_{i + 1} \divides d_i\), in which case the expression is unique.
+\end{theorem}
+
+The proof will not be until the end of the course, where we prove the Structure Theorem for Finitely-Generated Modules over a PID (Principal Ideal Domain) -- the PID Structure Theorem -- which would imply also, the existence of the Smith normal form and the Jordan normal form. (P.S. \href{https://pumac.princeton.edu/archives#2022}{PUMaC 2022* Power Round} has a good introduction to this -- \href{https://static1.squarespace.com/static/570450471d07c094a39efaed/t/642304302502a43377dedfed/1680016432869/PUMaC2023PowerRoundMarch28Update.pdf}{the questions are linked})
+
+\begin{example}[Abelian Groups of Order \(8\)]
+    The only abelian groups of order \(8\) are exactly \(C_8\), \(C_4 \times C_2\), and \(C_2 \times C_2 \times C_2\).
+\end{example}
+
+\begin{lemma}[Chinese Remainder Theorem]
+    \label{lem:chinese-remainder-theorem}
+    If \(n, m\) are coprime, then \(C_n \times C_m \isomorphic C_{nm}\).
+\end{lemma}
+
+\begin{proof}
+    It suffices to find an order \(nm\) element in \(C_n \times C_m\). If \(g \in C_n\) is order \(n\) and \(h \in C_m\) is order \(m\), then consider \(\pqty{g, h} \in C_n \times C_m\).
+
+    Suppose it has order \(k\). Then \(\pqty{g, h}^k = \pqty{g^k, h^k} = \pqty{e, e}\). Coordinate-wise, we may conclude that \(n \divides k\) and \(m \divides k\). But \(\gcd\pqty{m, n} = 1\), so \(nm \divides k\).
+    
+    But \(k \divides mn\) as well by \autoref{thm:lagrange} (Lagrange's Theorem), so \(k = mn\).
+\end{proof}
+
+\begin{corollary}[Finite Abelian Groups as Prime Powers]
+    \label{cor:finite-abelian-groups-prime-powers}
+    If \(G\) is a finite, abelian group, then we have
+    \[
+        G \isomorphic C_{l_1} \times C_{l_2} \times \cdots \times C_{l_n}
+    \]
+    where each \(l_i\) is a prime power, not necessarily of distinct primes.
+\end{corollary}
+
+\begin{proof}
+    Combine \autoref{lem:chinese-remainder-theorem} and \autoref{thm:classification-finite-abelian-group}.
+\end{proof}
+
+This is another form of the factorisation of finite abelian groups into cyclic groups. For example, in \autoref{thm:classification-finite-abelian-group}, \(C_6 \isomorphic C_6\), but here, \(C_6 \isomorphic C_2 \times C_3\) is the alternative factorisation.
+
+\section{Sylow Theorem}
+
+Let \(G\) be a finite group of size \(p^{a} m\) where \(p \notdivides m\), which means we collected all the prime factors \(p\) in the first part of the product. A \emph{Sylow \(p\)-Subgroup} of \(G\) is a subgroup of order \(p^a\).
+
+\begin{theorem}[Sylow Theorems]
+    \label{thm:sylow}%
+    Let \(G\) be a finite group, and let \(p\) be a prime, with \(p \divides \abs{G}\).
+
+    \begin{enumerate}
+        \item The set \(\Syl_p\pqty{G} = \set{P \leq G}{P \text{ is a Sylow } p\text{-subgroup}}\) is non-empty.
+        \item Any \(H, H' \in \Syl_p \pqty{G}\) are conjugate, i.e., there is some \(g\) such that \(H' = g H g\inverse\).
+        \item If \(n_p = \abs{\Syl_p \pqty{G}}\), then \(n_p \equiv 1 \pmod{p}\), and \(n_p\) divides \(\abs{G}\), so \(m\).
+    \end{enumerate}
+\end{theorem}
+
+The first part of \autoref{thm:sylow} (Sylow Theorem) itself is already very interesting -- since it is not easy to specify that we have a subgroup is of a particular size. The second is also non-trivial, since there could be subgroups with different structures, or with the same structure but not conjugate. Nevertheless, we will build up the necessary foundations to a proof.
+
+\begin{lemma}[Unique Sylow \(p\)-Subgroup implies Normality]
+    If \(\Syl_p\pqty{G} = \Bqty{P}\) has size \(1\), then \(P\) is normal.
+\end{lemma}
+
+\begin{proof}
+    For any \(g \in G\), \(g P g\inverse\) is isomorphic to \(P\) as a subgroup, so we have \(g P g\inverse \in \Syl_p\pqty{G}\). It follows that \(P = g P g\inverse\), and this finishes a proof.
+\end{proof}
+
+Another consequence of Sylow's theorem is as follows.
+
+\begin{corollary}[Number of Sylow \(p\)-Subgroups and Size of \(G\)]
+    \label{cor:np-and-g}%
+    Let \(G\) be a non-abelian simple group and let \(p \divides \abs{G}\). Then \(\abs{G}\) divides \(\frac{n_p!}{2}\), and \(n_p \geq 5\).
+\end{corollary}
+
+\begin{proof}
+    The conjugation action of \(G\) on \(\Syl_p\pqty{G}\) gives a homomorphism
+    \[
+        \functiondomain{\phi}{G}{\Sym\pqty{\Syl_p\pqty{G}} \isomorphic S_{n_p}}.
+    \]
+
+    By simplicity of \(G\), since \(\ker \phi \normalsub G\), we therefore have \(\ker \phi = \Bqty{e}\) or \(\ker \phi = G\).
+
+    If \(\ker \phi = G\), this means the conjugation action is trivial, so \(g P g\inverse = P\) for all \(g \in G\), then \(P\) is normal. Since \(P \neq \Bqty{e}\), we must have \(G = P\). But this is impossible, because \autoref{thm:p-groups-non-trivial-centre} (\(p\)-groups have Non-Trivial Centres) gives a normal subgroup \(Z\pqty{P} \normalsub P\).
+
+    Therefore, \(\ker \phi = \Bqty{e}\), so \(\phi\) is injective, and hence \(G\) must be isomorphic a subgroup of \(S_{n_p}\). We want to make sure it lies in \(A_{n_p}\). We consider the composition
+
+    \[
+        G \overset{\phi}{\longrightarrow} S_{n_p} \overset{\sign}{\longrightarrow} \Bqty{\pm 1}.
+    \]
+
+    If the composition is surjective, then \(\ker \pqty{\sign \circ \phi}\) is an index \(2\) subgroup of \(G\). But \(G\) is simple, so this is impossible, unless \(G \isomorphic C_2\) but this is abelian. (Alternatively, since this composition cannot be injective and since \(G\) is simple, we have \(\ker \pqty{\sign \circ \phi} = G\), so this map is trivial.)
+
+    Therefore, \(\img \pqty{\phi} \subgroup A_{n_p}\) and we have \(\frac{n_ p!}{2}\), so we can calculate by Lagrange.
+
+    Now we may verify directly that \(A_1, A_2, \ldots, A_4\) are not simple directly.
+\end{proof}
+
+A nice application of the numerology provided by \autoref{thm:sylow} (Sylow's Theorems) is explored below.
+
+\begin{example*}[Counting Subgroups of Simple Group]
+    Suppose \(G\) has size \(11 \times 12 = 132\). If \(g\) is simple, then none of the \(n_p\)s are equal to \(1\).
+
+    By \autoref{thm:sylow} (Sylow's Third Theorem), we have \(n_{11} \equiv 1 \pmod{11}\) but also \(n_{11} \divides 12\), so \(n_{11} = 12\), so there are \(12\) Sylow \(11\)-subgroups.
+
+    Similarly, we know that \(n_3 \equiv 1 \pmod{3}\) and \(n_3 \divides 44\). So by simplicity, \(n_3 = 4\) or \(22\).
+
+    By \autoref{cor:np-and-g}, we have \(n_3 = 22\) since \(n_3 \geq 5\).
+
+    Any two Sylow \(11\)-Subgroups intersect trivially at \(\Bqty{e}\), which gives already \(120\) elements. Similarly, any two Sylow \(3\)-Subgroups contribute another \(44\) elements. But we only have a total of \(132\) elements, which is impossible.
+\end{example*}
+
+Now we prove Sylow's theorems.
+
+\begin{proof}[\proofname\ of Sylow's First Theorem, Part of \autoref{thm:sylow}]
+    We produce a Sylow \(p\)-Subgroup as a stabiliser of an orbit in an appropriate action.
+    
+    Let \(\abs{G} = n = p^a m\) with \(p \notdivides m\). Define the collection of \textbf{subsets} (not subgroups!)
+    \[
+        \Omega = \set{X \subseteq G}{\abs{X} = p^a} \subseteq \powerset\pqty{G}.
+    \]
+
+    Let \(G\) act on \(\Omega\) by left-multiplication element-wise, i.e.,
+    \[
+        g \ast \Bqty{g_1, g_2, \ldots, g_{p^a}} = \Bqty{g g_1, \ldots, g g_{p^a}}.
+    \]
+
+    We want to have an orbit of size \(m\), so its stabiliser would have size \(p^a\).
+
+    We first claim that \(\abs{\Omega} = \binom{n}{p^a} \equiv m \nequiv 0 \pmod{p}\). This part is elementary algebra.
+
+    The second claim is that, if \(U \in \Omega\), and \(H \subgroup G\) stabilises \(U\), then \(\abs{H} \divides \abs{U}\).
+    
+    Since \(H\) stabilises \(U\), this means \(hU = U\) for all \(h \in H\). In other words, for each \(u \in U\), the coset \(Hu\) is contained in \(U\). Every \(u \in U\) lies in some coset of \(H\), and since cosets are disjoint with same size, they therefore partition \(U\), we get \(\abs{H} \divides \abs{U}\).
+
+    Now, we know that \(\abs{\Omega} \nequiv 0 \pmod{p}\), and by partitioning of orbits \(O_i\), we have
+    \[
+        \abs{\Omega} = \abs{O_1} + \abs{O_2} + \cdots + \abs{O_r}.
+    \]
+
+    Since \(p \notdivides \abs{\Omega}\), there exists an orbit, say \(\Theta\), whose size is not a multiple of \(p\).
+
+    Let \(X \in \Theta\). By \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser), we have
+    \[
+        \abs{G} = \abs{\Theta} \cdot \abs{\Stab\pqty{X}},
+    \]
+    so \(p^a m = \abs{\Theta} \cdot \abs{\Stab\pqty{X}}\).
+
+    Since no factors of \(p\) is in \(\abs{\Theta}\), they must be wholly contained in \(\abs{\Stab\pqty{X}}\), i.e., \(p^a \divides \abs{\Stab\pqty{X}}\). But by definition of \(\Omega\), we have \(\abs{X} = p^a\), and by the second claim, \(\abs{\Stab\pqty{X}} \divides p^a\).
+
+    Therefore, \(\abs{\Stab\pqty{X}} = p^a\) is a Sylow \(p\)-Subgroup which finishes our proof.
+\end{proof}
+
+\begin{proof}[\proofname\ of Sylow's Second Theorem, Part of \autoref{thm:sylow}]
+    We show a stronger statement, that if \(Q \normalsub G\) is a \(p\)-group in \(G\), and \(P \in \Syl_p\pqty{G}\), then there exists \(g \in G\) such that
+    \[
+        g Q g\inverse \subseteq P.
+    \]
+
+    This therefore implies the claim, since \(Q \in \Syl_p\pqty{G}\) gives \(Q\) is a \(p\)-group.
+
+    Let \(Q\) act on \(\flatfrac{G}{P}\) by \(q \ast gP = q gP\). The orbit of that action have size either \(1\) or divisible by \(p\). But \(\abs{\flatfrac{G}{P}}\) is not divisible by \(p\), so there is some orbit with size \(1\).
+
+    In other words, there exists some \(g \in G\), such that \(qgP = gP\) for all \(q \in Q\).
+
+    We rearrange to say, that for all \(q \in Q\), \(g \inverse q g \in P\). Therefore, \(g \inverse Q g \subseteq P\), as desired.
+\end{proof}
+
+Recall that \(n_p = \abs{\Syl_p\pqty{G}}\).
+
+\begin{proof}[\proofname\ of Sylow's Third Theorem, Part of \autoref{thm:sylow}]
+    We need to show \(n_p \divides \abs{G}\) and \(n_p \equiv 1 \pmod{p}\).
+
+    The first part is straightforward. The conjugation action of \(G\) on \(\Syl_{\pqty{G}}\) is transitive, so it has only one orbit. Therefore, the size of the orbit is \(n_p\), and hence \(n_p \divides G\).
+
+    Now, let \(P \in \Syl_p\pqty{G}\). We consider an action \(P \actson \Syl_p\pqty{G}\) by conjugation.
+
+    By \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser), the orbits have size \(1\) or divisible by \(p\). Now \(\Bqty{P}\) has size \(1\) and is hence a size-\(1\) orbit. It suffices to show that all the remaining orbits have size \(p\).
+
+    Say \(\Bqty{Q}\) is another size \(1\) orbit. So for any \(h \in P\), we have \(h Q h\inverse = Q\).
+
+    Thus, \(P\) is contained in the normaliser
+    \[
+        N_G\pqty{Q} = \set{g \in G}{g Q g\inverse = Q}.
+    \]
+
+    Observe that
+    \[
+        Q \subgroup N_G\pqty{Q} \subgroup G
+    \]
+    and therefore \(Q\) is in fact \(Q \in \Syl_p \pqty{N_G\pqty{Q}}\).
+
+    But by definition, \(Q\) is normal in \(N_G\pqty{Q}\), and \(P\) is another Sylow-\(p\) subgroup of the normaliser. By \autoref{thm:sylow}, Part 2, we know that \(P\) and \(Q\) are therefore conjugate in \(N_G\pqty{Q}\), so \(Q = P\).
+\end{proof}
+
+\begin{example}[General Linear Group over Finite Fields]
+    \label{ex:gln-p}
+    Let \(p\) be a prime. Let \(G = \GL_n \pqty{\flatfrac{\ZZ}{p}}\) be the \(n \times n\) matrices on \(\flatfrac{\ZZ}{p}\) that are invertible.
+
+    We first find \(\abs{G}\) by building this invertible matrix column-wise.
+
+    \[
+        \bmqty{
+            \vert & \vert & & \vert \\
+            \vb{v}_1 & \vb{v}_2 & \cdots & \vb{v}_n \\
+            \vert & \vert & & \vert
+        }
+    \]
+
+    We have \(p^n - 1\) choices for the first column \(\vb{v}_1\). Similarly, there are \(p^n - p\) choices for the second column \(\vb{v}_2\), since \(\vb{v}_2 \notin \spn \Bqty{\vb{v}_1}\), and the span has size \(p\).
+
+    Similarly, there are \(p^n - p^2\) choices for the third column \(\vb{v}_3\), since \(\vb{v}_3 \notin \spn \Bqty{\vb{v}_1, \vb{v}_2}\), and the span has size \(p^2\).
+
+    Therefore,
+    \[
+        \abs{G} = \pqty{p^n - 1} \pqty{p^n - p} \cdots \pqty{p^n - p^{n - 1}}.
+    \]  
+
+    The largest power of \(p\) dividing \(\abs{G}\) is given by \(p^{\binom{n}{2}}\). We now attempt to find some element in \(\Syl_{p} \pqty{G}\).
+
+    For example,
+    \[
+        \bmqty{
+            1 & \ast & \ast   & \cdots & \ast \\
+              & 1    & \ast   & \ddots & \vdots \\
+              &      & \ddots & \ast   & \ast \\
+              &      &        & 1      & \ast \\
+            0 &      &        &        & 1 
+        }
+    \]
+    is a Sylow-\(p\) subgroup, and hence by conjugation we may find all the Sylow \(p\)-subgroups.
+\end{example}
+
+\section{Basic Concepts of Rings}
+
+Good examples of rings to keep in mind are \(\ZZ, \flatfrac{\ZZ}{n}, \RR \bqty{x}\).
+
+\begin{definition}[Ring]
+    \label{def:ring}%
+    A \emph{ring} is a quintuple \(\pqty{R, +, \cdot, 0_R, 1_R}\) where \(R\) is a set, \(0_R, 1_R \in R\), and
+    \begin{align*}
+        \functiondomain{+&}{R \times R}{R} && \text{``addition''} \\
+        \functiondomain{\cdot&}{R \times R}{R}, && \text{``multiplication''}
+    \end{align*}
+    such that
+    \begin{itemize}
+        \item \(\pqty{R, +, 0_R}\) is an abelian group;
+        \item the operation \(\cdot\) is associative: for all \(a, b, c \in R\), \(a \cdot \pqty{b \cdot c} = \pqty{a \cdot b} \cdot c\);
+        \item \(1_R\) is a multiplicative identity for \(R\): for all \(a \in R\), \(1_R \cdot a = a \cdot 1_R = a\);
+        \item multiplication is distributive over addition: for all \(r_1, r_2, r_3 \in R\), \(r_1 \cdot \pqty{r_2 + r_3} = r_1 \cdot r_2 + r_1 \cdot r_3\), and \(\pqty{r_1 + r_2} \cdot r_3 = r_1 \cdot r_3 + r_2 \cdot r_3\).
+    \end{itemize}
+\end{definition}
+
+\begin{notation}
+    We will denote this as ``\(R\) is a ring''. The symbol \(-r\) will mean the additive inverse of \(r\), and note \(r - s = r + \pqty{-s}\).
+\end{notation}
+
+\begin{remark}
+    In this course, all rings are assumed to \emph{commutative}, that \(r_1 \cdot r_2 = r_2 \cdot r_1\) for all \(r_1, r_2 \in R\).
+\end{remark}
+
+\begin{definition}[Subring]
+    \label{def:subring}%
+    A \emph{subring} of a ring \(R\) is a subset \(S \subseteq R\), such that \(0_R, 1_R \in S\), and if \(s, s' \in S\), then \(s + s', s \cdot s'\) also lie in \(S\), and \(\pqty{S, +, \cdot, 0_R, 1_R}\) is a ring.
+
+    We note this as \(S \subring R\).
+\end{definition}
+
+\begin{example}[Examples of Rings]
+    \label{ex:rings}%
+    We have (the familiar number sets)
+    \[
+        \ZZ \subring \QQ \subring \RR \subring \CC
+    \]
+    are all rings.
+
+    The \emph{Gaussian Integers} is
+    \[
+        \ZZ \bqty{i} = \set{a + ib}{a, b \in \ZZ} \subring \CC.
+    \]
+
+    Similarly,
+    \[
+        \QQ \bqty{\sqrt{2}} = \set{a + b \sqrt{2}}{a, b \in \QQ} \subring \RR.
+    \]
+
+    Less familiarly,
+    \[
+        \CC \angBrac{\epsilon} = \set{a + b\epsilon}{a, b \in \CC}
+    \]
+    with operations
+    \[
+        \pqty{a + b\epsilon} + \pqty{c + d\epsilon} = \pqty{a + c} + \pqty{b + d}\epsilon
+    \]
+    and
+    \[
+        \pqty{a + b\epsilon} \cdot \pqty{c + d\epsilon} = ac + \pqty{ad + bc} \epsilon,
+    \]
+    with
+    \[
+        0 = 0 + 0 \cdot \epsilon, 1 = 1 + 0 \cdot \epsilon.
+    \]
+
+    This is the ring of \emph{dual numbers}. In particular, \(\epsilon^2 = 0\) even though \(\epsilon \neq 0\).
+\end{example}
+
+\begin{definition}[Unit]
+    \label{def:unit}%
+    An element \(u \in R\) is a \emph{unit} if there exists \(v \in R\), such that \(uv = 1\).
+\end{definition}
+
+\begin{remark}
+    Note that \(2 \in \ZZ \subring \QQ\), and \(2\) is a unit in \(\QQ\), but \textbf{not in \(\ZZ\)}. A unit of a ring need not be a unit of a subring containing it. Conversely, a unital inclusion sends units of the subring to units of the larger ring: the inverse already present in the subring is still an inverse in the larger ring.
+\end{remark}
+
+\begin{definition}[Field]
+    \label{def:field}%
+    A ring \(R\) is a \emph{field} if every non-zero element is a unit.
+\end{definition}
+
+Note that the product of units must be a unit, although their sum might not be. The units form a subgroup under multiplication.
+
+Notice that for any ring \(R\), we have \(0 + 0 = 0\), and hence using multiplication and distribution rules, for any \(r \in \RR\)
+\[
+    r \cdot 0 + r \cdot 0 = r \cdot 0
+\]
+and if we cancel terms additively, we get \(r \cdot 0 = 0\), as desired.
+
+In particular, if \(1 = 0\), then for any \(r \in R\), we have \(r = 0\) by multiplying \(r \in R\) on both sides. This gives the \emph{zero ring}.
+
+Similar to what we do with sets and groups, with the rings, we also want to construct new rings from them.
+
+\begin{definition}[Direct Product of Rings]
+    \label{def:direct-product-ring}%
+    Let \(R\), \(S\) be rings. The \emph{direct product} \(R \times S\) is a ring by addition and multiplication by coordinate, i.e.,
+    \[
+        \pqty{r_1, s_1} + \pqty{r_2, s_2} = \pqty{r_1 + r_2, s_1 + s_2}
+    \]
+    and
+    \[
+        \pqty{r_1, s_1} \cdot \pqty{r_2, s_2} = \pqty{r_1 r_2, s_1 s_2}
+    \]
+    with the identities being \(0_{R \times S} = \pqty{0_R, 0_S}\) and \(1_{R \times S} = \pqty{1_R, 1_S}\).
+\end{definition}
+
+The following is perhaps one of the most important rings.
+
+\begin{definition}[Polynomial]
+    \label{def:polynomial}%
+    Let \(R\) be a ring. A \emph{polynomial in \(x\) of coefficients in R} is an expression
+    \[
+    f\pqty{x} = a_0 + a_1 x + \cdots + a_n x^n,
+    \]
+    where \(a_i \in R\) and \(x^i\) are formal symbols. As convention, we may identify \(f\pqty{x}\) with \(f\pqty{x} + 0 \cdot x^{n + 1}\) (which allows us to talk about coefficients larger than \(n\)).
+    
+    The largest \(n\) such that \(a_n \neq 0\) is called \emph{the degree} of \(f\pqty{x}\), and as a convention, the zero polynomial has degree \(\minusinfty\).
+
+    A polynomial \(f\pqty{x}\) is \emph{monic} if it has degree \(n\) and \(a_n = 1\).
+\end{definition}
+
+\begin{definition}[Polynomial Ring]
+    \label{def:polynomial-ring}%
+    The \emph{polynomial ring} \(R\bqty{x}\) is
+    \[
+        R \bqty{x} = \set{f\pqty{x}}{f\pqty{x} \text{ is a polynomial with coefficients in }R},
+    \]
+    with the usual addition and multiplication for polynomials.
+    
+    Specifically, for
+    \[
+        f\pqty{x} = a_0 + a_1 x + \cdots + a_n x^n \qand g\pqty{x} = b_0 + b_1 x + \cdots + b_m x^m,
+    \]
+    we define
+    \[
+        f\pqty{x} + g\pqty{x} = \sum_{i = 0}^{\max\Bqty{m, n}} \pqty{a_i + b_i} x^i
+    \]
+    and
+    \[
+        f\pqty{x} g\pqty{x} = \sum_{i = 0}^{m + n} \pqty{\sum_{j = 0}^{i} a_j b_{i - j}} x^i.
+    \]
+\end{definition}
+
+\begin{remark}
+    For \(f \pqty{x} \in R\bqty{x}\), not only do we get an algebraic object for the polynomial, we also get a function
+    \[
+        \function{f}{R}{R}{x}{f\pqty{x}}
+    \]
+    but note that this does \emph{not} give the same information as the algebraic object itself.
+\end{remark}
+
+\begin{definition}[Formal Power Series]
+    \label{def:formal-power-series}%
+    The \emph{ring of formal power series over \(R\) with variable \(x\)} is
+    \[
+        R \bbrac{x} = \set{\sum_{i = 0}^{\infty} r_i x^i}{r_i \in R}
+    \]
+    with standard operations.
+\end{definition}
+
+\(R\bqty{x}\) `lives in' \(R\bbrac{x}\) -- but remember that restriction don't preserve units -- as we will see in \autoref{ex:inverse-in-power-series}!
+
+\begin{example}[Inverse in Power Series]
+    \label{ex:inverse-in-power-series}%
+    Consider the element \(\pqty{1 - x}\) in \(R\bqty{x}\). Is this a unit?
+
+    Suppose \(g\pqty{x} \cdot \pqty{1 - x} = 1\). Then let
+    \[
+        g\pqty{x} = a_0 + a_1 x + \cdots + a_n x^n
+    \]
+    for \(x_n \neq 0\). Thus,
+    \[
+        \pqty{1 - x} g\pqty{x} = a_0 + x\pqty{a_! - a_0} + \cdots + \pqty{a_n - a_{n - 1}} x^n - a_n x^{n + 1}.
+    \]
+
+    But this is clearly not \(1\) by computing the \(x^{n + 1}\) coefficient.
+
+    However, if we view \(\pqty{1 - x} \in R\bbrac{x}\), then we have an inverse
+    \[
+        \pqty{1 - x} \pqty{1 + x + x^2 + \cdots} = 1
+    \]
+    in \(R\bbrac{x}\).
+\end{example}
+
+There is also another series that gives an interesting ring.
+
+\begin{definition}[Laurent Polynomials]
+    \label{def:laurent-polynomials}%
+    Write \(R\bqty{x, x\inverse}\) for the ring of \emph{Laurent polynomials}, i.e.,
+    \[
+        f = \sum_{i = \minusinfty}^{\plusinfty} a_i x^i
+    \]
+    for \(a_i \in R\), with all but finitely many \(a_i = 0\), and with the standard operations.
+\end{definition}
+
+\section{Homomorphisms, Ideals and Quotients}
+
+\begin{definition}[Ring Homomorphism]
+    \label{def:ring-homomorphism}%
+    Let \(R\) and \(S\) be rings. A function \(\functiondomain{f}{R}{S}\) is a \emph{ring homomorphism} if
+    \begin{enumerate}
+        \item \(f\pqty{r_1 + r_2} = f\pqty{r_1} + f\pqty{r_2}\);
+        \item \(f\pqty{0} = 0\);
+        \item \(f\pqty{r_1 r_2} = f\pqty{r_1} f\pqty{r_2}\);
+        \item \(f\pqty{1} = 1\).
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    Point 4 is \textbf{not implied by} Point 3 (unlike Point 2 is implied by Point 1) since addition and multiplication are not symmetric -- addition gives a group structure, but multiplication does not (we cannot invert multiplication).
+\end{remark}
+
+\begin{definition}[Ring Isomorphism, Kernel, Image]
+    \label{def:ring-isomorphism-kernel-image}%
+    If \(\functiondomain{f}{R}{S}\) is a bijective ring homomorphism, it is an \emph{isomorphism}.
+
+    The \emph{kernel} and \emph{image} of \(f\) is the kernel and image of the corresponding group homomorphism (when the operation is restricting to addition), i.e.,
+    \[
+        \ker f = \set{r \in R}{f \pqty{r} = 0}
+    \]
+    and
+    \[
+        \img f = \set{s \in S}{\exists r \in R: s = f\pqty{r}}.
+    \]
+\end{definition}
+
+\begin{remark}
+    The inverse of a ring isomorphism is also a ring isomorphism.
+\end{remark}
+
+\begin{lemma}[Homomorphisms are Injective if and only if it has Trivial Kernel]
+    \label{lem:homomorphisms-injective-trivial-kernel}%
+    A ring homomorphism \(\functiondomain{f}{R}{S}\) is injective if and only if \(\ker f = \Bqty{0}\).
+\end{lemma}
+
+\begin{proof}
+    This is implied from the statement on group homomorphisms.
+\end{proof}
+
+Recall a group homomorphism's kernel must be a \emph{normal subgroup} -- there is a very similar key notion in rings.
+
+\begin{definition}[Ideal]
+    \label{def:ideal}%
+    A subset \(I \subseteq R\) is called an \emph{ideal}, written as \(I \idealsub R\), if
+    \begin{enumerate}
+        \item \(I\) is a subgroup of \(R\) under addition; and
+        \item \emph{Absorbing Rule.} If \(a \in I\) and \(b \in R\), then \(ab \in I\).
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    An ideal is not a subring, since it not necessarily contains \(1 \in R\). Indeed, if \(1 \in I \idealsub R\), then \(R = I\).
+\end{remark}
+
+\begin{lemma}[Kernels are Ideals]
+    \label{lem:kernel-are-ideal}%
+    If \(\functiondomain{\phi}{R}{S}\) is a homomorphism, then \(\ker \phi \idealsub R\) is an ideal.
+\end{lemma}
+
+\begin{proof}
+    Since \(\phi\) is a group homomorphism, \(\ker \phi\) is a subgroup under addition.
+
+    If \(a \in \ker \phi\) and \(b \in R\), then
+    \[
+        \phi\pqty{ab} = \phi\pqty{a} \cdot \phi\pqty{b} = 0 \cdot \phi\pqty{b} = 0
+    \]
+    so \(ab \in \ker \phi\), which finishes the proof.
+\end{proof}
+
+\begin{remark}
+    Let \(u \in R\) is a unit, and \(I \idealsub R\) is an ideal. If \(u \in I\), then \(I = R\). This is since \(1 = u v\) for \(u \in I\) and \(v \in R\), then \(1 \in I\).
+\end{remark}
+
+\begin{example}[Ideals of \(\ZZ\)]
+    \label{ex:ideals-of-z}%
+    Let \(\ZZ\) be the ring of integers. Then
+    \[
+        n \ZZ = \Bqty{\ldots, -2n, -n, 0, n, 2n, \ldots}
+    \]
+    is an ideal. In fact, every (non-zero) ideal of \(\ZZ\) has this form, for some \(n \in \ZZ\). This result follows from the subgroup structure of \(\ZZ\), but we reproduce the proof of follows to motivate an algebraic structure.
+
+    Indeed, if \(I \neq \Bqty{0}\), let \(n \in \ZZ\) be the smallest positive element \(n\) that lies in \(I\). We claim \(I = n\ZZ\).
+
+    By the Euclidean algorithm, \(m = q \cdot n + r\) for \(q \in \ZZ\) and \(0 \leq r < n\), but \(q \cdot n \in I\) by definition of an ideal, so \(r \in I\). If \(r \neq 0\), then this contradicts minimality. So \(r = 0\) and this finishes the proof.
+\end{example}
+
+But we may generalise this idea -- this only required the Euclidean algorithm -- and we may abstract this to algebraic structures where such an `Euclidean algorithm' exists.
+
+\begin{definition}[Ideal Generated by a Set, Principal Ideal]
+    \label{def:ideal-generated-principal}%
+    Let \(A \subseteq R\) be a subset. The \emph{ideal generated by \(A\)} is given by
+    \[
+        \pqty{A} = \set{\sum_{a \in A} r_a a}{r_a \in R, r_a = 0 \text{ for all but finitely many }a}.
+    \]
+
+    An ideal \(I \idealsub R\) is called \emph{principal} if \(I = \pqty{r}\) for some \(r \in R\).
+\end{definition}
+
+For example, as we see above, all ideals of \(\ZZ\) are principal, since \(n\ZZ\) is generated by \(n\).
+
+\begin{example}[Ideal Generated]
+    \label{ex:ideal-generated}%
+    The subset of \(\RR\bqty{x}\) given by
+    \[
+        \set{f\pqty{x} \in \RR\bqty{x}}{f\pqty{0} = 0},
+    \]
+    i.e. polynomials with zero constant term is an ideal. It is generated by the element \(x \in \RR\bqty{x}\).
+\end{example}
+
+\begin{definition}[Quotient Ring]
+    \label{def:quotient-ring}%
+    Let \(I \idealsub R\). The \emph{quotient ring} is the set of cosets of \(I\) in \(R\), taking the form \(\pqty{r + I}\) with \(0\) given by \(0_R + I\) and \(1\) given by \(1_R + I\), and operations
+    \begin{align*}
+        \pqty{r_1 + I} + \pqty{r_2 + I} &= \pqty{r_1 + r_2} + I, \\
+        \pqty{r_1 + I} \cdot \pqty{r_2 + I} &= \pqty{r_1 \cdot r_2} + I.
+    \end{align*}
+\end{definition}
+
+\begin{proposition}[Quotient Ring is a Ring]
+    \label{prop:quotient-ring-ring}%
+    The quotient ring \(\flatfrac{R}{I}\) is a ring, and the function
+    \[
+        \function{q_I}{R}{\flatfrac{R}{I}}{r}{r + I}
+    \]
+    is a ring homomorphism.
+\end{proposition}
+
+\begin{proof}
+    Obviously, \(q_I\) is a well-defined group homomorphism and addition is well-defined. We verify that multiplication is well-defined (since it would suggest some motivation into why an ideal is defined in this particular way). Let
+    \[
+        r_1 + I = r_1' + I \qand r_2 + I = r_2' + I.
+    \]
+
+    Then \(r_1 - r_1' \in I\), say \(r_1 - r_1' = a_1\), and similarly let \(r_2 - r_2' = a_2 \in I\).
+
+    Then
+    \[
+        r_1' r_2' = \pqty{r_1 + a_1} \pqty{r_2 + a_2} = r_1 r_2 + r_1 a_2 + r_2 a_1 + a_1 a_2.
+    \]
+
+    But \(r_1 a_2, r_2 a_1, a_1 a_2 \in I\) by absorption property. Therefore, we can conclude that
+    \[
+        r_1 r_2 + I = r_1' r_2' + I,
+    \]
+    so multiplication is indeed well-defined. The rest is straightforward.
+\end{proof}
+
+\begin{example}[Examples of Quotients]
+    \label{ex:quotients}%
+    \begin{itemize}
+        \item We have ideals \(n \ZZ \idealsub \ZZ\). The quotient ring consists of the cosets
+        \[
+            \flatfrac{\ZZ}{n \ZZ} = \set{m + n \ZZ}{m \in \ZZ},
+        \]
+        and therefore we get \(0 + n \ZZ, 1 + n \ZZ, \ldots, \pqty{n - 1} + n\ZZ\). This ring structure takes the structure of arithmetic modulo \(n\).
+
+        \item We take \(\pqty{x} \idealsub \CC\bqty{x}\). The elements of the quotient \(\flatfrac{\CC\bqty{x}}{\pqty{x}}\) can be represented by elements of the form
+        \[
+            \pqty{a_0 + a_1 x + \cdots + a_n x^n} + \pqty{x}.
+        \]
+
+        But the terms \(a_1 x, a_2 x^2, \ldots, a_n x^n \in \pqty{x}\), so this coset is equal to \(a_0 + \pqty{x}\). The representation is unique, so in fact
+        \[
+            \flatfrac{\CC \bqty{x}}{\pqty{x}} \isomorphic \CC.
+        \]
+    \end{itemize}
+\end{example}
+
+\begin{proposition}[Euclidean Algorithm for Polynomials]
+    \label{prop:euclidean-algorithm-polynomials}%
+    Let \(K\) be a field. If \(f, g \in K \bqty{x}\), then there exists \(r, q \in K \bqty{x}\), such that
+    \[
+        f = g \cdot q + r
+    \]
+    with \(\deg \pqty{r} < \deg \pqty{g}\).
+\end{proposition}
+
+\begin{proof}
+    Let \(n = \deg \pqty{f}\), so \(f = \sum_{i = 0}^{n} a_i x^i\) where \(a_i \in K\) and \(a_n \neq 0\). Similarly, let \(g = \sum_{i = 0}^{m} b_i x_i\) where \(b_i \in K\) and \(b_m \neq 0\).
+
+    If \(n < m\), set \(q = 0\) and \(r = f\) (purely remainder), and we are done.
+
+    If \(n \geq m\), we proceed by induction on \(n\). Let \(f_1 = f - a_n b_m \inverse x^{n - m} g\). Note in particular, that \(b_m \inverse\) means we are using \(K\) is a \textbf{field}. So
+    \[
+        \deg \pqty{f_1} < n.
+    \]
+
+    If \(n = m\) then \(\deg \pqty{f_1} < n = m\), and hence
+    \[
+        f = \pqty{a_n b_m \inverse x^{n - m}} g + f_1.
+    \]
+
+    If \(n > m\), by induction, we can write \(f_1 = g q_1 + r_1\), where \(\deg \pqty{r_1} < \deg \pqty{g}\). Then,
+    \[
+        f = a_n b_m \inverse x^{n - m} g + q_1 g + r_1 = \pqty{a_n b_m \inverse x^{n - m} + q_1} g + r_1
+    \]
+    and we are done.
+\end{proof}
+
+A corollary of this is as follows: all ideals in \(K\bqty{x}\) for some field \(K\) are principal. This was shown in \autoref{ex:ideals-of-z}, and we may replace the Euclidean algorithm for \(\ZZ\) with \(K \bqty{x}\). However, note that \(\ZZ \bqty{x}\) and \(K \bqty{x, y}\) (where \(K\) is a field) \textbf{do not} have this property.
+
+Similar to the isomorphism theorems we had in groups, we have them in rings as well.
+
+\begin{theorem}[First Isomorphism Theorem for Rings]
+    \label{thm:first-isomorphism-theorem-ring}%
+    Let \(\functiondomain{\phi}{R}{S}\) be a ring homomorphism. Then the map
+    \[
+        \function{f}{\flatfrac{R}{\ker \phi}}{\img \phi \subring S}{r + \ker \phi}{\phi\pqty{r}}
+    \]
+    is a well-defined ring isomorphism.
+\end{theorem}
+
+\begin{proof}
+    Bijectivity and additive property follows from \autoref{thm:first-isomorphism-theorem-groups} (First Isomorphism Theorem for Groups). It remains to show this is a ring homomorphism for multiplication. Indeed,
+    \[
+        f\pqty{\pqty{r + \ker \phi} \cdot \pqty{t + \ker \phi}} = f \pqty{rt + \ker \phi} = \phi \pqty{rt} = \phi\pqty{r} \phi\pqty{t} = f\pqty{r + \ker \phi} \cdot f\pqty{t + \ker \phi}.
+    \]
+\end{proof}
+
+\begin{example}[Application of First Isomorphism Theorem]
+    Consider the homomorphism
+    \[
+        \function{\phi}{\RR\bqty{x}}{\CC}{f\pqty{x}}{f\pqty{i}}.
+    \]
+
+    This map is surjective since \(\phi\pqty{a + bx} = a + bi\). 
+    
+    The kernel is exactly polynomials such that \(f\pqty{i} = 0\). But recall since this is a polynomial with real coefficients, if \(i\) is a root of \(f\), then so is \(\pqty{-i}\). So \(\pqty{x^2 + 1}\) divides \(f\pqty{x}\). Therefore, the kernel of \(\phi\) is \emph{exactly} \(\pqty{x^2 + 1} \idealsub \RR\bqty{x}\). Therefore, we have
+    \[
+        \CC \isomorphic \flatfrac{\RR\bqty{x}}{\pqty{x^2 + 1}}.
+    \]
+\end{example}
+
+\begin{theorem}[Second Isomorphism Theorem for Rings]
+    \label{thm:second-isomorphism-theorem-ring}%
+    Let \(R \subring S\) and \(J \idealsub S\). Then \(R \cap J \idealsub R\), and \(\flatfrac{\pqty{R + J}}{J} = \set{r + J}{r \in R} \subring \flatfrac{S}{J}\). Furthermore,
+    \[
+        \flatfrac{R}{R \cap J} \isomorphic \flatfrac{\pqty{R + J}}{J}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Define a function
+    \[
+        \function{\phi}{R}{\flatfrac{S}{J}}{r}{r + J}.
+    \]
+
+    The kernel of this map is
+    \[
+        \ker \phi = \set{r \in R}{r + J = 0} = \set{r \in R}{r \in J} = R \cap J.
+    \]
+
+    We also have
+    \[
+        \img \phi = \set{r + J}{r \in R} = \flatfrac{\pqty{R + J}}{J}.
+    \]
+
+    By \autoref{thm:first-isomorphism-theorem-ring} (First Isomorphism Theorem for Rings), we have
+    \[
+        \flatfrac{R}{R \cap J} \isomorphic \flatfrac{\pqty{R + J}}{J}
+    \]
+    as rings.
+\end{proof}
+
+\begin{remark}
+    Similar to rings, there is a correspondence for rings and ideals. Let \(I \idealsub R\) be an ideal. There is a bijection
+    \[
+        \function{f}{\Bqty{\text{subrings of }\flatfrac{R}{I}}}{\Bqty{\text{subrings of }R\text{ containing }I}}{L \subring \flatfrac{R}{I}}{\set{r \in R}{r + I \in L}}
+    \]
+    and the inverse is given by
+    \[
+        \function{f\inverse}{\Bqty{\text{subrings of }R\text{ containing }I}}{\Bqty{\text{subrings of }\flatfrac{R}{I}}}{I \idealsub S \subring R}{\flatfrac{S}{I} \subring \flatfrac{R}{I}.}
+    \]
+\end{remark}
+
+\begin{theorem}[Third Isomorphism Theorem for Rings]
+    \label{thm:third-isomorphism-theorem-ring}%
+    Let \(I \idealsub R\) and \(J \idealsub R\), with \(I \subseteq J\). Then we have
+    \[
+        \flatfrac{J}{I} \idealsub \flatfrac{R}{I} \qand \flatfrac{\pqty{\flatfrac{R}{I}}}{\pqty{\flatfrac{J}{I}}} \isomorphic \flatfrac{R}{J}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Define the function
+    \[
+        \function{f}{\flatfrac{R}{I}}{\flatfrac{R}{J}}{r + I}{r + J.}
+    \]
+
+    It is well-defined by considering this as a group homomorphism.
+
+    This is a ring homomorphism, with kernel
+    \[
+        \ker f = \set{r + I}{r + J = 0} = \flatfrac{J}{I}.
+    \]
+
+    Applying \autoref{thm:first-isomorphism-theorem-ring} (First Isomorphism Theorem for Rings) gives us the result, as desired.
+\end{proof}
+
+\begin{proposition}[Ring Homomorphism from \(\ZZ\), Characteristic of a Ring]
+    \label{prop:ring-homomorphism-z-characteristic-of-ring}%
+    Let \(R\) be any ring. Then there is a homomorphism
+    \[
+        \functiondomain{i}{\ZZ}{R}
+    \]
+    sending \(1\) to \(1_R\). For \(i\), we have
+    \[
+        \ker\pqty{i} = n \ZZ
+    \]
+    for some \(n \in \ZZ\), where \(\abs{n}\) is known as the \emph{characteristic} of \(R\).
+\end{proposition}
+
+Therefore, \(\ZZ\) is sometimes called the \emph{initial ring}. Furthermore, note that the zero ring does \textbf{not} have any homomorphisms to another ring (not a single one) -- this is different role from the trivial group back for group homomorphism.
+
+\begin{example}[Characteristics of Common Rings]
+    The infinite number rings \(\ZZ, \RR, \CC\) all have characteristic \(0\). The ring \(\flatfrac{\ZZ}{k\ZZ}\) has characteristic \(k\).
+\end{example}
+
+\section{Integral Domains, Fields of Fractions, Prime Ideals}
+
+Notice that in the ring \(\flatfrac{\ZZ}{6}\), we have \(2 \cdot 3 = 0\) but \(2 \neq 0\) and \(3 \neq 0\).
+
+\begin{definition}[Integral Domain, Zero Divisor]
+    \label{def:integral-domain-zero-divisor}%
+    A non-zero ring \(R\) is an \emph{integral domain}, if for all \(a, b \in R\), we have
+    \[
+        a b = 0 \implies a = 0 \qor b = 0.
+    \]
+
+    A \emph{zero divisor} is a non-zero \(a\), such that there exists \(b \neq 0\) if \(ab = 0\).
+\end{definition}
+
+For example, in \(\flatfrac{\ZZ}{6}\), we say both \(2\) and \(3\) are zero divisors.
+
+\begin{examples}[Examples of Integral Domains]
+    \label{ex:integral-domain}%
+    \begin{itemize}
+        \item Any field is an integral domain. Indeed, if \(a b = 0\) in a field, say \(b \neq 0\), then \(b\inverse\) exists, and
+    \[
+        a = a b b\inverse = a \cdot 0 = 0
+    \]
+    so \(a = 0\).
+        \item Similarly, any subring of a field is also an integral domain. This is really how we should think of integral domains.
+        \item The rings \(\ZZ\), \(\ZZ\bqty{i}\), \(\QQ\), \(\CC\), \(\RR\bqty{x}\) \(\ZZ\bqty{X}\) are integral domains.
+        \item The rings \(\flatfrac{\ZZ}{6}\), \(\flatfrac{\ZZ}{\pqty{pq}}\), \(\flatfrac{\ZZ}{2} \times \flatfrac{\ZZ}{2}\), etc. are \textit{not} integral domains.
+        \item In particular, direct products cannot be integral domains, since \(\pqty{0, 1}\) and \(\pqty{1, 0}\) product to \(0\).
+    \end{itemize}
+\end{examples}
+
+\begin{lemma}[Finite Integral Domains are Finite Fields]
+    \label{lem:finite-integral-domain-finate-field}%
+    Let \(R\) be a finite integral domain. Then \(R\) is a field.
+\end{lemma}
+
+An example of this is \(\flatfrac{\ZZ}{p}\) for a prime \(p\).
+
+\begin{proof}
+    Let \(a \in R\) be non-zero, we want to prove it is a unit. Consider the multiplication function
+    \[
+        \function{\mu_a}{R}{R}{r}{ar.}
+    \]
+
+    This is a group homomorphism for the underlying group structure. Since \(R\) is an integral domain, by definition, we have
+    \[
+        \ker \pqty{\mu_a} = \Bqty{0}.
+    \]
+
+    So \(\mu_a\) is injective. Recall that \(R\) is finite, which means \(\mu_a\) is bijective.
+
+    In particular, \(1 \in \img \pqty{\mu_a}\), so there is some \(b \in R\) with \(b \neq 0\), such that
+    \[
+        a \cdot b = 1
+    \]
+    so \(a\) is indeed a unit, finishing our proof.
+\end{proof}
+
+\begin{definition}[Field of Fractions]
+    \label{def:field-of-fractions}%
+    Let \(R\) be an integral domain. A \emph{field of fractions} of \(R\) is a field \(F\), such that
+    \begin{enumerate}
+        \item \(R \subring F\) is a subring, meaning there is an injective ring homomorphism from \(R\) to \(F\); and
+        \item any \(x \in F\) can be written as \(a b \inverse\), for \(a, b \in R\), and \(b\inverse\) as the multiplicative inverse of \(b\) in \(F\).
+    \end{enumerate}
+\end{definition}
+
+The first requirement is `sticking \(R\) into some field \(F\)', while the second requirement is `\(F\) is only contained of fractions in \(R\)'.
+
+\begin{example*}[Field of Fractions of \(\ZZ\)]
+    \label{ex:field-of-fractions-z}%
+    The field \(\QQ\) is a field of fractions of \(\ZZ\).
+\end{example*}
+
+\begin{theorem}[Existence of Field of Fractions]
+    \label{thm:existence-field-of-fractions}%
+    Every integral domain \(R\) has a field of fractions.
+\end{theorem}
+
+Note \autoref{thm:existence-field-of-fractions} tells us that all integral rings are effectively subrings. The proof is inspired by the construction of \(\QQ\) by \(\ZZ\).
+
+\begin{proof}
+    Define a set
+    \[
+        S = \set{\pqty{a, b} \in R \times R}{b \neq 0}.
+    \]
+
+    We define a relation \(\sim\) over \(S\), being
+    \[
+        \pqty{a, b} \sim \pqty{c, d} \iff ad = bc,
+    \]
+    where here the multiplication is in \(R\).
+
+    We want to show \(\sim\) is an equivalence relation. \emph{Symmetry} and \emph{reflective} are obvious. We conduct a non-trivial check on the \emph{transitivity}. Suppose that
+    \[
+        \pqty{a, b} \sim \pqty{c, d} \qand \pqty{c, d} \sim \pqty{e, f}.
+    \]
+
+    We have \(ad = bc\) and \(cf = de\). Multiplying the first equality by \(f\), and the second by \(b\), we have
+    \[
+        adf = bcf \qand bcf = bde,
+    \]
+    and hence \(adf = bde\). So we may rearrange and combine terms to get
+    \[
+        d \pqty{af - be} = 0.
+    \]
+
+    We have \(d \neq 0\), by our definition of \(S\). Using that \(R\) is an integral domain, we have \(af - be = 0\), so indeed \(af = be\), and we have \(\pqty{a, b} \sim \pqty{e, f}\).
+
+    Now, we take the equivalence classes
+    \[
+        F = \flatfrac{S}{\sim},
+    \]
+    and we denote \(\frac{a}{b} = \bqty{\pqty{a, b}}\) for the conjugacy class. We make \(F\) a ring by the following operations.
+
+    \[
+        \frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd} \qand \frac{a}{b} \cdot \frac{c}{d} = \frac{ac}{bd}.
+    \]
+
+    Elementary checks show that these operations are well-defined and \(F\) is a ring.
+
+    To see \(F\) is a field, note that \(\frac{a}{b} \neq 0_F\), then \(\frac{a}{b} \neq \frac{0}{1}\), so \(a \cdot 1 \neq b \cdot 0\), so \(a \neq 0\). Then \(\frac{b}{a} \in F\) is an inverse of \(\frac{a}{b}\).
+
+    Finally, we define a homomorphism
+    \[
+        \function{\phi}{R}{F}{r}{\frac{r}{1}.}
+    \]
+
+    Clearly, \(\phi\) is a ring homomorphism, and observe that
+    \[
+        \ker\pqty{\phi} = \set{r \in R}{\frac{r}{1} = 0} = \Bqty{0}.
+    \]
+
+    By \autoref{thm:first-isomorphism-theorem-ring} (First Isomorphism Theorem for Rings), we have \(\img \pqty{\phi} \isomorphic R\). Since every \(\frac{a}{b} \in R\) can be written as
+    \[
+        \frac{a}{b} = \frac{a}{1} \cdot \frac{1}{b} = \pqty{\frac{a}{1}} \cdot \pqty{\frac{b}{1}}\inverse, 
+    \]
+    so we have completed the proof.
+\end{proof}
+
+\begin{proposition}[Ideals of Fields]
+    \label{prop:ideals-fields}%
+    Let \(R\) be a ring. Then \(R\) is a field if and only if the only ideals of \(R\) are \(\Bqty{0}\) and \(R\).
+\end{proposition}
+
+\begin{proof}
+    Let \(R\) be a field and take some ideal \(I \idealsub R\). Say \(I \neq \Bqty{0}\). Then \(I\) contains a unit, say \(u \in I\). But then \(1 \in I\) since \(1 = uv\) for some \(v \in R\). So \(I = R\).
+
+    Conversely, take \(0 \neq r \in R\). Then we have \(\pqty{r} = R\), and hence \(1 \in R\) gives \(1 = r \cdot s\) for some \(s \in R\). So \(r\) is a unit, and \(R\) is a field.
+\end{proof}
+
+\begin{definition}[Maximal Ideal]
+    \label{def:maximal-ideal}%
+    An ideal \(I \idealsub R\) with \(I \neq R\) is \emph{maximal}, if for any \(J \idealsub R\), such that \(I \subseteq J \subseteq R\), we have either \(J = I\) or \(J = R\).
+\end{definition}
+
+Note that the zero ideal is maximal if and only if the ring itself is a field.
+
+\begin{proposition}[Ideals are Maximal if and only if Quotient is Field]
+    \label{prop:ideal-maximal-quotient-field}%
+    An ideal \(I \idealsub R\) is maximal if and only if the quotient \(\flatfrac{R}{I}\) is a field.
+\end{proposition}
+
+\begin{proof}
+    \(\flatfrac{R}{I}\) is a field if and only if its only ideals are the trivial ones, i.e., \(\Bqty{0}\) and \(\flatfrac{R}{I}\) itself, by \autoref{prop:ideals-fields}.
+
+    Using the correspondence result for ideals between \(R\) and \(\flatfrac{R}{I}\) finishes the proof.
+\end{proof}
+
+\begin{definition}[Prime Ideal]
+    \label{def:prime-ideal}%
+    An ideal \(I \idealsub R\) with \(I \neq R\) is \emph{prime}, if whenever \(ab \in I\), we have \(a \in I\) or \(b \in I\).
+\end{definition}
+
+\begin{example}[Prime Ideals of \(\ZZ\)]
+    \label{ex:prime-ideals-of-z}%
+    An ideal \(n\ZZ \idealsub \ZZ\) is a prime ideal if and only if \(n\) is zero, or a prime.
+    
+    Indeed, if \(ab \in p\ZZ\) for some prime \(p\), then \(ab\) is a multiple of \(p\), so either \(a\) or \(b\) is also a multiple of \(p\).
+
+    Conversely, if \(n\) is composite, consider \(n \ZZ\). Let \(n = n_1 n_2\) where \(1 < n_1, n_2 < n\). Then \(n_1\) and \(n_2\) product to a multiple of \(n\), in \(n \ZZ\), but neither are in the ideal \(n \ZZ\).
+\end{example}
+
+Note the similarity in this definition with \autoref{def:integral-domain-zero-divisor} (Integral Domain), i.e., a ring is an integral domain if and only if the zero ideal is prime.
+
+\begin{proposition}[Ideals are Prime if and only if Quotient is Integral]
+    \label{prop:ideal-prime-quotient-integral}%
+    An ideal \(I \idealsub R\) is prime if and only if \(\flatfrac{R}{I}\) is an integral domain.
+\end{proposition}
+
+\begin{proof}
+    If \(I\) is prime, let \(\pqty{a + I}\) and \(\pqty{b + I}\) be cosets in \(\flatfrac{R}{I}\) for some \(a, b \in R\). The product satisfies
+    \[
+        \pqty{a + I} \cdot \pqty{b + I} = ab + I = 0 + I
+    \]
+    is the zero ideal if and only if \(ab \in I\). This, since \(I\) is prime, implies that \(a \in I\) or \(b \in I\), so \(a + I = 0 + I\) or \(b + I = 0 + I\), showing that \(\flatfrac{R}{I}\) is indeed integral.
+
+    Conversely, if \(\flatfrac{R}{I}\) is integral, consider \(ab \in I\) where \(ab = 0\). Then
+    \[
+        ab + I = \pqty{a + I} \pqty{b + I} = 0 + I
+    \]
+    in \(\flatfrac{R}{I}\) which is integral. Therefore, \(a + I = 0\) or \(b + I = 0\).
+\end{proof}
+
+\begin{proposition}[Maximal Ideals are Prime]
+    \label{prop:maximal-ideal-prime}%
+    Every maximal ideal is a prime ideal.
+\end{proposition}
+
+\begin{proof}
+    Every field is an integral domain. \autoref{prop:ideal-maximal-quotient-field} and \autoref{prop:ideal-prime-quotient-integral} implies the result.
+\end{proof}
+
+\begin{remark}
+    The converse is false. Consider the example \(\pqty{0} \idealsub \ZZ\), and \(\pqty{x} \idealsub \RR\bqty{x, y}\) are both prime but not maximal.
+\end{remark}
+
+\begin{proposition}[Characteristic of Integral Domain is Zero or Prime]
+    \label{prop:characteristic-integral-domain}%
+    The characteristic of an integral domain \(R\) is either \(0\) or prime.
+\end{proposition}
+
+\begin{proof}
+    Consider the unique homomorphism \(\functiondomain{f}{{\ZZ}}{R}\). Characteristic \(n\) implies that \(\pqty{n} \idealsub \ZZ\) is the kernel.
+
+    By \autoref{thm:first-isomorphism-theorem-ring} (First Isomorphism Theorem for Rings), we have \(\flatfrac{\ZZ}{n\ZZ} \subring R\). Then \(\flatfrac{\ZZ}{n\ZZ}\) is therefore integral, and hence \(\pqty{n}\) must be a prime ideal.
+\end{proof}
+
+\section{Factorisation of Integral Domains}
+
+Throughout this section, we assume \(R\) is an integral domain.
+
+\begin{definition}[Divisor]
+    \label{def:divisor}%
+    Let \(a, b \in R\). We say \(a\) \emph{divides} \(b\), written as \(a \divides b\), if there exists some \(c \in R\), such that \(b = ac\).
+
+    Equivalently, \(a\) divides \(b\) if and only if \(\pqty{b} \subseteq \pqty{a}\).
+\end{definition}
+
+\begin{definition}[Associate]
+    \label{def:associate}%
+    Let \(a, b \in R\). We say \(a, b \in R\) are \emph{associates}, if \(a = bc\) for \(c \in R\) is a unit.
+
+    Equivalently, \(a\) and \(b\) are associates if and only if \(\pqty{a} = \pqty{b}\), and equivalently, \(a \divides b\) and \(b \divides a\).
+\end{definition}
+
+In a ring like the power series \(\RR\bbrac{x}\), then \(x\) and \(\pqty{x + x^2 + x^3 + \cdots}\) are associates. This is
+\[
+    x + x^2 + x^3 + \cdots = x \cdot \pqty{1 + x + x^2 + \cdots} = x \cdot \pqty{1 - x}\inverse.
+\]
+
+\begin{definition}[Irreducible]
+    \label{def:irreducible}%
+    An element \(r \in R\) is \emph{irreducible}, if \(r \neq 0\), \(r\) is not a unit, and if \(r = xy\), then \(x\) is a unit or \(y\) is a unit.
+\end{definition}
+
+\begin{definition}[Prime Element]
+    \label{def:prime-element}%
+    We say some \(p \in R\) is a \emph{prime element}, if \(p \neq 0\), \(p\) is not a unit, and if \(p \divides x \cdot y\), then \(p \divides x\) or \(p \divides y\).
+\end{definition}
+
+Note that in \(\ZZ\), the irreducibles are precisely prime elements -- but this is generally not the case.
+
+\begin{proposition}[Prime Elements and Prime Ideals]
+    \label{prop:prime-element-ideal}%
+    Let \(r \in R\). Then \(r \neq 0\) is a prime element if and only if \(\pqty{r}\) is a prime ideal.
+\end{proposition}
+
+\begin{proof}
+    Let \(\pqty{r}\) be a prime ideal. Prime ideals are not unit (by definition), so \(r\) is not a unit.
+
+    Suppose \(r \divides ab\). Then \(ab \in \pqty{r}\) which is prime, so \(a \in \pqty{r}\) or \(b \in \pqty{r}\), so \(r \divides a\) or \(r \divides b\).
+
+    Conversely, let \(r\) be a prime element. Now, suppose \(ab \in \pqty{r}\). Then \(r \divides ab\), and since \(r\) is prime, we have \(r \divides a\) and \(r \divides b\), and hence \(a \in \pqty{r}\) or \(b \in \pqty{r}\).
+\end{proof}
+
+\begin{proposition}[Primes are Irreducible]
+    \label{prop:primes-are-irreducible}%
+    Let \(r \in R\) be prime. Then \(r\) is irreducible.
+\end{proposition}
+
+\begin{proof}
+    Let \(r \in R\) be a prime, and let \(r = xy\). Since \(r \divides r\), we have \(r \divides xy\), so using the prime property, \(r \divides x\) or \(r \divides y\). Assume \(r \divides x\).
+
+    Therefore, \(x = rc\) for some \(c \in R\), and hence, we have
+    \[
+        r = xy = rcy.
+    \]
+
+    Recall that we are working in integral domains. Therefore, \(r = 0\) or \(cy = 1\). But \(r \neq 0\) by definition, so \(cy = 1\), showing \(y\) is a unit, and hence \(r\) is irreducible.
+\end{proof}
+
+The converse is false. We consider \(R = \ZZ\bqty{\sqrt{-5}}\).
+
+\begin{example}[Irreducibles that are not Primes]
+    \label{ex:irreducible-not-prime}%
+    Consider the ring \(R = \ZZ\bqty{\sqrt{-5}} \subring \CC\) is obviously an integral domain, since it is a subring of a field (and a field is always integral). This ring structure comes with the \emph{norm}:
+    \[
+        \function{N}{\ZZ\bqty{\sqrt{-5}}}{\ZZ_{\geq 0}}{a + b \sqrt{5}}{a^2 + 5 b^2.}
+    \]
+
+    This function is multiplicative, namely \(N\pqty{a} N\pqty{b} = N\pqty{ab}\) for any \(a, b \in R\).
+
+    We first claim all units in \(R\) have norm \(1\). Note that if \(1 = uv\) for \(u, v \in \RR\), we have \(N\pqty{1} = N\pqty{u} \cdot N\pqty{v}\), so both norms have to be \(1\).
+
+    The only units are in fact \(\pm 1 \in R\), because they are indeed units, and they are the only elements with norm \(1\). 
+
+    Now, we claim that the element \(2 \in R\) is irreducible. To see this, we notice \(N\pqty{2} = 4\). But there are no elements \(r \in R\) with \(N\pqty{r} = 2\), so if \(2 = ab\) for \(a, b \in R\), then \(N\pqty{a} = 1\) or \(N\pqty{b} = 1\), so one of \(a\) or \(b\) is a unit. Therefore, \(2\) is irreducible.
+
+    By a similar argument, the numbers \(3\) and \(1 \pm \sqrt{-5}\) are all irreducible elements.
+
+    However, these four elements \textbf{are not prime}. Observe that
+    \[
+        6 = \pqty{1 + \sqrt{-5}} \pqty{1 - \sqrt{-5}} = 2 \cdot 3.
+    \]
+
+    We claim that \(2 \notdivides 1 \pm \sqrt{-5}\). If it did, then
+    \[
+        4 = N\pqty{2} \divides N\pqty{1 \pm \sqrt{-5}} = 6
+    \]
+    but this is not true. Therefore, we have \(2 \divides 6 = \pqty{1 + \sqrt{-5}} \pqty{1 - \sqrt{-5}}\), but \(2 \notdivides 1 \pm \sqrt{-5}\). Therefore, \(2\) is not prime.
+
+    We will soon see later that unique factorisation fails as well.
+\end{example}
+
+We try abstract arithmetic properties by describing them in more general algebraic objects.
+
+\begin{definition}[Euclidean Domain]
+    \label{def:euclidean-domain}%
+    An integral domain \(R\) is a \emph{Euclidean Domain} \(f\), if there exists some function \(\functiondomain{\phi}{R \setminus \Bqty{0}}{\ZZ_{\geq 0}}\), such that
+    \begin{enumerate}
+        \item \(\phi\pqty{ab} \geq \phi\pqty{b}\) for all non-zero \(a, b\); and
+        \item If \(a, b \in R\) with \(b \neq 0\), there is some \(q, r \in R\), such that \(a = bq + r\), and either \(r = 0\) or \(\phi\pqty{r} \leq \phi\pqty{b}\).
+    \end{enumerate}
+
+    Such a function \(\phi\) is called a \emph{Euclidean function}.
+\end{definition}
+
+\begin{example*}[Examples and Non-Examples of Euclidean Domains]
+    \(\pqty{\ZZ, \phi = \abs{ \cdot }}\), the integers, and for any field \(K\), \(\pqty{K\bqty{x}, \phi = \deg}\), the polynomial ring.
+
+    Note that \(\ZZ\bqty{\sqrt{-5}}\) is \emph{not Euclidean}.
+\end{example*}
+
+\begin{example}[Gaussian Integers are a Euclidean Domain]
+    \label{ex:gaussian-integers-euclidean-domain}%
+    Let \(R = \ZZ\bqty{i} \subring \CC\) be the \emph{Gaussian Integers}. We define the function
+    \[
+        \phi\pqty{z} = \abs{z}^2
+    \]
+    where \(\abs{ \cdot }\) denotes the complex norm. Note that it does satisfy the first property, so it remains to show that the division algorithm shows.
+
+    Consider \(a, b \in \ZZ\bqty{i}\), and we let \(b \neq 0\). Since \(\CC\) is a field, we have \(\flatfrac{a}{b} \in \CC\), then there is a point \(q \in \ZZ\bqty{i}\), such that
+    \[
+        \abs{\frac{a}{b} - q} < 1,
+    \]
+    as demonstrated in \autoref{fig:div-gaussian}.
+
+    So we let \(\frac{a}{b} = q + c\) with \(\abs{c} < 1\), and hence \(a = bq + bc\). Take \(r = bc\), we know that \(r = a - bq \in \ZZ\bqty{i}\), and we have
+    \[
+        \phi\pqty{r} = \phi\pqty{bc} = \abs{bc}^2 < \abs{b}^2 = \phi\pqty{b},
+    \]
+    so this Euclidean function satisfies the division algorithm, finishing our proof.
+\end{example}
+
+\begin{figure}[ht!]
+    \centering
+    \par The Gaussian lattice consists of all points $(a,b)$ with $a,b\in\mathbb Z$. Rounding each coordinate gives a lattice point at distance at most $\sqrt{1/2}$ from any point of the plane.\par
+    \caption{Division in Gaussian Integers}
+    \label{fig:div-gaussian}
+\end{figure}
+
+In particular, this means that any ideal \(I \idealsub \ZZ\bqty{i}\) is principal -- recall \autoref{ex:ideals-of-z}.
+
+\begin{definition}[Principal Ideal Domain]
+    \label{def:pid}%
+    An integral domain \(R\) is a \emph{principal ideal domain} (PID) such that every ideal \(I \idealsub R\) is principal.
+\end{definition}
+
+\begin{proposition}[Euclidean Domains are PIDs]
+    \label{prop:euclidean-pid}%
+    Every Euclidean domain is a Principal Ideal Domain.
+\end{proposition}
+
+\begin{proof}
+    See \autoref{ex:ideals-of-z} and/or \autoref{prop:euclidean-algorithm-polynomials}.
+\end{proof}
+
+\begin{example}[Non-Example of PID]
+    \label{ex:non-example-pid}%
+    Let \(R = \ZZ\bqty{X}\), and we want to show \(R\) is not a PID (hence not Euclidean). Let \(I = \pqty{2, x}\). We claim that this ideal is not principal.
+
+    Say \(I = \pqty{f}\). Then \(f \divides 2\), so \(f \in \Bqty{\pm 1, \pm 2}\). If \(f = \pm 1\), then \(\pqty{f} = \ZZ\bqty{x}\). But \(\pqty{2, x} \neq \ZZ\bqty{x}\) by looking at constant terms.
+
+    Therefore, \(f = \pm 2\). But \(2 \notdivides x\), so \(\pqty{f} \neq \pqty{2, x}\).
+\end{example}
+
+\begin{definition}[Unique Factorisation Domain]
+    \label{def:ufd}%
+    An integral domain \(R\) is a \emph{unique factorisation domain} (UFD) if:
+    \begin{enumerate}
+        \item Every non-unit in \(R\) is a product of (finitely many) irreducibles.
+        \item If \(p_1 \cdot \cdots p_n = q_1 \cdot \cdots q_m\), with all \(p_i\) and \(q_j\)s are irreducible, then \(n = m\), and after some possible re-ordering, we have \(p_i\) and \(q_i\) are associates for all \(i\).
+    \end{enumerate}
+\end{definition}
+
+We want to show that all PIDs are UFDs.
+
+\begin{lemma}[Irreducibles are Primes in PID]
+    \label{lem:irreducible-primes-pid}%
+    In a principal ideal domain, any irreducible is prime.
+\end{lemma}
+
+\begin{proof}
+    Let \(p \in R\) be irreducible, and let \(p \divides ab\) but \(p \notdivides a\). We want to show \(p \divides b\).
+
+    Consider \(\pqty{p, a} \idealsub R\). This is principal, so
+    \[
+        \pqty{d} = \pqty{p, a}
+    \]
+    for some \(d \in R\). So \(d \divides p\) and \(d \divides a\).
+
+    Therefore, \(p = q_1 \cdot d\), but by irreducibility of \(p\), we know either \(q_1\) is a unit, or \(d\) is a unit.
+
+    If \(q_1\) is a unit, then \(d = q\inverse p\). But \(d \divides a\), so \(p \divides a\), which gives a contradiction.
+
+    Therefore, \(d\) is a unit, so \(\pqty{d} = \pqty{1} = R\). Therefore, \(\pqty{p, a} = R\), so \(1 = rp + sa\).
+
+    Hence,
+    \[
+        b = r p b + s a b
+    \]
+    and \(p\) divides the right-hand side. So \(p\) divides \(b\).
+\end{proof}
+
+\begin{theorem}[PIDs are UFDs]
+    \label{thm:pid-ufd}%
+    Any principal ideal domain is a unique factorisation domain.
+\end{theorem}
+
+We first prove the following. Let \(R\) be a principal ideal domain. If \(I_1 \subseteq I_2 \subseteq I_3 \subseteq \cdots\) is a chain of increasing ideals in \(R\), there exists \(N > 0\) such that for all \(n \geq N\), we have \(I_n = I_{n + 1}\). (In \(\ZZ\), this is very familiar.)
+
+\begin{proof}
+    Consider the infinite union of the ideals
+    \[
+        I = \bigcup_{j \in \NN} I_j.
+    \]
+
+    This is an ideal in \(R\), and hence principal, since \(R\) is a principal ideal domain. Therefore, \(I = \pqty{r}\) for some \(r \in R\). Therefore, there is some \(N\) such that \(r \in I_N\), and the sequence of increasing ideals must stabilise from this point onwards.
+\end{proof}
+
+Rings that satisfy this property are \emph{Noetherian} -- we will come back to this later.
+
+\begin{proof}[\proofname\ of \autoref{thm:pid-ufd}]
+    First we show that \(r \in R\) is a product of irreducibles. If \(r\) is itself irreducible, then we are done.
+
+    If not, we let \(r = r_1 s_1\), where \(r_1, s_1\) are not units. If \(r_1\) and \(r_2\) be products of irreducibles, we are done. Otherwise, without loss of generality, assume \(r_1\) cannot be written as such.
+
+    Now, let \(r_1 = r_2 s_2\), where \(r_2, s_2\) are non-units. Again, suppose that \(r_2\) cannot be written as a product of irreducibles. If not, we continue, by letting \(r_2 = r_3 s_3\), where \(r_3, s_3\) are non-units.
+
+    So we get \(\pqty{r} \subseteq \pqty{r_1} \subseteq \pqty{r_2} \subseteq \cdots\). Therefore, by the lemma, this increasing chain of ideals stabilises, say \(\pqty{r_N}\).
+
+    So for \(n \geq N\), \(\pqty{r_n} = \pqty{r_{n + 1} s_{n + 1}} = \pqty{r_{n + 1}}\), so \(s_{n + 1}\) is a unit. This gives a contradiction.
+
+    For uniqueness, suppose that \(p_1 \cdots p_n = q_1 \cdots q_m\) are a product of irreducibles. Now, recall \autoref{lem:irreducible-primes-pid} (Irreducibles implies Primes in PID), so say \(p_1 \divides q_i\) for some \(i\). But \(q_i\) is irreducible, so \(q_i = a p_1\) for some unit \(a\).
+
+    Up to relabelling, say \(q_i = q_1\). Now, \(p_1 \cdots p_n = a \cdot p_1 \cdot q_2 \cdots q_m\). Therefore, cancelling \(p_1\), we have \(p_2 \cdots p_n = a \cdot q_2 \cdots q_m\).
+
+    We replace \(a q_2\) with \(q_2\) (since \(a\) is a unit, \(a q_2\) remains to be irreducible), and we run the procedure again. Then \(q_i\) and \(p_i\) become associated for all \(i\). This also shows that \(n = m\), since say otherwise that if \(n = m + k\) for \(k > 0\), then we get
+    \[
+        \prod_{i = m + 1}^{n} p_i
+    \]
+    is a unit, which is false.
+\end{proof}
+
+\begin{remark}
+    In any UFD, irreducibles implies primes. This follows from the factorisation.
+\end{remark}
+
+\begin{definition}[Greatest Common Divisor, Lowest Common Multiple]
+    \label{def:gcd-lcm}%
+    Let \(a_1, \ldots, a_n \in R\). We say that \(d\) is a \emph{greatest common divisor} (GCD) of them, if \(d \divides a_i\) for \(i\), and if \(d'\) is another number such that \(d' \divides a_i\) for all \(i\), then \(d' \divides d\).
+
+    Similarly, we say that \(l\) is a \emph{lowest common multiple} (LCM) of them, if \(a_i \divides l\) for all \(i\), and if \(l'\) is another number such that \(a_i \divides l'\) for all \(i\), then \(l \divides l'\).
+\end{definition}
+
+An integral domain where any two elements have a greatest common divisor is called a \emph{GCD domain} -- this is equivalent to the notion of a \emph{LCM domain} which is defined similarly.
+
+\begin{theorem}[UFDs are GCD Domains]
+    \label{thm:ufd-gcd}%
+    Let \(R\) be a unique factorisation domain. Then greatest common divisors and least common multiples exist and are unique, up to associates.    
+\end{theorem}
+
+\begin{proof}
+    Let \(p_1, \ldots, p_m\) be the list of all irreducible factors in the factorisations of all the \(a_i\)s, up to associates.
+
+    Let \(a_i = u_i \cdot \prod_{j = 1}^{m} p_j^{n_{i, j}}\) where \(n_{i, j} \geq 0\), and let \(m_j = \min \Bqty{n_{i, j}}\). We choose
+    \[
+        d = \prod_{j = 1}^{m} p_j^{m_j},
+    \]
+    then by definition, \(m_j \leq n_{i, j}\), so we know \(d \divides a_i\).
+
+    If \(d' \divides a_i\) for all \(i\), then \(d' = v \prod_{j = 1}^{n} p_j^{t_j}\) for \(v\) being a unit. We therefore must have \(t_j \leq m_j\) for all \(j\). So \(d' \divides d\).
+
+    Uniqueness is immediate, since if \(d' \divides d\), and \(d \divides d'\), then \(d\) and \(d'\) are associates. This finishes the proof for greatest common divisors.
+
+    The proof for least common multiples is identical.
+\end{proof}
+
+\section{Factorisation in Polynomial Rings}
+
+Recall that is \(K\) is a field, then \(K\bqty{x}\) is Euclidean (recall \autoref{prop:euclidean-algorithm-polynomials}). Therefore, we have
+\begin{itemize}
+    \item any ideal \(I \idealsub K\bqty{x}\) is principal (so \(I = \pqty{f}\)), by \autoref{prop:euclidean-pid};
+    \item \(f \in K\bqty{x}\) is irreducible if and only if it is prime, by \autoref{lem:irreducible-primes-pid} and \autoref{prop:primes-are-irreducible};
+    \item let \(f\) be irreducible, and we consider \(\pqty{f} \idealsub K\bqty{x}\). Suppose \(\pqty{f} \subseteq J \idealsub k\bqty{x}\), then \(J = \pqty{g}\), so \(f = gh\). But either \(g\) and \(f\) are associates, or \(g\) is a unit. So \(\pqty{f}\) must be maximal. In fact, this is true for all PIDs.
+\end{itemize}
+
+In particular, for \(f \in K\bqty{x}\),
+\[
+    f \text{ is irreducible} \iff \flatfrac{K\bqty{x}}{\pqty{f}} \text{ is a field}.
+\]
+
+\begin{definition}[Content of a Polynomial, Primitive Polynomials]
+    \label{def:content-polynomial-primitive}%
+    Let \(R\) be a UFD, and \(f = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n\in R\bqty{x}\). The \emph{content} of \(f\) is
+    \[
+        \content\pqty{f} = \gcd\Bqty{a_0, \ldots, a_n} \in R.
+    \]
+
+    If \(\content\pqty{f}\) is a unit, then we say \(f\) is \emph{primitive}.
+\end{definition}
+
+\begin{theorem}[Gauss's Lemma]
+    \label{thm:gauss-lemma}%
+    Let \(R\) be a UFD, and \(f \in R\bqty{x}\). If \(f\) is primitive, then \(f\) is irreducible in \(R \bqty{x}\) if and only if \(f\) is irreducible in \(F\bqty{x}\), where \(F\) is a fraction field over \(R\).
+\end{theorem}
+
+Recall \autoref{def:field-of-fractions} for fraction fields.
+
+\begin{remark}
+    For example, in \(\pqty{2x + 2} \in \ZZ\bqty{x}\) is \emph{not} primitive, since \(\gcd\Bqty{2, 2} = 2\) is not a unit, and is reducible. However, \(\pqty{2x + 2} \in \QQ\bqty{x}\) \emph{is} primitive, but is irreducible.
+\end{remark}
+
+\begin{example}[Gauss's Lemma in \(\ZZ\bqty{x}\) and \(\QQ\bqty{x}\)]
+    \label{ex:application-gausss-lemma}%
+    We consider the polynomial
+    \[
+        x^3 + x + 1 \in \ZZ\bqty{x}.
+    \]
+
+    The content of this polynomial is \(1\). We show this is irreducible in \(\ZZ\bqty{x}\) and hence in \(\QQ\bqty{x}\).
+
+    If it were reducible, we let
+    \[
+        x^3 + x + 1 = gh
+    \]
+    with \(g, h \in \ZZ\bqty{x}\). Therefore, they must have degrees of at least \(1\) (using the content of the polynomials). Therefore, we choose \(g = b_0 + b_1 x\) and \(h = c_0 + c_1 x + c_2 x^2\).
+
+    Since \(x^2 + x + 1 = gh\), we have \(b_0 c_0 = 1\), \(b_1 c_2 = 1\), and so \(b_0\) and \(b_1\) are \(\pm 1\).
+    
+    This means \(\pm 1\) is a root of \(x^3 + x + 1\). But it is not by putting it into the polynomial!
+
+    Therefore, \(x^3 + x + 1\) is irreducible in \(\ZZ\bqty{x}\), and hence in \(\QQ\bqty{x}\) in \autoref{thm:gauss-lemma}.
+\end{example}
+
+\begin{lemma}[Gauss's Lemma on Primitivity]
+    \label{lem:gauss-lemma-primitive}
+    Let \(R\) be a UFD, and \(f, g \in R\bqty{x}\). If \(f\) and \(g\) are primitive, then \(fg\) is primitive.
+\end{lemma}
+
+\begin{proof}
+    Let \(f = a_0 + a_1 x + \cdots + a_n x^n\) and \(g = b_0 + b_1 x + \cdots + b_m x^m\), with \(a_n, b_m \neq 0\) and both primitive.
+
+    Now, suppose \(\content\pqty{fg}\) is not a unit, we may find some \(p \in R\), irreducible, with \(p \divides \content\pqty{fg}\). By the setup, we have \(p\notdivides \content\pqty{f}\), and \(p\notdivides \content\pqty{g}\).
+
+    Suppose \(k\) is the smallest integer such that \(p \notdivides a_k\) and \(l\) is the smallest such that \(p \notdivides b_l\). We consider the coefficient of \(x^{k + l}\), which is given by
+    \[
+        \sum_{i + j = k + l} a_i b_j.
+    \]
+
+    By assumption, \(p\) divides this coefficient, and \(p\) divides the elements
+    \[
+        a_{k - 1} b_{l + 1}, a_{k - 2} b_{l + 2}, \ldots, a_0 b_{l + k},
+    \]
+    and
+    \[
+        a_{k + 1} b_{l - 1}, a_{k + 2} b_{l - 2}, \ldots, a_{l + k} b_0
+    \]
+    by the assumption of the minimality of \(l\) and \(k\). Therefore, \(p \divides a_k b_l\) which gives a contradiction. 
+\end{proof}
+
+\begin{corollary}[Contents are Multiplicative up to Units]
+    \label{cor:content-multiplicative}%
+    Let \(R\) be a UFD and \(f, g \in R\bqty{x}\). Then \(\content\pqty{fg}\) and \(\content\pqty{f} \cdot \content\pqty{g}\) are associates.
+\end{corollary}
+
+\begin{proof}
+    Let
+    \[
+        f = \content\pqty{f} f_1, \quad g = \content\pqty{g} g_1
+    \]
+    for \(f_1, g_1 \in R\bqty{x}\), primitive, then \(fg = \content\pqty{f} \content\pqty{g} f_1 g_1\), but \(f_1 g_1\) is primitive by \autoref{lem:gauss-lemma-primitive}.
+
+    Since \(f_1, g_1\) are primitive, \(\content\pqty{f} \cdot \content\pqty{g}\) is indeed a gcd for the coefficients of \(fg\).
+\end{proof}
+
+\begin{proof}[\proofname\ of \autoref{thm:gauss-lemma} (Gauss's Lemma)]
+    If \(f = gh\) in \(R\bqty{x}\) with \(g, h\) non-units, since \(f\) is primitive, we have \(g, h\) are also primitive. Therefore, \(\deg \pqty{g}, \deg\pqty{h} > 0\). Therefore, \(f\) is reducible in \(F\bqty{x}\).
+
+    Conversely, let \(f = gh\) in \(F\bqty{x}\) with \(g, h\) being non-units, so \(\deg\pqty{g}, \deg\pqty{h} > 0\). We may find \(a, b\) such that \(\pqty{ab}f = \pqty{ag} \pqty{bh}\), where \(\pqty{ag}, \pqty{bh} \in R\bqty{x}\). (This is guaranteed by the definition, see \autoref{def:field-of-fractions}.)
+
+    Now, we can write \(\pqty{ag} = \content\pqty{ag} g_1\) and \(\pqty{bh} = \content\pqty{bh} h_1\), with \(g, h\) primitive.
+
+    We know since \(f\) is primitive, we have \(\content\pqty{abf} = ab\). By \autoref{cor:content-multiplicative}, we have
+    \[
+        ab = \content\pqty{abf} = \content\pqty{\pqty{ag} \cdot \pqty{bh}} = \content\pqty{ag} \cdot \content\pqty{bh} \cdot u
+    \]
+    where \(u\) is a unit. Also,
+    \[
+        abf = \content\pqty{ag} \cdot \content\pqty{bh} g_1 h_1 = u\inverse ab g_1 h_1,
+    \]
+    and we cancel \(ab\), giving \(f = u\inverse g_1 h_1\), finishing the proof.
+\end{proof}
+
+\begin{proposition}[Divisibility in Polynomial Ring over Field of Fractions]
+    \label{prop:divisibility-polynomial-ring-fof}%
+    Let \(R\) be a UFD, and \(F\) be a field of fractions of \(R\). Let \(g \in R\bqty{x}\) be primitive. If \(f\) is divisible by \(g\) in \(F\bqty{x}\), then it is also true in \(R\bqty{x}\).
+
+    In other words, let
+    \[
+        I = \pqty{g} \idealsub R\bqty{x}, \quad J = \pqty{g} \idealsub F\bqty{x},
+    \]
+    then \(I = J \cap R\bqty{x}\).
+\end{proposition}
+
+\begin{proof}
+    Let \(f \in J \cap R\bqty{x}\). Then we can write \(f = gh\) for some \(h \in F\bqty{x}\). Multiplying by some \(b \in R\), we get
+    \[
+        bf = g \pqty{bh}
+    \]
+    now for \(\pqty{bh} \in R\bqty{x}\). We now see
+    \[
+        \pqty{bh} = \content\pqty{bh} \cdot h_1
+    \]
+    with \(h_1\) primitive. Since \(g\) is primitive, we see \(g h_1\) is primitive, so
+    \[
+        \content\pqty{bh} = u \cdot \content\pqty{bf}
+    \] 
+    where \(u\) is a unit. But \(\content\pqty{bf} = b \cdot \content\pqty{f}\), since \(b, f \in R\bqty{x}\). Now, observe
+    \[
+        bf = g u b \cdot \content\pqty{f} \cdot h_1
+    \]
+    and cancelling out the \(b\) gives divisibility as desired.
+\end{proof}
+
+\begin{theorem}[Polynomial Ring over UFD are UFDs]
+    \label{thm:poynomial-over-ufd-ufd}%
+    If \(R\) is a UFD, then \(R\bqty{x}\) is a UFD.
+\end{theorem}
+
+\begin{proof}
+    Let \(f \in R\bqty{x}\). We let \(f = \content\pqty{f} \cdot f_1\).
+
+    We may first factorise the content as
+    \[
+        \content\pqty{f} = p_1 \cdot p_2 \cdots p_n
+    \]
+    uniquely, since \(R\) is a UFD. This reduces now to proving a factorisation exists in \(f_1\), where \(f_1\) is primitive.
+
+    If \(f_1\) is irreducible, then we are done. If not, then \(f_1 = f_{11} \cdot f_{12}\) where \(f_{11}\) and \(f_{12}\) are of smaller degrees, and primitive. We continue doing the same with \(f_{11}\) and \(f_{12}\), and the process terminates until the degree drops at some step.
+    
+    Therefore, we may factorise
+    \[
+        f_1 = q_1 \cdot q_2 \cdots q_m
+    \]
+    into irreducibles, and hence \(f\) as
+    \[
+        f_1 = p_1 \cdots p_n \cdot q_1 \cdots q_m
+    \]
+
+    It remains to show the uniqueness of this factorisation. The uniqueness for the \(p_i\)s follows immediately from \(R\) being a UFD, by cancelling content, up to units in \(R\). The uniqueness of the \(q_i\) is as follows. Consider two factorisations
+    \[
+        f_1 = q_1 \cdots q_m = r_1 \cdots r_l
+    \]
+    in \(R\bqty{x}\).
+
+    We can view this in \(F\bqty{x}\). But \(F\bqty{x}\) is Euclidean, and hence a PID (by \autoref{prop:euclidean-pid}), and hence a UFD (by \autoref{thm:pid-ufd}). Therefore, \(l = m\), and up to reordering, \(r_i\)s and \(q_i\)s are associates in \(F\bqty{x}\).
+
+    But by \autoref{prop:divisibility-polynomial-ring-fof}, they must also be associates in \(R\bqty{x}\). This finishes our proof.
+\end{proof}
+
+\begin{examples}[More Examples of UFDs]
+    \label{ex:more-examples-ufd}%
+    Examples of UFDs now include \(\ZZ\bqty{x}, \RR\bqty{x, y}, F\bqty{x, y}\) for a field \(F\), and \(\ZZ\bqty{x_1, \ldots, x_n}\). We may start from any UFD and construct a new UFD by taking the polynomial ring. (But recall that \(\ZZ\bqty{\sqrt{-5}}\) is not a UFD.)
+\end{examples}
+
+\begin{theorem}[Eisenstein's Criteria]
+    \label{thm:eisenstein}%
+    Let \(R\) be a UFD, and \(f = a_0 + a_1 x + \cdots + a_n x^n \in R \bqty{x}\) be primitive, and \(a_n \neq 0\). If there is some \(p \in R\) which is irreducible, such that
+    \begin{enumerate}
+        \item \(p \notdivides a_n\);
+        \item \(p \divides a_i\) for all \(0 \leq i < n\); and
+        \item \(p^2 \notdivides a_0\);
+   \end{enumerate}
+   then \(f\) is irreducible in \(R\bqty{x}\), or equivalently, in \(F\bqty{x}\), where \(F\) is a field of fractions of \(R\) (by \autoref{thm:gauss-lemma} (Gauss's Lemma)).
+\end{theorem}
+
+\begin{proof}
+    Suppose \(f = gh\) with \(g = r_0 + r_1 x + \cdots + r_k x^k\) and \(h = s_0 + s_1 x + \cdots + s_l x^l\), with \(r_k, s_l \neq 0\).
+
+    We note that by hypothesis, since \(p \notdivides a_n\), we have \(p \notdivides r_k\) or \(s_l\). Also, \(p\) divides either \(r_0\) or \(s_0\), but not both.
+
+    Suppose that \(p \divides r_0\). Let \(j\) be the index such that: \(p \divides r_0\), \(p \divides r_1\), and \(p \divides r_{j - 1}\), but \(p \notdivides r_j\).
+
+    Now, we look at the coefficient \(a_j\). We have
+    \[
+        a_j = r_0 s_j + r_1 s_{j - 1} + \cdots + r_j s_0.
+    \]
+
+    Since \(p\) divides \(r_0, r_1, \ldots, r_{j - 1}\), and \(p\) dies not divides \(r_j\) or \(s_0\), we have \(p \notdivides a_j\).
+
+    Therefore, the only possible value of \(j\) is \(j = n\), and so \(k = n\). Hence, \(\deg\pqty{g} = n\) and \(\deg\pqty{h} = 0\), so \(f = gh\) is not a proper factorisation, because \(h\) is a unit. This finishes our proof.
+\end{proof}
+
+\begin{examples}[Application of Eisenstein's Criteria]
+    \label{ex:application-of-eisenstein}%
+    \begin{enumerate}
+        \item We work with the integer ring \(R = \ZZ\). Take \(f = x^2 - p\) for any \(p \in \ZZ\) be a prime. By \autoref{thm:eisenstein} (Eisenstein's Criteria), this polynomial is irreducible (in both \(\ZZ\bqty{x}\) and \(\QQ\bqty{x}\)), and hence \(\sqrt[n]{p}\) is not rational.
+        \item We work in \(\ZZ\bqty{x}\) with the polynomial
+        \[
+            f\pqty{x} = x^{p - 1} + x^{p - 2} + \cdots + x + 1 = \frac{x^p - 1}{x - 1}
+        \]
+        where \(p\) is a prime number. This is called the \emph{\(p\)-cyclotomic polynomial}.
+
+        The second form suggests us considering
+        \[
+            \hat{f} \pqty{y} = f\pqty{y + 1}.
+        \]
+
+        We can calculate \(\hat{f} \pqty{y}\) that
+        \[
+            \hat{f} \pqty{y} = y^{p - 1} + \binom{p}{1} y^{p - 2} + \cdots + \binom{p}{p - 1}.
+        \]
+
+        Now, this satisfies the criteria of \autoref{thm:eisenstein} (Eisenstein's Criteria), telling us that \(\hat{f}\) is irreducible, and hence \(f\) is irreducible. The final implication is as follows: say \(f\pqty{x} = f_1\pqty{x} f_2\pqty{x}\), then \(\hat{f} \pqty{y} = f\pqty{x - 1} = f_1\pqty{x - 1} f_2\pqty{x - 1}\) gives a factorisation.
+
+        In other words, the \emph{shift} is an automorphism in the polynomial ring -- and factorisation is preserved under such changes.
+    \end{enumerate}
+\end{examples}
+
+\section{Gaussian Integers}
+
+The ring of Gaussian integers is given by
+\[
+    \ZZ\bqty{i} = \set{a + ib}{a, b \in \ZZ} \subring \CC,
+\]
+and it is equipped with a norm
+\[
+    N\pqty{a + ib} = a^2 + b^2.
+\]
+
+This norm enables division with remainder, as discussed in \autoref{ex:gaussian-integers-euclidean-domain}. This makes \(\ZZ\bqty{i}\) a Euclidean domain (and hence a PID, and hence a UFD).
+
+We first list some results that are useful for the future.
+
+\begin{proposition}[Properties of Gaussian Integers]
+    \label{prop:properties-gaussian-integers}%
+    \begin{itemize}
+        \item Irreducibles coincides with primes in \(\ZZ\bqty{i}\).
+        \item The units have norm \(1\), and they are precisely \(\pm 1\) and \(\pm i\).
+        \item Primes in \(\ZZ\) are \emph{not necessarily} primes in \(\ZZ\bqty{i}\): indeed, note \(2 = \pqty{1 + i} \pqty{1 - i}\), so \(2\) is not a prime.    
+    \end{itemize}
+\end{proposition}
+
+Although \(2\) is no longer a prime, we note \(3\) is a prime, since \(N\pqty{3} = 9\). If \(3 = uv\) for \(u, v \in \ZZ\bqty{i}\), then \(N\pqty{3} = 9 = N\pqty{u} \cdot N\pqty{v}\). Then either \(N\pqty{u}\) or \(N\pqty{v}\) is a unit, or \(N\pqty{u} = N\pqty{v} = 3\). But notice \(a^2 + b^2 = 3\) has no integer solutions, so it must be the former case. Hence, either \(u\) or \(v\) is a unit, so \(3\) is prime. (Likewise, \(7\) is also a prime.)
+
+\begin{proposition}[Primes in Gaussian Integers which are Integers]
+    \label{prop:prime-gaussian-int-int}%
+    A prime \(p \in \ZZ\) remains prime in \(\ZZ\bqty{i}\), if and only if \(p \neq a^2 + b^2\) for \(a, b \in \ZZ \setminus \Bqty{0}\).
+\end{proposition}
+
+\begin{proof}
+    If \(p = a^2 + b^2\), then \(p = \pqty{a + ib} \pqty{a - ib}\) so \(p\) is not a prime.
+
+    Conversely, suppose \(p = uv\), with \(u\) and \(v\) being non-units in \(\ZZ\bqty{i}\). Then \(N\pqty{p} = p^2 = N\pqty{u} \cdot N\pqty{v}\). Therefore, \(N\pqty{u} = N\pqty{v} = p\), so let \(u = a + ib\), then \(p = N\pqty{u} = a^2 + b^2\).
+\end{proof} 
+
+This is not completely conclusive -- it only talks about the primes which lie in the set \(\ZZ\bqty{i} \cap \ZZ\).
+
+\begin{lemma}[Multiplicative Group of Integers modulo \(p\) is Cyclic]
+    \label{lem:multiplicative-group-int-mod-p-cyclic}%
+    Let \(p\) be a prime, and \(\FF_p \isomorphic \flatfrac{\ZZ}{p \ZZ}\) be the finite field with \(p\) elements. Then the group \(\FF_p\multiplicative\) (the non-zero elements under multiplication) is cyclic, i.e., \(\FF_p\multiplicative \isomorphic C_{p - 1}\).
+\end{lemma}
+
+\begin{proof}
+By the invariant-factor classification, a finite abelian group is
+$C_{d_1}\times\cdots\times C_{d_r}$, with $1<d_1\mid\cdots\mid d_r$ (the trivial group is cyclic).
+Every element of $\mathbb F_p^\times$ would then satisfy $X^{d_r}=1$.
+A nonzero polynomial of degree $d_r$ over a field has at most $d_r$ roots, so
+$d_1\cdots d_r\leq d_r$. Consequently $r=1$, and the group is cyclic.
+\end{proof}
+
+\begin{theorem}[Primes in Gaussian Integers]
+    \label{thm:prime-gaussian}%
+    The primes in \(\ZZ\bqty{i}\), up to associates, are given by
+    \begin{enumerate}
+        \item the primes \(p \in \ZZ\), such that \(p \equiv 3 \pmod{4}\); or
+        \item Gaussian \(z \in \ZZ\bqty{i}\), with \(N\pqty{z} = p\) with prime \(p\), where \(p\) is \(2\), or \(p \equiv 1 \pmod{4}\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The ring $\mathbb Z[i]$ is a UFD, so irreducibles are prime. Its norm is multiplicative and its units have norm one.
+If a rational prime $p\equiv3\pmod4$ factors into two nonunits, their norms must both equal $p$. This would express $p$ as a sum of two squares, impossible modulo four. Thus $p$ remains prime.
+An element of norm a rational prime is irreducible, since a factorization forces one factor to have norm one.
+
+For $p=2$, use $2=(1+i)(1-i)$; both factors have norm two.
+For $p\equiv1\pmod4$, cyclicity of $\mathbb F_p^\times$ supplies an element $a$ of order four, so $a^2=-1$ modulo $p$. In $\mathbb Z[i]$, $p$ divides $(a+i)(a-i)$ but divides neither factor (their imaginary coordinates are $\pm1$). Hence $p$ is not prime and therefore not irreducible. A factorization $p=uv$ into nonunits gives $N(u)=N(v)=p$, so $u,v$ are Gaussian primes.
+
+Now let $z$ be any Gaussian prime. Choose a rational prime $p$ dividing the positive integer $N(z)>1$.
+If $p\equiv3\pmod4$, primality gives $p\mid z$ or $p\mid\overline z$; since $z$ and its conjugate are irreducible, $z$ is associated to $p$.
+Otherwise take a Gaussian prime $u$ of norm $p$, constructed above. Since $u\mid p\mid z\overline z$, either $u\mid z$ or $u\mid\overline z$.
+Thus $z$ is associated to $u$ or to $\overline u$, and $N(z)=p$.
+This proves the classification. It does not assert that a Gaussian prime and its conjugate are always associates.
+\end{proof}
+
+Note that the proof actually gives a way to find \(\alpha \in \ZZ\bqty{i}\), such that \(N\pqty{\alpha} = p\) whenever \(p = 1 \pmod{4}\).
+
+\begin{corollary}[Prime Factorisation of Sum of Two Squares]
+    \label{cor:int-sum-of-two-qaures}%
+    A positive integer \(n\) can be written as a sum of squares \(x^2 + y^2\) if and only if \(n = p_1 ^{n_1} p_2^{n_2} \cdots p_k^{n_k}\) contains even powers of the \(4k + 3\) primes, i.e., if \(p_i \equiv 3 \pmod{4}\) then \(n_i\) is even.
+\end{corollary}
+
+\begin{proof}
+    If \(n = x^2 + y^2\), then \(n = N\pqty{x + iy}\) for \(x + iy \in \ZZ\bqty{i}\).
+
+    Let \(z = x + iy\) and factorise in \(\ZZ\bqty{i}\) as
+    \[
+        z = \alpha_1 \alpha_2 \cdots \alpha_q
+    \]
+    into irreducibles. So either \(\alpha_i\) is a prime in \(\ZZ\) which is \(\alpha_i \equiv 3 \pmod{4}\) (which means the factor of it would double when taking the norm), or \(N\pqty{\alpha_i} = 2\) or \(N\pqty{\alpha_i} \equiv 1 \pmod{4}\).
+
+    Now we take the norm to get
+    \[
+        x^2 + y^2 = N\pqty{z} = \prod N\pqty{\alpha_i}
+    \]
+    and each \(N\pqty{\alpha_i}\) is \(p^2\) for \(p \equiv 3 \pmod{4}\), or \(N\pqty{\alpha_i}\) is \(p\) for \(p \equiv 1 \pmod{4}\) or \(p = 2\).
+
+    Conversely, let \(n = \prod p_i^{n_i}\) with the given conditions. In this case, if \(p_i \equiv 3 \pmod{4}\), we have
+    \[
+        p_i^{n_i} = \pqty{p_i^{\flatfrac{n_i}{2}}}^2 = N\pqty{p_i^{\flatfrac{n_i}{2}}}.
+    \]
+
+    If \(p_i \equiv 1 \pmod{4}\) or \(p_i = 2\), then we know
+    \[
+        p_i = N \pqty{\alpha_i}
+    \]
+    from the proof of the theorem. The norm is multiplicative, so \(n\) is the norm of some \(z \in \ZZ\bqty{i}\), which finishes the proof.
+\end{proof}
+
+\begin{example}[Expressing Integers as Sum of Two Squares]
+    \label{ex:integers-sum-of-squares}%
+    We note
+    \[
+        65 = 13 \times 5.
+    \]
+
+    Following the proof, we have
+    \[
+        13 = \pqty{2 + 3i} \cdot \pqty{2 - 3i},
+    \]
+    and
+    \[
+        5 = \pqty{2 + i} \cdot \pqty{2 - i}.
+    \]
+
+    Hence,
+    \[
+        65 = N\pqty{\pqty{2 + i} \pqty{2 + 3i}} = N\pqty{1 + 8i} = 1^2 + 8^2.
+    \]
+
+    Picking other factors may give us
+    \[
+        7^2 + 4^2 = 65.
+    \]
+\end{example}
+
+\section{Algebraic Integers}
+
+\begin{definition}[Algebraic Integer]
+    \label{def:algebraic-integer}%
+    A complex number \(\alpha \in \CC\) is an \emph{algebraic integer} if it is the root of a monic polynomial in \(\ZZ\bqty{x}\).
+
+    We define
+    \[
+        \ZZ\bqty{\alpha} = \bigcap_{\alpha \in R \subring \CC} R,
+    \]
+    or equivalently, for the \emph{evaluation homomorphism}
+    \[
+        \function{e_\alpha}{\ZZ\bqty{x}}{\CC}{g\pqty{x}}{g\pqty{\alpha},}
+    \]
+    we define
+    \[
+        \ZZ\bqty{\alpha} = \img e_{\alpha}.
+    \]
+\end{definition}
+
+Note that \(\pi\) is not an algebraic integer, but nonetheless we may put \(\ZZ\bqty{\pi}\) into this definition. However, this process never `terminates', and this process is clearly very differently behaved for such transcendental numbers and algebraic integers.
+
+\begin{proposition}[Ideal of Polynomial with an Algebraic Integer as Root is Principal]
+    \label{prop:ideal-polynomial-algebraic-integer-principal}%
+    Let \(\alpha\) be an algebraic integer. The ideal
+    \[
+        I = \ker e_{\alpha} \idealsub \ZZ\bqty{x}
+    \]
+    is \emph{principal}. It is equal to \(\pqty{f_\alpha}\) with \(f_\alpha\) irreducible and monic.
+\end{proposition}
+
+Note this is a non-trivial result! \(\ZZ\bqty{x}\) is not a PID.
+
+\begin{proof}
+    First, we note
+    \[
+        \ker e_\alpha = I
+    \]
+    is non-zero. Take \(f_\alpha \in I\) with non-trivial minimal degree. We can assume that \(f_\alpha\) is primitive, because \(\alpha\) satisfies a monic equation. We want to show \(I = \pqty{f_{\alpha}}\).
+
+    Let \(h \in I\). In \(\QQ\bqty{x}\) we have division algorithm, so
+    \[
+        h = f_{\alpha} \cdot q + r
+    \]
+    with \(\deg\pqty{r} < \deg\pqty{f_{\alpha}}\). We clear the denominators, such that
+    \[
+        ah = af_{\alpha} \cdot q + ar
+    \]
+    for \(a \in \ZZ\). Putting in \(\alpha\), we have \(\pqty{ah} \pqty{\alpha} = 0\), and \(f_{\alpha} \pqty{\alpha} = 0\), so \(\pqty{ar} \pqty{\alpha} = 0\). By the minimality of the degree of \(f_\alpha\), we get \(\pqty{ar} = 0\) is the zero polynomial, so \(r = 0\).
+
+    Therefore, \(ah = af_{\alpha} \cdot q\). But recall \(f_{\alpha}\) is primitive. Taking contents, we have
+    \[
+        \content\pqty{ah} = \content\pqty{aq}.
+    \]
+    
+    We see that \(h \in I \idealsub \ZZ\bqty{x}\), and \(a \divides \content\pqty{ah}\), so \(a \divides \content\pqty{aq}\). Therefore,
+    \[
+        aq = a \bar{q}
+    \]
+    so \(\bar{q} \in \ZZ\bqty{x}\). Cancelling \(a\)s gives \(q = \bar{q}\), so \(f_\alpha\) divides \(h\) as claimed, i.e.,
+    \[
+        I = \pqty{f_{\alpha}}.
+    \]
+
+    It remains to show that \(f_{\alpha}\) is irreducible, note that
+    \[
+        \flatfrac{\ZZ\bqty{x}}{\ker\pqty{e_\alpha}} \isomorphic \flatfrac{\ZZ\bqty{x}}{\pqty{f_{\alpha}}} \subring \CC
+    \]
+    so \(\flatfrac{\ZZ\bqty{x}}{\pqty{f_{\alpha}}}\) is an integral domain. It follows that \(f_\alpha\) is prime, hence irreducible.
+\end{proof}
+
+\begin{example}[Algebraic Integers]
+    \label{ex:algebraic-int}%
+    Note that \(\sqrt{2}\), \(i\), \(\sqrt{-3}\) are algebraic integers. Furthermore, 
+    \[
+        \frac{1 + \sqrt{-3}}{2}
+    \]
+    is an algebraic integer, since it is a root of unity.
+\end{example}
+
+\begin{example}[Non-Algebraic Integers]
+    \label{ex:non-algebraic-int}%
+    \(\pi\), \(e\) are examples of non-algebraic integers. In fact, algebraic integers form a ring, but this is much harder to prove.
+\end{example}
+
+\begin{proposition}[Rational Algebraic Integers are Integers]
+    \label{prop:rational-algebraic-integer}%
+    Let \(\alpha \in \CC\) be an algebraic integer. If \(\alpha \in \QQ\), then \(\alpha \in \ZZ\).
+\end{proposition}
+
+\begin{proof}
+    Let \(f_\alpha\) be the minimal polynomial generating \(\ker e_\alpha\). This is irreducible over \(\ZZ\bqty{x}\), so also \(\QQ\bqty{x}\) by \autoref{thm:gauss-lemma} (Gauss's Lemma). But \(\pqty{x - \alpha}\) divides \(f_\alpha\) in \(\QQ\bqty{x}\), so \(f_\alpha = x - \alpha\).
+\end{proof}
+
+\section{Hilbert Basis Theorem}
+
+\begin{definition}[Noetherian Ring]
+    \label{def:noetherian-ring}%
+    A ring \(R\) is \emph{noetherian} if it satisfies the \emph{ascending chain condition (ACC)} of ideals, i.e., for any ascending chain of ideals
+    \[
+        I_1 \subseteq I_2 \subseteq \cdots
+    \]
+    in \(R\) \emph{stabilises}, i.e., there is some \(N > 0\), such that \(I_{n + 1} = I_n\) for all \(n \geq N\).
+\end{definition}
+
+Recall that an ideal is \emph{finitely generated} if it is equal to \(\pqty{r_1, \ldots, r_k}\) for \(r_i \in R\).
+
+\begin{proposition}[Noetherian Rings are those with Finitely Generated Ideals]
+    \label{prop:noetherian-ring-finitely-generated-ideal}%
+    A ring \(R\) is noetherian if and only if all ideals are finitely generated.
+\end{proposition}
+
+\begin{proof}
+    Suppose all ideals are finitely generated. Given any ascending chain of ideals \(I_1 \subseteq I_2 \subseteq \cdots\). Consider the union
+    \[
+        I = \bigcup_{n \in \NN} I_n
+    \]
+    which is an ideal. This is an ideal that is finitely generated, say by elements \(r_1, \ldots, r_k\). But there is some \(N\), such that \(r_i \in I_N\) for all \(i\). From this point onwards, for all \(j \geq N\), we have \(I_j = I_{j + 1}\), and this chain stabilises.
+
+    Conversely, if some ideal \(I\) is not finitely generated, pick \(r_1 \in I\) such that \(\pqty{r_1} \neq I\), then pick \(r_2 \in I \setminus \pqty{r_1}\),   \(r_3 \in I \setminus \pqty{r_1, r_2}\), etc. Then we have
+    \[
+        \pqty{r_1} \subsetneq \pqty{r_1, r_2} \subsetneq \pqty{r_1, r_2, r_3} \subsetneq \cdots
+    \]
+    does not stabilise.
+\end{proof}
+
+\begin{theorem}[Hilbert Basis Theorem]
+    If \(R\) is noetherian, then \(R\bqty{x}\) is noetherian.
+\end{theorem}
+
+\begin{proof}
+    Suppose \(J \idealsub R\bqty{x}\), we want to show \(J\) is finitely generated. Let \(f_1 \in J\) have minimal degree. If \(J = \pqty{f_1}\), then we are done. Suppose not, and choose \(f_2 \in J \setminus \pqty{f_1}\) of minimal degree.
+
+    We continue in this fashion, to produce a sequence of \(f_i\)s. Let \(a_i \in R\) be the leading coefficient of \(f_i\). We get an ascending chain of ideals
+    \[
+        \pqty{a_1} \subseteq \pqty{a_1, a_2} \subseteq \pqty{a_1, a_2, a_3} \subseteq \cdots
+    \]
+    which eventually stabilises, since \(R\) is increasing. This means
+    \[
+        \pqty{a_1, a_2, \ldots} = \pqty{a_1, \ldots, a_m}
+    \]
+    for some \(m > 0\). Therefore, let
+    \[
+        a_{m + 1} = \sum_{i = 1}^{m} a_i b_i
+    \]
+    for some \(b_i \in R\).
+
+    Consider the polynomial
+    \[
+        g = \sum_{i = 1}^{m} b_i f_i \cdot x^{\deg f_{m + 1} - \deg f_i},
+    \]
+    note this is allowed because of minimality of degree of \(f_i\)s.
+
+    This \(g\) has the properties, that \(g\) has the same degree as \(f_{m + 1}\), and the same leading coefficient as \(f_{m + 1}\). Then the polynomial \(\pqty{f_{m + 1} - g}\) has smaller degree than \(f_{m + 1}\), but it is not in the ideal \(\pqty{f_1, \ldots, f_m}\). This contradicts the minimality of \(\deg\pqty{f_{m + 1}}\).
+
+    Therefore, the process of choosing these \(f_i\)s must terminate, and this means that any ideal is finitely generated, so \(R\bqty{x}\) is noetherian.
+\end{proof}
+
+\begin{examples}[Examples of Noetherian Rings]
+    \label{ex:noetherian-rings}%
+    \(\CC\bqty{x}\), \(\ZZ\bqty{x}\), \(\CC\bqty{x_1, x_2, x_3}\), etc., are noetherian.
+\end{examples}
+
+\begin{proposition}[Quotient of Noetherian Ring by Ideal is Noetherian]
+    \label{prop:quotient-noetherian-by-ideal-noetherian}%
+    If \(R\) is noetherian, and \(I \idealsub R\), then \(\flatfrac{R}{I}\) is also noetherian.
+\end{proposition}
+
+\begin{proof}
+    Let \(J \idealsub \flatfrac{R}{I}\), and let \(J' \idealsub \flatfrac{R}{I}\) be the corresponding ideal in \(R\). If \(r_1, \ldots, r_m\) generates \(J'\), then because \(J\) is the image (as a set) of \(J'\) under the homomorphism \(R \to \flatfrac{R}{I}\), then \(r_1 + I, \ldots, r_m + I\) must generate \(J\).
+\end{proof}
+
+This gives more examples, for example, \(\flatfrac{\CC\bqty{x, y}}{\pqty{y^2 - x^3}}\), is noetherian, but not a PID.
+
+\begin{remark}
+    Although \autoref{prop:quotient-noetherian-by-ideal-noetherian} tells us that noetherian properties pass to quotients by ideals, but note that \textbf{subrings need not be noetherian}. Take \(R = \CC\bqty{x_1, x_2, \ldots}\) be a polynomial ring of countably many variables. Let \(F\) be a fraction field of \(R\). \(F\) is noetherian, but \(R \subring F\) is not.
+\end{remark}
+
+\section{Basic Concepts of Modules}
+
+Let \(R\) be a ring and \(\pqty{M, +, 0}\) be an abelian group.
+
+\begin{definition}[\(R\)-Module]
+    \label{def:r-module}%
+    A quadruple \(\pqty{M, \cdot}\) is an \emph{\(R\)-module} if the operation
+    \[
+        \function{\cdot}{R \times M}{M}{\pqty{r, m}}{rm}
+    \]
+    satisfies the following.
+
+    \begin{enumerate}
+        \item \textit{Distributivity over Scalar.} \(\pqty{r_1 + r_2} m = r_1 m + r_2 m\).
+        \item \textit{Distributivity over `Vector'.} \(r \pqty{m_1 + m_2} = r m_1 + r m_2\).
+        \item \textit{`Associativity' in Scalar Multiplication.} \(r_1 \cdot \pqty{r_2 m} = \pqty{r_1 \cdot r_2} m\).
+        \item \textit{Unitary Condition.} \(1_{R} \cdot m = m\).
+    \end{enumerate}
+\end{definition}
+
+\begin{examples}[Examples of \(R\)-Modules]
+    \label{ex:examples-r-modules}%
+    \begin{itemize}
+        \item If \(R = k\) is a field, then an \(R\)-module \(M\) is the same thing as a \(k\)-vector space.
+        \item Any abelian group \(G\) is a \(\ZZ\)-module, by the operation
+        \[
+            n \cdot g = g^n.
+        \]
+        \item Take any ring \(R\). The product \(R^m = R \times \cdots \times R\) is an \(R\)-module, via the action
+        \[
+            \function{\cdot}{R \times R^m}{R^m}{\pqty{r, \pqty{r_1, \ldots, r_m}}}{\pqty{r \cdot r_1, \ldots, r \cdot r_m}.}
+        \]
+
+        [Note \(R^m\) is also equipped with a ring structure, but we do not use it here.]
+
+        \item If \(I \idealsub R\) is an ideal, then \(I\) is an \(R\)-module, via the multiplication action
+        \[
+            \function{\cdot}{R \times I}{I}{\pqty{r, x}}{rx.}
+        \]
+
+        Similarly, \(\flatfrac{R}{I}\) is also an \(R\)-module, via the multiplication action
+        \[
+            \function{\cdot}{R \times \flatfrac{R}{I}}{\flatfrac{R}{I}}{\pqty{r, x + I}}{\pqty{r + I} \cdot \pqty{x + I}.}
+        \]
+    \end{itemize}
+\end{examples}
+
+\begin{example*}[\(k\)-Vector Space as a \(k\bqty{x}\)-Module]
+    Let \(V\) be a \(k\)-vector space, and we fix \(\alpha \in \End\pqty{V}\) be an endomorphism of \(V\), i.e., a linear map \(\functiondomain{\alpha}{V}{V}\). We can make \(V\) into a \(k\bqty{x}\)-module as follows
+    \[
+        \function{\cdot_{\alpha}}{k\bqty{x} \times V}{V}{\pqty{f, \vb{v}}}{\pqty{f\pqty{\alpha} \vb{v}}.}
+    \]
+\end{example*}
+
+\begin{example*}[Ring Homomorphism and Modules]
+    Take a ring homomorphism \(\functiondomain{\phi}{R}{S}\). This makes \(S\) into an \(R\)-module, with
+    \[
+        \function{\cdot}{R \times S}{S}{\pqty{r, s}}{\phi\pqty{r} \cdot s.}
+    \]
+
+    For example, the quotient map \(\functiondomain{q}{\CC\bqty{x}}{\flatfrac{\CC\bqty{x}}{x^2}}\) makes \(\flatfrac{\CC\bqty{x}}{x^2}\) a \(\CC\bqty{x}\)-module, and the inclusion map \(\functiondomain{i}{\CC\bqty{x}}{\CC\bqty{x, y}}\) makes \(\CC\bqty{x, y}\) a \(\CC\bqty{x}\) module.
+\end{example*}
+
+\begin{definition}[Submodule]
+    \label{def:submodule}%
+    Let \(M\) be an \(R\)-module. A subgroup \(N\) of \(M\) is called a \emph{submodule}, if for any \(n \in N\) and \(r \in R\), then \(r \cdot n \in N\). We denote this as \(N \submodule M\).
+
+    Given an element \(m \in M\), the \emph{submodule generated by \(m\)}, is
+    \[
+        Rm = \set{rm}{r \in R} \submodule M.
+    \]
+\end{definition}
+
+\begin{example*}[Non-Example of Submodule]
+    Take \(R = M = \QQ\), and \(N = \ZZ \subseteq \QQ\) is not a \(\QQ\)-submodule, since \(\ZZ\) is not a \(\QQ\)-vector subspace of \(\QQ\).
+\end{example*}
+
+\begin{remark}
+    If \(R\) is a field, an \(R\)-submodule is the same as an \(R\)-vector subspace.
+\end{remark}
+
+\begin{definition}[Quotient by Submodule]
+    \label{def:quotient-submodule}%
+    Let \(N \submodule M\) be an \(R\)-submodule. The \emph{quotient} \(R\)-module is the abelian group \(\flatfrac{M}{N}\), with the \(R\)-module structure
+    \[
+        \function{\cdot}{R \times \flatfrac{M}{N}}{\flatfrac{M}{N}}{\pqty{r, m + N}}{\pqty{rm} + N.}
+    \] 
+\end{definition}
+
+\begin{definition}[Module Homomorphism and Isomorphism]
+    \label{def:homomorphism-isomorphism-module}%
+    Let \(M, N\) be \(R\)-modules. An \emph{\(R\)-module homomorphism} is a group homomorphism \(\functiondomain{\phi}{M}{N}\), such that
+    \[
+        \phi \pqty{r \cdot m} = r \cdot \phi\pqty{m}
+    \]
+    for all \(r \in R, m \in M\).
+
+    A bijective \(R\)-module homomorphism is called an \emph{\(R\)-module isomorphism}.
+\end{definition}
+
+\begin{theorem}[First Isomorphism Theorem for Modules]
+    \label{thm:first-isomorphism-theorem-modules}%
+    Let \(\functiondomain{\phi}{M}{N}\) be a homomorphism of \(R\)-modules. Then
+    \[
+        \ker\pqty{\phi} = \set{m \in M}{\phi\pqty{m} = 0}
+    \]
+    is an \(R\)-submodule of \(M\), and the image
+    \[
+        \img\pqty{\phi} = \set{\phi\pqty{m} \in N}{m \in M}
+    \]
+    is an \(R\)-submodule of \(N\), and we have an isomorphism
+    \[
+        \function{\psi}{\flatfrac{M}{\ker \phi}}{\img \phi}{m + \ker \phi}{\phi\pqty{m}.}
+    \]
+\end{theorem}
+
+\begin{theorem}[Second Isomorphism Theorem for Modules]
+    \label{thm:second-isomorphism-theorem-modules}%
+    Let \(K, L \submodule M\). Then the set
+    \[
+        K + L = \set{k + l}{k \in K, l \in L}
+    \]
+    is a submodule of \(M\). Furthermore, there is an isomorphism
+    \[
+        \flatfrac{\pqty{K + L}}{K} \isomorphic \flatfrac{L}{\pqty{K \cap L}}.
+    \]
+\end{theorem}
+
+\begin{theorem}[Third Isomorphism Theorem for Modules]
+    \label{thm:third-isomorphism-theorem-modules}%
+    Let \(N \submodule L \submodule M\) be submodules of \(M\). Then
+    \[
+        \flatfrac{M}{L} \isomorphic \flatfrac{\pqty{\flatfrac{M}{N}}}{\pqty{\flatfrac{L}{N}}}.
+    \]
+\end{theorem}
+
+There is also a correspondence result. Let \(N \submodule M\), then the sets
+\[
+    \Bqty{\text{submodules of }\flatfrac{M}{N}} \leftrightarrow \Bqty{\text{submodules of }M\text{ that contain }N}
+\]
+are bijective.
+
+\begin{definition}[Annihilator]
+    \label{def:annihiliator}%
+    Let \(M\) be an \(R\)-submodule. For \(m \in M\), its \emph{annihilator} is
+    \[
+        \Ann\pqty{m} = \set{r \in R}{r \cdot m = 0}.
+    \]
+
+    More generally, for \(S \subseteq M\), the \emph{annihilator} of \(S\) is
+    \[
+        \Ann\pqty{S} = \set{r \in R}{\forall s \in S: r \cdot s = 0}.
+    \]
+\end{definition}
+
+The annihilator of the whole module is
+\[
+    \Ann\pqty{M} = \bigcap_{m \in M} \Ann\pqty{m}
+\]
+is similar to the idea of the kernel of a group action -- since we may think of modules as an `action of a ring on an abelian group'.
+
+When \(R\) is a field, \(M\) is an \(R\)-vector space, so we have
+\[
+    \Ann\pqty{m} = \Bqty{0}
+\]
+for any \(m \in M\). This notion is useless in the theory of vector spaces, but not in general for modules.
+
+\begin{example*}[Annihilator]
+    Take \(R = \ZZ\), and \(M = \flatfrac{\ZZ}{n\ZZ}\) with the usual scaling. The annihilator of this is interesting, for example, for \(1 \in M = \flatfrac{\ZZ}{n\ZZ}\), we have \(\Ann\pqty{1} = n\ZZ\).
+\end{example*}
+
+\begin{proposition}[Annihilator is an Ideal]
+    \label{prop:annihilator-ideal}%
+    The annihilator \(\Ann\pqty{S}\) is an ideal in \(R\).
+\end{proposition}
+
+\begin{proposition}[Isomorphism between Annihilator and Submodule]
+    \label{prop:isomorphism-annihilator-submodule}%
+    For a fixed \(m \in M\), there is an isomorphism
+    \[
+        \flatfrac{R}{\Ann\pqty{m}} \isomorphic Rm.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Consider the function
+    \[
+        \function{\phi_m}{R}{M}{r}{rm}
+    \]
+    for some fixed \(m \in M\). This is an \(R\)-module homomorphism (note \(R\) is trivially an \(R\)-module). Applying \autoref{thm:first-isomorphism-theorem-modules} (First Isomorphism Theorem of Modules) gives the result.
+\end{proof}
+
+\begin{remark}
+    If \(M\) were a vector space over a field \(R\), then the submodule (subspace) generated by \(m \in M\) is
+    \[
+        Rm = \spn\Bqty{m}
+    \]
+    is a (one-dimensional) line -- but this intuition is not true for rings, because there are non-trivial annihilators!
+\end{remark}
+
+\begin{definition}[Finitely Generated Module]
+    \label{def:finitely-generated-module}%
+    An \(R\)-module \(M\) is \emph{finitely generated} if there exists some \(m_1, \ldots, m_k \in M\), such that
+    \[
+        M = R m_1 + \cdots + R m_k = \set{r_1 m_1 + \cdots + r_k m_k}{r_i \in R}.
+    \]
+\end{definition}
+
+This is a similar idea to a finite dimensional vector space -- but we are not saying that this is a basis -- it is just a spanning set!
+
+\begin{lemma}[Condition on Finitely Generated Modules]
+    \label{lem:finitely-generated-modules-surjective-homomorphism}%
+    An \(R\)-module \(M\) is finitely generated, if and only if there exists a surjective \(R\)-module homomorphism \(R^k \to M\) for some \(k\).
+\end{lemma}
+
+In other words, \(M\) is finitely generated if it is a quotient of \(R^k\) for some \(k\).
+
+\begin{proof}
+    If \(M\) is finitely generated, then we can write
+    \[
+        M = R m_1 + \cdots + R m_k
+    \]
+    as above. Then we define the homomorphism
+    \[
+        \function{\phi}{R^k}{M}{\pqty{r_1, \ldots, r_k}}{r_1 m_1 + \cdots + r_k m_k}
+    \]
+    which is clearly surjective.
+
+    Conversely, given some surjective homomorphism \(\functiondomain{\phi}{R^k}{M}\), let \(e_i = \pqty{0, \ldots, 0, 1, 0, \ldots, 0} \in R^k\) with \(1\) in the \(i\)th component.
+
+    Define \(m_i = \phi\pqty{e_i}\). It is straightforward to check that \(M = R m_1 + \cdots + R m_k\).
+\end{proof}
+
+The modules \(R^k\) are often called \emph{free \(R\)-modules}.
+
+\begin{corollary}[Quotient of Finitely Generated Module is Finitely Generated]
+    \label{cor:quotient-finitely-generated}%
+    Let \(M\) be finitely generated. If \(N \submodule M\) is a submodule, then the quotient \(\flatfrac{M}{N}\) is finitely generated as well.
+\end{corollary}
+
+\begin{proof}
+    Take surjective \(R^k \to M\). The composition with the quotient map \(M \to \flatfrac{M}{N}\) is a composition of surjective maps, hence surjective.
+\end{proof}
+
+\begin{remark}
+    A submodule of a finitely generated module need not be finitely generated. Take
+    \[
+        R = \CC\bqty{x_1, x_2, \ldots}
+    \]
+    be a polynomial ring over countably many variables, and let \(M = R\). This is clearly finitely generated.
+
+    However, \(I \submodule M\) to be the ideal generated by
+    \[
+        I = \pqty{x_1, x_2, \ldots},
+    \]
+    which consists of all the polynomials without constant terms. This is not finitely generated.
+\end{remark}
+
+
+
+\section{Direct Sums and Free Modules}
+
+\begin{definition}[Direct Sum of Modules]
+    \label{def:direct-sum-modules}%
+    Let \(M_1, \ldots, M_k\) be \(R\)-modules. The \emph{direct sum}
+    \[
+        M_1 \oplus \cdots \oplus M_k
+    \]
+    is the additive group \(M_1 \times \cdots \times M_k\), with the \(R\)-action given by coordinate-wise scaling
+    \[
+        r\pqty{m_1, \ldots, m_k} = \pqty{r m_1, \ldots, r m_k}.
+    \]
+\end{definition}
+
+\begin{definition}[Linear Dependence]
+    \label{def:linear-dependence}%
+    Let \(m_1, \ldots, m_k \in M\). We say the set \(\Bqty{m_1, \ldots, m_k}\) is \emph{linearly independent}, if and only if
+    \[
+        \sum_{i = 1}^{k} r_i m_i = 0
+    \]
+    implies \(r_i = 0\) for all \(i\). Otherwise, we say the set is \emph{linearly dependent}.
+\end{definition}
+
+\begin{definition}[Free Generation]
+    \label{def:free-generation}%
+    A subset \(S \subseteq M\) \emph{freely generates} \(M\), if
+    \begin{itemize}
+        \item \(S\) generates \(M\); and
+        \item any set function \(\functiondomain{f}{S}{N}\) to another \(R\)-module \(N\) extends to an \(R\)-module homomorphism \(\functiondomain{\phi_f}{M}{N}\), such that \(\phi_f\pqty{s} = f\pqty{s}\) for all \(s \in S\).
+    \end{itemize}
+
+    A module \(M\) is \emph{free}, if it is freely generated by some \(S \subseteq M\). We call \(S\) a \emph{basis}.
+\end{definition}
+
+Note that free generating sets may \emph{not} exist!
+
+\begin{example}[Module without Free-Generating Set]
+    \label{ex:module-without-free-generating-set}%
+    Consider the \(\ZZ\)-module \(\flatfrac{\ZZ}{2}\). If it were freely generated, the only possibility for a basis is \(S = \Bqty{1}\). But this is \emph{not} free.
+
+    For example, if \(N = \ZZ\), \(f\pqty{1} = 1\), we would need a non-zero homomorphism \(\flatfrac{\ZZ}{2} \to \ZZ\), but this does not exist.
+\end{example}
+
+\begin{remark}
+    \(\ZZ^k\) is a free \(\ZZ\)-module -- it behaves `similar' to vector spaces we have seen in linear algebra.
+\end{remark}
+
+\begin{proposition}[Basis, Linear Independence, and Unique Linear Combination]
+    \label{prop:basis-linear-independence-unique-combination}%
+    Let \(S = \Bqty{m_1, \ldots, m_k} \subseteq M\). Then, the following are equivalent:
+    \begin{enumerate}
+        \item \(S\) generates \(M\) freely;
+        \item \(S\) generates \(M\), and \(S\) is linearly independent;
+        \item every \(m \in M\) is \emph{uniquely} expressible as ab \(R\)-linear combination
+        \[
+            m = \sum_{i = 1}^{k} r_i m_i.
+        \]
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    The fact that 2 is equivalent to 3 is familiar from linear algebra, and the proof is identical.
+
+    For 1 implies 2, let \(S\) generate \(M\) freely, and suppose \(S\) is not linearly independent. Then we can write
+    \[
+        r_1 m_1 + \cdots + r_k m_k = 0,
+    \]
+    and up to relabelling, say \(r_1 \neq 0\).
+
+    We define a function \(\functiondomain{f}{S}{R}\), by \(m_1 \to 1\), but \(m_i \to 0\) for all \(i > 1\). This extends to some homomorphism \(\functiondomain{\phi_f}{M}{R}\). We may compute
+    \[
+        0 = \phi_f\pqty{0} = \phi_f \pqty{\sum_{i = 1}^{k} r_i m_i} \neq 0,
+    \]
+    which gives a contradiction.
+
+    For 3 implies 1, suppose \(S\) expresses every element in \(M\) uniquely, as
+    \[
+        m = \sum_{i = 1}^{k} r_i m_i,
+    \]
+    given a set function \(\functiondomain{f}{S}{N}\), define
+    \[
+        \phi_f\pqty{m} = \sum_{i = 1}^{k} r_i f\pqty{m_i}.
+    \]
+
+    This map is well-defined by uniqueness of the expression. This is clearly a homomorphism, so \(S\) freely generates \(M\).
+\end{proof}
+
+\begin{definition}[Module of Relations, Finitely Presented]
+    \label{def:module-of-relations-finitely-presented}%
+    Let \(M\) be finitely generated, and let the homomorphism \(\functiondomain{\theta}{R^k}{M}\) surjective give the generators. \(\ker \theta\) is called the \emph{module of relations} for \(\theta\). We say \(M\) is \emph{finitely presented} if \(\ker \theta\) is finitely generated.
+\end{definition}
+
+\begin{proposition}[Isomorphism as Modules between \(R^n\) and \(R^m\)]
+    \label{prop:isomorphism-modules-rn-rm}%
+    Let \(R \neq \Bqty{0}\) be a ring. Then, if \(R^n \isomorphic R^m\) for some \(n, m \in \NN\), then \(n = m\).
+\end{proposition}
+
+\begin{proof}
+    We will reduce the case of fields. If \(I \idealsub R\) is an ideal, and \(M\) is an \(R\)-module, consider the submodule \(IM \submodule M\) generated by the set
+    \[
+        \set{rm}{r \in I, m \in M}.
+    \]
+    
+    We look at the quotient \(\flatfrac{M}{IM}\). If \(r \in I\), then the left-multiplication operation
+    \[
+        \function{r \times -}{\flatfrac{M}{IM}}{\flatfrac{M}{IM}}{\pqty{m + IM}}{\pqty{rm + IM}}
+    \]
+    is the zero map, since \(rm \in IM\).
+
+    Therefore, we can make \(\flatfrac{M}{IM}\) into an \(\flatfrac{R}{I}\)-module, by
+    \[
+        \pqty{r + I} \pqty{m + IM} = \pqty{rm + IM}.
+    \]
+
+    Now, let \(I \idealsub R\) be maximal.\footnote{This is true for general rings, assuming Axiom of Choice, due to Zorn's Lemma. But if \(R\) is Noetherian, this is automatic.} Then \(\flatfrac{R^n}{I R^n}\) and \(\flatfrac{R^m}{I R^m}\) are both vector spaces on \(\flatfrac{R}{I}\), and hence isomorphic respectively to \(\pqty{\flatfrac{R}{I}}^n\) and \(\pqty{\flatfrac{R}{I}}^m\). So \(m = n\) by linear algebra.
+\end{proof}
+
+\section{Matrices over Euclidean Domains}
+
+At this point of the course, we are interested in proving and generalising the previous result on finite/finitely generated abelian groups -- which are just \(\ZZ\)-modules. Furthermore, a matrix \(\vb{A}\) on \(\ZZ\) (or any Euclidean domain) gives a module homomorphism \(\functiondomain{\vb{A}}{\ZZ^m}{\ZZ^n}\) (or generally, \(\functiondomain{\vb{A}}{R^m}{R^n}\)). The groups/modules we are interested in will be \(\flatfrac{\ZZ^n}{\img \vb{A}}\), since they are finitely generated, and this perspective will give us a classification.
+
+Now, we fix a Euclidean domain \(R\), and the associated Euclidean function \(\functiondomain{\phi}{R \setminus \Bqty{0}}{\NN_0}\). By Euclid's algorithm, for \(a, b \in R\), we can find \(x, y \in R\), such that
+\[
+    ax + by = \gcd\Bqty{a, b}.
+\]
+
+\setcounter{MaxMatrixCols}{20}
+
+\begin{definition}[Elementary Row/Column Operations]
+    \label{def:elementary-row-column-operation}%
+    Let \(\vb{A}\) be a matrix with entries in \(R\). The \emph{elementary row operations} are the following:
+    \begin{enumerate}
+        \item Add \(c \in R\) times the \(i\)th row to the \(j\)th row, i.e., left-multiply by the matrix
+        \[
+            \pmqty{
+                1& & & &0\\
+                 &1& & & \\
+                 & &\ddots&c& \\
+                 & & &1& \\
+                0& & & &1
+            }
+        \]
+        where \(c\) is in the \(\pqty{j, i}\)-th position.
+
+        \item Swap rows \(i\) and \(j\), i.e., left-multiply by the matrix
+        \[
+            \pmqty{
+                1& & & & & & & & & &0\\
+                 & \ddots & & & & & & & & & \\
+                 & &1& & & & & & & & \\
+                 & & &0&0&\cdots&0&1& & & \\
+                 & & &0&1& &0&0& & & \\
+                 & & &\vdots& & \ddots & & \vdots & & & \\
+                 & & &0&0& &1&0& & & \\
+                 & & &1&0&\cdots&0&0& & & \\
+                 & & & & & & & &1& & \\
+                 & & & & & & & & & \ddots & \\
+                0& & & & & & & & & &1
+            }
+        \]
+        where the \(\pqty{i, j}\) and \(\pqty{j, i}\) entries are \(1\), and all diagonal entries are \(1\) apart from the entries \(\pqty{i, i}\) and \(\pqty{j, j}\) are \(0\).
+
+        \item Multiply row \(i\) by a \emph{unit} \(c \in R\multiplicative\), i.e., left-multiply by the matrix
+        \[
+            \operatorname{diag}\pqty{1, \ddots, 1, c, 1, \ddots, 1} = \diag\pqty{1, \ldots, 1, c, 1, \ldots, 1}
+        \]
+        where \(c\) is in the \(\pqty{i, i}\)th position.
+    \end{enumerate}
+
+    \emph{Elementary column operations} are defined similarly.
+\end{definition}
+
+\begin{definition}[Equivalent Matrices]
+    \label{def:equivalent-matrix}%
+    Matrices \(\vb{A}\) and \(\vb{B}\) are \emph{equivalent}, if \(A\) can be obtained from \(\vb{B}\) via row/column operations. Equivalently,
+    \[
+        \vb{B} = \vb{Q} \vb{A} \vb{T}\inverse
+    \]
+    for \(\vb{Q}\) and \(\vb{T}\) invertible.
+\end{definition}
+
+Observe that the matrix
+\[
+    \pmqty{
+        2 & 0 \\ 0 & 0
+    }
+\]
+cannot be further reduced in \(\ZZ\) -- unlike over a field, where a matrix can always be reduced to a number of \(1\)s followed by \(0\)s in the diagonal.
+
+\begin{theorem}[Smith Normal Form]
+    \label{thm:smith-normal-form}%
+    Any \(m \times n\) matrix is equivalent to one of the form
+    \[
+        \operatorname{diag}\pqty{d_1, \ddots, d_r, 0, \ddots, 0} = \diag\pqty{d_1, \ldots, d_r, 0, \ldots, 0}
+    \]
+    where \(d_i \divides d_{i + 1}\). The \(d_i\)s are called the \emph{invariant factor} of the matrix.
+\end{theorem}
+
+\begin{proof}
+    Let the matrix be \(\vb{A}\). If \(\vb{A}\) is \(\zeroM\), then we are done.
+
+    So assume \(A_{i, j} \neq 0\) for some \(i, j\). Then perform row/column operations, so that \(A_{1, 1}\) is non-zero.
+
+    \begin{enumerate}
+        \item If \(A_{1, j}\) is not divisible by \(A_{1, 1}\), then we write \(A_{1, j} = q A_{1, 1} + r\) for some \(q, r \in R\), and \(\phi\pqty{r} < \phi\pqty{A_{i, i}}\). By column operations, make \(\pqty{i, j}\) entry equal to \(r\). Now swap so that the \(\phi\) value of \(\pqty{1, 1}\) reduces.
+
+        \item Similarly, we do the same for \(A_{j, 1}\) using row operations. After finitely many such moves, \(A_{1, 1}\) must divide all the first row and the first column.
+
+        By row and column operations again, we can make the first row and column zero outside the \(\pqty{1, 1}\) entry. This gives the matrix
+        \[
+            \pmqty{
+                d & 0 & \cdots & 0 \\
+                0 & & & \\
+                \vdots & & \vb{C} & \\
+                0 & & &
+            }
+        \]
+
+        \item Now, suppose \(A_{i, j}\) in \(\vb{C}\) is not divisible by \(d\). Then we write \(A_{i, j} = dq + r\) with \(\phi\pqty{r}, \phi\pqty{d}\). We now add column \(1\) to column \(j\), and subtract \(q\) times row \(1\) from row \(i\). This gives \(r\) in the \(\pqty{i, j}\) entry. Now, swap back this \(r\) to the \(\pqty{1, 1}\) position, and then we have \(\phi\pqty{r} < \phi\pqty{d}\).
+
+        \item We return to 1 and 2, and replace \(\vb{A}\) with the new matrix
+        \[
+            \pmqty{
+                d' & 0 & \cdots & 0 \\
+                0 & & & \\
+                \vdots & & \vb{C}' & \\
+                0 & & &
+            }
+        \]
+        with \(\phi\pqty{d'} < \phi\pqty{r} < \phi\pqty{d}\). Repeat finitely many times, so eventually \(\vb{A}\) becomes
+        \[
+            \pmqty{
+                d & 0 & \cdots & 0 \\
+                0 & & & \\
+                \vdots & & \vb{C} & \\
+                0 & & &
+            },
+        \]
+        but this time with \(d \divides C_{i, j}\) for all entries \(\pqty{i, j}\).
+
+        \item Now, we recurse the algorithm, and the output is as claimed.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[Minors, Fitting Ideals]
+    \label{def:minor-fit-ideals}%
+    For a matrix \(\vb{A}\), a \emph{\(k \times k\) minor} is the determinant of a \(k \times k\) sub-matrix. The \emph{\(k\)th Fitting ideal}
+    \[
+        \Fit_k \pqty{\vb{A}} \idealsub R
+    \]
+    is the ideal generated by the \(k \times k\) minors of \(\vb{A}\).
+\end{definition}
+
+\begin{proposition}[Row/Column Operations preserve Fitting Ideals]
+    \label{prop:row-column-operations-preserve-fit}%
+    If \(\vb{A}\) and \(\vb{B}\) are equivalent matrices, then
+    \[
+        \Fit_k \pqty{\vb{A}} = \Fit_k \pqty{\vb{B}}
+    \]
+    for all \(k\).
+\end{proposition}
+
+\begin{proof}
+    It suffices to check that individual row/column operations do not change the Fitting ideals. Since \(\Fit_k\pqty{\vb{A}} = \Fit_k\pqty{\vb{A}\transpose}\), it suffices to check this for the row operations. Swapping row are straightforward.
+
+    Consider \(\vb{C}\) a \(k \times k\) sub-matrix, and consider adding \(c\) times row \(i\) of \(\vb{A}\) to row \(j\). This gives a new sub-matrix \(\vb{C}'\). We show that \(\det\pqty{\vb{C}'} \in \Fit\pqty{\vb{A}}\).
+
+    If the \(j\)th row is outside \(\vb{C}\), then this does not change anything.
+
+    If both rows lie in \(\vb{C}\), this follows from the properties of the determinant.
+
+    Now, suppose the \(j\)th row is in \(\vb{C}\), and the \(i\)th row is not. Suppose row \(i\) is given by
+    \[
+        \bmqty{
+            f_1 & \cdots & f_k
+        }.
+    \]
+
+    Then the new row \(j\) is given by
+    \[
+        \bmqty{
+            C_{j, 1} + c f_1 & \cdots & C_{j, k} + c f_k
+        }.
+    \]
+
+    Now compute \(\det \pqty{\vb{C}'}\) along this row. Using the additivity of the determinant, we have
+    \[
+        \det\pqty{\vb{C}'} = \det\pqty{\vb{C}} + c \det\pqty{\vb{D}},
+    \]
+    where \(\vb{D}\) is obtained by row \(j\) of \(\vb{C}\) with the original row \(i\). But both \(\vb{C}\) and \(\vb{D}\) are in fact \(k \times k\) sub-matrices, so we are done.
+
+    So we concluded
+    \[
+        \Fit_k \pqty{\vb{B}} \subseteq \Fit_k \pqty{\vb{A}}.
+    \]
+
+    But such operations are invertible, so
+    \[
+        \Fit_k \pqty{\vb{A}} = \Fit_k \pqty{\vb{B}}
+    \]
+    as desired.
+\end{proof}
+
+\begin{corollary}[Fitting Ideal from Smith Normal Form, Uniqueness of Invariant Factors]
+    \label{cor:fit-ideal-snf-uniqueness-if}%
+    If \(\vb{A}\) has Smith normal form given by
+    \[
+        \diag\pqty{d_1, \ldots, d_r, 0, \ldots, 0},
+    \]
+    then
+    \[
+        \Fit_k \pqty{\vb{A}} = \pqty{d_1 \cdots d_k},
+    \]
+    and in particular, the \(d_i\)s are unique, up to associates.
+\end{corollary}
+
+\begin{proposition}[Size of Generating Set of a Submodule of a Free Module]
+    \label{prop:size-generating-set-free-module}%
+    Let \(R\) be a PID. Then any submodule of \(R^m\) can be generated by \(m\) or fewer elements.
+\end{proposition}
+
+\begin{proof}
+    We proceed by induction on \(m\). Let \(N \submodule \RR^m\) be a submodule. We consider the ideal
+    \[
+        I = \set{r \in R}{\pqty{r, r_2, \ldots, r_m} \in N \text{ for some }r_i}.
+    \]
+
+    Observe \(I \idealsub R\). Since \(R\) is a PID, \(I = \pqty{a}\) for some \(a \in R\). So let
+    \[
+        n = \pqty{a, a_2, \ldots, a_m} \in N.
+    \]
+
+    So we know for \(\pqty{r_1, \ldots, r_m} \in N\), \(a \divides r_1\), and hence
+    \[
+        \pqty{r_1, \ldots, r_m} - r \cdot n = \pqty{0, r_2 - r a_2, \ldots, r_m - r a_m} \in N.
+    \]
+
+    So everything in \(N\) is a multiple of \(n\), plus something in \(N \cap \pqty{\Bqty{0} \times R^{m - 1}}\). Now we apply induction.
+\end{proof}
+
+\begin{theorem}[Basis of Submodule may Extend to Basis of Free Module]
+    \label{thm:basis-submodule-extend-space}%
+    Let \(R\) be a Euclidean domain, and \(N \submodule R^m\). Then there exists a basis \(v_1, \ldots, v_m\) of \(N\), such that \(N\) is generated by \(d_1 v_1, \ldots, d_r v_r\) by some \(0 \leq r \leq m\), \(d_i \in R\), with \(d_i \divides d_{i + 1}\).
+\end{theorem}
+
+Note the multiples \(d_1, \ldots, d_r\) are the crucial difference between the Euclidean domain and the field case.
+
+\begin{proof}
+    By \autoref{prop:size-generating-set-free-module}, \(N\) can be generated by \(x_1, \ldots, x_m \in R^m\) with \(n \geq m\). Consider the matrix
+    \[
+        \pmqty{
+            \vert & \vert &  & \vert \\
+            x_1 & x_2 & \cdots & x_m \\
+            \vert & \vert &  & \vert
+        }.
+    \]
+
+    We may put the matrix into Smith normal form and obtain
+    \[
+        \diag\pqty{d_1, \ldots, d_r, 0, \ldots, 0}
+    \]
+    by row operations.
+
+    Row operations change the basis for \(R^m\). Column operations change generators for \(N\).
+
+    By that new basis, \(N\) is generated by \(\Bqty{d_i v_i}\), as required.
+\end{proof}
+
+\begin{theorem}[Submodule of Module over Euclidean Domain is Free]
+    \label{thm:submodule-module-euclidean-domain-free}%
+    For \(R\) a Euclidean domain, any submodule of \(R^m\) is free.
+\end{theorem}
+
+\begin{proof}
+    In the proof of \autoref{thm:basis-submodule-extend-space}, the generating set \(\Bqty{d_i v_i}\) is linearly independent, because any linear combination of the \(d_i v_i\) which gives zero, also gives a linear combination for the \(v_i\) themselves, but \(v_i\) are free.
+\end{proof}
+
+\begin{remark}
+    This in fact fails over other rings. The submodule \(\pqty{x, y} \idealsub \CC\bqty{x, y}\) is not free.
+\end{remark}
+
+\begin{theorem}[Classification of Finitely-Generated Modules over Euclidean Domains]
+    \label{thm:classification-finitely-generated-modules-euclidean-domains}%
+    Let \(R\) be a Euclidean domain. Let \(M\) be a finitely-generated \(R\)-module. Then
+    \[
+        M \isomorphic R \oplus \cdots \oplus R \oplus \flatfrac{R}{\pqty{d_1}} \oplus \cdots \oplus \flatfrac{R}{\pqty{d_r}}
+    \]
+    where \(d_i \neq 0\), \(d_i \divides d_{i + 1}\).
+\end{theorem}
+
+\begin{proof}
+    Let \(\functiondomain{\gamma}{R^m}{M}\) be a surjective \(R\)-module homomorphism. We know \(\ker \gamma \leq R^m\), and we may take a basis \(v_1, \ldots, v_m\) such that \(\ker \gamma\) is generated by \(d_1 v_1, \ldots, d_r v_r\) for some \(0 \leq r \leq m\), with \(d_i \divides d_{i + 1}\).
+
+    Then by \autoref{thm:first-isomorphism-theorem-modules} (First Isomorphism Theorem for Modules), we have
+    \[
+        M \isomorphic \flatfrac{R^m}{\pqty{\pqty{d_1, 0, \ldots, 0}, \pqty{0, d_2, \ldots, 0}, \ldots, \pqty{0, \ldots, d_r, \ldots, 0}}}.
+    \]
+\end{proof}
+
+\begin{remark}
+    When \(R = \ZZ\), this gives the Classification of Finitely-Generated Abelian Groups (see \autoref{thm:classification-finite-abelian-group}).
+\end{remark}
+
+\begin{example*}[Identification of Presentation of Finitely Generated Abelian Group]
+    Let \(G\) be an abelian group generated \(a, b, c\), with \(2a + 3b + c = 0\), \(a + 2b = 0\), and \(5a + 6b + 7c = 0\).
+
+    In other words, we have a surjective homomorphism \(\functiondomain{\gamma}{\ZZ^3}{G}\), sending \(\pqty{1, 0, 0}\) to \(a\), \(\pqty{0, 1, 0}\) to \(b\), and \(\pqty{0, 0, 1}\) to \(c\).
+
+    The kernel of \(\gamma\) is therefore given by the image of the matrix
+    \[
+        \vb{A} = \pmqty{
+            2 & 1 & 5 \\
+            3 & 2 & 6 \\
+            1 & 0 & 7
+        },
+    \]
+    where we view this as a map \(\ZZ^3\) to \(\ZZ^3\). By construction,
+    \[
+        G \isomorphic \flatfrac{\ZZ^3}{\img \pqty{\vb{A}}}.
+    \]
+
+    To calculate the Smith Normal Form, we proceed by calculating Fitting ideals of 
+    \(vm{A}\). We note
+    \[
+        \Fit_1 \pqty{\vb{A}} = \Fit_2 \pqty{\vb{A}} = \pqty{1},
+    \]
+    while
+    \[
+        \Fit_3 \pqty{\vb{A}} = \pqty{3}.
+    \]
+
+    Since \(d_1 = d_2 = 1, d_3 = 3\), we have
+    \[
+        G \isomorphic \flatfrac{\ZZ}{\pqty{3}}.
+    \]
+\end{example*}
+
+\begin{proposition}[Chinese Remainder Theorem for Modules]
+    \label{prop:crt-modules}%
+    Let \(R\) be a Euclidean domain, with \(a, b \in R\), such that \(\gcd\pqty{a, b} = 1\). Then
+    \[
+        \flatfrac{R}{\pqty{ab}} \isomorphic \flatfrac{R}{\pqty{a}} \oplus \flatfrac{R}{\pqty{b}}.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Consider the map
+    \[
+        \function{\phi}{\flatfrac{R}{\pqty{a}} \oplus \flatfrac{R}{\pqty{b}}}{\flatfrac{R}{\pqty{ab}}}{\pqty{r_1 + \pqty{a}, r_2 + \pqty{b}}}{\pqty{b r_1 + a r_2 + \pqty{ab}}.}
+    \]
+
+    We may check that this is well-defined.
+
+    \emph{Surjectivity} arises from the coprime condition, since we have the Euclidean algorithm on a Euclidean domain. This means \(1 + \pqty{ab}\) lies in the image of \(\phi\). This generates the whole module.
+
+    \emph{Injectivity} arises from calculating the kernel. If \(b r_1 + a r_2 \in \pqty{ab}\). We write
+    \[
+        b r_1 + a r_2 = a b x
+    \]
+    for some \(x \in R\). Since \(a \divides a r_2\) and \(a \divides a b x\), we have \(a \divides b r_1\), and hence \(a \divides r_1\). Similarly, \(b \divides r_2\).
+
+    Therefore, \(r_1 \equiv 0 \pmod a\) and \(r_2 \equiv 0 \pmod b\), which means the kernel is trivial.
+\end{proof}
+
+\begin{theorem}[Primary Decomposition of Classification]
+    \label{thm:primary-decomposition-classification}%
+    Let \(R\) be a Euclidean domain, and \(M\) a finitely-generated \(R\)-module. Then
+    \[
+        M \isomorphic N_1 \oplus \cdots N_t,
+    \]
+    where each \(N_i\) is either \(N_i \isomorphic R\), or \(N_i \isomorphic \flatfrac{R}{\pqty{{p_i}^{n_i}}}\) for some prime \(p_i\) and exponent \(n_i \geq 1\).
+\end{theorem}
+
+\begin{proof}
+    From the previous classification, we have
+    \[
+        M \isomorphic R \oplus \cdots \oplus R \oplus \flatfrac{R}{\pqty{d_1}} \oplus \cdots \oplus \flatfrac{R}{\pqty{d_r}}.
+    \]
+
+    Now we write each \(d_i\) as a product of primes in \(R\), and apply \autoref{prop:crt-modules} (Chinese Remainder Theorem for Modules).
+\end{proof}
+
+\section{Matrices over \(\FF\bqty{x}\) and Normal Forms of Matrices}
+
+In a previous example, we considered a vector space \(V\) over a field \(\FF\). Fix \(\alpha \in \End\pqty{V}\), we may construct a \(\FF\bqty{x}\) module
+\[
+    \function{\cdot}{\FF\bqty{x} \times V}{V}{\pqty{f, v}}{f\pqty{\alpha} \cdot v.}
+\]
+
+We call this module \(V_{\alpha}\).
+
+If \(\dim V\) is finite, then \(V_{\alpha}\) is finitely generated as a \(\FF\bqty{x}\) module.
+
+\begin{example}
+    \label{ex:lower-diagonal-1}%
+    Suppose \(V_{\alpha}\) is the module
+    \[
+        V_{\alpha} \isomorphic \flatfrac{\FF\bqty{x}}{\pqty{x^r}}.
+    \]
+
+    As a \(\FF\)-vector space, the right-hand side has basis
+    \[
+        1, x, x^2, \ldots, x^{r - 1}.
+    \]  
+
+    The endomorphism \(\functiondomain{\alpha}{V}{V}\) acts as multiplication by \(x\), i.e.,
+    \[
+        \function{\alpha}{\flatfrac{\FF\bqty{x}}{\pqty{x^r}}}{\flatfrac{\FF\bqty{x}}{\pqty{x^r}}}{f}{xf.}
+    \]
+
+    Take the endomorphism in the basis \(\Bqty{1, x, \ldots, x^{r - 1}}\) as a matrix
+    \[
+        \alpha = \pmqty{
+            0 & 0 & \cdots & 0 & 0 & 0 \\
+            1 & 0 & \cdots & 0 & 0 & 0 \\
+            0 & 1 & \ddots & 0 & 0 & 0 \\
+            \vdots & \vdots & \ddots & \ddots & \vdots & \vdots \\
+            0 & 0 & \cdots & 1 & 0 & 0 \\
+            0 & 0 & \cdots & 0 & 1 & 0
+        }.
+    \]
+\end{example}
+
+\begin{example}[Jordan Block]
+    \label{ex:jordan-block}%
+    Suppose now instead
+    \[
+        V_{\alpha} \isomorphic \flatfrac{\FF\bqty{x}}{\pqty{x - \lambda}^r}.
+    \]
+
+    Now we choose \(\functiondomain{\beta}{V}{V}\) such that \(\beta = \alpha - \lambda \identity\). Then there is a basis for \(V\), where
+    \[
+        \beta = \pmqty{
+            0 & 0 & \cdots & 0 & 0 & 0 \\
+            1 & 0 & \cdots & 0 & 0 & 0 \\
+            0 & 1 & \ddots & 0 & 0 & 0 \\
+            \vdots & \vdots & \ddots & \ddots & \vdots & \vdots \\
+            0 & 0 & \cdots & 1 & 0 & 0 \\
+            0 & 0 & \cdots & 0 & 1 & 0
+        }.
+    \]
+
+    We note that in this basis, \(\alpha\) is a Jordan block of the form
+    \[
+        \alpha = \pmqty{
+            \lambda & 0 & \cdots & 0 & 0 & 0 \\
+            1 & \lambda & \cdots & 0 & 0 & 0 \\
+            0 & 1 & \ddots & 0 & 0 & 0 \\
+            \vdots & \vdots & \ddots & \ddots & \vdots & \vdots \\
+            0 & 0 & \cdots & 1 & \lambda & 0 \\
+            0 & 0 & \cdots & 0 & 1 & \lambda
+        }.
+    \]
+
+    This is the \emph{Jordan block} of \emph{size} \(r\) and \emph{eigenvalue} \(\lambda\), and is denoted as \(\vb{J}_{r} \pqty{\lambda}\).
+\end{example}
+
+\begin{example}[Companion Matrix]
+    \label{ex:companion-matrix}%
+    Suppose now
+    \[
+        V_{\alpha} \isomorphic \flatfrac{\FF\bqty{x}}{p\pqty{x}}
+    \]
+    with \(\deg p = r\). A basis for the \(\FF\)-module on the right-hand side is given by
+    \[
+        1, x, x^2, \ldots, x^{r - 1}.
+    \]
+
+    Let
+    \[
+        p\pqty{x} = a_0 + a_1 x + \cdots + x^r,
+    \]
+    then the matrix for the map
+    \[
+        \function{\alpha}{\flatfrac{\FF\bqty{x}}{p\pqty{x}}}{\flatfrac{\FF\bqty{x}}{p\pqty{x}}}{f}{xf}
+    \]
+    is represented by, under this basis,
+    \[
+        \alpha = \pmqty{
+            0 & 0 & \cdots & 0 & 0 & - a_0 \\
+            1 & 0 & \cdots & 0 & 0 & - a_1 \\
+            0 & 1 & \ddots & 0 & 0 & - a_2 \\
+            \vdots & \vdots & \ddots & \ddots & \vdots & \vdots \\
+            0 & 0 & \cdots & 1 & 0 & - a_{r - 2} \\
+            0 & 0 & \cdots & 0 & 1 & - a_{r - 1}
+        }.
+    \]
+
+    This is called the \emph{companion matrix} for \(p\pqty{x}\), and is denoted as \(\vb{C}\pqty{p}\).
+\end{example}
+
+\begin{theorem}[Rational Canonical Form]
+    \label{thm:rational-canonical-form}%
+    Let \(\alpha \in \End\pqty{V}\). Then
+    \[
+        V_{\alpha} \isomorphic \flatfrac{\FF\bqty{x}}{\pqty{f_1}} \oplus \cdots \oplus \flatfrac{\FF\bqty{x}}{\pqty{f_s}}
+    \]
+    with \(f_i \divides f_{i + 1}\).
+
+    There exists a basis of \(V\), such that
+    \[
+        \alpha = \operatorname{diag}\pqty{\vb{C} \pqty{f_1}, \vb{C} \pqty{f_2}, \ddots, \vb{C} \pqty{f_s}} = \diag\pqty{\vb{C} \pqty{f_1}, \ldots, \vb{C} \pqty{f_s}}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    We apply \autoref{thm:classification-finitely-generated-modules-euclidean-domains} (Structure Theorem for Finitely-Generated Modules over Euclidean Domains) for \(\FF\bqty{x}\) and \autoref{ex:companion-matrix} (Companion Matrix).
+\end{proof}
+
+\begin{remark}
+    The \emph{minimal polynomial} of \(\alpha\) is \(f_s\), and the \emph{characteristic polynomial} of \(\alpha\) is the product of \(f_i\)s.
+\end{remark}
+
+\begin{lemma}[Fundamental Theorem of Algebra]
+    \label{lem:fundamental-theorem-of-algebra}%
+    The primes in \(\CC\bqty{x}\) are exactly \(\pqty{x - \alpha}\) for \(\alpha \in \CC\).
+\end{lemma}
+
+\begin{theorem}[Jordan Canonical Form]
+    \label{thm:jordan-canonical-form}%
+    Let \(\alpha \in \End\pqty{V}\), where \(V\) is a finite-dimensional vector space over \(\CC\). Then we have
+    \[
+        V_{\alpha} \isomorphic \flatfrac{\CC\bqty{x}}{\pqty{x - \lambda_1}^{\alpha_1}} \oplus \cdots \oplus \flatfrac{\CC\bqty{x}}{\pqty{x - \lambda_t}^{a_t}}.
+    \]
+
+    There exists a basis of \(V\), such that
+    \[
+        \alpha = \operatorname{diag}\pqty{\vb{J}_{a_1} \pqty{\lambda_1}, \vb{J}_{a_2} \pqty{\lambda_2}, \ldots, \vb{J}_{a_t} \pqty{\lambda_t}}
+        = \diag\pqty{\vb{J}_{a_1} \pqty{\lambda_1}, \ldots, \vb{J}_{a_t} \pqty{\lambda_t}}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Apply \autoref{thm:primary-decomposition-classification} (Primary Decomposition of Structure Theorem) to \(V_{\alpha}\), use \autoref{lem:fundamental-theorem-of-algebra} (Fundamental Theorem of Algebra), and \autoref{ex:jordan-block} (Jordan Block).
+\end{proof}
+
+\begin{remark}
+    We chose \(\CC\) here for the complete factorisation of a polynomial, since \(\CC\) is an algebraically closed field. However, Jordan Canonical Forms do exist for \emph{real} matrices as well -- but we can only factorise them into \emph{at most} quadratics, not necessarily linear terms. Things that look like \emph{rotation matrices} will come in as Jordan blocks for those, and they look slightly messier, but it is mathematically possible.
+\end{remark}
+\appendix
+\section{Multivariable Polynomial Rings (Non-Examinable)}
+
+A multivariate polynomial ring is not necessarily a PID. But how well can we understand these?
+
+Let \(k\) be a field, and \(k\bqty{x_1, \ldots, x_n}\) be a polynomial ring of \(n\) variables over \(k\). Given polynomials \(f_1, \ldots, f_s\), and another polynomial \(f\), (how) can we determine if
+\[
+    f \in \pqty{f_1, \ldots, f_s}?
+\]
+
+In the easy case (one-variable), the polynomial ring \(k\bqty{x}\) is a PID. Given \(f_1, \ldots, f_s\), then
+\[
+    I = \pqty{f_1, \ldots, f_n} = \pqty{g}
+\]
+where
+\[
+    g = \gcd\pqty{f_1, \ldots, f_n}.
+\]
+
+But computing \(g\) is a totally algorithmic procedure (Euclidean Algorithm), and \(f \in \pqty{g}\) if and only if \(g \divides f\) -- and this is also completely algorithmic!
+
+However, when we consider the multivariate case, even with the simple example where the ring is \(k\bqty{x, y}\), and the ideal is
+\[
+    I = \pqty{x^2 + y^2 + 1, x - y},
+\]
+this question is non-trivial, since the ideals are not principal, and there is no Euclidean algorithm.
+
+Surprisingly, the multivariate case \emph{does} have a solution!
+
+We can define orderings for monomials (\emph{monomial orderings}), and for example, in two variables, we may declare
+\[
+    x^a y^b \succ x^c y^d
+\]
+if \(a > c\), or \(a = c\) and \(b = d\). This is called the \emph{lexicographic ordering}, or \emph{alphabetic ordering}. For example,
+\[
+    x^2 \succ x^2 y \succ x y^5 \succ y^{100}.
+\]
+
+This is not symmetric at all in \(x\) and \(y\), but this allows us to define the \emph{leading term} of every polynomial in \(k\bqty{x, y}\), just like the single-variable case where we have a highest-power term. For example, we have
+\[
+    \text{LT}\pqty{3x^2 y + y^3 + 2} = 3x^2 y
+\]
+where we use \(\text{LT}\) to denote the leading term.
+
+But once we made this choice, we have a \emph{multivariate version of the division algorithm}. Given \(f_1, \ldots, f_s\), and \(f\) in \(k\bqty{x_1, \ldots, x_n}\), we want to come up with a good notion of division by the \emph{set} of polynomials. We want to write
+\[
+    f = a_1 f_1 + \cdots + a_s f_s + r
+\]
+where no term of \(r\) is divisible by any \(\text{LT} \pqty{f_i}\). (This reduces to the usual polynomial division in one variable and one polynomial.) Such a na\"{i}ve choice of the ordering, surprisingly, does allow this division to be possible.
+
+This seems to completely solve the problem -- but not yet. If \(r = 0\), then \(f\) definitely sits in the ideal generated by the \(f_i\)s. However, if \(r \neq 0\), it is \emph{still possible} for \(f\) to sit in the ideal. The problem here is, when we are doing such divisions, all we are controlling is the leading terms, but leading terms might \emph{cancel} between different \(f_i\)s.
+
+The key term here is Gr\"{o}bner Bases introduced by Bruno Buchberger (1960s) and Heisuke Hironaka (1960s). A generating set \(\Bqty{g_1, \ldots, g_t}\) for an ideal \(I\) is a \emph{Gr\"{o}bner basis} if every polynomial in \(I\) has leading terms divisible by some \(\text{LT}\pqty{g_i}\).
+
+All we now have to show is, that there is some Gr\"{o}bner basis for any ideal, and in particular, we want to have some algorithm to find the Gr\"{o}bner basis for any ideal. Given \(f, g\), we define
+\[
+    S\pqty{f, g} = \frac{\lcm \pqty{\text{LT} \pqty{f}, \text{LT} \pqty{g}}}{\text{LT} \pqty{f}} \cdot f - \frac{\lcm \pqty{\text{LT} \pqty{f}, \text{LT} \pqty{g}}}{\text{LT} \pqty{g}} \cdot g.
+\]
+
+\emph{Buchberger's Algorithm} is as follows. We start with a generating set \(G = \Bqty{f_1, \ldots, f_s}\), and we repeat the following.
+
+\begin{enumerate}
+    \item For each \(f, g \in G\), we compute \(S\pqty{f, g}\).
+    \item We divide \(S\pqty{f, g}\) by the set \(G\) (as defined above). If the remainder is non-zero, add that remainder to \(G\) (and we increase the size of \(G\)). We continue until all possible pairs are considered (including those within the newly-added ones).
+\end{enumerate}
+
+This algorithm terminates because of the Hilbert Basis Theorem.
+
+This solves the ideal membership question perfectly! There is a theorem which states that, upon polynomial division by a Gr\"{o}bner Basis of some ideal, zero remainder is exactly the condition for the polynomial to be within the ideal. Formally, let \(I \idealsub k\bqty{x_1, \ldots , x_n}\), and \(G\) be a Gr\"{o}bner Basis, then \(f \in I\), if and only if \(f\) gives remainder zero when divided by \(G\).
+\section{\(p\)-Adic Numbers (Non-Examinable)}
+
+In the late 19th century, Kurt Hensel explored an analogy between the rings \(\CC\bqty{x}\) and \(\ZZ\).
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|cc}
+        Properties & \(\CC\bqty{x}\) & \(\ZZ\) \\
+        \hline\hline
+        Primes & \(x, x - 1, x - \alpha, \) etc. & \(2, 3, p, \) etc. \\
+        Fraction Field & \(\CC\pqty{x}\) & \(\QQ\) \\
+        Related Rings & \(\CC\bqty{x, y}\) & \(\ZZ\bqty{x}\) \\
+         & \(\flatfrac{\CC\bqty{x, y}}{\pqty{y^2 - x^3}}\) & \(\ZZ\bqty{\sqrt{8}}\) \\
+        ``Completions'' & \(\CC\bbrac{x}\) & \(\ZZ_p\)
+    \end{tabular}
+    \caption{Analogies between \(\CC\bqty{x}\) and \(\ZZ\)}
+    \label{tab:analogy-cx-z}
+\end{table}
+
+Throughout this section, we assume \(p\) is a prime.
+
+\begin{definition}[\(p\)-Adic Integer]
+    \label{def:p-adic-integer}%
+    A \emph{\(p\)-adic integer} is a sequence \(\pqty{a_n}_{n = 1}^{\infty}\) such that \(a_n \in \flatfrac{\ZZ}{p^n \ZZ}\), and such that the projective map
+    \[
+        \functiondomain{\pi_n}{\flatfrac{\ZZ}{p^n \ZZ}}{\flatfrac{\ZZ}{p^{n - 1} \ZZ}}
+    \]
+    maps \(\pi_n \pqty{a_n} = a_{n - 1}\).
+
+    The set of all such sequences is called the set of \emph{\(p\)-adic integers}, denoted by \(\ZZ_p\).
+\end{definition}
+
+We may equip \(\ZZ_p\) with a ring structure by term-by-term addition and multiplication, and this works because the projective maps \(\pi_n\) are ring homomorphisms.
+
+\begin{remark}
+    This is often written as an \emph{inverse limit}, and is denoted as
+    \[
+        \ZZ_p = \varprojlim \pqty{\flatfrac{\ZZ}{p^n \ZZ}}.
+    \]
+
+    Similarly, we denote
+    \[
+        \CC\bbrac{t} = \varprojlim \pqty{\flatfrac{\CC\bqty{t}}{t^n}}.
+    \]
+\end{remark}
+
+The set \(\ZZ_p\) is uncountable, and we may embed \(\ZZ\) into \(\ZZ_p\), sending every integer \(a \in \ZZ\) into the constant sequence \(a_n \equiv a \pmod{p^n}\).
+
+\begin{proposition}[\(p\)-Adic Integers form an Integral Domain]
+    \label{prop:p-adic-integral-domain}%
+    The ring \(\ZZ_p\) is an integral domain.
+\end{proposition}
+
+\begin{proof}
+    Suppose some sequence \(\pqty{a_n b_n}\) is zero, the zero sequence. Then this means \(p^n\) divides \(a_n b_n\) for all \(n\). Now, suppose that \(\pqty{a_n}\) is non-zero, then this means that \(p^n \divides a_n\) for all but finitely many \(n\).
+
+    Let \(N \in \NN\) be such that \(p^n \notdivides a_n\) for all \(n \geq N\). Then the number of factors of \(p\) in \(a_n\) is constant (because of the projective property), say \(k < N\).
+    
+    In particular, this means that \(p^{n - k} \divides b_n\) for all \(n \geq N\), and hence, \(p^{n - k} \divides b_{n - k}\) for all \(n \geq N\). This shows that \(b\) is the zero sequence, as desired.
+\end{proof}
+
+\begin{notation}
+    We denote the field of fractions of \(\ZZ_p\) as \(\QQ_p\).
+\end{notation}
+
+We may represent the elements in \(\ZZ_p\) as \(b_0 + b_1 p + b_2 p^2 + \cdots\), where
+\[
+    b_0 = a_1, \quad b_1 = \frac{a_2 - a_1}{p}, \quad  b_2 = \frac{a_3 - a_2}{p^2}, \quad \ldots
+\]
+are all elements of \(\flatfrac{\ZZ}{p \ZZ}\).
+
+This is called the \emph{\(p\)-adic expansion} for \(a \in \ZZ_p\). This turns the sequences into na\"ive arithmetic. (Note that this series, however, need not converge.)
+
+\begin{proposition}[Units in \(p\)-Adic Integers]
+    \label{prop:units-p-adic}%
+    The sequence \(a = \pqty{a_n} \in \ZZ_p\) is a unit, if and only if \(a_1 \nequiv 0 \pmod{p}\).
+\end{proposition}
+
+\begin{proof}
+    If \(a = b_0 + b_1 p + \cdots\) is a unit, with \(a\inverse = c_0 + c_1 p + \cdots\), then
+    \[
+        b_0 c_0 \equiv 1 \pmod{p}.
+    \]
+
+    In particular, \(b_0 = a_1\), so \(a_1 \nequiv 0 \pmod{p}\).
+
+    If given \(a_1 = b_0 \nequiv 0 \pmod{p}\), then we can simply solve linear congruences inductively to find the inverse. 
+\end{proof}
+
+Note the similarity with \(\CC\bbrac{x}\): in \(\CC\bbrac{x}\), a formal power series in \(\CC\bbrac{x}\) is a unit if and only if the constant term is non-zero.
+
+\begin{proposition}[Ideals in \(p\)-Adic Integers]
+    \label{prop:ideals-p-adic}%
+    \begin{itemize}
+        \item The ideal \(p \ZZ_p\) is maximal, hence prime.
+        \item Every \(a \in \ZZ_p \setminus \Bqty{0}\) can be written as \(p^k \cdot u\), where \(k \in \ZZ_{\geq 0}\) and \(u \in \ZZ_p\) is a unit.
+        \item Every ideal is of the form \(\pqty{p^k}\).
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    We may check that \(\flatfrac{\ZZ_p}{p \ZZ_p} \isomorphic \FF_p\), the field of order \(p\).
+    
+    For any element \(a \in \ZZ_p\), let \(k \in \ZZ_{\geq 0}\) be the smallest index such that \(b_k \neq 0\), then we have
+    \[
+        a = p^k \pqty{b_k + b_{k + 1} p + \cdots}
+    \]
+    which is a product of a power of \(p\) and a unit, by \autoref{prop:units-p-adic}.
+
+    For the final part, note that for any ideal \(I \idealsub \ZZ_p\), let \(a \in I\) be an element with the smallest \(k\) as defined for the previous part. Then \(a = p^k u\) with \(u\) a unit, and hence \(\pqty{p^k} \subseteq I\). By the minimality of \(k\), we have \(I \subseteq \pqty{p^k}\). This finishes the proof.
+\end{proof}
+
+\begin{theorem}[Hensel's Lemma]
+    \label{thm:hensel-lemma}%
+    Let \(F\pqty{x}\) be the polynomial
+    \[
+        a_0 + a_1 x + \cdots + a_n x^n
+    \]
+    for \(a_i \in \ZZ_p\). Suppose that there exists \(\alpha_1 \in \ZZ_p\) such that
+    \[
+        F\pqty{\alpha_1} \equiv 0 \pmod{p}, \qand F'\pqty{\alpha_1} \nequiv 0 \pmod{p}.
+    \]
+
+    Then there is a unique \(p\)-adic root to \(F \equiv 0 \pmod{p}\).
+\end{theorem}
+
+\begin{proof}
+    This is essentially Newton's Method from analysis. We want to construct \(\alpha_1, \alpha_2, \ldots\) such that for all \(n \geq 1\), we have
+    \[
+        F\pqty{\alpha_n} = 0 \pmod{p^n}, \qand \alpha_{n + 1} \equiv \alpha_n \pmod{p^n}.
+    \]
+
+    Given \(\alpha_n\) with \(F\pqty{\alpha_n} \equiv 0 \pmod{p^n}\), we let \(\alpha_{n + 1} = \alpha_n + b_n p^n\). Expanding \(F\) around \(\alpha_n\), we have
+    \[
+        F\pqty{\alpha_n + b_n p^n} = F\pqty{\alpha_n} + F'\pqty{\alpha_n} \cdot b_n p^n + \bigO\pqty{b_n^2 p^{2n}},
+    \]
+    but the remainder terms are zero modulo \(p^{n + 1}\), since \(2n \geq n + 1\). Hence, in modulo \(p^{n + 1}\), we have
+    \[
+        F\pqty{\alpha_n + b_n p^n} \equiv F\pqty{\alpha_n} + F'\pqty{\alpha_n} \cdot b_n p^n \pmod{p^{n + 1}}.
+    \]
+
+    Let \(F\pqty{\alpha_n} = p^n x\) for some \(x \in \ZZ_p\). Then letting
+    \[
+        b_n \equiv -x \cdot F'\pqty{\alpha_n}\inverse \pmod{p}
+    \]
+    gives a solution. This is solvable since \(F'\pqty{\alpha_n} \equiv F'\pqty{\alpha_1} \pmod{p}\).
+\end{proof}
+
+For example, for the polynomial \(F\pqty{x} = x^2 + 1\), we have \(F'\pqty{x} = 2x\). Note that \(\alpha_1 = 2\) satisfies the condition in \autoref{thm:hensel-lemma} (Hensel's Lemma). Hence, there is a unique \(5\)-adic integer \(\alpha\equiv2\pmod5\) with \(\alpha^2=-1\). The other simple root modulo five, \(3\), lifts to \(-\alpha\); uniqueness is within the specified residue class.
+
+\begin{theorem}[Hasse--Minkowski]
+    \label{thm:hasse-minkowski}%
+    Let \(q\pqty{x_1, \ldots, x_n}\) be a quadratic polynomial over \(\QQ\) with no constant/linear terms. Then \(q\) has a non-trivial solution over \(\QQ\), if and only if it has non-trivial zeros over \(\RR\) and over \(\QQ_p\) for every prime \(p\).
+\end{theorem}
+
+Some cool consequences of this theorem include that:
+\begin{itemize}
+    \item a natural number is the sum of three squares, if and only if it is not of the form \(4^a(8b+7)\), with integers \(a,b\geq0\); and
+    \item any natural number can be written as the sum of four squares (Lagrange's Four-Square Theorem).
+\end{itemize} 
+\end{document}

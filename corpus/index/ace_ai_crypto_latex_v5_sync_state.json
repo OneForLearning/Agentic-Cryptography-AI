@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-09-30T20:46:23.121941+00:00",
+  "processed": "corpus/processed/current",
+  "collection": "ace_ai_crypto_latex_v5",
+  "embedding_model": "bge-m3",
+  "corpus_chunks": 40213,
+  "qdrant_points": 40213,
+  "counts": {
+    "new": 0,
+    "embedding_changed": 0,
+    "payload_only": 0,
+    "id_migration": 0,
+    "unchanged": 40213,
+    "stale": 0
+  },
+  "sqlite": {
+    "inserted": 0,
+    "updated": 0,
+    "unchanged": 40213,
+    "stale": 0,
+    "deleted": 0,
+    "relations": 29811
+  }
+}

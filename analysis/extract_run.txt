@@ -1,0 +1,77 @@
+{
+  "documents": 36,
+  "component_files": 87,
+  "macros": 777,
+  "units": 15258,
+  "unit_types": {
+    "prose": 2276,
+    "definition": 1525,
+    "remark": 703,
+    "example_set": 74,
+    "lemma": 367,
+    "proof": 2650,
+    "proposition": 807,
+    "theorem": 1386,
+    "example": 3526,
+    "corollary": 321,
+    "notation": 34,
+    "claim": 29,
+    "problem": 46,
+    "axiom": 12,
+    "method": 270,
+    "pitfall": 362,
+    "exercise_set": 856,
+    "solution": 8,
+    "exercise": 4,
+    "warning": 1,
+    "question": 1
+  },
+  "incomplete_documents": 4,
+  "macro_context_incomplete_documents": 1,
+  "labels_scoped": 3856,
+  "duplicate_labels_within_document": 0,
+  "reference_edges": 3219,
+  "unresolved_reference_edges": 33,
+  "proof_edges": 2641
+}
+[OK] /mnt/data/Livre_Crypto_LaTeX_RAG_Kit/example_output
+{
+  "chunks": 15552,
+  "unit_types": {
+    "prose": 2375,
+    "definition": 1528,
+    "remark": 704,
+    "example_set": 74,
+    "lemma": 367,
+    "proof": 2651,
+    "proposition": 807,
+    "theorem": 1387,
+    "example": 3559,
+    "corollary": 322,
+    "notation": 34,
+    "claim": 29,
+    "problem": 46,
+    "axiom": 12,
+    "method": 270,
+    "pitfall": 362,
+    "exercise_set": 1011,
+    "solution": 8,
+    "exercise": 4,
+    "warning": 1,
+    "question": 1
+  },
+  "documents": 36,
+  "max_embedding_chars": 6479,
+  "max_latex_chars": 6502,
+  "proof_chunks": 2651,
+  "proof_chunks_linked": 2634
+}
+[OK] /mnt/data/Livre_Crypto_LaTeX_RAG_Kit/example_output/chunks.jsonl
+=== LaTeX RAG Validation ===
+documents: 36 units: 15258 chunks: 15552
+references: 3219 unresolved: 33
+proofs: 2650 linked: 2633
+errors: 0 warnings: 2
+[WARN] 4 documents have missing \input/\include targets
+[WARN] 1 documents have incomplete macro context
+[OK] Structural dataset valid

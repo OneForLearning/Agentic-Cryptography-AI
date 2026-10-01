@@ -1,0 +1,31 @@
+{
+  "chunks": 15552,
+  "unit_types": {
+    "prose": 2375,
+    "definition": 1528,
+    "remark": 704,
+    "example_set": 74,
+    "lemma": 367,
+    "proof": 2651,
+    "proposition": 807,
+    "theorem": 1387,
+    "example": 3559,
+    "corollary": 322,
+    "notation": 34,
+    "claim": 29,
+    "problem": 46,
+    "axiom": 12,
+    "method": 270,
+    "pitfall": 362,
+    "exercise_set": 1011,
+    "solution": 8,
+    "exercise": 4,
+    "warning": 1,
+    "question": 1
+  },
+  "documents": 36,
+  "max_embedding_chars": 6479,
+  "max_latex_chars": 6502,
+  "proof_chunks": 2651,
+  "proof_chunks_linked": 2634
+}

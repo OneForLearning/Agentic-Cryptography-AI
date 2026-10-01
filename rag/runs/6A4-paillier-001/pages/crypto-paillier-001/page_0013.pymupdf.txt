@@ -1,0 +1,66 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes    235
+
+
+  Schemes      Main Scheme  Permutation   Fast Variant   RSA    ElGamal
+
+   One-wayness         Class [n]      RSA [n, n]     PDL [n, g]   RSA [n, F4]  DH [p]
+
+   Semantic Sec.      CR [n]          none      D-PDL [n, g]     none    D-DH [p]
+
+
+   Plaintext size             |n|            2 |n|               |n|             |n|            |p|
+
+   Ciphertext size        2 |n|           2 |n|           2 |n|            |n|        2 |p|
+
+
+    Encryption
+
+    |n|, |p| = 512          5120            5120           4032        17        1536
+
+    |n|, |p| = 768          7680            7680           5568        17        2304
+
+    |n|, |p| = 1024        10240           10240           7104        17        3072
+
+    |n|, |p| = 1536        15360           1536           10176        17        4608
+
+    |n|, |p| = 2048        20480           20480          13248        17        6144
+
+
+    Decryption
+
+    |n|, |p| = 512          768            1088            480        192        768
+
+    |n|, |p| = 768          1152            1632            480        288       1152
+
+    |n|, |p| = 1024         1536            2176            480        384       1536
+
+    |n|, |p| = 1536         2304            3264          480          576        2304
+
+    |n|, |p| = 2048         3072            4352          480          768        3072
+
+
+
+   These estimates are purely indicative, and do not result from an actual im-
+plementation. We did not include the potential pre-processing stages. Chinese
+remaindering is taken into account in cryptosystems that allow it i.e. all of them
+excepted ElGamal.
+
+
+8  Properties
+
+
+Before concluding, we would like to stress again the algebraic characteristics of
+our cryptosystems, especially those of Schemes 1 and 3.
+
+
+Random-Self-Reducibility. This property actually concerns the underlying
+number-theoretic problems CR [n] and Class [n] and, to some extent, their weaker
+versions D-PDL [n, g] and PDL [n, g]. Essentially, random-self-reducible problems
+are as hard on average as they are in the worst case : both RSA and the Discrete
+Log problems have this feature. Problems of that type are believed to yield good
+candidates for one-way functions [1].
+
+
+Additive Homomorphic Properties. As already seen, the two encryption
+functions m 7→gmrn mod n2 and m 7→gm+nr mod n2 are additively homomor-
+phic on Zn. Practically, this leads to the following identities :

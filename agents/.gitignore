@@ -1,0 +1,21 @@
+# Environnement Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# Secrets et journaux
+.env
+logs/*.log
+
+# Corpus documentaire local
+corpus/raw/
+corpus/processed/
+
+# Index et passages générés
+rag/index/
+rag/chunks/
+rag/reports/
+rag/queries/

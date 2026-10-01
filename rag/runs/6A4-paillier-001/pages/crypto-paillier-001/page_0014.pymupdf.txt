@@ -1,0 +1,52 @@
+236     Pascal Paillier
+
+                     ∀m1, m2 ∈ Zn  and  k ∈ N
+
+               d(e(m1) e(m2) mod n2) = m1 + m2 mod n
+
+                     d(e(m)k mod n2) = km mod n
+
+                 d(e(m1) gm2 mod n2) = m1 + m2 mod n
+                      )
+                d(e(m1)m2 mod n2)
+                        = m1m2 mod n .
+                d(e(m2)m1 mod n2)
+
+
+These properties are known to be particularly appreciated in the design of voting
+protocols, threshold cryptosystems, watermarking and secret sharing schemes,
+to quote a few. Server-aided polynomial evaluation (see [27]) is another potential
+ﬁeld of application.
+
+
+Self-Blinding. Any ciphertext can be publicly changed into another one with-
+out aﬀecting the plaintext :
+
+                 ∀m ∈ Zn  and  r ∈ N
+
+       d(e(m) rn mod n2) = m    or    d(e(m) gnr mod n2) = m ,
+
+depending on which cryptosystem is considered. Such a property has potential
+applications in a wide range of cryptographic settings.
+
+
+9  Further Research
+
+In this paper, we introduced a new number-theoretic problem and a related
+trapdoor mechanism based on the use of composite degree residues. We derived
+three new cryptosystems based on our technique, all of which are provably secure
+under adequate intractability assumptions.
+   Although we do not provide any proof of security against chosen ciphertext
+attacks, we believe that one could bring slight modiﬁcations to Schemes 1 and
+3 to render them resistant against such attacks, at least in the random oracle
+model.
+   Another research topic resides in exploiting the homomorphic properties of
+our systems to design distributed cryptographic protocols (multi-signature, se-
+cret sharing, threshold cryptography, and so forth) or other cryptographically
+useful objects.
+
+
+10  Acknowledgments
+
+The author is especially grateful to David Pointcheval for his precious comments
+and contributions to this work. We also thank Jacques Stern and an anonymous

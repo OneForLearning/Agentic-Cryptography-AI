@@ -1,0 +1,4553 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,tikz-cd,hyperref,geometry}
+\geometry{margin=24mm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{notation}[theorem]{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+% Local editorial notation reconstructed from use; original eason.sty was not supplied.
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\pqty}[1]{\left(#1\right)}
+\newcommand{\bqty}[1]{\left[#1\right]}
+\newcommand{\Bqty}[1]{\left\{#1\right\}}
+\newcommand{\set}[2]{\{#1\mid #2\}}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\functionmap}[3]{#1:#2\mapsto #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\ccintv}[2]{[#1,#2]}
+\newcommand{\ocintv}[2]{(#1,#2]}
+\newcommand{\cointv}[2]{[#1,#2)}
+\newcommand{\oointv}[2]{(#1,#2)}
+\newcommand{\size}[1]{\lvert #1\rvert}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\multiplicative}{^{\times}}
+\newcommand{\identity}{\mathrm{id}}
+\newcommand{\img}{\operatorname{im}}
+\newcommand{\divides}{\mid}
+\newcommand{\notdivides}{\nmid}
+\newcommand{\nequiv}{\not\equiv}
+\newcommand{\notto}{\not\to}
+\newcommand{\plusinfty}{+\infty}
+\newcommand{\totient}{\varphi}
+\newcommand{\hcf}{\operatorname{hcf}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\LUB}{\operatorname{LUB}}
+\newcommand{\GLB}{\operatorname{GLB}}
+\newcommand{\supremum}{\sup}
+\newcommand{\infimum}{\inf}
+\newcommand{\bigland}{\bigwedge}
+\newcommand{\indicator}{\mathbf{1}}
+\newcommand{\characteristic}{\operatorname{char}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\title{Numbers and Sets -- revised text edition}
+\author{Source notes: Eason Shao\\Course: Z. Wyatt, DPMMS, Michaelmas 2025}
+\date{}
+\begin{document}
+\maketitle
+These unofficial notes contain six course sections. Missing personal macros have been reconstructed from their local use. Corrections are targeted; compilation does not certify the correctness of every mathematical claim. The source credits Aurelia Walker and Byron Duh\'{e} for earlier corrections.
+\tableofcontents
+\section{Introduction}
+\label{sec:introduction}
+
+The purpose of this course is to transition from high-school mathematics to university mathematics, and give precise definitions of ideas that have perhaps been met before. We also give rigorous proofs to statements, and we ask foundational questions in mathematics (usually in the framework of number systems and sets).
+
+
+We first build the basic ideas of the foundation of a logic system.
+
+\begin{definition}[Axioms, Statement, Proof]
+    Mathematicians start with agreed assumptions called \emph{axioms}. These are foundational to a system and could be interpreted as definitions of a system.
+
+    A \emph{statement} is a mathematical statement which could have a true/false value.
+
+    A \emph{proof} is a sequence of true statements without logical gaps, establishing some conclusion.
+\end{definition}
+
+We would like to prove statements because:
+\begin{itemize}
+    \item We want to know they are true.
+    \item We want to gain insight into why they are true.
+    \item The proof might itself be cool.
+\end{itemize}
+
+We also introduce some number systems.
+
+\begin{definition}[\(\NN\), \(\ZZ\), \(\QQ\) (Informally)]
+    Informally,
+    \begin{itemize}
+        \item \(\NN\) is the set of \emph{natural numbers}
+        \[
+            \NN = \Bqty{1, 2, 3, \ldots}.
+        \]
+        \item \(\ZZ\) is the set of \emph{integers}
+        \[
+            \ZZ = \Bqty{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots}.
+        \]
+        \item \(\QQ\) is the set of \emph{rational numbers}, which are all fractions of the form \(\frac{a}{b}\) where \(a, b \in \ZZ\) and \(b \neq 0\). Equivalently,
+        \[
+            \QQ = \set{\frac{a}{b}}{a, b \in \ZZ, b \neq 0}.
+        \]
+    \end{itemize}
+\end{definition}
+
+Ancient Greeks view numbers as geometric objects, as in \autoref{fig:greek-viewpoint-numbers}.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Greek's Viewpoint on Numbers}
+    \label{fig:greek-viewpoint-numbers}
+\end{figure}
+
+However, from our perspective, to show that \(x = \sqrt{2}\) exists, we have to construct a \emph{larger number system} (which turns out to be \(\RR\)), and prove that
+\[
+    \exists x \in \RR: x^2 = 2.
+\]
+
+\(x = \sqrt{2}\) is an example of an \emph{algebraic number}, since it is the root of some polynomial with integer coefficients. There are also non-algebraic numbers in \(\RR\) which are called \emph{transcendental}, e.g. \(\pi\) and \(e\). The existence of such number is not proved until 1844 (Liouville).
+
+\subsection{Proofs and Non-Proofs}
+\label{sec:proofs-non-proofs}
+
+In this section we give examples of proofs and examples of incorrect proofs.
+
+\begin{claim}
+    For all positive integers \(n \in \NN\), \(n^3 - n\) is always a multiple of \(3\).
+\end{claim}
+
+\begin{proof}
+    For any positive integer \(n \in \NN\), we have
+    \[
+        n^3 - n = n \pqty{n^2 - 1} = \pqty{n - 1} n \pqty{n + 1}.
+    \]
+
+    One of the \(3\) consecutive integers must be a multiple of \(3\), and hence so is their product.
+\end{proof}
+
+\begin{claim}
+    For any positive integer \(n \in \NN\), if \(n^2\) is even, then so is \(n\).
+\end{claim}
+
+\begin{proof}[\proofname\ (Non-proof)]
+    Given a positive integer \(n \in \NN\) which is even, we can write \(n = 2k\) for some positive integer \(k \in \NN\).
+
+    Hence, \(n^2 = \pqty{2k}^2 = 2 \pqty{2k^2}\) which is even.
+\end{proof}
+
+We did not show the statement itself -- we showed the \emph{converse} of the statement.
+
+\begin{definition}[Converse, Inverse, Contrapositive]
+    For a statement `if \(A\) then \(B\)',
+    \begin{itemize}
+        \item its \emph{converse} is `if \(B\) then \(A\)'
+        \item its \emph{inverse} is `if not \(A\) then not \(B\)';
+        \item its \emph{contrapositive} is `if not \(B\) then not \(A\)'.
+    \end{itemize}
+\end{definition}
+
+A statement is equivalent to its contrapositive.
+
+\begin{claim}
+    For any positive integer \(n \in \NN\), if \(n^2\) is a multiple of \(9\), then so is \(n\).
+\end{claim}
+
+\begin{proof}[\proofname\ (Counterexample)]
+    Take \(n = 3\).
+\end{proof}
+
+To show a statement `if \(A\) then \(B\)' is false, it is enough to show that there is \emph{one} instance where \(A\) is true and \(B\) is false. This is the idea where `one counterexample is enough'.
+
+We now present a correct proof of `if \(n^2\) is even then \(n\) is even'.
+
+\begin{proof}
+    Suppose on the contrary that \(n^2\) is even but \(n\) is not even. Then \(n\) is odd.
+
+    So \(n = 2k + 1\) for some integer \(n \geq 0\). Then
+    \begin{align*}
+        n^2 &= \pqty{2k + 1}^2 \\
+        &= 4k^2 + 4k + 1 \\
+        &= 4 \pqty{k^2 + k} + 1.
+    \end{align*}
+
+    So \(n^2\) is odd, contradicting with the assumption that \(n^2\) is even.
+\end{proof}
+
+To show `if \(A\) then \(B\)', we showed that there is no case where \(A\) is true and \(B\) is false. This is called \emph{proof by contradiction}.
+
+\begin{definition}[If, Only If, If and Only If]
+    We write \(A \implies B\) for `if \(A\) then \(B\)'. This is also `\(B\) \emph{if} \(A\)', or `\(A\) \emph{implies} \(B\)'.
+
+    We write \(A \impliedby B\) for `if \(B\) then \(A\)'. This is also `\(B\) \emph{only if} \(A\)', or `\(A\) \emph{is implied by} \(B\)'.
+
+    We write \(A \iff B\) if both \(A \implies B\) and \(A \impliedby B\). This means `\(A\) \emph{if and only if} \(B\)', or `\(A\) \emph{is equivalent to} \(B\)'.
+\end{definition}
+
+Some statements might implicitly be a two directional proof.
+
+\begin{claim}
+    The solutions to \(x^2 - 5x + 6 = 0\) is \(x = 2\) or \(x = 3\).
+\end{claim}
+
+There are \textbf{2 assertions} in this claim:
+\begin{enumerate}
+    \item \(x = 2\) and \(x = 3\) are solutions; and
+    \item there are no other solutions apart from these two.
+\end{enumerate}
+
+\begin{proof}
+    \begin{enumerate}
+        \item If \(x = 2\) or \(x = 3\), then \(x - 2 = 0\) or \(x - 3 = 0\), so \(\pqty{x - 2} \pqty{x - 3} = 0\), so \(x^2 - 5x + 6 = 0\).
+        \item If \(x^2 - 5x + 6 = 0\), then \(\pqty{x - 2} \pqty{x - 3} = 0\), so \(x - 2 = 0\) or \(x - 3 = 0\), so \(x - 2\) or \(x - 3\).
+    \end{enumerate}
+\end{proof}
+
+This is a proof doing the two directions separately. However, in this case, it is possible to combine these two into one.
+
+\begin{proof}
+    \begin{align*}
+        &\phantom{\iff} x = 2 \text{ or } x = 3 \\
+        &\iff x - 2 = 0 \text{ or } x - 3 = 0 \\
+        &\iff \pqty{x - 2} \pqty{x - 3} = 0 \\
+        &\iff x^2 - 5x + 6 = 0.
+    \end{align*}
+\end{proof}
+
+Such proofs are only valid if \emph{every step} is `if and only if'.
+
+We next demonstrate the danger of making arbitrary claims in proofs.
+
+\begin{claim}
+    Every positive real number is \(\geq 1\).
+\end{claim}
+
+\begin{proof}
+    We let \(r\) be the least positive real.
+
+    Either \(r = 1\), \(r < 1\) or \(r > 1\).
+
+    If \(r < 1\), then \(0 < r^2 < r < 1\), contradicting the assumption that \(r\) is the least positive real.
+
+    If \(r > 1\), then \(0 < \sqrt{r} < r\), similarly giving contradiction.
+
+    Hence, \(r = 1\) is the least positive real.
+\end{proof}
+
+We do not know that there is a least positive real to start this proof. Every claim must be justified.
+
+\subsection{Combining Claims}
+\label{sec:combining-claims}
+
+\begin{definition}[And, Or, Not]
+    If \(A\) and \(B\) are assertions, we can write \(A \land B\) for \(A\) \emph{and} \(B\), write \(A \lor B\) for \(A\) \emph{or} \(B\), and \(\lnot A\) for \emph{not} \(A\).
+\end{definition}
+
+The truth of these assertions depends on the truth of \(A\) and \(B\), as summarised in the
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{cc|cccc}
+        \(A\) & \(B\) & \(A \land B\) & \(A \lor B\) & \(\lnot A\) & \(A \implies B\) \\
+        \hline
+        F & F & F & F & T & T \\
+        F & T & F & T & T & T \\
+        T & F & F & T & F & \textbf{F} \\
+        T & T & T & T & F & T
+    \end{tabular}
+\end{table}
+
+We notice the following.
+
+\begin{proposition}[De Morgan's Laws]
+    \begin{itemize}
+        \item \(\lnot \pqty{A \land B}\) is equivalent to \(\pqty{\lnot A} \lor \pqty{\lnot B}\).
+        \item \(\lnot \pqty{A \lor B}\) is equivalent to \(\pqty{\lnot A} \land \pqty{\lnot B}\).
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}[Contrapositive is Equivalent to Original]
+    \(\pqty{\lnot B} \implies \pqty{\lnot A}\) is equivalent to \(A \implies B\).
+\end{proposition}
+
+\begin{proof}
+    We have \(A \implies B\) is equivalent to \(\pqty{\lnot A} \lor B\), and hence \(B \lor \pqty{\lnot A}\), and hence \(\pqty{\lnot B} \implies \pqty{\lnot A}\).
+\end{proof}
+
+A claim may involve quantifiers.
+
+\begin{definition}[For All, There Exists]
+    \(\forall n\) means `\emph{for all} \(n\)'. \(\exists n\) means `\emph{there exists} \(n\)'.
+\end{definition}
+
+We may negate quantifiers, by swapping to the other quantifies and negating the statement behind.
+
+\begin{proposition}[Negating Quantifiers]
+    \begin{itemize}
+        \item \(\lnot \pqty{\forall x: A\pqty{x}}\) is equivalent to \(\exists x: \lnot A\pqty{x}\).
+        \item \(\lnot \pqty{\exists x: A\pqty{x}}\) is equivalent to \(\forall x: \lnot A\pqty{x}\).
+    \end{itemize}
+\end{proposition}
+
+The order of quantifiers matters, and we will see the significance of this in future chapters.
+
+\section{Sets, Functions and Relations}
+\label{sec:sets-functions-relations}
+
+\subsection{Sets}
+\label{sec:sets}
+
+\begin{definition}[Set and Element (Informal)]
+    A \emph{set} is a collection of mathematical objects where the \emph{order} of the elements in the set does not matter, and the elements are only counted \emph{once}.
+
+    We write \(x \in A\) if \(x\) is \emph{an element} of the set \(A\), and \(x \notin A\) if not.
+\end{definition}
+
+\begin{example}[Examples of Sets]
+    \(\RR\), \(\NN\), \(\Bqty{1, 5, 9}\), \(\ocintv{-2}{3}\) are all examples of sets.
+    
+    We have \(\Bqty{1, 3, 7} = \Bqty{1, 7, 3}\) and \(\Bqty{3, 4, 4, 8} = \Bqty{3, 4, 8}\).
+\end{example}
+
+\begin{definition}[Sets being Equal]
+    Two sets are \emph{equal} if they have the same elements. In other words, two sets \(A = B\) if
+    \[
+        \forall x: x \in A \iff x = B.
+    \]
+\end{definition}
+
+\begin{definition}[Empty Set]
+    The only set with no elements is the \emph{empty set}, denoted as \(\emptyset\).
+\end{definition}
+
+\begin{definition}[Subset, Proper Subset]
+    A set \(B\) is a \emph{subset} of \(A\), written as \(B \subseteq A\) or \(B \subset A\), if every element of \(B\) is an element of \(A\). \(B\) is a \emph{proper subset} of \(A\), if \(B \subseteq A\) and \(B \neq A\). This is denoted as \(B \subsetneq A\).
+\end{definition}
+
+Note that \(A = B\) if and only if \(A \subseteq B\) and \(B \subseteq A\).
+
+\begin{definition}[Subset Selection]
+    If \(A\) is a set, and \(P\) is a property of some elements of \(A\), we write
+    \[
+        \set{x \in A}{P\pqty{x}}
+    \]
+    for the subset of \(A\) comprising these elements for which \(P\pqty{x}\) holds.
+\end{definition}
+
+\begin{example}[Subset of Primes in \(\NN\)]
+    The set
+    \[
+        \Bqty{2, 3, 5, 7, 11, \ldots} = \set{n \in \NN}{n \text{ is prime}} \subsetneq \NN
+    \]
+    is a proper subset of \(\NN\).
+\end{example}
+
+\begin{definition}[Union, Intersection, Disjoint]
+    If \(A\) and \(B\) are sets, then their \emph{union} is given by
+    \[
+        A \cup B = \set{x}{x \in A \text{ or } x \in B}
+    \]
+    and their \emph{intersection} is given by
+    \[
+        A \cap B = \set{x}{X \in A \text{ and } x \in B}.
+    \]
+
+    We say that \(A\) and \(B\) are \emph{disjoint} if \(A \cap B = \emptyset\).
+\end{definition}
+
+Figure \autoref{fig:set-intersection-union} gives a visualisation of this definition.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Sets Intersection and Union}
+    \label{fig:set-intersection-union}
+\end{figure}
+
+Note that we can view set intersection as a special case of subset selection:
+\[
+    A \cap B = \set{x \in A}{x \in B}.
+\]
+
+\begin{proposition}[Commutativity, Associativity and Distributivity]
+    For any sets \(A\), \(B\), \(C\), the union and intersection operations are:
+    \begin{itemize}
+        \item \textbf{commutative}: \(A \cap B = B \cap A\), \(A \cup B = B \cup A\);
+        \item \textbf{associative}: \(\pqty{A \cap B} \cap C = A \cap \pqty{B \cap C}\), \(\pqty{A \cup B} \cup C = A \cup \pqty{B \cup C}\).
+    \end{itemize}
+
+    They are distributive over each other:
+    \[
+        A \cup \pqty{B \cap C} = \pqty{A \cup B} \cap \pqty{A \cup C}
+    \]
+    and
+    \[
+        A \cap \pqty{B \cup C} = \pqty{A \cap B} \cup \pqty{A \cap C}.
+    \]
+\end{proposition}
+
+\begin{definition}[Set Difference]
+    The \emph{set difference} is given by
+    \[
+        A \setminus B = \set{x \in A}{x \notin B}.
+    \]
+\end{definition}
+
+\begin{proposition}[De Morgan's Laws]
+    The following are satisfied:
+    \begin{align*}
+        A \setminus \pqty{B \cap C} &= \pqty{A \setminus B} \cup \pqty{A \setminus C}, \\
+        A \setminus \pqty{B \cup C} &= \pqty{A \setminus B} \cap \pqty{A \setminus C}.
+    \end{align*}
+\end{proposition}
+
+We give an example to prove one of the previous laws using a commonly used technique: for two sets \(S\) and \(T\), we have
+\[
+    S = T \iff S \subseteq T \land T \subseteq S.
+\]
+
+\begin{claim}
+    For any three sets \(A, B\) and \(C\), we have
+    \[
+        A \cap \pqty{B \cup C} = \pqty{A \cap B} \cup \pqty{A \cap C}.
+    \]
+\end{claim}
+
+\begin{proof}
+    We first show \(A \cap \pqty{B \cup C} \subseteq \pqty{A \cap B} \cup \pqty{A \cap C}\).
+
+    If \(x \in A \cap \pqty{B \cup C}\), then \(x \in A\) and \(x \in B \cup C\). In particular, \(x \in B\) or \(x \in C\).
+
+    If \(x \in B\), then \(x \in A \cap B\).
+
+    If \(x \in C\), then \(x \in A \cap C\).
+
+    Hence, we have \(x \in A \cap B\) or \(x \in A \cap C\).
+
+    Therefore, \(x \in \pqty{A \cap B} \cup \pqty{A \cap C}\).
+
+    Conversely, if \(x \in \pqty{A \cap B} \cup \pqty{A \cap C}\), then \(x \in A \cap B\) or \(x \in A \cap C\).
+
+    If \(x \in A \cap B\), then \(x \in A\) and \(x \in B \cup C\).
+
+    If \(x \in A \cap C\), then \(x \in A\) and \(x \in B \cup C\).
+
+    Hence, we have \(x \in A \cap \pqty{B \cup C}\), as desired.
+\end{proof}
+
+\begin{definition}[Countable and Arbitrary Unions and Intersections]
+    Given a countable infinite collection of sets \(A_1, A_2, A_3, \ldots\), we define
+    \[
+        \bigcap_{n = 1}^{\infty} A_n = A_1 \cap A_2 \cap A_3 \cap \ldots = \set{x}{\forall n \in \NN: x \in A_n},
+    \]
+    and
+    \[
+        \bigcup_{n = 1}^{\infty} A_n = A_1 \cup A_2 \cup A_3 \cup \ldots = \set{x}{\exists n \in \NN: x \in A_n}.
+    \]
+
+    More generally, given an \emph{index set} \(I\) and a collection of sets \(A_i\) indexed by \(i \in I\), we write
+    \[
+        \bigcap_{i \in I} A_i = \set{x}{\forall i \in I: x \in A_i},
+    \]
+    and
+    \[
+        \bigcup_{i \in I} A_i = \set{x}{\exists i \in I: x \in A_i}.
+    \]
+\end{definition}
+
+\begin{remark}
+    The countable infinite union and intersection \textbf{does not} mean the limit of anything (compared to an infinite product or sum).
+\end{remark}
+
+\begin{definition}[Cartesian Product]
+    Given sets \(A\) and \(B\), their \emph{Cartesian Product} \(A \times B\) is given by
+    \[
+        A \times B = \set{\pqty{a, b}}{a \in A \land b \in B}
+    \]
+    is the set of \emph{ordered pairs} \(\pqty{a, b}\) with \(a \in A\) and \(b \in B\).
+\end{definition}
+
+Note that we may define an ordered pair formally using set theory as
+\[
+    \pqty{a, b} = \Bqty{\Bqty{a}, \Bqty{a, b}},
+\]
+and extend this to ordered triples, etc., as well by a recursive definition:
+\[
+    \pqty{a, b, c} = \pqty{\pqty{a, b}, c}
+\]
+
+Similarly, we may extend the Cartesian product to triples, etc., e.g.
+\[
+    \RR^3 = \RR \times \RR \times \RR = \set{\pqty{x, y, z}}{x, y, z \in \RR}.
+\]
+
+\begin{definition}[Power Set]
+    For any set \(X\), we form the \emph{power set} \(\powerset\pqty{X}\) consisting of all subsets of \(X\):
+    \[
+        \powerset\pqty{X} = \set{Y}{Y \subseteq X}
+    \]
+\end{definition}
+
+\begin{example}[Power Set]
+    If \(X = \Bqty{1, 2}\), we have
+    \[
+        \powerset\pqty{X} = \Bqty{\emptyset, \Bqty{1}, \Bqty{2}, \Bqty{1, 2}}.
+    \]
+\end{example}
+
+Recall that we can do subset selection on a set \(A\) and for any property \(P\):
+\[
+    \set{x \in A}{P\pqty{x}}.
+\]
+
+But we \emph{cannot} form \(\set{x}{P\pqty{x}}\) \emph{without} the starting set.
+
+\begin{example}[Russell's Paradox]
+    Suppose
+    \[
+        X = \set{x}{x\text{ is a set, } x \notin x}
+    \]  
+    were a set. For example,
+    \[
+        \Bqty{2} \in \Bqty{\Bqty{2}, \Bqty{1, 2, 3}}
+    \]
+    but
+    \[
+        \Bqty{2} \notin \Bqty{2}.
+    \]
+
+    Then, if \(X \in X\), by definition, we have \(X \notin X\). However, if \(X \notin X\), by definition, we have \(X \in X\).
+\end{example}
+
+This also implies that there is \emph{no universal set} \(Y\) containing all mathematical objects: \(\forall x: x \in Y\). Otherwise, we may form the above set by subset selection
+\[
+    X = \set{x \in Y}{x \notin x}.
+\]
+
+Therefore, to guarantee that a set exists, it should be obtained from known sets, e.g. \(\RR\), \(\NN\), in one of the ways discussed.
+
+\begin{definition}[Finite/Infinite Set, Size of a Set]
+    We let
+    \[
+        \NN_0 = \NN \cup \Bqty{0} = \Bqty{0, 1, 2, 3, \ldots}.
+    \]
+
+    Given \(n \in \NN_0\), we say a set \(A\) has \emph{size} \(n\) if we can write
+    \[
+        A = \Bqty{a_1, a_2, \ldots, a_n}
+    \]
+    where the elements \(a_i\) are distinct.
+
+    We say a set is \emph{finite} if such \(n \in \NN_0\) exists, and otherwise we say the set is \emph{infinite}.
+\end{definition}
+
+\subsection{Functions}
+\label{sec:functions}
+
+Given sets \(A\) and \(B\), a function \(f\) from \(A\) to \(B\) is a `rule' that assigns to every \(x \in A\) to a unique element \(f\pqty{x} \in B\).
+
+\begin{definition}[Function]
+    A \emph{function} from \(A\) to \(B\) is a subset \(f \subseteq A \times B\) such that
+    \[
+        \forall x \in A, \exists_1 y \in B: \pqty{x, y} \in f.
+    \]
+
+    We write
+    \[
+        \functiondomain{f}{A}{B}
+    \]
+    if \(f\) is a function from \(A\) to \(B\), and if \(\pqty{x, y} \in f\), we write \(f\pqty{x} = y\), or
+    \[
+        \functionmap{f}{x}{y}.
+    \]
+\end{definition}
+
+\begin{examples}[Examples and Non-Examples of Functions]
+    \begin{enumerate}
+        \item The map
+        \[
+            \function{f}{\RR}{\RR}{x}{x^2}
+        \]
+        is a function.
+
+        \item The map
+        \[
+            \function{f}{\RR}{\RR}{x}{\frac{1}{x}}
+        \]
+        is \emph{not} a function, since \(0 \in \RR\) did not get mapped to anything.
+
+        \item The map
+        \[
+            \function{f}{\RR}{\RR}{x}{\pm \sqrt{\abs{x}}}
+        \]
+        is \emph{not} a function, since the value of such mapping is not unique (for non-zero elements in the domain).
+
+        \item The map
+        \[
+            \function{f}{\RR}{\RR}{x}{\begin{cases}
+                1, & x \in \QQ, \\
+                0, & x \notin \QQ,
+            \end{cases}}
+        \]
+        is a function.
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}[Domain, Co-domain, Image, Pre-Image]
+    Given \(\functiondomain{f}{A}{B}\), we say \(A\) is the \emph{domain} of \(f\), and \(B\) is the \emph{co-domain} or \emph{range} of \(f\).
+
+    If \(x \in A\), and \(f\pqty{x} = y\), then \(y\) is \emph{the image} of \(x\), and \(x\) is \emph{a pre-image} of \(y\).
+
+    If \(X \subseteq A\), then \emph{the image of \(X\) under \(f\)} is
+    \[
+        f\pqty{X} = \set{f\pqty{x}}{X \in X} = \set{b \in B}{\exists x \in X: f\pqty{x} = b}.
+    \]
+
+    If \(Y \subseteq B\), then \emph{the pre-image of \(Y\) under \(f\)} is
+    \[
+        f\inverse\pqty{Y} = \set{a \in A}{f\pqty{a} \in Y}.
+    \]
+
+    The \emph{image} of the map \(f\) is
+    \[
+        \img f = f \pqty{A}
+    \]
+    where \(A\) is its domain.
+\end{definition}
+
+\begin{remark}
+    Note that the pre-image may exist without an inverse function. However, if the inverse exists, then the pre-image of the function is consistent with the image of the inverse function, hence the dual-meaning of the definition does not really matter.
+\end{remark}
+
+\begin{examples}[Images and Pre-Images]
+    \begin{enumerate}
+        \item For the function \(f\pqty{x} = x^2\), the image of \(6\) is \(36\), and the pre-images of \(36\) are \(\pm 6\).
+        \item For the function \(f\pqty{x} = x^2\), the image of \(\cointv{-1}{4}\) is \(\cointv{0}{16}\), and the pre-image of \(\cointv{-1}{4}\) is \(\oointv{-2}{2}\).
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}[Injective, Surjective, Bijective]
+    Let \(\functiondomain{f}{A}{B}\).
+    
+    \begin{itemize}
+        \item \(f\) is \emph{injective} if distinct elements are mapped to distinct elements, i.e.,
+        \[
+            \forall a, b \in A, a \neq b: f\pqty{a} \neq f\pqty{b}.
+        \]
+
+        Equivalently, \(f\) is injective if
+        \[
+            \forall a, b \in A: f\pqty{a} = f\pqty{b} \implies a = b.
+        \]
+
+        \item \(f\) is \emph{surjective} if \(\img \pqty{f} = B\). Equivalently, \(f\) is surjective if
+        \[
+            \forall b \in B \exists a \in A: f\pqty{a} = b.
+        \]
+
+        \item \(f\) is \emph{bijective} if \(f\) is both injective and surjective.
+    \end{itemize}
+\end{definition}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & A \arrow[rr, "f_1"]    & & B           \\
+        1 & \bullet \arrow[rr]   & & \bullet & 1 \\
+        2 & \bullet \arrow[rrd]  & & \bullet & 2 \\
+        3 & \bullet \arrow[rruu] & & \bullet & 3 \\
+        4 & \bullet \arrow[rru]  & & \bullet & 4 \\
+        5 & \bullet \arrow[rru]
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & A \arrow[rr, "f_2"]    & & B           \\
+        1 & \bullet \arrow[rr]   & & \bullet & 1 \\
+        2 & \bullet \arrow[rrd]  & & \bullet & 2 \\
+        3 & \bullet \arrow[rru]  & & \bullet & 3
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & A \arrow[rr, "f_3"]    & & B           \\
+        1 & \bullet \arrow[rr]   & & \bullet & 1 \\
+        2 & \bullet \arrow[rrdd] & & \bullet & 2 \\
+        3 & \bullet \arrow[rru]  & & \bullet & 3 \\
+          &                      & & \bullet & 4
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & A \arrow[rr, "f_4"]    & & B           \\
+        1 & \bullet \arrow[rrdd] & & \bullet & 1 \\
+        2 & \bullet \arrow[rrd]  & & \bullet & 2 \\
+        3 & \bullet \arrow[rruu] & & \bullet & 3 \\
+        4 & \bullet \arrow[rruu]
+    \end{tikzcd}
+    \caption{Examples of Injective and Surjective Functions}
+    \label{fig:injective-surjective-examples}
+\end{figure}
+
+\begin{examples}[Injective and Surjective Functions]
+    We refer to \autoref{fig:injective-surjective-examples}.
+
+    \begin{enumerate}
+        \item Let \(\functiondomain{f_1}{\Bqty{1, 2, 3, 4, 5}}{\Bqty{1, 2, 3, 4}}\) be given by the first map. \(f_1\) is neither injective nor surjective.
+
+        \item Let \(\functiondomain{f_2}{\Bqty{1, 2, 3}}{\Bqty{1, 2, 3}}\) be given by the second map. \(f_2\) is both injective and surjective, hence bijective.
+
+        \item Let \(\functiondomain{f_3}{\Bqty{1, 2, 3}}{\Bqty{1, 2, 3, 4}}\) be given by the third map. \(f_3\) is injective but not surjective.
+
+        \item Let \(\functiondomain{f_4}{\Bqty{1, 2, 3, 4}}{\Bqty{1, 2, 3}}\) be given by the fourth map. \(f_4\) is surjective but not injective.
+    \end{enumerate}
+\end{examples}
+
+If a function \(\functiondomain{f}{A}{B}\) is bijective, then everything in \(B\) is `hit' exactly one. That is, \(f\) pairs the elements of \(A\) and \(B\).
+
+\begin{definition}[Permutation]
+    A \emph{permutation} of \(A\) is a bijection \(A \to A\).
+\end{definition}
+
+\begin{remark}
+    When specifying functions, we need to specify both its domain and co-domain. For example, asking whether \(f\pqty{x} = x^2\) is injective is meaningless, since
+    \[
+        \function{f}{\NN}{\NN}{x}{x^2}
+    \]
+    is injective, while
+    \[
+        \function{f}{\ZZ}{\ZZ}{x}{x^2}
+    \]
+    is not.
+\end{remark}
+
+\begin{proposition}[Size of Finite Sets and Mappings]
+    Let \(A, B\) be finite sets and \(\functiondomain{f}{A}{B}\).
+    \begin{enumerate}
+        \item If \(\abs{A} < \abs{B}\), then \(f\) cannot be surjective.
+        \item If \(\abs{A} > \abs{B}\), then \(f\) cannot be injective.
+        \item If \(A = B\), then \(f\) is surjective if and only if \(f\) is injective. (For a function from a set to itself, injectivity is equivalent to surjectivity.)
+        \item If \(B \subsetneq A\), then \(f\) cannot be bijective. (There are no bijections from a finite \(A\) to any proper subset of \(A\).)
+    \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+    The first two points are extended to infinite sets using \emph{cardinality}. However, there are counterexamples of the other two points in the infinite case.
+\end{remark}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & \NN \arrow[rr, "f"]    & & \NN         \\
+        1 & \bullet \arrow[rrd]    & & \bullet & 1 \\
+        2 & \bullet \arrow[rrd]    & & \bullet & 2 \\
+        3 & \bullet \arrow[rrd]    & & \bullet & 3 \\
+        4 & \bullet \arrow[rrd]    & & \bullet & 4 \\
+        \vdots & \vdots            & & \vdots  & \vdots
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & \NN \arrow[rr, "g"]    & & \NN         \\
+        1 & \bullet \arrow[rr]     & & \bullet & 1 \\
+        2 & \bullet \arrow[rru]    & & \bullet & 2 \\
+        3 & \bullet \arrow[rru]    & & \bullet & 3 \\
+        4 & \bullet \arrow[rru]    & & \bullet & 4 \\
+        \vdots & \vdots \arrow[rru] & & \vdots & \vdots
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+          & \NN \arrow[rr, "h"]    & & \NN \setminus \Bqty{1} \\
+        1 & \bullet \arrow[rr]    & & \bullet & 2 \\
+        2 & \bullet \arrow[rr]    & & \bullet & 3 \\
+        3 & \bullet \arrow[rr]    & & \bullet & 4 \\
+        4 & \bullet \arrow[rr]    & & \bullet & 5 \\
+        \vdots & \vdots           & & \vdots  & \vdots
+    \end{tikzcd}
+    \caption{Counterexamples in the Infinite Case}
+    \label{fig:infinite-counterexample}
+\end{figure}
+
+\begin{examples}[Counterexamples in the Infinite Case]
+    We refer to \autoref{fig:infinite-counterexample}.
+
+    \begin{enumerate}
+        \item The function
+        \[
+            \function{f}{\NN}{\NN}{x}{x + 1}
+        \]
+        is injective but not surjective. \(1 \in \NN\) does not have a pre-image.
+
+        \item The function
+        \[
+            \function{g}{\NN}{\NN}{x}{\begin{cases}
+            x - 1, & x \neq 1, \\ 1, & x = 1\end{cases}}
+        \]
+        is not injective but surjective. \(h\pqty{1} = h\pqty{2}\).
+
+        \item The function
+        \[
+            \function{h}{\NN}{\NN \setminus \Bqty{1}}{x}{x + 1}
+        \]
+        is bijective, and \(\NN \setminus \Bqty{1} \subsetneq \NN\).
+    \end{enumerate}
+\end{examples}
+
+\begin{examples}[Examples of Functions]
+    \begin{enumerate}
+        \item For any set \(X\), we say
+        \[
+            \function{\identity_X}{X}{X}{x}{x}
+        \]
+        is the \emph{identity function}.
+
+        \item A sequence of reals \(x_1, x_2, x_3, \ldots\) is a function
+        \[
+            \function{x}{\NN}{\RR}{n}{x_n}.
+        \]
+        
+        \item The operation \(+\) on \(\NN\) is a function
+        \[
+            \function{+}{\NN}{\NN}{\pqty{a, b}}{a + b}.
+        \]
+
+        \item A set \(X\) has size \(n\) if and only if there is a bijection
+        \[
+            \function{f}{\Bqty{1, 2, \ldots, n}}{X = \Bqty{a_1, a_2, \ldots, a_n}}{i}{a_i}.
+        \]
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}[Indicator Function]
+    Given a set \(X\) and \(A \subseteq X\), we have the \emph{indicator function} or \emph{characteristic function} of \(A\)
+    \[
+        \function{\indicator_A = \characteristic_A}{X}{\Bqty{0, 1}}{x}{\begin{cases}1, & x \in A, \\ 0, & x \notin A\end{cases}.}
+    \]
+\end{definition}
+
+\begin{proposition}[Properties of the Indicator Function]
+    Let \(A, B \subseteq X\).
+    \begin{enumerate}
+        \item The indicator function indicates the equality of sets:
+        \[
+            \indicator_A = \indicator_B \iff A = B.
+        \]
+        \item The indicator of the intersection is given by
+        \[
+            \indicator_{A \cap B} = \indicator_A \cdot \indicator_B.
+        \]
+        \item The indicator of the complement is given by
+        \[
+            \indicator_{X \setminus A} = 1 - \indicator_{A}.
+        \]
+        \item The indicator of the union is given by
+        \[
+            \indicator_{A \cup B} = \indicator_A + \indicator_B - \indicator_{A \cap B}.
+        \]
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}[\proofname\ of Property 4]
+    We have
+    \begin{align*}
+        \indicator_{A \cup B} &= 1 - \indicator_{X \setminus \pqty{A \cup B}} && \text{Property 3} \\
+        &= 1 - \indicator_{\pqty{X \setminus A} \cap \pqty{X \setminus B}} && \text{Property 1, de Morgan's Law} \\
+        &= 1 - \indicator_{X \setminus A} \cdot \indicator_{X \setminus B} && \text{Property 2} \\
+        &= 1 - \pqty{1 - \indicator_A} \pqty{1 - \indicator_B} && \text{Property 3} \\
+        &= - \indicator_A \indicator_B + \indicator_A + \indicator_B \\
+        &= \indicator_A + \indicator_B - \indicator_{A \cap B} && \text{Property 2}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{definition}[Composition of Functions]
+    Given \(\functiondomain{f}{A}{B}\) and \(\functiondomain{g}{B}{C}\), the \emph{composition} is
+    \[
+        \function{g \circ f}{A}{C}{a}{g\pqty{f\pqty{a}}.}
+    \]
+\end{definition}
+
+Figure \autoref{fig:composition-functions} visualises this, for \(b = f\pqty{a}\), and \(c = g\pqty{b} = g \circ f \pqty{a}\).
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+        A \arrow[rr, "f"'] \arrow[rrrr, "g \circ f", bend left] & & B\arrow[rr, "g"'] & & C \\ \\ \\
+        a \arrow[rr, mapsto] & & b \arrow[rr, mapsto] & & c
+    \end{tikzcd}
+    \caption{Composition of Functions}
+    \label{fig:composition-functions}
+\end{figure}
+
+\begin{example}[Function Composition]
+    Let
+    \[
+        \function{f}{\RR}{\RR}{x}{2x}
+    \]
+    and
+    \[
+        \function{g}{\RR}{\RR}{x}{x + 1}.
+    \]
+
+    We have
+    \[
+        g \circ f \pqty{x} = g \pqty{f \pqty{x}} = g \pqty{2x} = 2x + 1
+    \]
+    and
+    \[
+        f \circ g \pqty{x} = f \pqty{g \pqty{x}} = f \pqty{x + 1} = 2x + 2.
+    \]
+
+    Note
+    \[
+        f \circ g \pqty{1} = 4 \neq 3 = g \circ f \pqty{1}.
+    \]  
+\end{example}
+
+We see from the above example that in general, \(\circ\) is not commutative.
+
+\begin{proposition}[Function Composition is Associative]
+    For functions \(\functiondomain{f}{A}{B}, \functiondomain{g}{B}{C}, \functiondomain{h}{C}{D}\), we have
+    \[
+        h \circ \pqty{g \circ f} = \pqty{h \circ g} \circ f.
+    \]
+
+    This allows us to drop brackets in function composition without ambiguity.
+\end{proposition}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+        A \arrow[rr, "f"] & & B\arrow[rr, "g"] & & C\arrow[rr, "h"] & & D \\ \\ \\
+        a \arrow[rr, mapsto, "f"] \arrow[rrrr, mapsto, bend right, "g \circ f"] \arrow[rrrrrr, mapsto, bend right, "h \circ g \circ f"' ] & & b \arrow[rr, mapsto, "g"] \arrow[rrrr, mapsto, bend left, "h \circ g"'] & & c \arrow[rr, mapsto, "h"] & & d \\
+    \end{tikzcd}
+    \caption{Composition of Functions is Associative}
+    \label{fig:composition-functions-associative}
+\end{figure}
+
+\begin{proof}
+    \autoref{fig:composition-functions-associative} visualises this result.
+
+    For any \(x \in A\), we have
+    \begin{align*}
+        \pqty{h \circ \pqty{g \circ f}} \pqty{x} &= h\pqty{\pqty{g \circ f} \pqty{x}} \\
+        &= h \pqty{g \pqty{f \pqty{x}}}
+    \end{align*}
+    and
+    \begin{align*}
+        \pqty{\pqty{h \circ g} \circ f} \pqty{x} &= \pqty{h \circ g} \pqty{f\pqty{x}} \\
+        &= h \pqty{g \pqty{f \pqty{x}}}
+    \end{align*}
+    indeed.
+\end{proof}
+
+We now define what it means for a function to be reversible and the reverse of it.
+
+\begin{definition}[Invertibility, Inverse]
+    We say \(\functiondomain{f}{A}{B}\) is \emph{invertible} if there exists \(\functiondomain{g}{B}{A}\) such that
+    \[
+        g \circ f = \identity_A, f \circ g = \identity_B.
+    \]
+
+    \(g\) is called the \emph{inverse} of \(f\).
+\end{definition}
+
+\begin{example}[Inverse Functions on \(\RR \to \RR\)]
+    Let
+    \[
+        \function{f}{\RR}{\RR}{x}{2x + 1}
+    \]
+    and
+    \[
+        \function{g}{\RR}{\RR}{x}{\frac{x - 1}{2}}.
+    \]
+
+    For all \(x \in \RR\), we have
+    \begin{align*}
+        \pqty{g \circ f} \pqty{x} &= g \pqty{f \pqty{x}} \\
+        &= g \pqty{2x + 1} \\
+        &= \frac{\pqty{2x + 1} - 2}{2} \\
+        &= x
+    \end{align*}
+    so \(g \circ f = \identity_{\RR}\).
+
+    For all \(x \in \RR\), we have
+    \begin{align*}
+        \pqty{f \circ g} \pqty{x} &= f \pqty{g \pqty{x}} \\
+        &= f \pqty{\frac{x - 1}{2}} \\
+        &= 2 \pqty{\frac{x - 1}{2}} + 1 \\
+        &= x,
+    \end{align*}
+    so \(f \circ g = \identity_{\RR}\).
+\end{example}
+
+\begin{example}[One-Sided Inverse]
+    Let
+    \[
+        \function{f}{\NN}{\NN}{x}{x + 1}
+    \]
+    and
+    \[
+        \function{G}{\NN}{\NN}{x}{\begin{cases}x - 1, & x \neq 1, \\ 1, & x = 1.\end{cases}}
+    \]
+
+    Figure \autoref{fig:one-sided-inverse} visualises this situation. Note that \(g \circ f = \identity_{\NN}\) but \(f \circ g \neq \identity_{\NN}\), since \(f \pqty{g\pqty{1}} = f\pqty{1} = 2\).
+\end{example}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, row sep = tiny, column sep = small]
+        \NN \arrow[rr, "f"]   & & \NN \arrow[rr, "g"]   & & \NN \arrow[rr, "f"]   & & \NN\\
+        \bullet_1 \arrow[rrd] & & \bullet_1 \arrow[rr]  & & \bullet_1 \arrow[rrd] & & \bullet_1 \\
+        \bullet_2 \arrow[rrd] & & \bullet_2 \arrow[rru] & & \bullet_2 \arrow[rrd] & & \bullet_2 \\
+        \bullet_3 \arrow[rrd] & & \bullet_3 \arrow[rru] & & \bullet_3 \arrow[rrd] & & \bullet_3 \\
+        \bullet_4 \arrow[rrd] & & \bullet_4 \arrow[rru] & & \bullet_4 \arrow[rrd] & & \bullet_4 \\
+        \vdots                & & \vdots \arrow[rru]    & & \vdots                & & \vdots    \\
+    \end{tikzcd}
+    \caption{One-Sided Inverse}
+    \label{fig:one-sided-inverse}
+\end{figure}
+
+Next we investigate on the conditions that inverses exist.
+
+\begin{lemma}[Injections are those with Left Inverses]
+    Given \(\functiondomain{f}{A}{B}\), there exists \(\functiondomain{g}{B}{A}\) such that \(g \circ f = \identity_A\) if and only if \(f\) is injective.
+\end{lemma}
+
+\begin{proof}
+    If such \(g\) exists, and there exists \(a, a' \in A\) such that \(f \pqty{a} = f \pqty{a'}\), then \(g \pqty{f \pqty{a}} = g \pqty{f \pqty{a'}}\), hence \(a = a'\), and \(f\) is injective.
+
+    Conversely, if \(f\) is injective, we can find \(g\) such that \(g \circ f = \identity_A\). Let \(b \in B\).
+    \begin{itemize}
+        \item If \(b \in f\pqty{A}\), then let \(g \pqty{b} = a\) where \(a\) is the \emph{unique} element of \(A\) such that \(f\pqty{a} = b\).
+        \item If \(b \notin f\pqty{A}\), then assign \(g \pqty{b} \in A\) be anything.
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}[Surjections are those with Right Inverses]
+    Given \(\functiondomain{f}{A}{B}\), there exists \(\functiondomain{g}{B}{A}\) such that \(f \circ g = \identity_B\) if and only if \(f\) is surjective.
+\end{lemma}
+
+\begin{proof}
+    If such \(g\) exists, then
+    \[
+        f \pqty{g \pqty{B}} = B
+    \]
+    hence \(f\) must be surjective.
+
+    Conversely, if \(f\) is surjective, we construct such \(g\). Let \(b \in B\), pick \emph{some} \(a \in A\) with \(f\pqty{a} = b\) (i.e. pick \(a\) as some pre-image of \(b\)), and let \(g \pqty{b} = a\).
+\end{proof}
+
+\begin{theorem}[Bijections are those with Inverses]
+    For a function \(\functiondomain{f}{A}{B}\), it is invertible if and only if \(f\) is bijective.
+\end{theorem}
+
+\begin{proof}
+    If a (two-sided) inverse of a function \(f\) exists, then \(f\) is bijective; and conversely, if \(f\) is bijective, such \(g\)s constructed in the previous two lemmas are identical, hence such \(f\) is invertible.
+\end{proof}
+
+\begin{notation}
+    We write \(f\inverse\) for the inverse of \(f\) when it exists (since it must be unique). Note this uses the same notation as the pre-image.
+\end{notation}
+
+\subsection{Relations}
+\label{sec:relations}
+
+\begin{definition}[Relation]
+    A \emph{relation} on a set \(X\) is a subset \(R \subseteq X \times X\). We write \(aRb\) for \(\pqty{a, b} \in R\).
+\end{definition}
+
+\begin{examples}[Examples of Relations on \(\NN\)]
+    \begin{enumerate}
+        \item \(aRb\) if \(a\) and \(b\) have the same final digit.
+        \item \(aRb\) if \(a < b\).
+        \item \(aRb\) if \(a \neq b\).
+        \item \(aRb\) if \(a = b = 1\).
+        \item \(aRb\) if \(\abs{a - b} \leq 3\).
+    \end{enumerate}
+\end{examples}
+
+There are three properties of a relation that are of special interest.
+
+\begin{definition}[Reflective, Symmetric, Transitive]
+    A relation \(R\) on a set \(X\) is
+    \begin{itemize}
+        \item \emph{reflexive}, if \(xRx\) for all \(x \in X\);
+        \item \emph{symmetric}, if \(xRy \implies yRx\) for all \(x, y \in X\);
+        \item \emph{transitive} if \(\pqty{aRb} \land \pqty{bRc} \implies aRc\) for all \(a, b, c \in X\).
+    \end{itemize}
+\end{definition}
+
+\begin{examples}[Properties of Above Examples]
+    \autoref{fig:properties-examples-relations} gives the properties of the above examples.
+\end{examples}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|ccccc}
+        Property & 1 & 2 & 3 & 4 & 5 \\
+        \hline
+        Reflexive  & Y & N & N & N & Y \\
+        Symmetric  & Y & N & Y & Y & Y \\
+        Transitive & Y & Y & N & Y & N
+    \end{tabular}
+    \caption{Properties of Examples of Relations}
+    \label{fig:properties-examples-relations}
+\end{table}
+
+\begin{definition}[Equivalence Relation]
+    A relation \(R\) is an \emph{equivalence relation} if it is reflexive, symmetric and transitive. We write this as \(a \sim b\) for \(a R b\).
+\end{definition}
+
+In the above examples, only 1 is an equivalence relation.
+
+\begin{examples}[Partition into Related Elements]
+    \begin{enumerate}
+        \item In Example (1) above, we may partition \(\NN\) into numbers which end in \(0\), end in \(1\), \dots, end in \(9\). This divides \(\NN\) into mutually disjoint subsets consisting of related elements.
+        \item Let \(X\) be the set of IA students and let an equivalence relation on \(X\) be that students are born in the same month. Similarly, we may partition \(X\) into those born in January, February, \dots, December.
+    \end{enumerate}
+\end{examples}
+
+We notice that we seem to be able to partition a set \(X\) based on an equivalence relation \(\sim\) on \(X\).
+
+\begin{definition}[Equivalence Class]
+    Let \(\sim\) be an equivalence relation on \(X\). The \emph{equivalence class} of a particular element \(x \in X\) is denoted by
+    \[
+        \bqty{x} = \set{y \in X}{y \sim x}.
+    \]
+\end{definition}
+
+\begin{example}[Equivalence Class]
+    In Example (1) above,
+    \[
+        \bqty{35} = \set{y \in \NN}{y\text{ ends in }5} = \bqty{5}.
+    \]
+\end{example}
+
+\begin{definition}[Partition]
+    Given a set \(X\), a \emph{partition} of \(X\) is a collection of pairwise disjoint subsets of \(X\) whose union is \(X\). Equivalently, the intersection of two sets in the collection is either trivial (the empty set) or the whole set.
+\end{definition}
+
+\begin{theorem}[Equivalence Relation Partitions into Equivalence Classes]
+    Let \(\sim\) be an equivalence relation on \(X\), then the equivalence classes form a partition of \(X\).
+\end{theorem}
+
+\begin{proof}
+    Since \(\sim\) is reflexive, we have \(x \in \bqty{x}\) for all \(x \in X\). Then
+    \[
+        \bigcup_{x \in X} \bqty{x} = X.
+    \]
+
+    It remains to prove that for any \(x, y \in X\), either \(\bqty{x} = \bqty{y}\) or \(\bqty{x} \cap \bqty{y} = \emptyset\).
+
+    Suppose that \(\bqty{x} \cap \bqty{y} \neq \emptyset\), we want to prove that \(\bqty{x} = \bqty{y}\).
+    
+    Take \(z \in \bqty{x} \cap \bqty{y} \neq \emptyset\). By definition of an equivalence relation, \(z \sim x\) and hence \(x \sim z\), and \(z \sim y\). By transitivity, we have \(x \sim y\).
+
+    Now let \(w \in \bqty{y}\), and hence we have \(y \sim w\). By transitivity, \(x \sim w\), so \(w \in \bqty{x}\). Hence, \(\bqty{y} \subseteq \bqty{x}\), and similarly, \(\bqty{x} \subseteq \bqty{y}\), so \(\bqty{x} = \bqty{y}\) as desired.
+\end{proof}
+
+Note conversely, that given any partition of \(X\), there is an equivalence relation \(R\) whose equivalence classes are precisely the parts of the subsets of the partition. We define \(aRb\) whenever \(a\) and \(b\) live in the same part. \autoref{fig:equivalence-relations-partitions} visualise the equivalence.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Equivalence Relations are Equivalent to Partitions}
+    \label{fig:equivalence-relations-partitions}
+\end{figure}
+
+Now, we may be interested in the set of equivalence classes, since it is useful to restrict a set to a smaller part of it (but not in a subset way).
+
+\begin{definition}[Quotient, Quotient/Projection Map]
+    Given an equivalence relation \(R\) on a set \(X\), the \emph{quotient of \(X\) by \(R\)} is
+    \[
+        \flatfrac{X}{R} = \set{\bqty{x}}{x \in X}.
+    \]
+
+    The map
+    \[
+        \function{q}{X}{\flatfrac{X}{R}}{x}{\bqty{x}}
+    \]
+    is the \emph{quotient/projection map}.
+\end{definition}
+
+\autoref{fig:quotient-map} visualises the quotient map and this shows that the quotient map is (by definition of the quotient) surjective.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Quotient Map}
+    \label{fig:quotient-map}
+\end{figure}
+
+\begin{examples}[Examples of Quotients]
+    \begin{enumerate}
+        \item In Example 1 above, we have
+        \[
+            \flatfrac{X}{R} = \Bqty{\bqty{0}, \bqty{1}, \ldots, \bqty{9}}
+        \]
+        and \(\abs{\flatfrac{X}{R}} = 10\).
+
+        \item We define on \(\ZZ \times \NN\) an equivalence relation
+        \[
+            \pqty{a, b} R \pqty{c, d} \iff ad = bc.
+        \]
+
+        Note that
+        \[
+            \bqty{\pqty{1, 2}} = \Bqty{\pqty{1, 2}, \pqty{2, 4}, \pqty{3, 6}, \ldots},
+        \]
+        so we may regard \(\ZZ \times \NN / R\) as a copy of \(\QQ\) by identifying \(\bqty{\pqty{a, b}}\) with \(\frac{a}{b} \in \QQ\).
+
+        The quotient map for this equivalence relation is
+        \[
+            \function{q}{\ZZ \times \NN}{\QQ}{\pqty{a, b}}{\frac{a}{b}.}
+        \]
+    \end{enumerate}
+\end{examples}
+
+\subsection{Binary Operations}
+\label{sec:binary-operations}
+
+\begin{definition}[Binary Operation]
+    A \emph{binary operation} \(\ast\) on a set \(A\) is a function
+    \[
+        \functiondomain{\ast}{A \times A}{A}.
+    \]
+\end{definition}
+
+\begin{examples}[Examples of Binary Operations]
+    \begin{enumerate}
+        \item \(+\) and \(\cdot\) are binary operations on \(\NN, \ZZ, \ldots\).
+        \item \(-\) is a binary operation on \(\ZZ, \QQ, \ldots\).
+        \item \(\div\) is a binary operation on \(\QQ \setminus \Bqty{0} = \QQ\multiplicative, \RR\multiplicative, \ldots\).
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}[Commutative, Associative]
+    Let \(\ast\) be a binary operation on a set \(A\).
+    \begin{itemize}
+        \item If for all \(x, y \in A\), we have \(x \ast y = y \ast x\), then we say \(\ast\) is \emph{commutative}.
+        \item If for all \(x, y, z \in A\), we have \(x \ast \pqty{y \ast z} = \pqty{x \ast y} \ast z\), then we say \(\ast\) is \emph{associative}.
+    \end{itemize}
+\end{definition}
+
+We can abstract another common property in arithmetic in binary relations.
+
+\begin{definition}[Distributive]
+    Let \(\ast\) and \(\odot\) be binary operations on \(A\). We say \emph{\(\ast\) is distributive over \(\odot\)} if for all \(x, y, z \in A\), we have
+    \begin{align*}
+        x \ast \pqty{y \odot z} &= \pqty{x \ast y} \odot \pqty{x \ast z}, \\
+        \pqty{y \odot z} \ast x &= \pqty{y \ast x} \odot \pqty{z \ast x}.
+    \end{align*}
+\end{definition}
+
+\begin{remark}
+    The first line is called \emph{left distributivity}, and the second line is \emph{right distributivity}.
+\end{remark}
+
+\begin{example}[Distributivity]
+    Multiplication \(\times\) is \emph{distributive} over addition \(+\).
+\end{example}
+
+\section{Integers and Counting}
+\label{sec:integers-counting}
+
+\subsection{Integers, Induction and WOP}
+\label{sec:integers-induction-wop}
+
+We first provide the axiomatic definition of the natural numbers \(\NN\).
+
+\begin{definition}[The Natural Numbers, \(\NN\)]
+    The \emph{natural numbers} \(\NN\) is a set containing a special element \(1 \in \NN\), together with a \emph{successor function} (intuitively, \(+ 1\)) \(\functiondomain{s}{\NN}{\NN}\), such that:
+    \begin{enumerate}
+        \item For all \(n \in \NN\), \(s \pqty{n} \neq 1\). (\(1\) is not the successor of any element.)
+        \item For all \(m, n \in \NN\), if \(s\pqty{m} = s\pqty{n}\), then \(m = n\). (The successor function is injective.)
+        \item Let \(A \subseteq \NN\) such that \(1 \in A\), and if \(n \in A\) then \(s\pqty{n} \in A\). Then \(A = \NN\).
+    \end{enumerate}
+
+    These are the \emph{Peano Axioms}, and specifically (iii) is the \emph{Axiom of Induction}.
+\end{definition}
+
+We can now write \(2 = s\pqty{1}, 3 = s\pqty{2}\), etc.
+
+\begin{definition}[Addition and Multiplication on \(\NN\)]
+    We define \(\functiondomain{+}{\NN \times \NN}{\NN}\) recursively (on the second element) by
+    \begin{itemize}
+        \item \(n + 1 = s\pqty{n}\), and
+        \item \(n + s\pqty{m} = s\pqty{n + m}\).
+    \end{itemize}
+
+    Similarly, we define \(\functiondomain{\cdot}{\NN \times \NN}{\NN}\) recursively by
+    \begin{itemize}
+        \item \(n \cdot 1 = n\), and
+        \item \(n \cdot s\pqty{m} = n \cdot m + n\).
+    \end{itemize}
+\end{definition}
+
+We may show by induction that these operations satisfy the usual rules of arithmetics, that
+\begin{itemize}
+    \item \(+\) and \(\cdot\) are commutative and associative; and
+    \item \(\cdot\) is distributive over \(+\).
+\end{itemize}
+
+\begin{example}[\(1 + 2 = 2 + 1\)]
+    As an example, we have
+    \begin{align*}
+        1 + 2 &= 1 + s\pqty{1} \\
+        &= s\pqty{1 + 1} \\
+        &= s\pqty{s\pqty{1}} \\
+        &= s\pqty{1} + 1 \\
+        &= 2 + 1.
+    \end{align*}
+\end{example}
+
+\begin{definition}[Ordering on \(\NN\)]
+    We may define an \emph{ordering} on \(\NN\) as follows: for any \(m, n \in \NN\), if there is some \(k \in \NN\) such that \(m + k = n\), then \(m < n\).
+\end{definition}
+
+We may check from first principles (i.e. by induction) that our usual rules of ordering holds.
+
+\begin{proposition}[\(<\) is a strict total order on \(\NN\)]
+    For \(m, n \in \NN\), exactly one of \(m = n\), \(m < n\) and \(m > n\) holds.
+\end{proposition}
+
+\begin{example}[Total Order]
+    If \(1 < 2\) and \(2 < 1\), then there is \(k, l \in \NN\) such that
+    \[
+        1 = 2 + k, 2 = 1 + l.
+    \]
+
+    Hence,
+    \[
+        1 = 2 + k = \pqty{1 + l} + k = s\pqty{l + k}
+    \]
+    contradicts with that \(1\) is not the successor of any number in \(\NN\).
+\end{example}
+
+The axiom of induction from the last lecture is \textbf{weak principle of induction (WPI)}, which states that
+\[
+    P\pqty{1} \land \pqty{\forall n \in \NN: P\pqty{n} \implies P\pqty{n + 1}}
+\]
+implies
+\[
+    \forall n \in \NN: P\pqty{n}.
+\]
+
+A different form of induction based on the ordering above is called the \textbf{strong principle of induction (SPI)}, which states that
+\[
+    P\pqty{1} \land \pqty{\forall n \in \NN: \pqty{\forall m \in \NN, m \leq n: P\pqty{m}} \implies P\pqty{n + 1}}
+\]
+or equivalently,
+\[
+    P\pqty{1} \land \pqty{\forall n \in \NN: \pqty{P\pqty{1} \land P\pqty{2} \land \cdots \land P\pqty{n}} \implies P\pqty{n + 1}}.
+\]
+
+Clearly, if one has SPI, then one has WPI.
+
+To see WPI implies SPI, we apply the former to the statement
+\[
+    Q\pqty{n} = P\pqty{1} \land P\pqty{2} \land \cdots \land P\pqty{n} = \bigland_{i = 1}^{n} P\pqty{i}.
+\]
+
+Another consequence of the above ordering of the natural numbers \(\NN\) is that it satisfies a special property called the \textbf{well--ordering principle} (WOP), which states that every non-empty subset of \(\NN\) has a minimal element. Equivalently, for any \(A \subseteq \NN\),
+\[
+    \pqty{\exists n \in A: P\pqty{n}} \implies \pqty{\exists n \in A: P\pqty{n} \land \pqty{\nexists m \in A, m < n: P\pqty{n}}}.
+\]
+
+\begin{theorem}[SPI Implies WOP]
+    The Strong Principle of Induction implies the Well--Ordering Principle.
+\end{theorem}
+
+\begin{proof}
+    Suppose, for contradiction, that there is some \(n \in \NN\) such that \(P\pqty{n}\) is true, but no minimal \(n \in \NN\) such that \(P\pqty{n}\) is true.
+
+    Consider the statement \(Q\pqty{n} = \lnot P\pqty{n}\).
+
+    Certainly, \(P\pqty{1}\) is false, otherwise \(1\) is the minimal element for which \(P\) is true. So \(Q\pqty{1}\) is true.
+
+    Given \(n \in \NN\), suppose that \(Q\pqty{k}\) is true for all \(k < n\), then \(P\pqty{k}\) is false for all \(k < n\). Then \(P\pqty{n}\) is false, otherwise \(n\) will be a minimal element for which \(P\) holds. Hence, \(Q\pqty{n}\) is true.
+
+    Therefore, by the Strong Principle of Induction, \(Q\pqty{n}\) holds for all \(n \in \NN\).
+
+    Therefore, \(P\pqty{n}\) is false for all \(n \in \NN\), contradicting with the assumption that there is some \(n \in \NN\) such that \(P\pqty{n}\).
+\end{proof}
+
+However, the WOP (on its own) does not imply SPI --- this fails for certain \emph{ordinals}. However, in every proof using SPI, we may frame the proof by some modifications to WOP.
+
+\begin{claim}[Fundamental Theorem of Arithmetic]
+    Any natural number \(> 1\) can be written as a product of primes.
+\end{claim}
+
+\begin{proof}[\proofname\ using WOP]
+    Let
+    \[
+        C = \set{n \in \NN}{n > 1 \text{ and } n \text{ cannot be written as a product of primes}}.
+    \]
+
+    For contradiction, assume that \(C \neq \emptyset\). By the well-ordering principle, \(C\) has some least element, say \(m\).
+
+    Clearly, \(m\) must be a composite number (otherwise itself is clearly a product of one prime), and hence \(m = ab\) for some \(1 < a, b < m\).
+
+    So at least one of \(a\) or \(b\) cannot have a prime factorisation, say \(a\), but \(a < m\) and \(a \in C\), contradicting \(m\) being the least element of \(C\).
+\end{proof}
+
+\subsection{Counting Subsets}
+\label{sec:counting-subsets}
+
+Recall a set \(A\) has \emph{size \(n\)} if we can write
+\[
+    A = \Bqty{a_1, a_2, \ldots, a_n}
+\]
+with the elements \(a_i\) being distinct. We denote
+\[
+    \abs{A} = \size{A} = n.
+\]
+
+We say \(A\) is \emph{finite} if there is some \(n \in \NN_0\) such that \(\abs{A} = n\), and \emph{infinite} otherwise.
+
+We now conduct counting on the subsets of finite sets, and those with a particular size.
+
+\begin{proposition}[Size of Power Set]
+    A set of size \(n\) has exactly \(2^n\) subsets.
+\end{proposition}
+
+\begin{proof}
+    We prove by induction on \(n\). It is clearly true for \(n = 0\).
+
+    Now, given \(n > 0\), and fix some \(T \subseteq \Bqty{1, 2, \ldots, n - 1}\). The number of subsets \(S \subseteq \Bqty{1, 2, \ldots, n}\) such that
+    \[
+        S \cap \Bqty{1, 2, \ldots, n - 1} = T
+    \]
+    is exactly \(2\), namely \(T\) and \(T \cup \Bqty{n}\).
+    
+
+    Therefore, the number of subsets of \(\Bqty{1, 2, \ldots, n}\) is equal to
+    \begin{align*}
+        &\phantom{=} 2 \times \text{number of subsets of } \Bqty{1, 2, \ldots, n - 1}\\
+        &= 2 \cdot 2^{n - 1} && \text{Induction Hypothesis} \\
+        &= 2^n.
+    \end{align*}
+\end{proof}
+
+This proposition is telling us that if \(\abs{A} = n\), then
+\[
+    \abs{\powerset\pqty{A}} = 2^n.
+\]
+
+\begin{definition}[Binomial Coefficient]
+    Given some \(n \in \NN_0\), and \(0 \leq k \leq n\), the \emph{binomial coefficient}
+    \[
+        \binom{n}{k} = n \text{ choose } k
+    \]
+    is the number of subsets of an \(n\)-element set that are of size \(k\).
+
+    Equivalently,
+    \[
+        \binom{n}{k} = \abs{\set{S \subseteq \Bqty{1, 2, \ldots, n}}{\abs{S} = k}}.
+    \]
+\end{definition}
+
+\begin{examples}[Examples of Binomial Coefficients]
+    \begin{enumerate}
+        \item We have \(\binom{4}{2} = 6\), since the size-\(2\) subsets of \(\Bqty{1, 2, 3, 4}\) are
+        \[
+            \Bqty{1, 2}, \Bqty{1, 3}, \Bqty{1, 4}, \Bqty{2, 3}, \Bqty{2, 4}, \Bqty{3, 4}.
+        \]
+
+        \item We have \(\binom{n}{0} = \binom{n}{n} = 1\), since the only subset of size \(0\) is \(\emptyset\), and the only subset of size \(n\) is the set itself.
+        \item We have \(\binom{n}{1} = n\) for \(n > 0\), since the size-\(1\) subsets are precisely the sets containing one element.
+    \end{enumerate}
+\end{examples}
+
+Furthermore, we have the identity
+\[
+    \binom{n}{0} + \binom{n}{1} + \cdots + \binom{n}{n - 1} + \binom{n}{n} = 2^n
+\]
+for all \(n \in \NN_0\), since subsets must take exactly one of the sizes \(0, 1, \ldots, n - 1, n\).
+
+Also, we have the identity
+\[
+    \binom{n}{k} = \binom{n}{n - k}
+\]
+for all \(n \in \NN_0\) and \(0 \leq k \leq n\). Indeed, specifying which \(k\) elements to pick is the same as specifying which \(\pqty{n - k}\) elements not to pick.
+
+Furthermore, Pascal's Identity states that for all \(n \in \NN\) and \(1 \leq k \leq n\), we have
+\[
+    \binom{n}{k} = \binom{n - 1}{k - 1} + \binom{n - 1}{k}.
+\]
+
+This is since the subsets of \(\Bqty{1, 2, \ldots, n}\) with size \(k\) consists of two types:
+\begin{itemize}
+    \item those with \(n\) chosen, remaining \(\pqty{k - 1}\) to choose in \(\Bqty{1, 2, \ldots, n - 1}\), giving \(\binom{n - 1}{k - 1}\) of those; and
+    \item those with \(n\) not chosen, remaining \(k\) to choose in \(\Bqty{1, 2, \ldots, n - 1}\), giving \(\binom{n - 1}{k}\) of those.
+\end{itemize}
+
+In this way, we obtain the \emph{Pascal's Triangle}, as in \autoref{fig:pascals-triangle}.
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[cramped, sep=tiny]
+        &   &&  && 1 &&   &&    & \\
+          &&   && 1 && 1 &&   &&  \\
+        &   && 1 && 2 && 1 &&   & \\
+          && 1 && 3 && 3 && 1 &&  \\
+        & 1 && 4 && 6 && 4 && 1 & \\
+        1 && 5 && 10 && 10 && 5 && 1 \\
+    \end{tikzcd}
+    \caption{Pascal's Triangle}
+    \label{fig:pascals-triangle}
+\end{figure}
+
+Note that each row starts and ends with a \(1\), and the remaining entries are the sum of the \(2\) items directly above.
+
+\begin{proposition}[Formula for \(\binom{n}{k}\)]
+    We have
+    \[
+        \binom{n}{k} = \frac{n \pqty{n - 1} \pqty{n - 2} \cdots \pqty{n - k + 1}}{k \pqty{k - 1} \pqty{k - 2} \cdots 2 \cdot 1} = \frac{n!}{\pqty{n - k}! k!}.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Given a set of size \(n\), there are \(n \pqty{n - 1} \pqty{n - 2} \cdots \pqty{n - k + 1}\) ways to pick \(k\) elements in order, one by one. But each subset of size \(k\) is picked in \(k \pqty{k - 1} \pqty{k - 2} \cdots 2 \cdot 1\) ways by this method.
+
+    Hence, the number of subsets of size \(k\) in \(\Bqty{1, 2, \ldots, n}\) is
+    \[
+        \frac{n \pqty{n - 1} \pqty{n - 2} \cdots \pqty{n - k + 1}}{k \pqty{k - 1} \pqty{k - 2} \cdots 2 \cdot 1}.
+    \]
+\end{proof}
+
+The formula allows to approximate the binomial coefficient for big \(n\). For example, for \(n \gg 1\), we have
+\begin{align*}
+    \binom{n}{2} &= \frac{n \pqty{n - 1}}{2!} \sim \frac{n^2}{2}, \\
+    \binom{n}{3} &= \frac{n \pqty{n - 1} \pqty{n - 2}}{3!} \sim \frac{n^3}{6}.
+\end{align*}
+
+\begin{theorem}[Binomial Theorem]
+    For all \(a, b \in \RR\), and \(n \in \NN\), we have
+    \[
+        \pqty{a + b}^n = \binom{n}{0} a^n + \binom{n}{1} a^{n - 1} b + \binom{n}{2} a^{n - 2} b^2 + \cdots + \binom{n}{n - 1} a b^{n - 1} + \binom{n}{n} b^n.
+    \]
+\end{theorem}
+
+\begin{proof}
+    When we expand out the left-hand side as
+    \[
+        \pqty{a + b}^n = \underbrace{\pqty{a + b} \pqty{a + b} \cdots \pqty{a + b}}_{n \text{ times}},
+    \]
+    we obtain terms of the form \(a^{n - k} b^k\) where \(0 \leq k \leq n\). The number of terms of the form \(a^{n - k} b^k\) is \(\binom{n}{k}\), as we must specify \(k\) brackets from which to pick \(b\).
+
+    Hence,
+    \[
+        \pqty{a + b}^n = \sum_{k = 0}^{n} \binom{n}{k} a^{n - k} b^k.
+    \]
+\end{proof}
+
+We may use the binomial theorem to conduct approximation as well. For example, we have
+\[
+    \pqty{1 + x}^n = 1 + nx + \frac{n \pqty{n - 1}}{2} x^2 + \binom{n}{3} x^3 + \cdots + \binom{n}{n - 1} x^{n - 1} + x^n,
+\]
+and hence for \(\abs{x} \ll 1\), a good approximation is \(\pqty{1 + nx}\), for example
+\[
+    \pqty{1.00001}^8 \sim 1 + 8 \cdot 0.00001 = 1.00008.
+\]
+
+A better approximation is \(1 + nx + \frac{n\pqty{n - 1}}{2}x^2\), for example
+\[
+    \pqty{1.00001}^8 \sim 1 + 8 \cdot 0.00001 + 56 \cdot \pqty{0.00001}^2 = 1.0000800056.
+\]
+
+\subsection{Size of Unions and Intersections of Sets}
+\label{sec:size-unions-intersections-sets}
+
+What can we say about the relationship between sizes of unions and intersections of finite sets?
+
+For two sets, we have
+\[
+    \abs{A \cup B} = \abs{A} + \abs{B} - \abs{A \cap B}.
+\]
+
+For three sets, we have
+\[
+    \abs{A \cup B \cup C} = \abs{A} + \abs{B} + \abs{C} - \abs{A \cap B} - \abs{A \cap C} - \abs{B \cap C} + \abs{A \cap B \cap C}.
+\]
+
+\begin{theorem}[Inclusion--Exclusion Principle]
+    Let \(S_1, S_2, \ldots, S_n\) be finite sets. Then
+    \begin{align*}
+        &\phantom{=} \abs{S_1 \cup S_2 \cup \cdots \cup S_n} \\
+        &= \sum_{\abs{A} = 1} \abs{S_A} - \sum_{\abs{A} = 2} \abs{S_A} + \sum_{\abs{A} = 3} \abs{S_A} + \cdots + \pqty{-1}^{n + 1} \sum_{\abs{A} = n} \abs{S_A},
+    \end{align*}
+    where
+    \[
+        S_A = \bigcap_{i \in A} S_i
+    \]
+    and the summation
+    \[
+        \sum_{\abs{A} = k}
+    \]
+    means looking for all index sets \(A \subseteq \abs{1, 2, \ldots, n}\) of size \(k\).
+
+    Equivalently, this states that
+    \[
+        \abs{\bigcup_{i = 1}^{n} S_n} = \sum_{r = 1}^{n} \pqty{-1}^{r + 1} \sum_{\substack{A \subseteq \Bqty{1, 2, \ldots, n} \\ \abs{A} = r}} \abs{\bigcap_{i \in A} S_i}.
+    \]
+\end{theorem}
+
+\begin{proof}[\proofname\ using indicator functions]
+    We make use of an identity using indicator functions, specifically
+    \[
+        \abs{A} = \sum_{x \in A} \indicator_{A} \pqty{x}.
+    \]
+
+    We claim that
+    \[
+        \indicator_{S} = \sum_{r = 1}^{N} \pqty{-1}^{r + 1} \sum_{\substack{A \subseteq \Bqty{1, 2, \ldots, n} \\ \abs{A} = r}} \indicator_{S_A},
+    \]
+    for
+    \[
+        S = \bigcup_{i = 1}^{n} S_i.
+    \]
+
+    Consider the product
+    \[
+        \pqty{\indicator_{S} - \indicator_{S_1}} \pqty{\indicator_{S} - \indicator_{S_2}} \cdots \pqty{\indicator_{S} - \indicator_{S_n}},
+    \]
+    and we claim this product is identically \(0\), since if \(x \notin S\), then all terms are \(\pqty{0 - 0} = 0\), and if \(x \in S\), then \(x \in S_i\) for some \(i = 1, 2, \ldots, n\), and hence \(\pqty{\indicator_{S} - \indicator_{S_i}} = \pqty{1 - 1} = 0\).
+
+    Expanding the product on the left-hand side, we get the claimed equality as desired (since multiplying a \(\indicator_S\) does not change the value of the product), and summing this over elements in \(S\) gives as desired.
+\end{proof}
+
+\begin{proof}[\proofname\ by counting elements]
+    Let \(x \in S_1 \cup \cdots \cup S_n\), and say \(x \in S_i\) for exactly \(k\) of \(S_i\). We aim to show that \(x\) gets counted exactly once on the right-hand side.
+
+    Indeed,
+    \begin{align*}
+        \abs{\set{A}{\abs{A} = 1 \land x \in S_A}} &= k, \\
+        \abs{\set{A}{\abs{A} = 2 \land x \in S_A}} &= \binom{k}{2},
+    \end{align*}
+    and in general,
+    \[
+        \abs{\set{A}{\abs{A} = r \land x \in S_A}} = \begin{cases}
+            \binom{k}{r}, & 1 \leq r \leq k, \\ 0, & r > k.
+        \end{cases}
+    \]
+
+    Hence, the number of times \(x\) is counted on the right-hand side is
+    \begin{align*}
+        & \phantom{=} k - \binom{k}{2} + \binom{k}{3} - \cdots + \pqty{-1}^{k + 1} \binom{k}{k} \\
+        &= 1 - \pqty{1 - k + \binom{k}{2} - \binom{k}{3} + \cdots + \pqty{-1}^{k} \binom{k}{k}} \\
+        &= 1 - \pqty{1 - 1}^k \\
+        &= 1 - 0^k \\
+        &= 1
+    \end{align*}
+    for \(k \geq 1\).
+\end{proof}
+
+\section{Elementary Number Theory}
+\label{sec:elementary-number-theory}
+
+\subsection{Primes and Divisibility}
+\label{sec:primes-and-divisibility}
+
+\begin{definition}[Divisors]
+    Given \(a, b \in \ZZ\), we say \emph{\(a\) divides \(b\)} if there exists \(c \in \ZZ\) such that \(b = ac\).
+
+    Equivalently, we might also say \emph{\(a\) is a divisor of \(b\)}, \emph{\(a\) is a factor of \(b\)}, or \emph{\(b\) is a multiple of \(a\)}. We denote \(a \divides b\).
+\end{definition}
+
+\begin{definition}[Proper Factors]
+    For any \(b \in \ZZ\), \(\pqty{\pm 1}\) and \(\pqty{\pm b}\) are always factors of \(b\). We call those the \emph{trivial factors} of \(b\), and the rest \emph{proper/non-trivial factors}.
+\end{definition}
+
+\begin{definition}[Prime, Composite]
+    A natural number \(n \geq 2\) is \emph{prime} if its only divisors are trivial. Otherwise, we say \(n\) is \emph{composite}.
+\end{definition}
+
+\begin{proposition}[Fundamental Theorem of Arithmetics, Part 1]
+    Every natural number \(\geq 2\) can be written as a product of primes.
+\end{proposition}
+
+\begin{proof}
+    We show this by induction on \(n\). This is true for \(n = 2\).
+
+    Now, let \(n > 2\) and suppose the claim holds up to and including \(n - 1\). If \(n\) is prime, then we are done. If \(n\) is composite, then by definition, \(n = ab\) for some \(1 < a, b < n\).
+
+    By the induction hypothesis, \(a = p_1 p_2 \cdots p_k\) and \(b = q_1 q_2 \cdots q_l\) for some primes \(p_1, p_2, \ldots, p_k\) and \(q_1, q_2, \ldots, q_l\).
+
+    Hence,
+    \[
+        n = ab = p_1 p_2 \cdots p_k q_1 q_2 \cdots q_l
+    \]
+    is a product of primes.
+\end{proof}
+
+\begin{theorem}[Infinitely Many Primes]
+    There are infinitely many primes.
+\end{theorem}
+
+\begin{proof}[\proofname\ (Euclid, 300 BC)]
+    Suppose for the sake of contradiction, that there are only finitely many primes, and let them be \(p_1, p_2, \ldots, p_k\).
+
+    Consider \(N = p_1 p_2 \cdots p_k + 1\). Whether or not \(N\) is prime, it has a prime divisor because \(N>1\). Then \(p_1 \notdivides N\), or otherwise,
+    \[
+        p_1 \divides \pqty{N - p_1 p_2 \cdots p_k} = 1.
+    \]
+
+    Likewise, \(p_2 \notdivides N, \ldots, p_k \notdivides N\).
+
+    This contradicts with the fact that \(N\) can be written as a product of primes.
+\end{proof}
+
+The previous proposition states the existence of a representation as a product of primes, but our proof does not give uniqueness. It is in fact unique, and the following lemma is useful.
+
+\begin{proposition}[Euclid's Lemma]
+    If \(p\) is prime and \(p \divides ab\), then \(p \divides a\) or \(p \divides b\).
+\end{proposition}
+
+Before we prove this, we introduce what is meant by the highest common factor.
+
+\begin{definition}[Highest Common Factor/Greatest Common Divisor]
+    Given \(a, b \in \NN\), we say a number \(c \in \NN\) is the \emph{highest common factor} (hcf) or \emph{greatest common divisor} (gcd) of \(a\) and \(b\) if:
+    \begin{enumerate}
+        \item \(c \divides a\) and \(c \divides b\) (i.e. \(c\) is a common divisor of \(a\) and \(b\)); and
+        \item \(d \divides a\) and \(d \divides b\) implies \(d \divides c\) (i.e. every common divisor of \(a\) and \(b\) divides \(c\)).
+    \end{enumerate}
+
+    We denote this as
+    \[
+        c = \hcf\pqty{a, b} = \gcd\pqty{a, b} = \pqty{a, b}.
+    \]
+\end{definition}
+
+\begin{example}[Greatest Common Divisor]
+    We attempt to find the greatest common divisor of \(12\) and \(18\).
+
+    The factors of \(12\) are \(1, 2, 3, 4, 6, 12\).
+
+    The factors of \(18\) are \(1, 2, 3, 6, 9, 18\).
+
+    So the common factors of \(12\) and \(18\) are \(1, 2, 3, 6\).
+
+    Hence,
+    \[
+        \gcd\pqty{12, 18} = 6.
+    \]
+\end{example}
+
+This definition does not immediately lead to the fact that the greatest common divisor always exists -- if it does it must be the `greatest' common factor, but it is not trivial that the `greatest' common factor is always a multiple of every other common factor.
+
+We show by construction that in fact it must always exist, but we first introduce an important method.
+
+\begin{proposition}[Division Algorithm]
+    Let \(n, k \in \NN\), then we can write \(n = qk + r\) for some \(q, r \in \ZZ\), with \(0 \leq r \leq k - 1\).
+    
+    Such \(q\) is called the \emph{quotient} and \(r\) is called the \emph{remainder}.
+\end{proposition}
+
+\begin{proof}
+    We show this by induction on \(n\). This is true for \(n = 1\).
+
+    Suppose \(n \geq 2\), and the statement holds for \(n - 1\), i.e.
+    \[
+        n - 1 = qk + r
+    \]
+    for some \(q, r \in \ZZ\) and \(0 \leq r \leq k - 1\).
+
+    If \(0 \leq r < k - 1\), then
+    \[
+        n = qk + \pqty{r + 1}
+    \]
+    and hence \(1 \leq r + 1 < k\) is within the required range.
+
+    If \(r = k - 1\), then
+    \[
+        n = qk + \pqty{k - 1} + 1 = \pqty{q + 1}k + 0,
+    \]
+    and the obtained \(q\) and \(r\) are within the range.
+\end{proof}
+
+\begin{remark}
+    The \(q\) and \(r\) obtained from this integer division is unique. Indeed, if \(n = qk + r = q'k + r'\), then
+    \[
+        \pqty{q - q'}k = r' - r
+    \]
+    and we see that since \(0 \leq r, r' < k\), we have
+    \[
+        -k < r' - r < k
+    \]
+    and hence since \(\pqty{q - q'}k\) is a multiple of \(k\), we must have \(r - r' = 0\), and \(q - q' = 0\).
+\end{remark}
+
+We now use this integer division to conduct an algorithm called \emph{Euclid's algorithm}, as in \autoref{tab:euclids-algorithm}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{c|cc|c}
+        Input & \(a, b\) && \(a = 372, b = 162\) \\
+        \hline
+        Step 1 & \(a = q_1 b + r_1\) & \(q_1, r_1 \in \ZZ, 0 \leq r_1 \leq b - 1\) & \(372 = 2 \cdot \boxed{162} + \boxed{48}\) \\
+        Step 2 & \(b = q_2 r_1 + r_2\) & \(q_2, r_2 \in \ZZ, 0 \leq r_2 \leq r_1 - 1\) & \(162 = 3 \cdot \boxed{48} + \boxed{18}\) \\
+        Step 3 & \(r_1 = q_3 r_2 + r_3\) & \(q_3, r_3 \in \ZZ, 0 \leq r_3 \leq r_2 - 1\) & \(48 = 2 \cdot \boxed{18} + \boxed{2}\) \\
+        \(\vdots\) & \(\vdots\) & \(\vdots\) & \\
+        Step \(n\) & \(r_{n - 2} = q_n r_{n - 1} + r_n\) & \(q_n, r_n \in \ZZ, 0 \leq r_n \leq r_{n - 1} - 1\) & \(18 = 1 \times \boxed{12} + \boxed{6}\) \\
+        Step \(n + 1\) & \(r_{n - 1} = q_{n + 1} r_n + r_{n + 1}\) & \(q_{n + 1} \in \ZZ, \boxed{r_{n + 1} = 0}\) & \(12 = 2 \times \boxed{6} + \boxed{0}\) \\
+        \hline
+        Output & \(r_n\) & & \(6\)
+    \end{tabular}
+    \caption{Euclid's algorithm}
+    \label{tab:euclids-algorithm}
+\end{table}
+
+Note that this algorithm terminates in \(n < b\) steps, since
+\[
+    b > r_1 > r_2 > \cdots > r_n > 0.
+\]
+
+\begin{theorem}[Euclid's Algorithm gives the Greatest Common Divisor]
+    The output of Euclid's algorithm with input \(a, b\) is \(\gcd\pqty{a, b}\).
+\end{theorem}
+
+\begin{proof}
+    We show that it satisfies the two defining properties of the greatest common divisor.
+
+    \begin{enumerate}
+        \item We must have \(r_n \divides r_{n - 1}\), as \(r_{n + 1} = 0\) at step \(n + 1\). Therefore, \(r_N \divides r_{n - 2}\) by step \(n\).
+        
+        Hence, inductively, \(r_n \divides r_i\) for \(i = 1, 2, \ldots, n - 1\), and hence \(r_n \divides b\) by step 2, and \(r_n \divides a\) by step 1.
+
+        \item Given any \(d\) such that \(d \divides a\) and \(d \divides b\). From step 1 we see \(d \divides r_1\), and from step 2 we have \(d \divides r_2\).
+        
+        Hence, inductively, \(d \divides r_i\) for all \(i = 1, 2, \ldots, n\), and in particular, \(d \divides r_n\).
+    \end{enumerate}
+\end{proof}
+
+\begin{example}[Greatest Common Divisor of \(87\) and \(52\)]
+    Suppose we want to find \(\gcd\pqty{87, 52}\). We run Euclid's Algorithm:
+    \begin{align*}
+        87 &= 1 \cdot 52 + 35, \\
+        52 &= 1 \cdot 35 + 17, \\
+        35 &= 2 \cdot 17 + \boxed{1}, \\
+        17 &= 17 \cdot \boxed{1},
+    \end{align*}
+    so \(\gcd\pqty{87, 52} = 1\). Note we may terminate the algorithm one step early, outputting the final non-zero divisor, which is the greatest common divisor.
+\end{example}
+
+\begin{definition}[Coprime]
+    When \(\gcd\pqty{a, b} = 1\), we say \(a\) and \(b\) are \emph{coprime}.
+\end{definition}
+
+Notice that we may reverse Euclid's algorithm. For example, in the previous example,
+\begin{align*}
+    1 &= 35 - 2 \times 17 \\
+       &= 35 - 2 \times \pqty{52 - 1 \times 35} \\
+       &= 3 \times 35 - 2 \times 52 \\
+       &= 3 \times \pqty{57 - 1 \times 52} - 2 \times 52 \\
+       &= 3 \times 57 - 5 \times 52.
+\end{align*}
+
+This leads to the following lemma.
+
+\begin{theorem}[B\'{e}zout's Identity]
+    For all \(a, b \in \NN\), there exists \(x, y \in \ZZ\), such that
+    \[
+        ax + by = \gcd\pqty{a, b}.
+    \]
+
+    We can write \(\gcd\pqty{a, b}\) as a linear combination of \(a\) and \(b\).
+\end{theorem}
+
+\begin{proof}[\proofname\ by reversing Euclid's Algorithm]
+    We run Euclid's Algorithm with input \(a, b\) to obtain an output \(r_n\). We have
+    \[
+        r_n = x r_{n - 1} + y r_{n - 2}
+    \]
+    for some \(x, y \in \ZZ\).
+
+    For step \(n - 1\), we see that \(r_{n - 1}\) is expressible of some linear combination of \(r_{n - 2}\) and \(r_{n - 3}\). We have
+    \[
+        r_{n - 1} = x r_{n - 2} + y r_{n - 3}
+    \]
+    for some \(x, y \in \ZZ\).
+
+    Hence,
+    \[
+        r_n = x r_{n - 2} + y r_{n - 3}
+    \]  
+    for some \(x, y \in \ZZ\).
+
+    We may continue inductively, for all \(i = 1, 2, \ldots, n - 1\), to see that
+    \[
+        r_n = x r_i + y r_{i - 1}
+    \]
+    for some \(x, y \in \ZZ\). Hence,
+    \[
+        r_{n} = xa + yb
+    \]
+    for some \(x, y \in \ZZ\) from steps 1 and 2.
+\end{proof}
+
+\begin{remark}
+    Euclid's Algorithm not only proves the existence of such \(x, y \in \ZZ\), but also gives a quick way to find them.
+\end{remark}
+
+\begin{proof}[\proofname\ by utilising well--ordering principle]
+    Let \(h\) be the least positive linear combination of \(a\) and \(b\), i.e. the least positive integer of the form \(ax + by\) for some \(x, y \in \ZZ\). Such \(h\) exists by well--ordering principle.
+
+    We aim to show that \(h = \gcd\pqty{a, b}\).
+
+    To show the first property, suppose that \(h\) does not divide one of \(a\) or \(b\), say \(a\). Then by integer division, we have
+    \[
+        a = qh + r
+    \]
+    for some \(q, r \in \ZZ\) with \(0 < r < h\).
+
+    Hence,
+    \begin{align*}
+        r &= a - qh \\
+        &= a - q \cdot \pqty{xa + yb} \\
+        &= \pqty{1 - qx} a - \pqty{qy} b
+    \end{align*}
+    is a positive linear combination of \(a\) and \(b\), strictly smaller than \(h\), and contradicting with the fact that \(h\) is minimal.
+
+    To show the second property, notice that for any common divisor \(d \divides a\) and \(d \divides b\), we have \(d \divides ax + by\) for all \(x, y \in \ZZ\), and \(d \divides h\) in particular.
+\end{proof}
+
+\begin{remark}
+    This proof tells us that \(\gcd\pqty{a, b}\) exists and is a linear combination of \(a\) and \(b\), but it gives in fact no way to find the coefficients \(x, y \in \ZZ\) to find \(\gcd\pqty{a, b}\).
+\end{remark}
+
+A natural question to ask, is by changing the right-hand side, when does an equation of the form \(ax + by = c\) have a solution? For example, is there a solution in \(\pqty{x, y} \in \ZZ \times \ZZ\) to
+\[
+    160 x + 72 y = 33?
+\]
+
+What about
+\[
+    87 x + 52 y = 33?
+\]
+
+It is obvious for the second equation, that we have for \(x', y' \in \ZZ\) that
+\[
+    87 x' + 52 y' = 1
+\]
+so let \(x = 33 x'\) and \(y = 33 y'\), we have
+\[
+    87 x + 52 y = 33.
+\]
+
+\begin{corollary}[B\'{e}zout's Identity, Continued]
+    Let \(a, b \in \NN\). Then the equation
+    \[
+        ax + by = c
+    \]
+    has a solution for \(x, y \in \ZZ\) if and only if
+    \[
+        \gcd\pqty{a, b} \divides c.
+    \]
+\end{corollary}
+
+\begin{proof}
+    Let \(h = \gcd\pqty{a, b}\)
+
+    \(\implies\). Suppose there are such integers \(x, y \in \ZZ\) such that \(ax + by = c\). Since \(h \divides a\) and \(h \divides b\), we must have \(h \divides ax + by = c\).
+
+    \(\impliedby\). Conversely, suppose \(h \divides c\). Then by the previous theorem, there exists \(x, y \in \ZZ\), such that \(h = ax + by\).
+
+    But then \(c = \frac{c}{h} \cdot h\) and \(\frac{c}{h} \in \ZZ\), and hence
+    \[
+        c = \frac{c}{h} \cdot \pqty{ax + by} = a \cdot \pqty{x \cdot \frac{c}{h}} + b \cdot \pqty{y \cdot \frac{c}{h}}
+    \]
+    constructing a solution as desired.
+\end{proof}
+
+We now prove Euclid's Lemma.
+
+\begin{proposition}[Euclid's Lemma]
+    If \(p\) is a prime and \(p \divides ab\), then \(p \divides a\) or \(p \divides b\).
+\end{proposition}
+
+\begin{proof}
+    Suppose that \(p \divides ab\) but \(p \notdivides a\). We want to prove that \(p \divides b\).
+
+    Since \(p\) is prime and \(p \notdivides a\), we have \(\gcd\pqty{a, p} = 1\).
+
+    Then, by B\'{e}zout's Identity, there exists \(x, y \in \ZZ\) such that
+    \[
+        xp + ya = 1.
+    \]
+
+    Hence, multiplying both sides by \(b\) gives
+    \[
+        \pqty{xb} \cdot p + y \cdot \pqty{ab} = b,
+    \]
+    and we have \(p \divides \pqty{xb} \cdot b\) and \(p \divides y \cdot \pqty{ab}\). Hence, \(p \divides b\).
+\end{proof}
+
+\begin{remarks}
+    \begin{enumerate}
+        \item We can iterate this lemma: if \(p \divides a_1 a_2 \cdots a_n\), then \(p \divides a_i\) for some \(i = 1, 2, \ldots, n\).
+        \item We do require \(p\) is prime. Indeed, \(4 \divides 2 \times 6\), but \(4 \notdivides 2\) and \(4 \notdivides 6\).
+    \end{enumerate}
+\end{remarks}
+
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+    Every natural number \(n \geq 2\) is expressible as a product of primes uniquely, up to reordering. 
+\end{theorem}
+
+\begin{proof}
+    The existence of such proposition follows from the earlier proposition.
+
+    To show uniqueness, we show by strong induction. This is indeed true for \(n = 2\).
+
+    Consider \(n > 2\). If \(n\) is itself prime then we are done. If not, suppose that there are two factorisations
+    \begin{align*}
+        n &= p_1 p_2 \cdots p_k,\\
+        n &= q_1 q_2 \cdots q_l
+    \end{align*}
+    where \(p_i\) and \(q_j\) are all prime. We want to prove \(k = l\), and after reordering \(p_i = q_i\) for all \(i = 1, 2, \ldots, k\).
+
+    Since
+    \[
+        p_1 p_2 \cdots p_k = q_1 q_2 \cdots q_l,
+    \]
+    we have
+    \[
+        p_1 \divides n = q_1 q_2 \cdots q_l
+    \]
+    and by Euclid's Lemma, we must have
+    \[
+        p_1 \divides q_i
+    \]
+    for some \(i\), and after relabelling, we assume \(p_1 \divides q_1\).
+
+    Since \(q_1\) is prime, it follows that \(p_1 = q_1\). Hence,
+    \[
+        \frac{n}{p_1} = p_2 \cdots p_k = q_2 \cdots q_l < n
+    \]
+    and by the strong induction hypothesis, in fact \(k = l\), and after reordering, \(p_2 = q_2, p_3 = q_3, \ldots, p_k = q_k\).
+\end{proof}
+
+\begin{remark}
+    There are `arithmetical systems' (rings) permitting addition and multiplication in which factorisation is not unique. For example, consider the ring extension
+    \[
+        \ZZ\bqty{\sqrt{-3}} = \set{x + y i \sqrt{3}}{x, y \in \ZZ}
+    \]
+
+    We can add and multiply to get another element of \(\ZZ\bqty{\sqrt{-3}}\), e.g.
+    \begin{align*}
+        \pqty{1 + \sqrt{-3}} + \pqty{1 - \sqrt{-3}} &= 2,\\
+        \pqty{1 + \sqrt{-3}} \pqty{1 - \sqrt{-3}} &= 1^2 - \pqty{-3} = 4.
+    \end{align*}
+
+    In \(\ZZ\bqty{\sqrt{-3}}\) we may define what it means to be \emph{prime}, and both \(\pqty{1 \pm \sqrt{3}}\) are indeed prime.
+
+    However, \(4 = 2 \cdot 2\) and \(2\) is a prime in this system as well.
+
+    Factorisation is \emph{not} unique in this system.
+\end{remark}
+
+We may now apply the fundamental theorem of arithmetics to some useful applications.
+
+\begin{definition}[Least Common Multiple]
+    Given \(a, b \in \NN\), we say a number \(c \in \NN\) is the \emph{least common multiple} (lcm) of \(a\) and \(b\) if:
+    \begin{enumerate}
+        \item \(a \divides c\) and \(b \divides c\) (i.e. \(c\) is a common multiple of \(a\) and \(b\)); and
+        \item \(a \divides m\) and \(b \divides m\) implies \(c \divides m\) (i.e. every common multiple of \(a\) and \(b\) is a multiple of \(c\)).
+    \end{enumerate}
+
+    We denote this as
+    \[
+        c = \lcm\pqty{a, b} = \bqty{a, b}.
+    \]  
+\end{definition}
+
+\begin{examples}[Applications of Fundamental Theorem of Arithmetics]
+    \begin{enumerate}
+        \item What are the factors of \(n = 2^3 \cdot 3^7 \cdot 11\)? All number of the form \(2^a \cdot 3^b \cdot 11^c\) for \(0 \leq a \leq 3, 0 \leq b \leq 7\) and \(0 \leq c \leq 1\), and there must not be any others.
+        
+        For example, if \(7\) divides a factor of \(n\), then \(7\) divides \(n\), and hence we have a factorisation of \(n\) involving \(7\), contradicting with the uniqueness of the factorisation.
+
+        More generally, the factors of
+        \[
+            n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}
+        \]
+        are \emph{precisely} the numbers of the form
+        \[
+            p_1^{\beta_1} p_2^{\beta_2} \cdots p_2^{\beta_k}
+        \]
+        where \(0 \leq \beta_i \leq \alpha_i\) for all \(i = 1, 2, \ldots, k\).
+
+        \item What are the common factors of \(2^3 \cdot 3^7 \cdot 5 \cdot 11^2\) and \(2^4 \cdot 3^2 \cdot 11 \cdot 13\)? All numbers of the form \(2^a \cdot 3^b \cdot 11^c\) for \(0 \leq a \leq 3, 0 \leq b \leq 2\) and \(0 \leq c \leq 1\). Then the greatest common divisor is \(2^3 \cdot 3^2 \cdot 11\).
+        
+        In general, the greatest common divisor of two numbers
+        \[
+            p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}
+        \]
+        and
+        \[
+            p_1^{\beta_1} p_2^{\beta_2} \cdots p_k^{\beta_k}
+        \]
+        for \(\alpha_i, \beta_i \geq 0\), is
+        \[
+            p_1^{\min\Bqty{\alpha_1, \beta_1}} p_2^{\min\Bqty{\alpha_2, \beta_2}} \cdots p_k^{\min\Bqty{\alpha_k, \beta_k}}.
+        \]
+
+        \item What are the common multiples of the two previous numbers? They are all numbers of the form
+        \[
+            2^a \cdot 3^b \cdot 5^c \cdot 11^d \cdot 13^e
+        \]
+        for \(a \geq 4, b \geq 7, c \geq 1, d \geq 3, e \geq 1\), times any integer.
+
+        Hence, the number \(2^4 \cdot 3^7 \cdot 5 \cdot 11^3 \cdot 13\) is a common multiple, and every other common multiple is a multiple of it, and hence it is the least common multiple of the two numbers.
+
+        In general, the least common multiple of two numbers
+        \[
+            p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}
+        \]
+        and
+        \[
+            p_1^{\beta_1} p_2^{\beta_2} \cdots p_k^{\beta_k}
+        \]
+        for \(\alpha_i, \beta_i \geq 0\), is
+        \[
+            p_1^{\max\Bqty{\alpha_1, \beta_1}} p_2^{\max\Bqty{\alpha_2, \beta_2}} \cdots p_k^{\max\Bqty{\alpha_k, \beta_k}}.
+        \]
+    \end{enumerate}
+\end{examples}
+
+\begin{proposition}[GCD and LCM multiple to the Product]
+    We have for any \(x, y \in \NN\), that
+    \[
+        \gcd\pqty{x, y} \cdot \lcm\pqty{x, y} = x \cdot y.
+    \]
+\end{proposition}
+
+\begin{proof}
+    This is immediate from the previous example and using the fact that
+    \[
+        \min\Bqty{a, b} + \max\Bqty{a, b} = a + b.
+    \]
+\end{proof}
+
+We may now present another proof that there are infinitely many primes --- recall that we did not use the fact that there are infinitely many primes in any part of the form.
+
+\begin{proof}[\proofname\ of infinitely may primes, Erd\"{o}s, 1930]
+    Let \(p_1, p_2, \ldots, p_k\) be all the primes. Since all numbers is uniquely expressed as a product of primes, consider
+    \[
+        p_1^{j_1} p_2^{j_2} \cdots p_k^{j_k}.
+    \]
+
+    We may rewrite this in the following way:
+    \[
+        p_1^{j_1} p_2^{j_2} \cdots p_k^{j_k} = m^2 p_1^{i_1} p_2^{i_2} \cdots p_k^{i_k}
+    \]
+    for \(i_l = 0, 1\).
+
+    Now, let \(N \in \NN\). Suppose given a number \(\leq N\) of this form, we have \(m \leq \sqrt{N}\), and hence we have at most \(\sqrt{N} \cdot 2^k\) numbers of this form that are \(\leq N\).
+
+    Now, take \(N > \sqrt{N} \cdot 2^k\), i.e. \(N > 4^k\), then there must be a number which is \(\leq N\) but not of this form, not having a prime factorisation, which gives a contradiction.
+\end{proof}
+
+\begin{remark}
+    Both of these proofs in fact give an upper bound on the \(k\)th prime. Euclid's Proof tells us that the \(k\)th prime, \(p_k\) has an upper bound
+    \[
+        p_k < 2^{2^k}.
+    \]
+
+    Even better, Erd\"{o}s's Proof gives the bound
+    \[
+        p_k < 4^k.
+    \]
+
+    In fact, a much tighter bound is given by the \emph{prime number theorem}, stating
+    \[
+        p_k \sim k \log k.
+    \]
+\end{remark}
+
+\subsection{Modular Arithmetic}
+\label{sec:modular-arithmetic}
+
+\begin{definition}[Integers Modulo \(n\)]
+    Let \(n \geq 2\) be a natural number. Then, the \emph{integers modulo \(n\)}, denoted \(\ZZ_{n}\) or \(\flatfrac{\ZZ}{n\ZZ}\), consists of the integers with the two integers being the same if they differ by a multiple of \(n\).
+
+    Formally, if \(x\) and \(y\) are the same in \(\ZZ_n\), we write
+    \[
+        x \equiv y \pmod{n}
+    \]
+    or
+    \[
+        x \equiv y \quad \pqty{n}
+    \]
+    or
+    \[
+        x = y \text{ in } \ZZ_n.
+    \]
+
+    This is equivalent to \(n \divides x - y\), or \(x = y + kn\) for some \(k \in \ZZ\).
+\end{definition}
+
+\begin{example}[Example of Congruence]
+    In \(\ZZ_7\), \(2\) is regarded the same as \(16\), and hence
+    \[
+        2 \equiv 16 \pmod 7.
+    \]
+\end{example}
+
+Instead of a straight axis, we can view \(\ZZ_n\) as a circle, as in \autoref{fig:visualisation-of-zn}.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Visualisation of \(\ZZ_N\)}
+    \label{fig:visualisation-of-zn}
+\end{figure}
+
+\begin{proposition}[Addition and Multiplication on \(\ZZ_n\)]
+    Addition and multiplication on \(\ZZ_n\) is well-defined.
+\end{proposition}
+
+\begin{proof}
+    If \(a \equiv a', b \equiv b' \pmod{n}\), then
+    \[
+        n \divides \pqty{a - a'} + \pqty{b - b'} = \pqty{a + b} - \pqty{a' + b'}
+    \]
+    and hence
+    \[
+        a + b \equiv a' + b' \pmod{n}.
+    \]
+
+    Similarly,
+    \[
+        n \divides \pqty{a - a'} b + a' \cdot \pqty{b - b'} = ab - a' b'
+    \]
+    and hence
+    \[
+        ab \equiv a' b' \pmod{n}.
+    \]
+\end{proof}
+
+This allows us to do usual arithmetic modulo \(n\).
+
+We first see a useful application of modular arithmetic, that is determining whether a Diophantine equation has a solution.
+
+\begin{examples}[Diophantine Equation]
+    Does \(2a^2 + 3b^3 = 1\) have a solution in \(\ZZ\)? If there is one, then we have
+    \[
+        2a^2 \equiv 1 \pmod{3}.
+    \]
+
+    However, note that
+    \begin{align*}
+        2 \cdot 0^2 &\equiv 0, \\
+        2 \cdot 1^2 &\equiv 2, \pmod{3} \\
+        2 \cdot 2^2 &\equiv 2,
+    \end{align*}
+    and \(1 \nequiv 2 \pmod{3}\).
+
+    Therefore, there is no solution.
+\end{examples}
+
+Similar to how we solve equations in integers, we can also solve equations in the integers modulo \(n\).
+
+\begin{example}[Solving Congruence]
+    We solve the equation \(7x \equiv 2 \pmod{10}\).
+
+    Note that \(3 \cdot 7 \equiv 1 \pmod{10}\), and hence \(3 \cdot 7x \equiv 3 \cdot 2 \pmod{10}\).
+
+    Hence, \(x \equiv 6 \pmod{10}\).
+\end{example}
+
+\begin{definition}[Inverses Modulo \(n\)]
+    Given \(a, b \in \ZZ\), we say \(b\) is \emph{an inverse of \(a\) modulo \(n\)} if \(ab \equiv 1 \pmod{n}\).
+
+    We say that \emph{\(a\) is invertible modulo \(n\)} or that \emph{\(a\) is a unit modulo \(n\)}, if it has an inverse.
+\end{definition}
+
+\begin{example}[Inverses Modulo \(10\)]
+    In \(\ZZ_{10}\), \(3\) is an inverse of \(7\), and both \(3\) and \(7\) are units modulo \(10\).
+
+    However, \(4\) is \emph{not} a unit modulo \(10\), since \(4x \nequiv 1 \pmod{10}\) for any \(x \in \ZZ_{10}\).
+\end{example}
+
+\begin{proposition}[Properties on Units Modulo \(n\)]
+    If \(a\) is a unit modulo \(n\), then
+    \begin{enumerate}
+        \item its inverse is unique modulo \(n\);
+        \item if \(ab \equiv ac \pmod{n}\), then \(b \equiv c \pmod{n}\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Suppose that there is \(b, b' \in \ZZ_n\) such that
+        \[
+            ab \equiv ab' \equiv 1 \pmod{n}.
+        \]
+
+        Then,
+        \[
+            b \equiv bab \equiv bab' \equiv b' \pmod{n}.
+        \]
+
+        \item We left-multiply both sides by the inverse.
+    \end{enumerate}
+\end{proof}
+
+\begin{notation}
+    Since the inverse is unique, we write \(a\inverse\) for its inverse.
+\end{notation}
+
+\begin{remark}
+    The second property is not true in general. As a counterexample, we have
+    \[
+        4 \cdot 3 \equiv 12 \equiv 32 \equiv 4 \cdot 8 \pmod{10},
+    \]
+    but
+    \[
+        3 \nequiv 8 \pmod{10}.
+    \]
+\end{remark}
+
+We next ask the question on which numbers are invertible in modulo \(n\). This answer is straightforward if \(n\) is a prime.
+
+\begin{proposition}[Integers Modulo \(p\) are Invertible]
+    Let \(p\) be a prime. Then every \(a \nequiv 0 \pmod{p}\) is a unit modulo \(p\).
+\end{proposition}
+
+\begin{proof}
+    We must have \(\gcd\pqty{a, p} = 1\) for \(p\) being prime. Hence, by B\'{e}zout's Identity, there is \(x, y \in \ZZ\) such that
+    \[
+        ax + py = 1.
+    \]
+    
+    Hence, \(ax = 1 - py\), and hence \(ax \equiv 1 \pmod{p}\), for some \(x \in \ZZ\).
+\end{proof}
+
+The answer is similar modulo any integer \(n\).
+
+\begin{proposition}[Integers Coprime to \(n\) are Invertible modulo \(n\)]
+    Let \(n \geq 2\) be a natural number. Then \(a\) is a unit modulo \(n\), if and only if \(\gcd\pqty{a, n} = 1\).
+\end{proposition}
+
+\begin{proof}
+    We have
+    \begin{align*}
+        \gcd\pqty{a, b} = 1 &\iff \exists x, y \in \ZZ: ax + ny = 1 && \text{B\'{e}zout's Identity} \\
+        &\iff \exists x, y \in \ZZ: ax = 1 - ny \\
+        &\iff \exists x \in \ZZ: ax \equiv 1 \pmod{n}.
+    \end{align*}
+\end{proof}
+
+\begin{corollary}[Solution to Congruence involving Unit is Unique]
+    If \(\gcd\pqty{a, n} = 1\), then the congruence \(ax \equiv b \pmod{n}\) has a unique solution. In particular, if \(\gcd\pqty{a, n} = 1\), there exists a unique inverse of \(a\) modulo \(n\).
+\end{corollary}
+
+\begin{example}[Diophantine Equation]
+    If a particular year's New Year's Day is a Monday, when is the time that a New Year's Day is a particular day of the week?
+
+    We put New Year's Day as Day 0, and note a wek has 7 days in it, while a year has 365.
+
+    We want to solve for \(y\) in
+    \[
+        7x = 365y + k
+    \]
+    which is the congruence
+    \[
+        365y \equiv k \pmod{7}.
+    \]
+\end{example}
+
+What if we want to solve \(ax \equiv b \pmod{n}\), but in the case where \(a\) is not a unit?
+
+Say \(\gcd\pqty{a, n} = d > 1\). Then \(n \divides ax - b\), so \(d \divides ax - b\), and we have \(d \divides a\).
+
+Hence, if there is a solution, then \(d \divides b\).
+
+Conversely, if \(d \divides b\), let \(n = d \cdot n'\), \(a = d \cdot a'\) and \(b = d \cdot b'\) for \(n', a', b' \in \ZZ\). Then
+\begin{align*}
+    ax \equiv b \pmod{n} &\iff ax - b = kn && \text{for some } k \in \ZZ \\
+    &\iff d a' x - d b' = k d n' && \text{for some } k \in \ZZ \\
+    &\iff a' x - b' = k n' && \text{for some } k \in \ZZ \\
+    &\iff a' x \equiv b' \pmod{n}.
+\end{align*}
+
+Note that \(\gcd\pqty{a', n'} = 1\), so \(a' x \equiv b'\) has a unique solution from before.
+
+Therefore, if \(\gcd\pqty{a, n} = d > 1\), the congruence \(ax \equiv b \pmod{n}\) has \emph{no solution} unless \(d \divides b\), in which case the solution are exactly
+\[
+    \frac{a}{d} x \equiv \frac{b}{d} \pmod{\frac{n}{d}}.
+\]
+
+\begin{examples}[Solving Congruences]
+    \begin{enumerate}
+        \item We solve \(7x \equiv 4 \pmod{30}\). Notice \(\gcd\pqty{7, 30} = 1\), so \(7\) is a unit modulo \(30\). We note \(13 \cdot 7 \equiv 1 \pmod{30}\), and hence \(x \equiv 4 \cdot 13 \equiv 22 \pmod{30}\).
+        
+        We now explicitly show that there are no other solutions. Suppose \(x'\) is also a solution to \(7 x' \equiv 4 \pmod{30}\), then \(7x \equiv 7x' \pmod{30}\), and hence \(x \equiv x' \pmod{30}\) since \(7\) is a unit modulo \(30\).
+
+        Writing up, we can write this as
+        \begin{align*}
+            &\phantom{\iff} 7x \equiv 4 \pmod{30} \\
+            &\iff 13 \cdot 7x \equiv 13 \cdot 4 \pmod{30} \\
+            &\iff x \equiv 22 \pmod{30}.
+        \end{align*}
+
+        \item We solve \(10 x \equiv 12 \pmod{34}\). We have
+        \begin{align*}
+            &\phantom{\iff} 10x \equiv 12 \pmod{34} \\
+            &\iff 10x = 12 + 34y && \text{for some } y \in \ZZ \\
+            &\iff 5x = 6 + 17y && \text{for some } y \in \ZZ \\
+            &\iff 5x \equiv 6 \pmod{17}.
+        \end{align*}
+
+        We are back in the previous case, where we solve as before.
+    \end{enumerate}
+\end{examples}
+
+Similarly, we may solve \textbf{simultaneous congruences} in \(\ZZ_n\) as well.
+
+\begin{example}[Han Xin]
+    A famous example is as following.
+
+    "How many soldiers are there in Han Xin's army? If you let them parade in rows of \(3\), then \(2\) are left; if you let them parade in rows of \(4\), then \(1\) is left."
+
+    We may model this as the following system of linear congruences:
+    \begin{align*}
+        x \equiv 1 \pmod{4} &\implies x \equiv 1, \boxed{5}, 9, 13, \ldots \\
+        x \equiv 2 \pmod{3} &\implies x \equiv 2, \boxed{5}, 8, 11, \ldots
+    \end{align*}
+\end{example}
+
+What about the following system?
+
+\begin{align*}
+    x \equiv 1 \pmod{4} &\implies x \equiv 1, 5, 9, 13, \ldots \\
+    x \equiv 2 \pmod{6} &\implies x \equiv 2, 8, 14, 20, \ldots
+\end{align*}
+
+Here, \(4\) and \(6\) are not coprime, and there are not any solutions.
+
+\begin{theorem}[Chinese Remainder Theorem]
+    Let \(m, n\) be coprime, and let \(a, b \in \ZZ\). Then there is a unique solution in \(\ZZ_{mn}\) to the simultaneous congruences
+    \begin{align*}
+        x &\equiv a \pmod{m}, \\
+        x &\equiv b \pmod{n}.
+    \end{align*}
+
+    In other words, \(y\) is a solution to the same system of equations if and only if \(x \equiv y \pmod{mn}\).
+\end{theorem}
+
+\begin{proof}
+    The proof is in two parts, for the existence, and for the uniqueness.
+
+    \textbf{Existence.} Since \(\gcd\pqty{n, m} = 1\), by B\'{e}zout's Identity, there are \(s, t \in \ZZ\), such that \(sm + tn = 1\).
+
+    Note that \(sm \equiv 1 \pmod{n}\), and \(tn \equiv 1 \pmod{m}\), and that \(sm \equiv 0 \pmod{m}\), and \(tn \equiv 0 \pmod{n}\).
+
+    Hence, we consider \(x = a \pqty{tn} + b \pqty{sm}\). Then we see that this is indeed a solution.
+
+    \textbf{Uniqueness.} Suppose \(y\) is also a solution to the same congruences, we have
+    \begin{align*}
+        &\phantom{\iff} y \equiv a \pmod{m}, y \equiv b \pmod{n} \\
+        &\iff y \equiv x \pmod{m}, y \equiv x \pmod{n} \\
+        &\iff m \divides y - x, n \divides y - x \\
+        &\iff mn \divides y - x && \text{since } \gcd\pqty{m, n} = 1 \\
+        &\iff x \equiv y \pmod{mn}.
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    The Chinese Remainder Theorem can be extended to a system of congruences to more than 2 moduli. If \(m_1, m_2, \ldots, m_k\) are \emph{pairwise coprime}, then for all \(a_1, a_2, \ldots, a_k \in \ZZ\), there exists a solution \(x \in \ZZ\) to the simultaneous congruences
+    \begin{align*}
+        x &\equiv a_1 \pmod{m_1} \\
+        x &\equiv a_2 \pmod{m_2} \\
+          &\vdots \\
+        x &\equiv a_k \pmod{m_k},
+    \end{align*}
+    and such solution is unique modulo \(m_1 m_2 \cdots m_k\).
+\end{remark}
+
+\begin{definition}[Euler Totient Function]
+    We denote by \(\totient\pqty{m}\) the number of integers \(a\) with \(1 \leq a \leq m\), such that \(\gcd\pqty{a, m} = 1\). In other words, \(\totient\pqty{m}\) is \emph{the number of units modulo \(m\)}.
+    
+    This is known as the \emph{Euler Totient Function}.
+
+    Note that we define \(\totient\pqty{1} = 1\).
+\end{definition}
+
+
+\begin{examples}[Euler Totient Function]
+    \begin{enumerate}
+        \item For \(m = 9\), the units in \(\ZZ_m\) is \(1, 2, 3, 5, 7, 8\), and hence \(\totient\pqty{9} = 6\).
+        \item For a prime \(p\), we have \(\totient\pqty{p} = p - 1\). Similarly, \(\totient\pqty{p^2} = p^2 - p = p \pqty{p - 1}\).
+        \item When \(p, q\) are distinct primes,
+        \[
+            \totient\pqty{pq} = pq - p - q + 1 = \pqty{p - 1} \pqty{q - 1},
+        \]
+        since there are \(pq\) numbers in total, \(q\) of which are multiples of \(p\), \(p\) of which are multiples of \(q\), and \(1\) double counted which is \(pq\). (This is by Inclusion--Exclusion Principle.)
+    \end{enumerate}
+\end{examples}
+
+We investigate the behaviour of powers of an integer under modulo a prime \(p\).
+
+\begin{examples}[Powers of Integers Modulo \(p\)]
+    \begin{enumerate}
+        \item Under modulo \(7\), we have
+        \[
+            2^1 \equiv 2, 2^2 \equiv 4, 2^3 \equiv 1, 2^4 \equiv 2, 2^5 \equiv 4, 2^6 \equiv 1
+        \]
+        and this repeats.
+
+        \item Under modulo \(11\), we have
+        \begin{align*}
+            2^1 \equiv 2, 2^2 \equiv 4, & 2^3 \equiv 8, 2^4 \equiv 5, \\
+            2^5 \equiv 10, 2^6 \equiv 9, & 2^7 \equiv 7, 2^8 \equiv 3, \\
+            2^9 \equiv 6, 2^{10} \equiv 1, & 2^{11} \equiv 2, 2^{12} \equiv 4,
+        \end{align*}
+        and this repeats.
+    \end{enumerate}
+\end{examples}
+
+The following result(s) is (are) best motivated by (corollary of) Lagrange's Theorem in group theory (lots of results in elementary number theory involving congruences are), but we show this in an elementary way.
+
+\begin{theorem}[Fermat's Little Theorem]
+    Let \(p\) be a prime. Then \(a^p \equiv a \pmod{p}\), for all integers \(a \in \ZZ\).
+
+    Equivalently, \(a^{p - 1} \equiv 1 \pmod{p}\) for all \(a \nequiv 0 \pmod{p}\).
+\end{theorem}
+
+\begin{proof}
+    If \(a \nequiv 0 \pmod{p}\), then \(a\) is a unit mod \(p\), and hence
+    \[
+        ax \equiv ay \pmod{p} \iff x \equiv y \pmod{p}.
+    \]
+
+    Hence, the numbers \(a, 2a, 3a, \ldots, \pqty{p - 1}a\) are pairwise distinct (not congruent) under modulo \(p\), and are all non-zero modulo \(p\).
+
+    Therefore, they must be \(1, 2, 3, \ldots, p - 1\), in some order.
+
+    Hence,
+    \[
+        a \cdot 2a \cdot 3a \cdot \cdots \cdot \pqty{p - 1} a \equiv 1 \cdot 2 \cdot 3 \cdot \cdots \cdot \pqty{p - 1} \pmod{p},
+    \]
+    and hence
+    \[
+        a^{p - 1} \pqty{p - 1}! \equiv \pqty{p - 1}! \pmod{p}.
+    \]
+
+    However, \(\pqty{p - 1}!\) is a unit modulo \(p\), since it is a product of units. Hence, we obtain \(a^{p - 1} \equiv 1 \pmod{p}\), as desired.
+\end{proof}
+
+We have a theorem closely related to this but modulo any general integer.
+
+\begin{theorem}[Fermat--Euler Theorem]
+    Let \(\gcd\pqty{a, m} = 1\), then we have \(a^{\totient\pqty{m}} \equiv 1 \pmod{m}\).
+\end{theorem}
+
+\begin{proof}
+    Let
+    \[
+        \mathcal{U} = \set{x \in \ZZ}{0 < x < m, \gcd\pqty{x, m} = 1}
+    \]
+    be the \(\totient\pqty{m}\) units in \(\ZZ_{m}\). Let them be
+    \[
+        \mathcal{U} = \Bqty{u_1, u_2, \ldots, u_{\totient\pqty{m}}}.
+    \]
+
+    Similarly, for any \(a\) where \(\gcd\pqty{a, m} = 1\), we have
+    \[
+        a u_1, a u_2, \ldots, a u_{\totient\pqty{m}}
+    \]
+    are the units in \(\ZZ_m\), and hence \(u_1, u_2, \ldots, u_{\totient\pqty{m}}\) in some order. Hence,
+    \[
+        \pqty{a u_1} \pqty{a u_2} \cdots \pqty{a u_{\totient\pqty{m}}} \equiv \pqty{u_1} \pqty{u_2} \cdots \pqty{u_{\totient\pqty{m}}} \pmod{m}
+    \]
+    and hence
+    \[
+        a^{\totient \pqty{m}} \prod_{u \in \mathcal{U}} u \equiv \prod_{u \in \mathcal{U}} u \pmod{m}.
+    \]
+
+    Since \(\mathcal{U}\) contain units, their products must be a unit as well modulo \(n\), in other words,
+    \[
+        \prod_{u \in \mathcal{U}} u \in \mathcal{U}.
+    \]
+
+    Hence, we may obtain
+    \[
+        a^{\totient\pqty{m}} \equiv 1 \pmod{m}.
+    \]
+\end{proof}
+
+This next result is less intuitive: we consider the value of \(\pqty{p - 1}!\) modulo \(p\).
+
+\begin{examples}[\(\pqty{p - 1}!\) modulo \(p\)]
+    \begin{enumerate}
+        \item For \(p = 5\), we have
+        \[
+            4! = 4 \cdot 3 \cdot 2 \cdot 1 = 24 \equiv -1 \pmod{5}.
+        \]
+
+        \item For \(p = 7\), we have
+        \[
+            6! = 720 \equiv -1 \pmod{-1}.
+        \]
+    \end{enumerate}
+\end{examples}
+
+We conjecture that the result is always \(-1\). To prove this, we first introduce some lemmas.
+
+\begin{lemma}[Square Root of \(1\) is \(\pm 1\) modulo Prime]
+    Let \(p\) be a prime. We have
+    \[
+        x^2 \equiv 1 \pmod{p} \iff x \equiv \pm 1 \pmod{p}.
+    \]
+\end{lemma}
+
+\begin{remark}
+    This does not necessarily hold for non-primes: in modulo \(8\),
+    \[
+        1^2 \equiv 3^2 \equiv 5^2 \equiv 7^2 \equiv 1 \pmod{8}.
+    \]
+\end{remark}
+
+\begin{proof}
+    We have by factorisation
+    \begin{align*}
+        x^2 \equiv 1 \pmod{p} &\iff x^2 - 1 \equiv 0 \pmod{p} \\
+        &\iff \pqty{x + 1} \pqty{x - 1} \equiv 0 \pmod{p}.
+    \end{align*}
+
+    Recall that Euclid's Lemma states that \(p \divides ab\) if and only if \(p \divides a\) or \(p \divides b\).
+
+    Equivalently, if \(p\) is prime, then \(ab \equiv 0 \pmod{p}\) if and only if \(a \equiv 0 \pmod{p}\) or \(b \equiv 0 \pmod{p}\).
+
+    Hence,
+    \begin{align*}
+        x^2 \equiv 1 \pmod{p} &\iff x + 1 \equiv 0 \text{ or } x - 1 \equiv 0 \pmod{p} \\
+        &\iff x \equiv -1 \text{ or } x \equiv 1 \pmod{p},
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{remark}
+    More generally, a non-zero polynomial of degree \(k\) over \(\ZZ_p\) has \emph{at most} \(k\) roots in \(\ZZ_p\) for any prime \(p\).
+\end{remark}
+
+Now we are ready to prove our result.
+
+\begin{theorem}[Wilson's Theorem]
+    Let \(p\) be a prime. Then \(\pqty{p - 1}! \equiv -1 \pmod{p}\).
+\end{theorem}
+
+\begin{proof}
+    This is trivially true for \(p = 2\), so we assume \(p > 2\).
+
+    Note that the units modulo \(p\) come in pairs whose product is \(1\), and together with some elements that are self inverse, i.e. \(x\) where \(x^2 \equiv 1 \pmod{p}\).
+
+    From the previous lemma, these elements are in fact precisely \(\pm 1\), and the remaining \(p - 3\) units in \(\ZZ_p\) come in pairs of inverses.
+
+    Hence, \(\pqty{p - 1}!\) is the product of \(\frac{p - 3}{2}\) pairs of inverses together with \(\pm 1\) and hence
+    \[
+        \pqty{p - 1}! \equiv -1 \pmod{p}.
+    \]
+\end{proof}
+
+As an example, in modulo \(11\), \(\pqty{2, 6}, \pqty{3, 4}, \pqty{5, 9}, \pqty{7, 8}\) are the pairs of inverses, and \(1, 10\) are the units whose inverse are themselves.
+
+The next question we ask, is when is \(-1\) a square modulo \(p\), if ever?
+
+\begin{proposition}
+    Let \(p\) be an odd prime. Then \(-1\) is a square modulo \(p\), if and only if \(p \equiv 1 \pmod{4}\).
+\end{proposition}
+
+\begin{proof}
+    \(\impliedby\). Suppose \(p \equiv 1 \pmod{4}\). By Wilson's theorem, we have
+    \begin{align*}
+        -1 &\equiv \pqty{p - 1}! \\
+        &\equiv 1 \cdot 2 \cdot 3 \cdot \cdots \cdot \frac{p - 1}{2} \cdot \frac{p + 1}{2} \cdot \cdots \cdot \pqty{p - 3} \cdot \pqty{p - 2} \cdot \pqty{p - 1} \\
+        &\equiv 1 \cdot 2 \cdot 3 \cdot \cdots \cdot \frac{p - 1}{2} \cdot \pqty{- \frac{p - 1}{2}} \cdot \cdots \cdot \pqty{-3} \cdot \pqty{-2} \cdot \pqty{-1} \\
+        &\equiv \pqty{-1}^{\frac{p - 1}{2}} \cdot \pqty{\pqty{\frac{p - 1}{2}}!}^2 \pmod{p}.
+    \end{align*}
+
+    Since \(p \equiv 1 \pmod{4}\), \(p = 4k + 1\) for some \(k \in \ZZ\), and we have
+    \[
+        -1 \equiv \pqty{-1}^{2k} \cdot \pqty{\pqty{\frac{p - 1}{2}}!}^2 \equiv \pqty{\pqty{\frac{p - 1}{2}}!}^2 \pmod{p}
+    \]
+    so \(\pqty{-1}\) is a square modulo \(p\).
+
+    \(\implies\). Suppose on the other hand, that \(p \equiv 3 \pmod{4}\), i.e. \(p = 4k + 3\) for some \(k \in \ZZ\).
+
+    If \(\pqty{-1}\) were a square modulo \(p\), i.e. if there were an integer \(z \in \ZZ\) such that \(z^2 \equiv -1\), then by Fermat's Little Theorem,
+    \begin{align*}
+        1 &\equiv z^{p - 1} \\
+        &\equiv z^{4k + 2} \\
+        &\equiv \pqty{z^2}^{2k + 1} \\
+        &\equiv \pqty{-1}^{2k + 1} \\
+        &\equiv -1 \pmod{p},
+    \end{align*}
+    which gives a contradiction.
+\end{proof}
+
+\begin{remark}
+    When \(p \equiv 1 \pmod{4}\), Wilson's theorem gives us \emph{a} solution to \(x^2 \equiv -1 \pmod{p}\), namely \(\pqty{\frac{p - 1}{2}}!\).
+
+    For example, if \(p = 29\), then \(x = 14!\) is a solution.
+\end{remark}
+
+\subsection{Public Key Cryptography}
+\label{sec:public-key-cryptography}
+
+Using Wilson's Theorem to find primes is very inefficient. There is an alternative called \textbf{Fermat's Criteria}.
+
+We look at Fermat's Little Theorem when \(a = 2\), showing
+\[
+    2^p \equiv 2 \pmod{p}.
+\]
+
+The congruence $2^n\equiv2\pmod n$ is not a primality certificate. For example, $341=11\cdot31$ is composite, but $2^{10}=1024\equiv1\pmod{341}$, hence $2^{340}\equiv1\pmod{341}$. An odd composite passing this base-two test is a base-two Fermat pseudoprime. No probability of primality follows from this one congruence without additional assumptions. Repeated squaring uses $O(\log n)$ modular multiplications for this exponent; this is an operation count, not a claim of logarithmic bit complexity.
+
+Now we proceed from this and encrypt messages. We may encode messages as a sequence of numbers, e.g. encoding \(A\) as \(0\), \(B\) as \(1\), \dots, \(Z\) as \(25\). Our goal is to send messages in an encrypted form, in such a way that the intended receiver can decrypt them easily, but a third party cannot.
+
+\begin{definition}[Textbook RSA]
+Choose distinct primes $p,q$ and set $n=pq$ and $\varphi(n)=(p-1)(q-1)$.
+Choose an integer $e>1$ coprime to $\varphi(n)$ and a positive integer $d$ with $ed\equiv1\pmod{\varphi(n)}$.
+The public key is $(n,e)$. The exponent $d$ is private. A message representative is an integer $0\leq M<n$; encryption computes $C=M^e\bmod n$, and decryption computes $C^d\bmod n$.
+\end{definition}
+\begin{proposition}[Correctness for every message representative]
+For every integer $M$, $M^{ed}\equiv M\pmod n$.
+\end{proposition}
+\begin{proof}
+Write $ed=1+k\varphi(n)$ with $k\geq0$. Modulo $p$, if $p\mid M$ then both sides vanish. Otherwise Fermat's theorem gives $M^{p-1}\equiv1\pmod p$, hence $M^{ed}=M(M^{p-1})^{k(q-1)}\equiv M\pmod p$.
+The same argument works modulo $q$. Since $p$ and $q$ are distinct primes, the Chinese remainder theorem gives the result modulo $pq$.
+\end{proof}
+\begin{remark}[Scope of this construction]
+This is the deterministic textbook arithmetic of RSA, not a complete secure encryption protocol. In particular, someone who knows that a plaintext is one of two candidates can encrypt both with the public key and compare the results with the ciphertext. Correctness alone therefore does not establish confidentiality.
+\end{remark}
+\begin{proposition}[Factoring and the totient for a product of two distinct primes]
+Given $n=pq$, knowing $p,q$ gives $\varphi(n)$. Conversely, knowing $n$ and $\varphi(n)$ recovers the factors.
+\end{proposition}
+\begin{proof}
+Set $s=n-\varphi(n)+1=p+q$. Then $p,q$ are the roots of $X^2-sX+n$, namely $(s\pm\sqrt{s^2-4n})/2$.
+\end{proof}
+This establishes a relation between computing the totient and factoring for this form of modulus. It does not prove that every algorithm which inverts RSA must factor the modulus.
+\section{The Real Numbers}
+\label{sec:real-numbers}
+
+\subsection{Defining the Real Numbers}
+\label{sec:defining-real-numbers}
+
+Recall that we defined \(\NN\) using the Peano's Axioms, and we may obtain \(\ZZ\) from \(\NN\) by allowing for `subtraction'.
+
+\begin{definition}[\(\ZZ\)]
+    Formally, \(\ZZ\) is the set of equivalence classes of \(\NN \times \NN\) under the equivalence relation
+    \[
+        \pqty{a, b} \sim \pqty{c, d} \iff a + d = b + c.
+    \]
+\end{definition}
+
+We may think of \(\pqty{a, b}\) as \(a - b\). We denote
+\[
+    0 = \bqty{\pqty{1, 1}}
+\]
+and
+\[
+    -a = \bqty{\pqty{1, a + 1}}.
+\]
+
+We may similarly define addition and multiplication on \(\times\) using this pair, as
+\[
+    \pqty{a, b} + \pqty{c, d} = \pqty{a + c, b + d}
+\]
+and
+\[
+    \pqty{a, b} \times \pqty{c, d} = \pqty{ac + bd, bc + ad},
+\]
+and we may indeed check that these operations are well-defined.
+
+Similarly, we may obtain \(\QQ\) from \(\ZZ\) by allowing for 'division'.
+
+\begin{definition}[\(\QQ\)]
+    Formally, \(\QQ\) is the set of the equivalence classes of \(\ZZ \times \NN\) under the equivalence relation
+    \[
+        \pqty{a, b} \sim \pqty{c, d} \iff ad = bc.
+    \]
+\end{definition}
+
+Similarly, notational wise, we write \(\frac{a}{b}\) instead of \(\bqty{\pqty{a, b}}\), and we may similarly define \(+\) and \(\times\) by
+\[
+    \pqty{a, b} + \pqty{c, d} = \pqty{ad + bc, bd}
+\]
+and
+\[
+    \pqty{a, b} \times \pqty{c, d} = \pqty{a \times c, b \times d}.
+\]
+
+In addition to this, we may define an \emph{ordering} on \(\QQ\), \(<\), which satisfy the following properties, that
+\begin{enumerate}
+    \item if \(a, b \in \QQ\), then precisely one of \(a < b, a = b, a > b\) holds;
+    \item if \(a < b\) and \(b < c\), then \(a < c\).
+\end{enumerate}
+
+This ordering is useful, in the sense that there is a rational number between any two rational numbers. If \(p, q \in \QQ\) with \(p < q\), w e have
+\[
+    p < \frac{p + q}{2} < q
+\]
+so \(\QQ\) is \emph{densely ordered}.
+
+However, this does not ensure that all the gaps are filled in.
+
+\begin{proposition}[\(\sqrt{2}\) is irrational]
+    There is no rational \(x\) with \(x^2 = 2\).    
+\end{proposition}
+
+\begin{proof}[\proofname\ by Number Theory]
+    Suppose that \(x^2 = 2\). Note we may assume \(x > 0\) since \(\pqty{-x}^2 = x^2\). If \(x\) is rational, then
+    \[
+        x = \frac{a}{b}
+    \]
+    for some \(a, b \in \NN\). Thus, \(a^2 = 2b^2\).
+
+    But note that the exponent of \(2\) in the prime factorisation on the left-hand side is even, while the exponent of \(2\) in the prime factorisation on the right-hand side is odd. This contradicts with the fundamental theorem of arithmetic.
+\end{proof}
+
+\begin{remark}
+    This proof reflects from a number theory perspective, that if there is \(x \in \QQ\) with \(x^2 = n\) for some \(n \in \NN\), then \(n\) must itself be a square number.
+\end{remark}
+
+\begin{proof}[\proofname\ by Algebra]
+    Suppose \(x^2 = 2\) for some \(x = \frac{a}{b}\), with \(a, b \in \NN\). Then, for any \(c, d \in \ZZ\), \(\pqty{cx + d}\) is of the form \(\frac{e}{b}\) for some \(e \in \ZZ\).
+
+    Then, if \(cx + d > 0\), we have \(cx + d \geq \frac{1}{b}\).
+
+    But \(0 < x - 1 < 1\) as \(1 < x < 2\), if \(n\) is sufficiently large, we have
+    \[
+        0 < \pqty{x - 1}^n < \frac{1}{b}.
+    \]
+
+    But for any \(n \in \NN\), \(\pqty{x - 1}^n\) is of the form \(cx + d\), for some \(c, d \in \ZZ\), since \(x^2 = 2\). This leads to a contradiction.
+\end{proof}
+
+\begin{remark}
+    This proof shows that if the square root of an integer is rational, then it must in fact be a whole number.
+\end{remark}
+
+This shows that \(\QQ\) has a gap. But how do we fill in this gap only making reference to \(\QQ\), without mentioning \(\RR\)? (We haven't defined the real numbers yet.)
+
+\(\QQ\) fails another property which is key to constructing the reals. Let \(A\) be the set of positive rationals \(p\), such that \(p^2 < 2\). Formally, let
+\[
+    A = \set{p \in \QQ}{p^2 < 2}.
+\]
+
+We show that \(A\) has no largest number. For any \(p \in A\), consider \(q = p - \frac{p^2 - 2}{p + 2}\).
+
+Since \(p \in A\), \(p^2 - 2 < 0\), so we have \(q > p\). Also,
+\[
+    q^2 - 2 = \frac{2 \pqty{p^2 - 2}}{\pqty{p + 2}^2} < 0,
+\]
+so \(q \in A\).
+
+Similarly, the set
+\[
+    \set{q \in \QQ}{q > 0, q^2 > 0}
+\]
+has no smallest element.
+
+The \textbf{crucial point} is not about the \emph{maximum/minimum} of a set -- it is about a \emph{least upper bound} -- which is the "gap". (And luckily, all the "gaps".)
+
+\begin{definition}[\(\RR\)]
+    The \emph{real numbers} \(\RR\) are a set with elements \(0, 1 \in \RR\) where \(0 \neq 1\), equipped with operations \(+\) and \(\times\), and an ordering \(<\) satisfying the following axioms:
+    \begin{enumerate}
+        \item \(\pqty{\RR, +, 0}\) is an abelian group: \(+\) is commutative and associative with identity \(0\), and inverses exist under \(+\);
+        \item \(\pqty{\RR\multiplicative, \times, 1}\) is an abelian group: \(\times\) is commutative and associative with identity \(1\), and inverses exist under \(\times\) for non-zero elements;
+        \item \(\times\) is distributive over \(+\):
+        \[
+            a \times \pqty{b + c} = a \times b + a \times c,
+        \]
+        and \(\pqty{\RR, +, \times}\) form a field;
+        \item \(\pqty{\RR, <}\) is a totally ordered field: for all \(a, b\), exactly one of \(a < b\), \(a = b\) and \(a > b\) holds; for all \(a, b, c\), if \(a < b\) and \(b < c\), then \(a < c\);
+        \item the ordering preserve arithmetic: for all \(a, b, c\), if \(a < b\), then \(a + c < b + c\), and \(ac < bc\) for \(c > 0\);
+        \item given any set \(S\) of reals that is non-empty and bounded above, \(S\) has a \emph{least upper bound}.
+    \end{enumerate}
+
+    The final axiom is known as the \emph{least upper bound axiom.}
+\end{definition}
+
+\begin{definition}[Least Upper Bound]
+    We say a set \(S\) is \emph{bounded above} if there is some \(x \in \RR\), such that \(x \geq y\) for all \(y \in S\). Such an element \(x\) is called an \emph{upper bound of \(S\)}.
+
+    We say \(x\) is \emph{the least upper bound} for \(S\), if \(x\) is an upper bound for \(S\), and any other upper bound \(x'\) satisfies \(x' \geq x\).
+
+    We denote this as \(x = \LUB\pqty{S}\), \(x = \supremum\pqty{S}\), or most commonly,
+    \[
+        x = \sup\pqty{S}.
+    \]
+\end{definition}
+
+Note that we defined \(\RR\) -- but its existence is not immediately obvious from the definition. This can be seen from a technique called \emph{Dedekind Cuts}.
+
+\begin{remarks}
+    \begin{enumerate}
+        \item From the axioms, we can check, for example, that \(0 < 1\). Indeed, if not, then \(1 < 0\). Since \(0 \neq 1\), assume on the contrary that \(1 < 0\), so we have
+        \[
+            0 = 1 - 1 < 0 - 1 = -1,
+        \]
+        so
+        \[
+            0 = 0 \cdot \pqty{-1} < \pqty{-1} \pqty{-1} = 1
+        \]
+        which gives a contradiction.
+        \item We may consider \(\QQ\) as \emph{contained} in \(\RR\), by identifying \(\frac{a}{b} \in \QQ\) with \(a \cdot b\inverse \in \RR\).
+        \item \(\QQ\) satisfies all axioms \emph{apart from} the final one -- the least upper bound axiom. For example, the set \(A\) involving squaring to \(2\) above does not have a supremum.
+        \item The words non-empty and bounded above are crucial.
+        
+        If \(S\) is empty, then every \(x \in \RR\) is trivially an upper bound, so there is no least upper bound.
+
+        If \(S\) is not bounded above, then it has no upper bound, and certainly does not have a least one.
+    \end{enumerate}
+\end{remarks}
+
+We give some examples on the idea of the least upper bound.
+
+\begin{examples}
+    \begin{enumerate}
+        \item Consider \(S = \set{x \in \RR}{0 \leq x \leq 1} = \ccintv{0}{1}\).
+        
+        \(2\) is an upper bound for \(S\), since for all \(x \in S\), \(x \leq 2\).
+
+        \(\frac{3}{4}\) is \emph{not} an upper bound for \(S\), since \(\frac{7}{8} \in S\), and \(\frac{7}{8} > \frac{3}{4}\).
+
+        In fact, we have
+        \[
+            \sup \pqty{S} = 1,
+        \]
+        since \(1\) is an upper bound: for all \(x \in S, x \leq 1\); and every other upper bound is \(\geq 1\), since \(1 \in S\).
+
+        \item Consider \(S = \set{x \in \RR}{0 < x < 1} = \oointv{0}{1}\).
+        
+        Similarly, \(2\) is an upper bound for \(S\), and \(\frac{3}{4}\) is not.
+
+        In fact, we have
+        \[
+            \sup \pqty{S} = 1,
+        \]
+        since \(1\) is an upper bound: for all \(x \in S, x < 1\) so \(x \leq 1\); and no upper bound \(c\) satisfies \(c < 1\).
+
+        Indeed, \(c\) is certainly greater than \(0\), and furthermore \(c \geq \frac{1}{2}\) since \(\frac{1}{2} \in S\).
+
+        So if \(c < 1\), then \(0 < c < 1\), so \(\frac{c + 1}{2} \in S\), but we have \(\frac{c + 1}{2} > c\).
+    \end{enumerate}
+\end{examples}
+
+\begin{remark}
+    If \(S\) have a greatest element, then
+    \[
+        \sup \pqty{S} = \max \pqty{S} \in S.
+    \]
+
+    However, as the example shows, \(\sup\pqty{S}\) can exist when \(\max\pqty{S}\) does not: in this case, \(\sup\pqty{S} \notin S\).
+\end{remark}
+
+Now we want to find the least upper bound of
+\[
+    S = \Bqty{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots} = \set{1 - \frac{1}{n}}{n \in \NN}.
+\]
+
+Clearly, \(1\) is an upper bound of \(S\). But is there an upper bound less than 1?
+
+\begin{proposition}[Axiom of Archimedes]
+    \(\NN\) is not bounded above in \(\RR\).
+\end{proposition}
+
+\begin{proof}
+    Suppose on the contrary, that \(\NN\) is bounded above, then it has a least upper bound
+    \[
+        c = \sup \pqty{\NN} \in \RR.
+    \]
+
+    By definition, \(\pqty{c - 1}\) is not an upper bound for \(\NN\), so there is some \(n \in \NN\), such that \(n > c - 1\).
+
+    Then, \(n + 1 \in \NN\), with \(n + 1 > c\), contradicting that \(c\) is an upper bound for \(\NN\).
+\end{proof}
+
+\begin{corollary}[Reciprocal of Natural Numbers can be Arbitrarily Small]
+    For any real number \(t > 0\), there exists \(n \in \NN\) such that \(\frac{1}{n} < t\).
+\end{corollary}
+
+\begin{proof}
+    Given \(t > 0\), by Axiom of Archimedes, there is \(n \in \NN\) where \(n > \frac{1}{t}\).
+
+    Hence, \(\frac{1}{n} < t\) as desired.
+\end{proof}
+
+\begin{definition}[Greatest Lower Bound]
+    A set \(S\) is said to be \emph{bounded below}, if there exists \(x\), such that for all \(y \in S\), we have \(x \leq y\). Such an \(x\) is called a \emph{lower bound} for \(S\).
+
+    We say \(x\) is the \emph{greatest lower bound} for \(S\), if \(x\) is a lower bound for \(S\), and any other lower bound \(x'\) satisfies \(x' \leq x\).
+
+    We denote this as \(x = \GLB \pqty{S}\), \(x = \infimum\pqty{S}\), or most commonly,
+    \[
+        x = \inf \pqty{S}.
+    \]
+\end{definition}
+
+Note that if \(S\) is empty and bounded below, then
+\[
+    -S = \set{-y}{y \in S}
+\]
+is non-empty and bounded above, so it has a least upper bound
+\[
+    \sup \pqty{-S} = c,
+\]
+and hence \(-c\) is the greatest lower bound.
+
+The previous corollary immediately implies that
+\[
+    \inf \pqty{\set{\frac{1}{n}}{n \in \NN}} = 0.
+\]
+
+The previous proposition and corollary can be interpreted as that there are no `infinitely large' or `infinitely small' numbers in \(\RR\).
+
+Now, we return to a previous example.
+
+\begin{example}
+    We want to find the least upper bound of
+    \[
+        S = \Bqty{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots} = \set{1 - \frac{1}{n}}{n \in \NN}.
+    \]
+
+    We claim \(\sup \pqty{S} = 1\), and suppose on the contrary that \(c < 1\) is an upper bound for \(S\). Then \(1 - \frac{1}{n} \leq c\), for all \(n \in \NN\), so
+    \[
+        0 < 1 - c \leq \frac{1}{n}
+    \]
+    for all \(n \in \NN\), contradicting with the previous corollary.
+\end{example}
+
+Now we show that the gaps we found in \(\QQ\) beforehand is filled by the least upper bound axiom.
+
+\begin{theorem}[Square Roots Exist in \(\RR\)]
+    There exists \(x \in \RR\) with \(x^2 = 2\).
+\end{theorem}
+
+\begin{proof}
+    Let
+    \[
+        S = \set{x \in \RR}{x^2 < 2}.
+    \]
+
+    First we note that \(S\) is non-empty since \(1 \in S\), and it is bounded above by \(2\)
+
+    Hence, \(S\) has a supremum, and let \(c = \sup S\). We observe \(1 < c < 2\), ad we claim that \(c^2 = 2\).
+
+    Suppose that \(c^2 < 2\). For \(0 < t < 1\), we have
+    \begin{align*}
+        \pqty{c + t}^2 &= c^2 + 2ct + t^2 \\
+        &< c^2 + 4t + t \\
+        &= c^2 + 5t \\
+        &< 2,
+    \end{align*}
+    for sufficiently small \(t\), say \(t < \frac{2 - c^2}{5}\).
+
+    But this contradicts with the assumption that \(c\) is \emph{an upper bound} for \(S\), since \(c + t \in S\) and \(c + t > c\).
+
+    Now, suppose that \(c^2 > 2\). For \(0 < t < 1\), we have
+    \begin{align*}
+        \pqty{c - t}^2 &= c^2 - 2ct + t^2 \\
+        &> c^2 - 4t + 0 \\
+        &> 2,
+    \end{align*}
+    for sufficiently small \(t\), say \(t < \frac{c^2 - 2}{4}\).
+
+    This contradicts with the assumption that \(c\) is the \emph{least} upper bound of \(S\), since \(c - t < c\) and \(c - t\) is an upper bound for \(S\).
+
+    Hence, \(c^2 = 2\).
+\end{proof}
+
+\begin{remark}
+    A similar proof shows that \(\sqrt[n]{x}\) exists for all \(n \in \NN\), for all \(x \in \RR\) where \(x > 0\):
+    \[
+        \forall n \in \NN, \forall x \in \oointv{0}{\plusinfty}, \exists y \in \RR: y^n = x.
+    \]
+\end{remark}
+
+\begin{definition}[Irrational Numbers]
+    A real that is not rational is \emph{irrational}.
+\end{definition}
+
+\begin{examples}[Examples of Irrationals]
+    \begin{enumerate}
+        \item \(\sqrt{2}, \sqrt{3}, \sqrt{5}, \sqrt{6}, \ldots\) are irrational.
+        \item If \(2 + 3 \sqrt{5} = \frac{a}{b}\) for some \(a, b \in \NN\), then
+        \[
+            \sqrt{5} = \frac{a - 2b}{3b} \in \QQ
+        \]
+        but \(\sqrt{5}\) is irrational. So \(2 + 3 \sqrt{5}\) is irrational.
+    \end{enumerate}
+\end{examples}
+
+\begin{proposition}[\(\QQ\) is dense in \(\RR\)]
+    The rationals are \emph{dense} in the reals. Formally,
+    \[
+        \forall a, b \in \RR, a < b, \exists c \in \QQ: a < c < b.
+    \]
+\end{proposition}
+
+\begin{proof}
+    We may assume \(a \geq 0\). By corollary of the Axiom of Archimedes, we have some \(n \in \NN\) such that \(\frac{1}{n} < b - a\).
+
+    Let
+    \[
+        T = \set{k \in \NN}{\frac{k}{n} \geq b}.
+    \]
+
+    By Axiom of Archimedes, there is some \(N \in \NN\) such that \(N > b\).
+    
+    Hence, we have
+    \[
+        \frac{Nn}{n} \geq b,
+    \]
+    and hence \(Nn \in T\), so \(T \neq \emptyset\).
+
+    By the well-ordering principle, \(T\) has some least element \(m\). Now, let \(c = \frac{m - 1}{n} \in \QQ\).
+
+    Since \(m - 1 \notin T\), we have \(c < b\).
+
+    Now, if \(c \leq a\), then
+    \[
+        \frac{m}{n} = c + \frac{1}{n} < a + \pqty{b - a} = b,
+    \]
+    contradicts with \(m \in T\).
+
+    Therefore, \(c > a\), and hence \(a < c < b\) with \(c \in \QQ\), as desired.
+\end{proof}
+
+\begin{proposition}[\(\RR \setminus \QQ\) is dense in \(\RR\)]
+    The irrationals are \emph{dense} in the reals. Formally,
+    \[
+        \forall a, b \in \RR, a < b, \exists c \in \RR \setminus \QQ: a < c < b.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Indeed, take \(c \in \QQ\) such that
+    \[
+        a \sqrt{2} < c < b \sqrt{2}
+    \]
+    then
+    \[
+        a < \frac{c}{\sqrt{2}} < b.
+    \]
+\end{proof}
+
+\subsection{Sequences}
+\label{sec:sequences}
+
+\begin{definition}[Sequence]
+    A \emph{sequence} is an enumerated collection of objects in which repetitions are allowed and order matters.
+
+    We write the sequence as
+    \[
+        a_1, a_2, a_3, \ldots
+    \]
+    or
+    \[
+        \pqty{a_n}_{n = 1}^{\infty}.
+    \]
+\end{definition}
+
+We aim to answer the question of what it means for a sequence \(a_1, a_2, a_3, \ldots\) to tend to a limit \(l\).
+
+First, it is \emph{not} enough on its own that the terms get `arbitrarily close' to \(l\), in the sense that
+\[
+    \forall \epsilon > 0, \exists n \in \NN: l - \epsilon < a_n < l + \epsilon.
+\]
+
+For example, we do not want the sequence
+\[
+    0, 10, \frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, 10, \ldots
+\]
+to tend to \(1\).
+
+We want the sequence to get to, and stay within \(\epsilon\) of \(l\).
+
+\begin{definition}[Limit of a Sequence]
+    We say the sequence \(a_1, a_2, a_3, \ldots\) tends to a \emph{limit} \(l \in \RR\), as \(n\) tends to infinity, if
+    \[
+        \forall \epsilon > 0, \exists N \in \NN, \forall n \geq N: l - \epsilon < a_n < l + \epsilon.
+    \]
+
+    More compactly, using the absolute value
+    \[
+        \abs{x} = \begin{cases}
+            x, & x \geq 0, \\
+            -x, & x < 0,
+        \end{cases}
+    \]
+    the definition is equivalent to
+    \[
+        \forall \epsilon > 0, \exists N \in \NN, \forall n \geq N: \abs{a_n - l} < \epsilon.
+    \]
+\end{definition}
+
+We may think of the absolute value \(\abs{a - b}\) as the \emph{distance} between \(a\) and \(b\) on the real number line, for example,
+\[
+    \abs{2 - 9} = \abs{9 - 2} = 7.
+\]
+
+\begin{proposition}[Triangle Inequality]
+    We have that for all \(a, b, c \in \RR\), that
+    \[
+        \abs{a - c} \leq \abs{a - b} + \abs{b - c}.
+    \]
+\end{proposition}
+
+\begin{notation}
+    When \(\pqty{a_n}_{n = 1}^{\infty}\) tends to \(l\) as \(n\) tends to infinity, we may write
+    \[
+        a_n \to l \text{ as } n \to \infty,
+    \]
+    or
+    \[
+        \lim_{n \to \infty} a_n = l,
+    \]
+    or
+    \[
+        \pqty{a_n}_{n = 1}^{\infty} \text{ converges to } l.
+    \]
+
+    If there is a limit \(l\), but it is not specified, we may simply say the sequence converges; if such limit does not converge to any \(l \in \RR\), we say it \emph{diverges}.
+\end{notation}
+
+\begin{examples}
+    \begin{enumerate}
+        \item Consider the sequence \(0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, \ldots\), i.e., \(a_n = 1 - \frac{1}{n}\).
+        
+        Given \(\epsilon > 0\), choose \(N > \frac{1}{\epsilon}\) (by Axiom of Archimedes). If \(n \geq N\), then
+        \[
+            \abs{a_n - 1} = \abs{1 - \frac{1}{n} - 1} = \frac{1}{n} \leq \frac{1}{N} < \epsilon.
+        \]
+
+        Hence, \(a_n \to 1\) as \(n \to \infty\).
+
+        \item Consider the sequence \(0, \frac{1}{2}, 0, \frac{1}{4}, 0, \ldots\), i.e.,
+        \[
+            a_n = \begin{cases}
+                \frac{1}{n}, & n \text{ is even},\\
+                0, & n \text{ is odd}.
+            \end{cases}
+        \]
+
+        Given \(\epsilon > 0\), pick \(N > \frac{1}{\epsilon}\). If \(n \geq N\), then
+        \[
+            \abs{a_n - 0} \leq \frac{1}{n} \leq \frac{1}{N} < \epsilon.
+        \]
+
+        Hence, \(a_n \to 0\) as \(n \to \infty\).
+
+        \item Consider the sequence \(a_n = 1 - \frac{1}{2^n}\). Note that it can also be thought of as a \emph{series}
+        \[
+            \frac{1}{2}, \frac{1}{2} + \frac{1}{4}, \frac{1}{2} + \frac{1}{4} + \frac{1}{8}, \ldots.  
+        \]
+
+        Given \(\epsilon . 0\), choose \(N > \frac{1}{\epsilon}\). If \(n \geq N\), then we have
+        \[
+            \abs{a_n - 1} = \frac{1}{2^n} \leq \frac{1}{n} \leq \frac{1}{N} < \epsilon.
+        \]
+
+        Hence, \(a_n \to 1\) as \(n \to \infty\).
+
+        \item Consider the sequence \(a_n = \pqty{-1}^n\). We aim to show that it does not tend to \emph{any} real number \(l \in \RR\), i.e.,
+        \[
+            \forall l \in \RR, \exists \epsilon > 0, \forall N \in \NN, \exists n \geq N: \abs{a_n - l} \geq \epsilon.
+        \]
+
+        We first show that \(a_n \notto 0\). Let \(\epsilon = 1\), and observe that
+        \[
+            \abs{a_n - 0} = 1
+        \]
+        for all \(n \in \NN\).
+
+        In fact, we can show that \(a_n \notto l\) for any \(l \in \RR\). Suppose on the contrary that \(a_n \to l\) as \(n \to \infty\), for some \(l \in \RR\).
+
+        Let \(\epsilon = 1\), and hence
+        \[
+            \exists N \in \NN, \forall n \geq N: \abs{a_n - l} < 1.
+        \]
+
+        In particular, we have
+        \[
+            \abs{1 - l} < 1, \abs{-1 - l} < 1,
+        \]
+        and hence by the triangular inequality,
+        \begin{align*}
+            2 &> \abs{1 - l} + \abs{-1 - l} \\
+            &\geq \abs{\pqty{1 - l} - \pqty{-1 - l}} \\
+            &= \abs{2} \\
+            &= 2.
+        \end{align*}
+
+        Therefore, \(\pqty{\pqty{-1}^n}_{n = 1}^{\infty}\) is divergent. However, it does not "go off to infinity" in that sense.
+    \end{enumerate}
+\end{examples}
+
+So far, we implicitly assumed that if a limit exists, then it is unique.
+
+\begin{proposition}[Limits are Unique]
+    If \(a_n \to l\) and \(a_n \to k\) as \(n \to \infty\), then \(l = k\).
+\end{proposition}
+
+\begin{proof}
+    Suppose \(l \neq k\), then we choose \(\epsilon = \frac{1}{2} \abs{l - k} > 0\).
+
+    Then there exists \(N \in \NN\), such that
+    \[
+        \forall n \geq N: \abs{a_n - l} < \epsilon,
+    \]
+    and there exists \(M \in \NN\), such that
+    \[
+        \forall n \geq M: \abs{a_n - k} < \epsilon.
+    \]
+
+    Hence,
+    \begin{align*}
+        2\epsilon &> \abs{a_n - l} + \abs{a_n - k} \\
+        &\geq \abs{\pqty{a_n - l} - \pqty{a_n - k}} \\
+        &= \abs{l - k} \\
+        &= 2\epsilon,
+    \end{align*}
+    which gives a contradiction.
+\end{proof}
+
+However, we would like to study more generally on the sequences that converge. An important technique is putting \emph{bounds} on the sequence.
+
+\begin{definition}[Bounded Sequence]
+    A sequence \(\pqty{a_n}_{n = 1}^{\infty}\) is \emph{bounded above}, if there exists a real number \(U\), such that \(a_n < U\) for all \(n \in \NN\).
+
+    Similarly, it is \emph{bounded below}, if there exists a real number \(L\), such that \(a_n > L\) for all \(n \in \NN\).
+
+    It is \emph{bounded} if it is both bounded above and below. Alternatively, we may define it to be \emph{bounded} if there exists a real number \(B\), such that \(\abs{a_n} < B\) for all \(n \in \NN\).
+\end{definition}
+
+We see the two definitions of bounded are equivalent. Indeed, if \(\abs{a_n} < B\) for some \(B \in \RR\), then let \(U = B\) and \(L = -B\), then it is both bounded above and below. If such \(U, L \in \RR\) exists, then let \(B = \max\Bqty{\abs{U}, \abs{L}}\).
+
+\begin{proposition}[Convergent Sequences are Bounded]
+    A convergent sequence is bounded.
+\end{proposition}
+
+\begin{proof}
+    Let \(a_n \to l\) as \(n \to \infty\). Then let \(N \in \NN\), such that
+    \[
+        \forall n \geq N: \abs{a_n - l} < 1.
+    \]
+
+    Hence,
+    \[
+        \abs{a_n} \leq \max\Bqty{\abs{a_1}, \abs{a_2}, \ldots, \abs{a_{N - 1}}, \abs{l} + 1}
+    \]
+    for all \(n \in \NN\).
+\end{proof}
+
+\begin{definition}[Monotonic]
+    A sequence \(\pqty{a_n}_{n = 1}^{\infty}\) is \emph{increasing} if \(a_{n + 1} \geq a_n\) for all \(n \in \NN\).
+
+    Similarly, it is \emph{decreasing} if \(a_{n + 1} \leq a_n\) for all \(n \in \NN\).
+
+    It is \emph{monotonic} if it is increasing or if it is decreasing.
+\end{definition}
+
+This leads to the following theorem.
+
+\begin{theorem}[Monotone Convergence Theorem]
+    Every bounded monotonic sequence of real numbers converges.
+\end{theorem}
+
+\begin{proof}
+    Suppose \(\pqty{a_n}_{n = 1}^{\infty}\) is increasing and bounded above. We want to show it converges to its supremum.
+
+    Then the set
+    \[
+        S = \set{a_n}{n \in \NN}
+    \]
+    is non-empty and bounded above, so let
+    \[
+        l = \sup S
+    \]
+
+    Let \(\epsilon > 0\) be arbitrary. \(l - \epsilon\) is \emph{not} an upper bound for \(S\), and hence there is some \(N \in \NN\) with
+    \[
+        a_N > l - \epsilon.
+    \]
+
+    Hence, for all \(n \geq N\), we have
+    \[
+        l - \epsilon < a_n \leq l,
+    \]
+    since \(\pqty{a_n}\) is monotonic.
+
+    Hence,
+    \[
+        \forall n \geq N: \abs{a_n - l} < \epsilon
+    \]
+    so \(a_n \to l\).
+
+    The decreasing and bounded below case is similar.
+\end{proof}
+
+\begin{remarks}
+    \begin{enumerate}
+        \item For an increasing sequence to converge, we only need to know that it is bounded above. The sequence converges to its supremum.
+        \item The sequence \(\pqty{a_n}_{n = 1}^{\infty}\) with \(a_n = n\) is increasing and not bounded above -- and it diverges.
+        \item Monotone convergence theorem is in fact equivalent to the least upper bound axiom -- meaning that if we substitute the latter with the former, we get an equivalent formation of the reals.
+        \item Every sequence must have a monotonic subsequence.
+    \end{enumerate}
+\end{remarks}
+
+\begin{proposition}[Limits Preserve Weak Inequalities]
+    If \(a_n \leq d\) for all \(n \in \NN\), and \(a_n \to c\) as \(n \to \infty\), then \(c \leq d\).
+\end{proposition}
+
+\begin{proof}
+    Suppose that \(c > d\). Let \(\epsilon = c - d > 0\).
+
+    Then by definition of a limit,
+    \[
+        \exists N \in \NN, \forall n \geq N: \abs{a_n - c} < \epsilon.
+    \]
+
+    However, if \(c > d\),
+    \[
+        \abs{a_n - c} < \epsilon \implies a_n > d.
+    \]
+
+    This is a contradiction.
+\end{proof}
+
+\begin{remark}
+    Limits do not necessarily preserve \emph{strong} inequalities, meaning that if we change the condition \(a_n \leq d\) to \(a_n < d\), then we \text{do not} necessarily have \(\lim a_n < d\) if such limit exists.
+
+    As a counterexample, in the previous case, the sequence
+    \[
+        \frac{1}{2}, \frac{3}{4}, \frac{7}{8}, \ldots
+    \]
+    have all terms \(< 1\), but the limit is \(1\).
+\end{remark}
+
+We can do limits in addition, if the limits of the separate sequences being summed exists.
+
+\begin{proposition}[Limits Preserve Sums]
+    If \(a_n \to c\) as \(n \to \infty\), and \(b_n \to d\) as \(n \to \infty\), then \(a_n + b_n \to c + d\) as \(n \to \infty\).
+\end{proposition}
+
+\begin{proof}
+    Let \(\epsilon > 0\) be arbitrary, then
+    \[
+        \exists N \in \NN, \forall n \geq N: \abs{a_n - c} < \frac{\epsilon}{2},
+    \]
+    and
+    \[
+        \exists N \in \NN, \forall n \geq N: \abs{b_n - d} < \frac{\epsilon}{2}.
+    \]
+
+    Let \(N' = \max\Bqty{N, M}\), then for all \(n \geq N'\), we have
+    \begin{align*}
+        \abs{\pqty{a_n + b_n} - \pqty{c + d}} &= \abs{\pqty{a_n - c} + \pqty{b_n - d}} \\
+        &\leq \abs{a_n - c} + \abs{b_n - d} \\
+        &< \frac{\epsilon}{2} + \frac{\epsilon}{2} \\
+        &= \epsilon.
+    \end{align*}
+
+    This finishes the proof.
+\end{proof}
+
+\subsection{Series}
+\label{sec:series}
+
+In the reals, the sum of \(2\) numbers is defined, so by induction, finite sums are defined.
+
+We may say things about infinite sums like
+\[
+    1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \cdots = \log 2.
+\]
+
+We aim to formalise the study of infinite sums in this section.
+
+\begin{definition}[Partial Sums and Infinite Series]
+    Let \(\pqty{a_n}_{n = 1}^{\infty}\) be a sequence, then
+    \[
+        s_k = \sum_{n = 1}^{k} a_n
+    \]
+    is the \(k\)-th \emph{partial sum} of the \emph{series} whose \(n\)-th term is \(a_n\).
+
+    We write
+    \[
+        \sum_{n = 1}^{\infty} a_n = \lim_{k \to \infty} s_k
+    \]
+    if the limit exists.
+\end{definition}
+
+\begin{examples}[Examples of Series]
+    \begin{enumerate}
+        \item The series whose \(n\)-th term is \(a_n = r^n\) for some constant \(\abs{r} < 1\) is known as the \emph{geometric series}.
+        
+        We have
+        \begin{align*}
+            s_k &= r + r^2 + \cdots + r^k \\
+            &= r \cdot \frac{1 - r^k}{1 - r} \\
+            & \to r \cdot \frac{1}{1 - r}
+        \end{align*}
+        as \(k \to \infty\), since \(r^k = 0\).
+
+        Hence,
+        \[
+            \sum_{n = 1}^{\infty} r^n = \frac{r}{1 - r}.
+        \]
+
+        \item The series whose \(n\)-th term is \(a_n = \frac{1}{n}\) is known as the \emph{harmonic series}.
+        
+        We have
+        \begin{align*}
+            s_{2^k} &= 1 + \frac{1}{2} + \underbrace{\frac{1}{3} + \frac{1}{4}}_{\text{each} \geq \frac{1}{4}} + \underbrace{\frac{1}{5} + \frac{1}{6} + \frac{1}{7} + \frac{1}{8}}_{\text{each} \geq \frac{1}{8}} + \cdots + \frac{1}{2^k} \\
+            &\geq 1 + \frac{1}{2} + 2 \cdot \frac{1}{4} + 4 \cdot \frac{1}{8} + \cdots + \frac{1}{2^k}.
+        \end{align*}
+
+        In general, we have
+        \[
+            \frac{1}{2^m + 1} + \frac{1}{2^m + 2} + \cdots + \frac{1}{2^{m + 1}} \geq 2^m \cdot \frac{1}{2^{m + 1}} = \frac{1}{2}.
+        \]
+
+        Hence,
+        \[
+            s_{2^k} \geq 1 + \frac{k}{2},
+        \]
+        so the partial sums are increasing and unbounded, and hence the infinite series
+        \[
+            \sum_{n = 1}^{\infty} \frac{1}{n}
+        \]
+        diverges.
+
+        \item The series whose \(n\)-th term is \(a_n = \frac{1}{n^2}\) satisfies
+        \[
+            s_{2^n - 1} = 1 + \underbrace{\frac{1}{2^2} + \frac{1}{3^2}}_{\leq 2 \cdot \frac{1}{2^2}} + \underbrace{\frac{1}{4^2} + \frac{1}{5^2} + \frac{1}{6^2} + \frac{1}{7^2}}_{\leq 4 \cdot \frac{1}{4^2}} + \cdots + \frac{1}{\pqty{2^n - 1}^2}
+        \]
+        and in general, we have
+        \[
+            \frac{1}{\pqty{2^m}^2} + \frac{1}{\pqty{2^m + 1}^2} + \cdots + \frac{1}{\pqty{2^{m + 1} - 1}^2} \leq 2^m \cdot \frac{1}{\pqty{2^m}^2} = \frac{1}{2^m}.
+        \]
+
+        Hence, we have
+        \[
+            s_{2^k - 1} \leq 1 + \frac{1}{2} + \frac{1}{4} + \cdots + \frac{1}{2^{n - 1}} < 2,
+        \]
+        and by monotone convergence theorem, we have
+        \[
+            \sum_{n = 1}^{\infty} \frac{1}{n^2}
+        \]
+        converges since its partial sums are increasing and bounded above.
+
+        In fact, we have
+        \[
+            \sum_{n = 1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}.
+        \]
+    \end{enumerate}
+\end{examples}
+
+From the previous examples, we see that series whose terms are positive are of particular interest, since such series are increasing, and to study their convergence, we just have to study whether they are bounded above or not.
+
+We next study a particular type of sequences in the reals -- the \textbf{decimal expansions}.
+
+\begin{proposition}[Decimal Expansions Converge]
+    Let \(\pqty{d_n}_{n = 1}^{\infty}\) be a sequence with terms \(d_n \in \Bqty{0, 1, 2, \ldots, 9}\). Then
+    \[
+        \sum_{n = 1}^{\infty} \frac{d_n}{10^n}
+    \]
+    converges to some limit \(x\) where \(0 \leq x \leq 1\).
+\end{proposition}
+
+\begin{proof}
+    The partial sums
+    \[
+        s_m = \sum_{n = 1}^{m} \frac{d_n}{10^n}
+    \]
+    are increasing, and they are bounded below (trivially) by \(0\) and above by
+    \[
+        \sum_{n = 1}^{\infty} \frac{9}{10^n} = \frac{9}{10} \cdot \frac{1}{1 - \frac{1}{10}} = 1.
+    \]
+\end{proof}
+
+\begin{definition}[Decimal Expansion]
+    We say that \(0.d_1 d_2 d_3 \ldots\) is a \emph{decimal expansion} of \(x\).
+\end{definition}
+
+The next question to ask, is if the decimal expansions are correspondent to the reals in \(\ccintv{0}{1}\) in some way.
+
+\begin{proposition}[Reals in \(\ccintv{0}{1}\) have Decimal Expansions]
+    Any real \(x\) with \(0 \leq x \leq 1\) have a decimal expansion.
+\end{proposition}
+
+\begin{proof}
+    This is trivially true for \(x = 1\) by \(0.999\ldots\). We consider \(0 \leq x < 1\). We conduct the following algorithm to construct such decimal expansion.
+
+    We pick \(d_1 \in \ZZ\) be maximal such that
+    \[
+        0 \leq \frac{d_1}{10} \leq x < 1,
+    \]
+    and hence we have \(0 \leq d_1 \leq 9\), since \(0 \leq x < 1\).
+
+    Furthermore, we have
+    \[
+        0 \leq x - \frac{d_1}{10} < \frac{1}{10}
+    \]
+    since \(d_1\) is maximal.
+
+    Then, pick \(d_2 \in \ZZ\) be maximal such that
+    \[
+        0 \leq \frac{d_2}{100} \leq x - \frac{d_1}{10} < \frac{1}{10},
+    \]
+    and similarly, \(0 \leq d_2 \leq 9\), and we have
+    \[
+        0 \leq x - \frac{d_1}{10} - \frac{d_2}{100} < \frac{1}{100}
+    \]
+    since \(d_2\) is maximal.
+
+    We continue this process indefinitely, picking \(d_n \in \ZZ\) maximal, such that
+    \[
+        \frac{d_n}{10^n} \leq x - \sum_{j = 1}^{n - 1} \frac{d_j}{10^j}
+    \]
+    and so
+    \[
+        0 \leq x - \sum_{j = 1}^{n} \frac{d_j}{10^j} < \frac{1}{10^n}.
+    \]
+
+    Since \(\frac{10^n} \to 0\) as \(n \to \infty\), we have
+    \[
+        x - \sum_{j = 1}^{n} \frac{d_j}{10^j} \to 0,
+    \]
+    and hence
+    \[
+        x = \sum_{j = 1}^{\infty} \frac{d_j}{10^j} = 0.d_1 d_2 d_3 \ldots.
+    \]
+\end{proof}
+
+However, decimal expansions do not have to be unique: a straightforward example is
+\[
+    1.000\ldots = 0.999\ldots
+\]
+and anything similar terminating in this. Indeed, these are the only ones.
+
+\begin{proposition}[Decimal Expansions are not Unique precisely for Finite Decimals]
+    If a number has two decimal expansions
+    \[
+        0.a_1 a_2 a_3 \ldots = 0.b_1 b_2 b_3 \ldots
+    \]
+    that are not identical, then there is some \(k\) such that
+    \begin{itemize}
+        \item \(a_j = b_j\) for \(j < k\);
+        \item \(a_j = b_j - 1\) for \(j = k\); and
+        \item \(a_j = 9, b_j = 0\) for \(j > k\);
+    \end{itemize}
+    or reversed (i.e. swapping the \(a\) and \(b\) above).
+\end{proposition}
+
+\begin{proof}
+    We suppose \(k\) is maximal such that \(a_j = b_j\) for all \(j < k\), i.e. the expansion is the same precisely up to but not including this digit.
+
+    Without loss of generality, we say \(a_k < b_k\) for the first non-identical digit.
+
+    By bounding, we have
+    \begin{align*}
+        \sum_{j = k + 1}^{\infty} \frac{a_j}{10^j} &\leq \sum_{j = k + 1}^{\infty} \frac{9}{10^j} \\
+        &= \frac{9}{10^{k + 1}} \cdot \frac{1}{1 - \frac{1}{10}} \\
+        &= \frac{1}{10^k},
+    \end{align*}
+    so we must have \(b_k = a_k + 1\).
+
+    (If \(b_k > a_k + 1\), then \(0.b_1 b_2 b_3 \ldots - 0.a_1 a_2 a_3 \ldots \geq \underbrace{2\cdot 10^{-k}}_{k\text{th place}} - \underbrace{10^{-k}}_{\text{tail}} > 0\).)
+
+    For the equal sign to take place, for \(j > k\), we must have
+    \[
+        a_j = 9, b_j = 0.
+    \]
+\end{proof}
+
+This case is to be dealt carefully when dealing with reals by considering their decimal expansions.
+
+\begin{definition}[Periodic Decimals]
+    A decimal expansion is \emph{periodic} if after a finite number of terms, it repeats in blocks of a fixed length. Equivalently, a decimal expansion \(0.d_1 d_2 d_3 \ldots\) is periodic if
+    \[
+        \exists l, k \in \NN, \forall n > l: d_{n + k} = d_n.
+    \]
+\end{definition}
+
+\begin{proposition}[Periodic Decimals are Rational]
+    A periodic decimal is rational.
+\end{proposition}
+
+\begin{example}[Converting from Decimals to Fractions]
+    Consider \(x = 0.\underbrace{7832}_{l}\underbrace{147}\underbrace{147}_{k = 3}\underbrace{147}\).
+
+    We have
+    \begin{align*}
+        10^4 \cdot x - 7832 &= 0.147 147 147 \ldots \\
+        &= 147 \cdot \sum_{j = 1}^{\infty} \frac{1}{10^{3j}} \\
+        &= 147 \cdot \frac{1}{10^3} \cdot \frac{1}{1 - \frac{1}{10^3}} \\
+        &\in \QQ
+    \end{align*}
+    so \(x \in \QQ\).
+\end{example}
+
+\begin{proposition}[Rationals have Periodic Decimal Expansion]
+    A rational has a periodic decimal expansion.
+\end{proposition}
+
+\begin{proof}
+    Let \(x \in \QQ\) be
+    \[
+        x = \frac{p}{2^a 5^b q}
+    \]
+    for \(a, b, p, q \in \ZZ, a, b \geq 0, q > 0\) and \(\gcd\pqty{q, 10} = 1\).
+
+    Then, we have
+    \[
+        10^{\max\Bqty{a, b}} x = \frac{t}{q} = n + \frac{c}{q}
+    \]
+    for some \(n, c \in \ZZ\), satisfying \(0 \leq c < q\).
+
+    By Fermat--Euler Theorem, since \(\gcd\pqty{q, 10} = 1\), we have
+    \[
+        10^{\totient\pqty{q}} - 1 = kq
+    \]
+    for some \(k \in \NN\).
+
+    Hence,
+    \[
+        \frac{c}{q} = \frac{kc}{kq} = \frac{kc}{10^{\totient\pqty{q}} - 1} = kc \cdot \sum_{j = 1}^{\infty} \frac{1}{\pqty{10^{\totient\pqty{q}}}^j},
+    \]
+    and that \(0 \leq kc < kq\) tells us that \(kc\) is (at most) a \(\totient\pqty{q}\)-digit number
+    \[
+        d_1 d_2 \cdots d_{\totient\pqty{q}},
+    \]
+    potentially with leading zeroes.
+
+    This therefore gives
+    \[
+        \frac{c}{q} = 0.d_1 d_2 \cdots d_{\totient\pqty{q}} d_1 d_2 \cdots d_{\totient\pqty{q}} \cdots
+    \]
+    so \(x\) is periodic.
+\end{proof}
+
+\subsection{Irrational and Transcendental Numbers}
+
+\begin{definition}[Euler's Number \(e\)]
+    The Euler's Number \(e\) (which is discovered by Bernoulli) is defined as the infinite series
+    \[
+        e = 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \cdots.
+    \]
+\end{definition}
+
+\begin{proposition}[\(e\) exists]
+    The infinite series for \(e\) converges.
+\end{proposition}
+
+\begin{proof}
+    The partial sums form a monotone sequence, and we have
+    \[
+        \frac{1}{n!} \leq \frac{1}{2^{n - 1}}
+    \]
+    for \(n \geq 2\), and hence the sum is bounded above by
+    \[
+        1 + 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots = 3.
+    \]
+
+    The result follows from monotone convergence theorem.
+\end{proof}
+
+\begin{notation}
+    If we use the convention \(0! = 1\), we have
+    \[
+        e = \sum_{j = 0}^{\infty} \frac{1}{j!}.
+    \]
+\end{notation}
+
+\begin{proposition}[Euler, 1740s: \(e\) is irrational]
+    \(e\) is irrational.
+\end{proposition}
+
+\begin{proof}
+    Suppose that \(e\) were rational, then let
+    \[
+        e = \frac{p}{q}
+    \]
+    for \(p, q \in \NN\) and \(q > 1\) (since clearly \(2 < e < 3\) and \(e \notin \NN\)). Then \(q! e \in \NN\).
+
+    However,
+    \begin{align*}
+        q!e &= q! + \frac{q!}{1} + \frac{q!}{2!} + \frac{q!}{3!} + \cdots + \frac{q!}{q!} \\
+        &\phantom{=} + \frac{q!}{\pqty{q + 1}!} + \frac{q!}{\pqty{q + 2}!} + \cdots \\
+        &= \sum_{j = 0}^{q} \frac{q!}{j!} + \sum_{j = q + 1}^{\infty} \frac{q!}{j!}.
+    \end{align*}
+
+    The sum
+    \[
+        \sum_{j = 0}^{q} \frac{q!}{j!} \in \NN
+    \]
+    since all the terms are integers, and hence the remaining part
+    \[
+        \sum_{j = q + 1}^{\infty} \frac{q!}{j!} = \sum_{j = 1}^{\infty} \frac{q!}{\pqty{q + j}!} = \frac{1}{q + 1} + \frac{1}{\pqty{q + 1} \pqty{q + 2}} + \cdots \in \NN.
+    \]
+
+    We may apply bounds on the terms above by
+    \[
+        0 < \frac{q!}{\pqty{q + j}!} \leq \frac{1}{\pqty{q + 1}^j}
+    \]
+    for \(j \in \NN\), and hence
+    \[
+        0 < \sum_{j = 1}^{\infty} \frac{q!}{\pqty{q + j}!} \leq \sum_{j = 1}^{\infty} \frac{1}{\pqty{q + 1}^j} = \frac{1}{q} < 1
+    \]
+    since \(q \geq 2\).
+
+    Hence, \(0 < x < 1\), contradicting with the fact that \(q! e \in \NN\).
+\end{proof}
+
+\begin{definition}[Algebraic and Transcendental Numbers]
+    We say a real number is \emph{algebraic} if it is a root of a non-zero polynomial with integer coefficients. (Or rational coefficients).
+
+    A real number is \emph{transcendental} if it is not algebraic.
+\end{definition}
+
+\begin{examples}[Examples of Algebraic Numbers]
+    \begin{enumerate}
+        \item Every rational number is algebraic, since
+        \[
+            x = \frac{p}{q} \implies qx - p = 0.
+        \]
+
+        \item \(x = \sqrt{2}\) is algebraic since it satisfies \(x^2 - 2 = 0\).
+    \end{enumerate}
+\end{examples}
+
+The existence of transcendental numbers is not shown until quite lately in the history of mathematics.
+
+\begin{theorem}[Liouville, 1844: The Liouville Number is Transcendental]
+    The number
+    \[
+        L = \sum_{n = 1}^{\infty} \frac{1}{10^{n!}} = 0.11000100\ldots
+    \]
+    is transcendental.
+\end{theorem}
+
+To show this, we utilise two lemmas.
+
+\begin{lemma}
+    For any polynomial \(p\), there exists a constant \(k\) such that
+    \[
+        \abs{p\pqty{x} - p\pqty{y}} \leq k \abs{x - y}
+    \]
+    for all \(0 \leq x, y \leq 1\).
+\end{lemma}
+
+\begin{proof}
+    Suppose that
+    \[
+        p\pqty{x} = a_d x^d + a_{d - 1} x^{d - 1} + \cdots + a_1 x + a_0.
+    \]
+
+    Then we have
+    \begin{align*}
+        p\pqty{x} - p\pqty{y} &= a_d \pqty{x^d - y^d} + a_{d - 1} \pqty{x^{d - 1} - y^{d - 1}} + \cdots + a_1 \pqty{x - y} \\
+        &= \pqty{x - y} \bqty{a_d \pqty{x^{d - 1} + x^{d - 2} y + \cdots + y^{d - 1}} + \cdots + a_1},
+    \end{align*}
+    and hence
+    \begin{align*}
+        \abs{p \pqty{x} - p \pqty{y}} &= \abs{x - y} \abs{a_d \pqty{x^{d - 1} + x^{d - 2} y + \cdots + y^{d - 1}} + \cdots + a_1} \\
+        &\leq \abs{x - y} \bqty{\abs{a_d} \cdot d + \abs{a_{d - 1}} \cdot \pqty{d - 1} + \cdots + \abs{a_1}}.
+    \end{align*}
+
+    The second term is a constant.
+\end{proof}
+
+\begin{lemma}[Corollary of Fundamental Theorem of Algebra]
+    A non-zero polynomial of degree \(d\) has at most \(d\) real roots.
+\end{lemma}
+
+We utilise these two facts to show that the Liouville number is transcendental.
+
+\begin{proof}[\proofname\ of Liouville's Theorem]
+    We let the partial sums be
+    \[
+        L_n = \sum_{k = 1}^{n} \frac{1}{10^{k!}},
+    \]
+    so \(L_n \to L\) as \(n \to \infty\).
+
+    Suppose that there is an integer-coefficient polynomial \(p\) of which \(L\) is a root. Note that \(0 < L < 1\).
+
+    Using the first lemma above, let \(k\) be such that
+    \[
+        \abs{p \pqty{x} - p \pqty{y}} \leq k \abs{x - y}
+    \]
+    for all \(0 \leq x, y \leq 1\).
+
+    Note that,
+    \[
+        \abs{L - L_n} = \sum_{k = n + 1}^{\infty} \frac{1}{10^{k!}} < 2 \cdot \frac{1}{10^{\pqty{n + 1}!}}.
+    \]
+
+    Suppose that \(p\) has degree \(d\), i.e,
+    \[
+        p\pqty{x} = a_d x^d + a_{d - 1} x^{d - 1} + \cdots + a_1 x + a_0
+    \]
+    with \(a_i \in \ZZ\) and \(a_d \neq 0\).
+
+    Notice that
+    \[
+        L_n = \frac{s}{10^{n!}}
+    \]
+    for some \(s \in \NN\), then we have
+    \[
+        p \pqty{L_n} = \frac{t}{10^{d \cdot n!}}
+    \]
+    for some \(t \in \ZZ\).
+
+    By the fundamental theorem of algebra, for sufficiently large \(n\), \(L_n\) is not a root of \(p\). (\(L_n\) is a root only for finitely many \(n\)s.)
+
+    Hence, we have
+    \[
+        \abs{p\pqty{L_n} - p\pqty{L}} = \abs{p\pqty{L_n}} \geq \frac{1}{10^{d \cdot n!}},
+    \]
+    and hence
+    \begin{align*}
+        \frac{1}{10^{d \cdot n!}} &\leq k \pqty{L_n - L} \\
+        &\leq 2k \cdot \frac{1}{10^{\pqty{n + 1}!}},
+    \end{align*}
+    but this is a contradiction for sufficiently large \(n\).
+\end{proof}
+
+\begin{remarks}
+    \begin{enumerate}
+        \item Such \(L\) are called Liouville numbers.
+        \item This proof does not show \(e\) is transcendental, but \(e\) is indeed transcendental, and so is \(\pi\). (Lindemann--Weierstrass Theorem)
+        \item The same proof shows that any real number \(x\) such that
+        \[
+            \forall n \in \NN, \exists \frac{p}{q} \in \QQ, q > 1: 0 < \abs{x - \frac{p}{q}} < \frac{1}{q^n}
+        \]
+        is transcendental. This is \textbf{Liouville's Theorem}, and can be interpreted as \emph{\(x\) has a very good rational approximation implies \(x\) is transcendental}.
+        \item Another proof of the existence of transcendental numbers can be shown considering cardinality of sets (countability).
+    \end{enumerate}
+\end{remarks}
+
+\subsection{The Complex Numbers}
+\label{sec:complex-numbers}
+
+\(\RR\) is not `complete' in the sense that some polynomials with coefficients in \(\RR\) do not have real roots, for example \(x^2 + 1\).
+
+We define such numbers into existence.
+
+\begin{definition}[Complex Numbers, \(\CC\)]
+    The \emph{complex numbers} \(\CC\) consists of \(\RR^2 = \set{\pqty{a, b}}{a, b \in \RR}\) together with operation \(+\) and \(\times\):
+    \begin{align*}
+        \pqty{a, b} + \pqty{c, d} &= \pqty{a + c, b + d}, \\
+        \pqty{a, b} \times \pqty{c, d} &= \pqty{ac - bd, ad + bc}.
+    \end{align*}
+\end{definition}
+
+Figure \autoref{fig:visualisation-of-complex-numbers} visualises the complex numbers on \(\RR^2\).
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Visualisation of \(\CC\)}
+    \label{fig:visualisation-of-complex-numbers}
+\end{figure}
+
+We can view \(\RR\) as contained in \(\CC\) by identifying
+\[
+    a \in \RR \leftrightarrow \pqty{a, 0} \in \CC,
+\]
+i.e. defining the injection (inclusion map) \(i\) where
+\[
+    \function{i}{\RR}{\CC}{a}{\pqty{a, 0}}.  
+\]
+
+Note that \(\pqty{a, 0} + \pqty{b, 0} = \pqty{a + b, 0}\) and \(\pqty{a, 0} \times \pqty{b, 0} = \pqty{ab, 0}\) so operations on \(\CC\) is consistent with that on \(\RR\).
+
+Now, let \(i = \pqty{0, 1}\), then \(i^2 = \pqty{-1, 0}\) corresponding to \(-1 \in \RR\). We may identify any \(z \in \CC\) as of the form \(a + ib\) for \(a, b \in \RR\) for
+\[
+    \pqty{a, b} = a \pqty{1, 0} + b \pqty{0, 1} = a + bi,
+\]
+uniquely.
+
+\begin{remarks}
+    \begin{enumerate}
+        \item \(\CC\) obeys all the usual rules of arithmetic, meaning in particular that \(\CC\) is a field. Specifically, for any \(z \in \CC \setminus \Bqty{0}\), then there is some \(w \in \CC\) with \(zw = 1\). Indeed, let \(z = a + ib\), note that
+        \[
+            \pqty{a + ib} \pqty{a - ib} = a^2 + b^2
+        \]
+        so
+        \[
+            \pqty{a + ib} \cdot \frac{a - ib}{a^2 + b^2} = 1.
+        \]
+
+        \item Every non-constant polynomial with complex coefficients has a root in \(\CC\). This is known as the \emph{fundamental theorem of algebra}.
+    \end{enumerate}
+\end{remarks}
+
+\section{Countability}
+\label{sec:countability}
+
+This section compares cardinalities of infinite sets. Despite the proper inclusions between the usual number systems, the result is
+\[
+\abs{\NN}=\abs{\ZZ}=\abs{\QQ}<\abs{\RR}.
+\]
+The equalities follow from enumerations: integers can be listed by alternating signs, and rationals by enumerating numerator--denominator pairs and removing repetitions. Cantor's diagonal argument proves the strict inequality. The arguments below establish these facts; proper inclusion alone does not imply smaller cardinality for infinite sets.
+
+\subsection{Countable Sets}
+\label{sec:countable-sets}
+
+\begin{definition}[Countable]
+    A set \(X\) is \emph{countable}, if \(X\) satisfies one of the following two conditions:
+    \begin{itemize}
+        \item \(X\) is finite; or
+        \item there is a bijection \(X \to \NN\).
+    \end{itemize}
+
+    The second case is called \emph{countably infinite}.
+\end{definition}
+
+A set \(X\) is countable if and only if we can list its elements one by one as
+\[
+    X = \Bqty{x_1, x_2, x_3, \ldots}
+\]
+and this list might terminate.
+
+\begin{examples}[Countable Sets]
+    \begin{enumerate}
+        \item Any finite set is countable.
+        \item \(\NN\) is countable.
+        \item \(\ZZ\) is countable, by listing the elements by
+        \[
+        \ZZ = \Bqty{0, 1, -1, 2, -2, \ldots}.
+        \]
+
+        The bijection is given by
+        \[
+            x_n = \begin{cases}
+                \frac{n}{2}, & n \text{ is even}, \\
+                - \frac{n - 1}{2}, & n \text{ is odd}.
+            \end{cases}
+        \]
+    \end{enumerate}
+\end{examples}
+
+Countable sets are, in a sense, the `smaller' sets in the infinite class. Intuitively we want the size of a subset of a set to be at most the size of the set itself. This is indeed true using the countability way to measure.
+
+\begin{lemma}[Subsets of \(\NN\) are Countable]
+    Any subset of \(\NN\) is countable.
+\end{lemma}
+
+\begin{proof}
+    Let \(S \subseteq \NN\) be non-empty (the empty set is clearly countable). By well--ordering principle, let \(s_1 \in S\) be the least element.
+
+    If \(S \setminus \Bqty{s_1} \neq \emptyset\), we take \(s_2\) as the least element of \(S \setminus \Bqty{s_1}\).
+
+    If at some point this process ends, then
+    \[
+        S = \Bqty{s_1, s_2, \ldots, s_m}
+    \]
+    is finite and hence countable; if it does not terminate, then the map
+    \[
+        \function{g}{\NN}{S}{n}{s_n}
+    \]
+    is well-defined, since for eny \(n\) there will be a unique \(s_n\), and it is injective.
+
+    It is also surjective because if \(k \in S\), then \(k \in \NN\), and there are \(< k\) elements of \(S\) less than \(k\). So \(k = s_n\) for some \(n \leq k\), i.e. this process reaches any element in \(S\) in finitely many steps.
+\end{proof}
+
+\begin{theorem}[Countability, Injection and Surjection]
+    The following are equivalent:
+    \begin{enumerate}
+        \item \(X\) is countable;
+        \item there is an injection \(X \to \NN\);
+        \item \(X = \emptyset\) or there is a surjection \(\NN \to X\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item (i) \(\implies\) (ii), since if \(X\) is finite, it clearly injects into \(\NN\); if \(X\) bijects with \(\NN\), it certainly injects into \(\NN\).
+        
+        \item (i) \(\implies\) (iii) similarly.
+
+        \item (ii) \(\implies\) (i), since if there is an injection \(\functiondomain{f}{X}{\NN}\), then the restriction on the co-domain gives a bijection
+        \[
+            \functiondomain{f}{X}{S = f\pqty{X} \subseteq \NN}.
+        \]
+
+        If \(S\) is finite, then so is \(X\); if \(S\) is infinite, then by previous lemma, there is a bijection \(\functiondomain{g}{S}{\NN}\), and hence
+        \[
+            X \xrightarrow{f} S = f\pqty{X} \xrightarrow{g} \NN
+        \]
+        is a bijection.
+
+        \item (iii) \(\implies\) (ii), we suppose that \(X \neq \emptyset\) and \(\functiondomain{f}{\NN}{X}\) is surjective. Let \(\functiondomain{g}{X}{W}\) be defined by
+        \[
+            \functionmap{g}{a}{\min f\inverse\pqty{\Bqty{a}}}.
+        \]
+
+        This is well-defined, since
+        \[
+            \emptyset \neq f\inverse\pqty{\Bqty{a}} \subseteq \NN
+        \]
+        and such minima exists by well--ordering principle.
+    \end{itemize}
+\end{proof}
+
+\begin{corollary}[Subsets of Countable Sets are Countable]
+    Any subset of a countable set is countable.
+\end{corollary}
+
+\begin{proof}
+    If \(Y \subseteq X\) and \(X\) is countable, take the injection \(X \to \NN\), and restrict this to \(Y\), this gives an injection \(Y \to \NN\).
+\end{proof}
+
+Therefore, intuitively, countable means that a set is `at most as big as \(\NN\)' -- and any set strictly smaller than \(\NN\) is finite.
+
+Now we see some examples of sets that seem to be bigger than \(\NN\) -- but is in fact countable as well.
+
+\begin{theorem}[\(\NN \times \NN\) is Countable]
+    The set \(\NN \times \NN\) is countable.
+\end{theorem}
+
+\begin{proof}[\proofname\ by Construction]
+    Let \(a_1 = \pqty{1, 1}\) and \(a_n\) inductively as follows: if \(a_{n - 1} = \pqty{p, q}\), then we define
+    \[
+        a_n = \begin{cases}
+            \pqty{p - 1, q + 1}, & p \neq 1, \\
+            \pqty{p + q, 1}, & \text{otherwise}.
+        \end{cases}
+    \]
+
+    This inductively defines \(a: \NN \to \NN \times \NN\).
+\end{proof}
+
+\autoref{fig:label-n-n-with-n} gives a visualisation of this map.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Labelling \(\NN \times \NN\) using \(\NN\)}
+    \label{fig:label-n-n-with-n}
+\end{figure}
+
+\begin{proof}[\proofname\ by Injection]
+    Define
+    \[
+        \function{f}{\NN \times \NN}{\NN}{\pqty{x, y}}{2^x 3^y,}
+    \]
+    then \(f\) is injective by the fundamental theorem of arithmetic.
+\end{proof}
+
+\begin{corollary}[\(\ZZ \times \ZZ\) is Countable]
+    Since \(\ZZ\) is countable, let
+    \[
+        \functiondomain{f}{\ZZ}{\NN}
+    \]
+    be an injection.
+
+    Since \(\NN \times \NN\) is countable, similarly, there is an injection
+    \[
+        \functiondomain{g}{\NN \times \NN}{\NN}.
+    \]
+    
+    By composition, we have an injection
+    \[
+        \ZZ \times \ZZ \xrightarrow{\pqty{f, f}} \NN \times \NN \xrightarrow{g} \NN
+    \]
+\end{corollary}
+
+By induction, we have \(\ZZ^k\) and \(\NN^k\) is countable for any \(k \in \NN\).
+
+\begin{theorem}[Countable Union of Countable Sets is Countable]
+    A countable union of countable sets is countable.
+\end{theorem}
+
+\begin{proof}
+    We may assume that the sets are indexed by \(\NN\), i.e. the countable sets are
+    \[
+        A_1, A_2, A_3, \ldots.
+    \]
+
+    We wish to show that
+    \[
+        \bigcup_{n \in \NN} A_n
+    \]
+    is countable.
+
+    For each \(i \in \NN\), since \(A_i\) is countable, we may list its elements as
+    \[
+        a_1^{\pqty{i}}, a_2^{\pqty{i}}, a_3^{\pqty{i}}, \ldots.
+    \]
+
+    Let
+    \[
+        \function{f}{\bigcup_{n \in \NN} A_n}{\NN}{x}{2^i 3^j}
+    \]
+    where \(x = a_j^{\pqty{i}}\) for the least \(i\) such that \(x \in A_i\) -- this is guaranteed to exist by well ordering principle, i.e.,
+    \[
+        i = \min\set{t \in \NN}{x \in A_t}.
+    \]
+
+    This is an injection.
+\end{proof}
+
+\begin{example}[\(\QQ\) is Countable]
+    We have
+    \[
+        \QQ = \bigcup_{n \in \NN} \frac{1}{n} \ZZ = \bigcup_{n \in \NN} \set{\frac{m}{n}}{m \in \ZZ}
+    \]
+    is a countable union of countable sets, hence countable.
+\end{example}
+
+\begin{theorem}[Algebraic Numbers are Countable]
+    The set of algebraic numbers is countable.
+\end{theorem}
+
+\begin{proof}
+    It suffices to show that the set of polynomials with integer coefficients is countable, since if so, the set of algebraic numbers is a countable union of finite sets (the set of solutions to such polynomials), and hence would be countable.
+
+    In fact, it suffices to show that for each \(d \in \NN\), the set \(P_d\) of all integer polynomials of degree \(d\) is countable, again by using the fact that a countable union of countable sets is countable.
+
+    We consider the map
+    \[
+        \function{f_d}{P_d}{\ZZ^{d + 1}}{p\pqty{x} = a_d x^d + a_{d - 1} x^{d - 1} + \cdots + a_1 x + a_0}{\pqty{a_d, a_{d - 1}, \ldots, a_0}}
+    \]
+    and this is an injection. Hence, since \(\ZZ^{d + 1}\) is countable, \(P_d\) is as well.
+\end{proof}
+
+\subsection{Uncountable Sets}
+\label{sec:uncountable-sets}
+
+\begin{definition}[Uncountable Sets]
+    A set is \emph{uncountable} if it is not countable.
+\end{definition}
+
+\begin{theorem}[\(\RR\) is uncountable]
+    If \(\RR\) were countable, we would be able to list all the reals as \(r_1, r_2, r_3, \ldots\). We write each in decimal form in some way:
+    \begin{align*}
+        r_1 &= n_1.\boxed{d_{11}} d_{12} d_{13} \ldots \\
+        r_2 &= n_2.d_{21} \boxed{d_{22}} d_{23} \ldots \\
+        r_3 &= n_3.d_{31} d_{32} \boxed{d_{33}} \ldots \\
+            & \vdots
+    \end{align*}
+
+    Let
+    \[
+        r = d_1 d_2 d_3 \ldots
+    \]
+    by
+    \[
+        d_n = \begin{cases}
+            2, & d_{nn} = 1, \\
+            1, & d_{nn} \neq 1.
+        \end{cases}
+    \]
+
+    This number has a unique decimal expansion, and it is not on the list of our real numbers.
+
+    This contradicts with that \(\RR\) is countable.
+\end{theorem}
+
+This is known as a \emph{diagonal argument} due to Cantor, 1870s. This shows that \(\oointv{0}{1}\) is uncountable, and by bijecting it with any interval linearly, we see any interval with positive length on \(\RR\) is uncountable.
+
+\begin{corollary}[Transcendental Numbers are Uncountable]
+    There are uncountably many transcendental numbers.
+\end{corollary}
+
+\begin{proof}
+    Let \(\mathcal{A}\) be the set of algebraic numbers, then \(\RR \setminus \mathcal{A}\) is the set of transcendental numbers.
+
+    Since \(\mathcal{A}\) is countable, if \(\RR \setminus \mathcal{A}\) were countable, then
+    \[
+        \RR = \mathcal{A} \cup \pqty{\RR \setminus \mathcal{A}}
+    \]
+    is a finite union of countable sets, hence countable.
+
+    But \(\RR\) is uncountable, so \(\RR \setminus \mathcal{A}\) is uncountable.
+\end{proof}
+
+We can also investigate the size of power sets of sets.
+
+\begin{theorem}[\(\powerset\pqty{\NN}\) is Uncountable]
+    \(\powerset\pqty{\NN}\) is uncountable.
+\end{theorem}
+
+\begin{proof}[\proofname\ using Diagonal Argument]
+    If \(\powerset\pqty{\NN}\) were countable, we could list it as
+    \[
+        S_1, S_2, S_3, \ldots.
+    \]
+
+    Let
+    \[
+        S = \set{n \in \NN}{n \notin S_n}.
+    \]
+
+    Then \(S\) is not on our list, since for all \(n \in \NN\), we have
+    \[
+        n \in S \iff n \notin S_n
+    \]
+    and hence \(S \neq S_n\), i.e. \(S\) and \(S_n\) differ in element \(n\).
+
+    Hence, \(S\) is not in our list, and \(\powerset\pqty{\NN}\) is uncountable.
+\end{proof}
+
+\begin{proof}[\proofname\ by Injection]
+    We define an injection
+    \[
+        \functiondomain{f}{\oointv{0}{1}}{\powerset\pqty{\NN}}.
+    \]
+
+    Let \(x \in \oointv{0}{1}\) be \(x = 0.x_1 x_2 x_3 \ldots\) in binary for \(x_i \in \Bqty{0, 1}\), and using the expansion not ending in an infinite string of \(1\)s (ensuring the map defined using infinite decimals is well-defined). Define
+    \[
+        \functionmap{f}{x}{\set{n \in \NN}{x_n = 1}}.
+    \]
+
+    Since \(\oointv{0}{1}\) injects into \(\powerset\pqty{\NN}\) and the former is uncountable, the latter cannot be countable, since otherwise we can inject \(\oointv{0}{1}\) inject into \(\NN\) by composing injections.
+\end{proof}
+
+However, note that the proof above does not give a \emph{bijection}: sets such as
+\[
+    \set{n \in \NN}{n > 5}
+\]
+would not appear under \(f\).
+
+The first proof using the diagonal argument gives an even stronger result.
+
+\begin{theorem}[No Bijection between \(X\) and \(\powerset\pqty{X}\)]
+    For any set \(X\), there is no bijection between \(X\) and its power set \(\powerset\pqty{X}\).
+\end{theorem}
+
+\begin{proof}
+    Given any \(\functiondomain{f}{X}{\powerset\pqty{X}}\), we show that it cannot be surjective. (This is similar to labelling elements in \(\powerset\pqty{X}\) with \(X\).)
+
+    Let
+    \[
+        S = \set{x \in X}{x \notin f\pqty{x}} \subseteq X,
+    \]
+    then \(S\) does not belong to the image of \(f\), since for all \(x \in X\), the sets \(S\) and \(f\pqty{x}\) differ in the element \(x\).
+
+    Hence, \(S \neq f\pqty{x}\) for any \(x \in X\), so \(f\) is not surjective.
+\end{proof}
+
+\begin{remarks}
+    \begin{enumerate}
+        \item This is reminiscent of Russell's Paradox.
+        \item In fact, it gives another proof that there is no universal set. If so, for a universal set \(\mathcal{V}\), then we would have
+        \[
+            \powerset\pqty{\mathcal{V}} \subseteq \mathcal{V}
+        \]
+        in which there would certainly be a surjection \(\mathcal{V} \to \powerset\pqty{\mathcal{V}}\).
+    \end{enumerate}
+\end{remarks}
+
+\begin{proposition}[Family of Pairwise Disjoint Intervals is Countable]
+    Let
+    \[
+        \mathcal{A} = \set{A_i}{i \in I}
+    \]
+    be a family of open pairwise disjoint intervals of \(\RR\). Then \(\mathcal{A}\) is countable.
+\end{proposition}
+
+\begin{proof}[\proofname\ by considering \(\QQ\)]
+    Each interval \(A_i\) contains a rational, and \(\QQ\) is countable. Since the intervals are disjoint, we have an injection
+    \[
+        \function{f}{I}{\QQ}{i}{r}
+    \]
+    by choosing a rational \(r\) in each interval \(A_i\). Hence, \(I\) is countable.
+\end{proof}
+
+\begin{proof}[\proofname\ by using countable union of countable sets]
+    The set
+    \[
+        S_1 = \set{i \in I}{A_i \text{ has length} \geq 1}
+    \]
+    is countable and injects into \(\ZZ\) by considering an integer in each interval.
+
+    Similarly, the set
+    \[
+        S_2 = \set{i \in I}{A_i \text{ has length} \geq \frac{1}{2}}
+    \]
+    is countable and injects into \(\frac{1}{2} \ZZ\) by considering a half-integer in each interval.
+
+    More generally, for each\(n \in \NN\), we have
+    \[
+        S_n = \set{i \in I}{A_i \text{ has length} \geq \frac{1}{n}}
+    \]
+    is countable and injects into \(\frac{1}{n} \ZZ\).
+
+    Hence, since \(\inf \set{\frac{1}{n}}{n \in \NN} = 0\), we have
+    \[
+        \mathcal{A} = \bigcup_{n \in \NN} S_n
+    \]
+    is a countable union of countable sets, and hence is countable.
+\end{proof}
+
+To summarise the previous two sections, we have the following techniques.
+
+To show a set \(X\) is \textbf{countable}, we
+\begin{enumerate}
+    \item list its elements (which may be fiddly);
+    \item inject it into \(\NN\) (or another countable set);
+    \item surject a countable set onto \(X\);
+    \item use "a countable union of countable sets is countable"; or
+    \item if "in/near" \(\RR\), consider \(\QQ\).
+\end{enumerate}
+
+To show a set \(X\) is \textbf{uncountable}, we
+\begin{enumerate}
+    \item run a diagonal argument on \(X\);
+    \item inject an uncountable set into \(X\); or
+    \item surject \(X\) onto an uncountable set.
+\end{enumerate}
+
+\subsection{Forming an Order on Sizes}
+\label{sec:order-on-sizes}
+
+Intuitively, we think of "\(A\) bijects with \(B\)" as saying that "\(A\) and \(B\) are of the same size". This indeed gives a binary relation.
+
+However, we would like to extend this to comparing sizes in the sense of giving an order. We think of "\(A\) injects into \(B\)" as saying that "\(A\) is at most as big as \(B\)", and "\(A\) surjects onto \(B\)" as saying that "\(A\) is at least as big as \(B\)", for \(B \neq \emptyset\).
+
+We see defining such a weak order on cardinality is \textbf{transitive} and \textbf{reflexive}. However, it seems that we need a choice to define it using injectivity or surjectivity. For these interpretations to be the same, we need that if "\(A\) is at most as big as \(B\)", then "\(B\) is at least as big as \(A\)".
+
+\begin{lemma}[Injectivity in One Direction is Equivalent to Surjectivity in the Other]
+    Given non-empty sets \(A, B\), there is an injection \(\functiondomain{f}{A}{B}\) if and only if there is a surjection \(\functiondomain{g}{B}{A}\).
+\end{lemma}
+
+\begin{proof}
+    \(\implies\). Suppose \(\functiondomain{f}{A}{B}\) is injective. We fix an arbitrary \(a_0 \in A\), and define \(\functiondomain{g}{B}{A}\), as follows. For \(b \in B\),
+    \begin{itemize}
+        \item if \(b \in \img f\), then let \(a \in A\) be \(f \pqty{a} = b\), and such \(a\) is unique; 
+        \item if \(b \notin \img f\), let \(a = a_0\),
+    \end{itemize}
+    and let \(g\pqty{b} = a\). Equivalently, let
+    \[
+        \functionmap{g}{b}{\begin{cases}
+            \text{unique } a \in A \text{ where } f\pqty{a} = b, & b \in \img f, \\
+            a_0, & b \notin \img f.
+        \end{cases}}
+    \]
+
+    Then \(g\) is surjective.
+
+    \(\impliedby\). Suppose \(\functiondomain{g}{B}{A}\) is surjective. Let
+    \[
+        \function{f}{A}{B}{a}{\text{some } b \in B \text{ where } f \pqty{b} = a.}
+    \]
+
+    Then \(f\) is injective.
+\end{proof}
+
+\autoref{fig:injection-surjection-equivalence} gives an illustration of the maps defined.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Injection in one Direction and Surjection in the Other}
+    \label{fig:injection-surjection-equivalence}
+\end{figure}
+
+Next, we want to show that the order is \textbf{antisymmetric} -- i.e. if there is an injection in one direction, and one in the other as well, then there is a bijection between them.
+
+\begin{theorem}[Schr\"{o}der--Bernstein Theorem]
+    If \(\functiondomain{f}{A}{B}\) and \(\functiondomain{g}{B}{A}\) are injections, then there is a bijection \(\functiondomain{h}{A}{B}\).
+\end{theorem}
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Ancestor Sequence}
+    \label{fig:ancestor-sequence}
+\end{figure}
+
+\begin{proof}
+    For \(a \in A\), we write \(g\inverse\pqty{a}\) for the unique \(b \in B\) where \(g\pqty{b} = a\), if it exists.
+
+    Similarly, for \(b \in B\), we write \(f\inverse\pqty{b}\) for the unique \(a \in A\) where \(f\pqty{a} = b\), if it exists.
+
+    We first define what it means for an \emph{ancestor sequence} -- which is illustrated in \autoref{fig:ancestor-sequence}.
+
+    For some \(a \in A\), we call
+    \[
+        g\inverse\pqty{a}, f\inverse \pqty{g\inverse \pqty{a}}, g\inverse \pqty{f\inverse \pqty{g\inverse \pqty{a}}}, \ldots
+    \]
+    as the \emph{ancestor sequence} of \(a\), which might terminate.
+
+    Similarly, for some \(b \in B\), we call
+    \[
+        f\inverse\pqty{b}, g\inverse \pqty{f\inverse \pqty{b}}, f\inverse \pqty{g\inverse \pqty{f\inverse \pqty{b}}}, \ldots
+    \]
+    as the \emph{ancestor sequence} of \(b\), which might terminate.
+
+    Let
+    \begin{align*}
+        A_0 &= \set{a \in A}{\text{ancestor sequence of } a \text{ stops after an even number of steps}}, \\
+        A_1 &= \set{a \in A}{\text{ancestor sequence of } a \text{ stops after an odd number of steps}}, \\
+        A_{\infty} &= \set{a \in A}{\text{ancestor sequence of } a \text{ does not terminate}},
+    \end{align*}
+    and similarly, we define
+    \begin{align*}
+        B_0 &= \set{b \in B}{\text{ancestor sequence of } b \text{ stops after an even number of steps}}, \\
+        B_1 &= \set{b \in B}{\text{ancestor sequence of } b \text{ stops after an odd number of steps}}, \\
+        B_{\infty} &= \set{b \in B}{\text{ancestor sequence of } b \text{ does not terminate}},
+    \end{align*}
+
+    \autoref{fig:ancestor-sequence-even-odd-infinite-length} visualises this \emph{partition} of \(A\) and \(B\).
+    
+    Now, note that \(f\) bijects from \(A_0\) to \(B_1\), observing that every \(b \in B_1\) has at least one ancestor, so is equal to \(f\pqty{a}\) for some \(a \in A_0\).
+
+    Similarly, \(g\) bijects from \(B_0\) to \(A_1\), observing that every \(a \in A_1\) has at least one ancestor, so is equal to \(g\pqty{b}\) for some \(b \in B_0\).
+
+    Similarly, \(f\) (or \(g\)) bijects from \(A_{\infty}\) to \(B{_{\infty}}\).
+
+    Hence, we define \(h\) as
+    \[
+        \function{h}{A}{B}{a}{\begin{cases}
+            f\pqty{a}, & a \in A_0, \\
+            g\inverse\pqty{a}, & a \in A_1, \\
+            f\pqty{a}, & a \in A_{\infty}
+        \end{cases}}
+    \]
+    defines a bijection.
+\end{proof}
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Ancestor Sequence with Even, Odd and Infinite Length}
+    \label{fig:ancestor-sequence-even-odd-infinite-length}
+\end{figure}
+
+\begin{example}[Example of Application of Schr\"{o}rder--Bernstein Theorem]
+    Is there a bijection \(\functiondomain{f}{\ccintv{0}{1}}{\ccintv{0}{1} \cup \ccintv{2}{3}}\)?
+
+    Observe that there is indeed an injection
+    \[
+        \function{i_1}{\ccintv{0}{1}}{\ccintv{0}{1} \cup \ccintv{2}{3}}{x}{x}
+    \]
+    and an injection
+    \[
+        \function{i_2}{\ccintv{0}{1} \cup \ccintv{2}{3}}{\ccintv{0}{1}}{x}{\frac{x}{3}}
+    \]
+    so by Schr\"{o}rder--Bernstein Theorem, there is a bijection between these two sets.
+\end{example}
+
+Our journey of this course ends here -- but there are two important and fundamental questions remaining: is this order \textbf{total} (i.e. can we compare the sizes of \emph{any} two sets), and is there a set whose size lies strictly between \(\NN\) (countable) and \(\RR\) (the smallest uncountable set we see above)? These leads to important results in the fundamentals of mathematics, in axiomatic set theory.
+
+\begin{remarks}
+    \begin{enumerate}
+        \item It would be nice to say that for any two sets \(A\) and \(B\), either \(A\) injects into \(B\), or \(B\) injects into \(A\) -- this allows us to define the comparison of sizes on \emph{any} two sets, showing that our order is \textbf{total}. This is known as the \emph{Principle of Cardinal Comparability (PCC)}, and is equivalent to the \emph{Axiom of Choice (AC)}.
+        
+        \item The \emph{Continuum Hypothesis (CH)} states that there is no set whose size lies between \(\NN\) and \(\RR\), i.e. any subset of \(\RR\) is either countable or bijects with \(\RR\).
+        
+        This is proven to be independent of Zermelo--Fraenkel Set Theory, with or without Axiom of Choice, i.e. within ZF or ZFC.
+    \end{enumerate}
+\end{remarks}
+\end{document}

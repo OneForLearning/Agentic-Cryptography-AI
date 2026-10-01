@@ -1,0 +1,32 @@
+sources:
+  - id: crypto-paillier-001
+    title: "Public-Key Cryptosystems Based on Composite Degree Residuosity Classes"
+    author: "Pascal Paillier"
+    year: 1999
+    lang: en
+    domain: cryptographie
+    level: L3
+    type: article
+    topics:
+      - paillier
+      - cryptographie_asymetrique
+      - homomorphisme
+      - theorie_des_nombres
+    file: corpus/raw/crypto/paillier_original.pdf
+    source_url: null
+
+  - id: crypto-paillier-synthesis-001
+    title: "Le cryptosystème de Paillier — synthèse technique"
+    author: null
+    year: null
+    lang: fr
+    domain: cryptographie
+    level: L3
+    type: cours
+    topics:
+      - paillier
+      - cryptographie_asymetrique
+      - homomorphisme
+      - theorie_des_nombres
+    file: corpus/raw/crypto/paillier_synthese.pdf
+    source_url: null

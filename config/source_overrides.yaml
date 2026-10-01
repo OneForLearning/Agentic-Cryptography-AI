@@ -1,0 +1,25 @@
+version: 1
+# These are annotations discovered in the supplied archive. They are not exclusions.
+quality_flags:
+  - root_file: RAG_Latex_corriges_seuls/RAG_Latex_corriges_seuls/algebra350/notes.tex
+    status: incomplete_inputs
+    missing: [Lectures/1, Lectures/10, Lectures/21, Lectures/22, Lectures/24, Lectures/33]
+  - root_file: RAG_Latex_corriges_seuls/RAG_Latex_corriges_seuls/galois370/notes.tex
+    status: incomplete_inputs
+    missing: [Lectures/8, Lectures/12, Lectures/13, Lectures/16, Lectures/17]
+  - root_file: RAG_Latex_corriges_seuls/RAG_Latex_corriges_seuls/number354/notes.tex
+    status: incomplete_inputs
+    missing: [Lectures/1, Lectures/3, Lectures/8, Lectures/9, Lectures/12]
+  - root_file: RAG_Latex_corriges_seuls/RAG_Latex_corriges_seuls/algebra_book/abstract-algebra-notes.tex
+    status: incomplete_macro_context
+    missing: [preamble.tex]
+
+dedup_groups:
+  - id: probability_sousi_variants
+    roots:
+      - Probabilites_Lois_Conditionnement_Processus_Theoremes_Limites_LaTeX_revise/probabilites_lois_conditionnement_processus_theoremes_limites.tex
+      - RAG_Cours3_corriges_seuls/RAG_Cours3_corriges_seuls/probability.tex
+  - id: logic_set_theory_variants
+    roots:
+      - RAG_Cours2_corriges_seuls/RAG_Cours2_corriges_seuls/logic-and-set-theory.tex
+      - RAG_Cours2_corriges_seuls/RAG_Cours2_corriges_seuls/logic-and-set-theory-2.tex

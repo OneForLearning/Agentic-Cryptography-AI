@@ -1,0 +1,33 @@
+238     Pascal Paillier
+
+17. D. Naccache and J. Stern, A New Public-Key Cryptosystem, LNCS 1233, Advances
+    in Cryptology, Proceedings of Eurocrypt’97, Springer-Verlag, pp. 27–36, 1997.
+18. P. Nguyen and J. Stern, Cryptanalysis of the Ajtai-Dwork Cryptosystem, LNCS
+    1462, Proceedings of Crypto’98, Springer-Verlag, pp. 223–242, 1998.
+19. T. Okamoto and S. Uchiyama, A New Public-Key Cryptosystem as secure as
+    Factoring, LNCS 1403, Advances in Cryptology, Proceedings of Eurocrypt’98,
+    Springer-Verlag, pp. 308–318, 1998.
+20. S. Park and D. Won, A Generalization of Public-Key Residue Cryptosystem, In
+    Proceedings of 1993 Korean-Japan Joint Workshop on Information Security and
+    Cryptology, pp. 202–206, 1993.
+21. J. Patarin, The Oil and Vinegar Algorithm for Signatures, presented at the
+    Dagstuhl Workshop on Cryptography, 1997.
+22. J. Patarin and L. Goubin, Trapdoor One-Way Permutations and Multivariate Poly-
+    nomials, LNCS 1334, Proceedings of ICICS’97, Springer-Verlag, pp. 356–368, 1997.
+23. R. Peralta and E. Okamoto, Faster Factoring of Integers of a Special Form, IEICE,
+    Trans. Fundamentals, E79-A, Vol. 4, pp. 489–493, 1996.
+24. M. Rabin, Digital Signatures and Public-Key Encryptions as Intractable as Fac-
+    torization, MIT Technical Report No 212, 1979.
+25. R. Rivest, A. Shamir and L. Adleman, A Method for Obtaining Digital Signatures
+    and Public-Key Cryptosystems, Communications of the ACM, Vol. 21, No 2, pp.
+    120–126, 1978.
+26. A. Salomaa, Public-Key Cryptography, Springer-Verlag, 1990.
+27. T. Sander and F. Tschudin, On Software Protection Via Function Hiding, Pro-
+    ceedings of Information Hiding Workshop’98, 1998.
+28. S. Vanstone and R. Zuccherato, Elliptic Curve Cryptosystem Using Curves of
+    Smooth Order Over the Ring Zn , IEEE Trans. Inf. Theory, Vol. 43, No 4, July
+    1997.
+29. S. Vaudenay, Cryptanalysis of the Chor-Rivest Cryptosystem, LNCS 1462, Pro-
+    ceedings of Crypto’98, Springer-Verlag, pp. 243–256, 1998.
+30. H. Williams, Some Public-Key Crypto-Functions as Intractable as Factorization,
+    LNCS 196, Proceedings of Crypto’84, Springer-Verlag, pp. 66–70, 1985.

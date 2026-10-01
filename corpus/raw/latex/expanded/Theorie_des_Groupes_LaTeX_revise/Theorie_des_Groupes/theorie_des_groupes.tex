@@ -1,0 +1,4940 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xparse,tikz-cd,hyperref,geometry}
+\geometry{margin=24mm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{example*}{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{notation}[theorem]{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+% Editorial notation reconstructed from this course, not the missing eason.sty.
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\pqty}[1]{\left(#1\right)}
+\newcommand{\bqty}[1]{\left[#1\right]}
+\newcommand{\Bqty}[1]{\left\{#1\right\}}
+\newcommand{\angBrac}[1]{\langle #1\rangle}
+\newcommand{\bbrac}[1]{[\![#1]\!]}
+\newcommand{\set}[2]{\{#1\mid #2\}}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\functionmap}[3]{#1:#2\mapsto #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\conjugate}[1]{\overline{#1}}
+\NewDocumentCommand{\vb}{s m}{\IfBooleanTF{#1}{\boldsymbol{#2}}{\mathbf{#2}}}
+\newcommand{\pmqty}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\bmqty}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\perm}[1]{(#1)}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\transpose}{^{\mathsf{T}}}
+\newcommand{\multiplicative}{^{\times}}
+\newcommand{\isomorphic}{\cong}
+\newcommand{\normalsub}{\trianglelefteq}
+\newcommand{\normalsup}{\trianglerighteq}
+\newcommand{\subgroup}{\leq}
+\newcommand{\supgroup}{\geq}
+\newcommand{\subring}{\subseteq}
+\newcommand{\submodule}{\subseteq}
+\newcommand{\idealsub}{\trianglelefteq}
+\newcommand{\actson}{\curvearrowright}
+\newcommand{\divides}{\mid}
+\newcommand{\notdivides}{\nmid}
+\newcommand{\nequiv}{\not\equiv}
+\newcommand{\mapsfrom}{\leftarrow}
+\newcommand{\identity}{\mathrm{id}}
+\newcommand{\zeroM}{0}
+\newcommand{\bigO}{O}
+\newcommand{\plusinfty}{+\infty}
+\newcommand{\minusinfty}{-\infty}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Fit}{\operatorname{Fit}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Inn}{\operatorname{Inn}}
+\newcommand{\Out}{\operatorname{Out}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\Syl}{\operatorname{Syl}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\ccl}{\operatorname{ccl}}
+\newcommand{\content}{\operatorname{content}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\img}{\operatorname{im}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\sign}{\operatorname{sgn}}
+\newcommand{\spn}{\operatorname{span}}
+
+\newtheorem*{examples*}{Examples}
+\newtheorem{remarks}[theorem]{Remarks}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\newcommand{\size}{\mathop{\#}}
+\newcommand{\rightbar}[1]{\left.#1\right|}
+\newcommand{\compactify}{_{\infty}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\mobius}{\mathcal{M}}
+\newcommand{\identityM}{I}
+\newcommand{\matrixset}{\mathrm{M}}
+\newcommand{\unitv}[1]{\widehat{\mathbf{#1}}}
+\newcommand{\perppl}{^{\perp}}
+\newcommand{\vdot}{\cdot}
+\newcommand{\kronecker}{\delta}
+\newcommand{\totient}{\varphi}
+\newcommand{\notisomorphic}{\not\cong}
+\newcommand{\notimplies}{\not\Rightarrow}
+\newcommand{\trivialgp}{\mathbf{1}}
+\newcommand{\modulo}{\bmod}
+\newcommand{\Fix}{\operatorname{Fix}}
+\newcommand{\Isom}{\operatorname{Isom}}
+\newcommand{\Orb}{\operatorname{Orb}}
+\newcommand{\PGL}{\operatorname{PGL}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\SO}{\operatorname{SO}}
+\newcommand{\SU}{\operatorname{SU}}
+\newcommand{\U}{\operatorname{U}}
+\newcommand{\Or}{\operatorname{O}}
+\title{Groups -- revised text edition}
+\author{Source notes: Eason Shao\\Course: H. Wilton, DPMMS, Michaelmas 2025}
+\date{}
+\begin{document}
+\maketitle
+These unofficial notes preserve nine course chapters. The missing personal macros are reconstructed from local mathematical usage. This edition contains targeted corrections, not an exhaustive verification of every proof. External illustrations are represented by text; figures already empty in the source are explicitly identified. The source credits Aurelia Walker and Finn Crozier for earlier corrections.
+\tableofcontents
+\section{Introduction to Group Theory}
+\label{sec:introduction-to-group-theory}
+
+There are two ways to view groups, \emph{algebra} and \emph{symmetry}. We first build intuition by looking at an example in symmetry, the equilateral triangle.
+
+\begin{figure}[ht!]
+    \centering
+    
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Symmetries of an Equilateral Triangle}
+    \label{fig:equilateral-triangle-symmetry}
+\end{figure}
+
+\begin{example*}[Equilateral Triangle]
+    As in \autoref{fig:equilateral-triangle-symmetry}, an equilateral triangle has rotational symmetries and reflective symmetries.
+    
+    Note that there is the \emph{trivial symmetry} which is the \emph{identity}, that does not move the triangle and keeps it in place.
+
+    An equilateral triangle has 6 symmetries, as listed in \autoref{fig:equilateral-triangle-symmetry-list}
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{List of Symmetries of an Equilateral Triangle}
+    \label{fig:equilateral-triangle-symmetry-list}
+\end{figure}
+
+Natural questions arise: what are the symmetries of a square, a regular pentagon, or in general, a regular \(n\)-gon?
+
+We can define `multiplication' on symmetries, specifically by composing the symmetries, as shown in \autoref{fig:symmetry-composition}.
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Composition of Symmetries}
+    \label{fig:symmetry-composition}
+\end{figure}
+
+We note the following features (and non-features) arise in the previous example. \bigbreak
+
+\noindent
+\textbf{Important features.}
+\begin{itemize}
+    \item There is an \emph{identity}.
+    \item Every symmetry has an \emph{inverse}, as shown in \autoref{fig:symmetry-inverse}.
+
+    \begin{figure}[ht!]
+        \centering
+        \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Symmetries are invertible}
+        \label{fig:symmetry-inverse}
+    \end{figure}
+
+    \item Symmetries can be \emph{composed} (to form another symmetry).
+    \item Composition of symmetries are \emph{associative}, as shown in \autoref{fig:symmetry-associative}.
+
+    \begin{figure}[ht!]
+        \centering
+        \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Compositions of Symmetry are Associative}
+        \label{fig:symmetry-associative}
+    \end{figure}
+\end{itemize}
+
+\noindent
+\textbf{Non-feature.} The symmetries need not commute. An example is given in \autoref{fig:symmetry-non-commutative}.
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Compositions of Symmetry are Not Commutative}
+    \label{fig:symmetry-non-commutative}
+\end{figure}
+
+\subsection{Algebraic Definitions}
+\label{sec:algebraic-definitions}
+
+We first define what it means to have a binary operation on a set -- this forms the foundation for algebra.
+
+\begin{definition}[Binary Operation]
+    \label{def:binary-operation}%
+    A \emph{binary operation} on a set \(X\) is a function
+    \[
+        \functiondomain{\cdot}{X \times X}{X}
+    \]
+    where \(X \times X\) is the \emph{Cartesian product} given by
+    \[
+        X \times X = \set{\pqty{x_1, x_2}}{x_1, x_2 \in X}.
+    \]
+    
+    We denote
+    \[
+        \functionmap{\cdot}{\pqty{x_1, x_2}}{x_1 \cdot x_2}.
+    \]
+\end{definition}
+
+Now we are ready to define a group as an algebraic structure, using the following axioms.
+
+\begin{definition}[Group]
+    \label{def:group}%
+    A \emph{group} is a triple
+    \[
+        \pqty{G, \cdot, e}
+    \]
+    where
+    \begin{itemize}
+        \item \(G\) is a set,
+        \item \(\cdot\) is a binary operation on \(G\), and
+        \item \(e\) is an element of \(G\), denoted as \(e \in G\),
+    \end{itemize}
+    such that the following 4 axioms are satisfied:
+    \begin{enumerate}
+        \item \emph{Closure}. For all \(a, b \in G\), \(a \cdot b \in G\).
+        \item \emph{Associativity}. For all \(a, b, c \in G\), \(
+        \pqty{\pqty{a \cdot b} \cdot c} = \pqty{a \cdot \pqty{b \cdot c}}\).
+        \item \emph{(Right) Identity}. For all \(a \in G\), \(a \cdot e = a\).
+        \item \emph{(Right) Inverses}. For all \(a \in G\), there exists some \(b \in G\), such that \(a \cdot b = e\).
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}[Remark on Closure]
+    The closure axiom is redundant, since \(\cdot\) being a binary operation means that \(G\) has to be closed under \(\cdot\).
+\end{remark}
+
+A group is an \textbf{algebraic structure with one operation}.
+
+\begin{examples*}
+    \begin{itemize}
+        \item \emph{Equilateral triangle.} The symmetries of an equilateral triangle forms a group, with respect to composition, and the identity symmetry is the identity element.
+        \item \emph{Integers.} \(\pqty{\ZZ, +, 0}\) forms a group.
+    \end{itemize}
+\end{examples*}
+
+Some authors define the identity to be a two-sided identity, and the inverse to be a two-sided inverse. Indeed, this must be the case, and the identity and the inverse of an element must be unique, as in \autoref{prop:inverse-identity}.
+
+\begin{proposition}[Properties on Inverses and Identities]
+    \label{prop:inverse-identity}%
+    Let \(\pqty{G, \cdot, e}\) be a group. Let \(a, b, b', e' \in G\).
+
+    \begin{enumerate}
+        \item \emph{Right-inverses are also left-inverses.} If \(a \cdot b = e\), then \(b \cdot a = e\).
+        \item \emph{A right-identity is also a left-identity.} \(e \cdot a = a\).
+        \item \emph{Inverses are unique.} If \(a, b, b'\) are such that \(a \cdot b = e\) and \(a \cdot b' = e\), then \(b = b'\).
+        \item \emph{The identity is unique.} If \(a \cdot e' = a\), then \(e' = e\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We have
+        \begin{align*}
+            b &= b \cdot e && \text{Identity Axiom} \\
+            &= b \cdot \pqty{a \cdot b} && \text{Assumption} \\
+            &= \pqty{b \cdot a} \cdot b. && \text{Associativity Axiom}
+        \end{align*}
+
+        By the Inverse Axiom, there exists \(c \in G\) such that \(b \cdot c = e\).
+
+        We now right-multiply both sides by \(c\), giving
+        \begin{align*}
+            e &= b \cdot c && \text{Assumption on }c \\
+            &= \pqty{\pqty{b \cdot a} \cdot b} \cdot c \\
+            &= \pqty{b \cdot a} \cdot \pqty{b \cdot c} && \text{Associativity Axiom} \\
+            &= \pqty{b \cdot a} \cdot e && \text{Assumption on }c \\
+            &= b \cdot a. && \text{Identity Axiom}
+        \end{align*}
+
+        \item By the Inverse Axiom and the first part, there exists \(b \in G\) such that \(a \cdot b = b \cdot a = e\).
+        
+        Now, we have
+        \begin{align*}
+            e \cdot a &= \pqty{a \cdot b} \cdot a && \text{Assumption} \\
+            &= a \cdot \pqty{b \cdot a} && \text{Associativity Axiom} \\
+            &= a \cdot e && \text{Assumption} \\
+            &= a. && \text{Identity Axiom}
+        \end{align*}
+
+        \item We have from the previous parts, that
+        \begin{align*}
+            b' &= e \cdot b' && \text{\autoref{prop:inverse-identity}, Part 2} \\
+            &= \pqty{b \cdot a} \cdot b' && \text{\autoref{prop:inverse-identity}, Part 1, and Assumption} \\
+            &= b \cdot \pqty{a \cdot b'} && \text{Associativity Axiom} \\
+            &= b \cdot e && \text{Assumption} \\
+            &= b && \text{Identity Axiom}.
+        \end{align*}
+
+        \item By the Inverse Axiom, and \autoref{prop:inverse-identity} Part 1, there exists \(b \in G\) such that \(b \cdot a = e\). We are given that \(a \cdot e' = a\), and hence \(b \cdot \pqty{a \cdot e'} = b \cdot a\).
+
+        Hence,
+        \begin{align*}
+            e &= \pqty{b \cdot a} \cdot e' && \text{Associativity Axiom} \\
+            &= e \cdot e' \\
+            &= e' && \text{\autoref{prop:inverse-identity} Part 2}.
+        \end{align*}
+    \end{enumerate}    
+\end{proof}
+
+Part 3 of \autoref{prop:inverse-identity} tells us that inverses are unique.
+
+\begin{notation}
+    If \(a \cdot b = e\), we write \(b = a \inverse\).
+\end{notation}
+
+Part 1 of the same proposition tells us that
+\[
+    a \cdot a \inverse = a \inverse \cdot a = e
+\]
+which in turn means that
+\[
+    \pqty{a \inverse} \inverse = a.
+\]
+
+\begin{notation}
+    We may extend this notation for
+    \begin{itemize}
+        \item \(a^0 = e\),
+        \item \(a^n = a^{n - 1} \cdot a\) for any \(n \in \NN\).
+    \end{itemize}
+
+    Similarly, for negative integers \(n < 0\), we define
+    \[
+        a^n = \pqty{a \inverse}^{-n}.
+    \]
+\end{notation}
+
+We may show that \(a^m \cdot a^n = a^{m + n}\) and \(\pqty{a^m}^n = a^{mn}\), that is, the exponentiation satisfies the rules we are familiar with.
+
+Recall that it is \emph{not} necessarily true that \(a \cdot b = b \cdot a\) for all \(a, b \in G\).
+
+Hence, it is \emph{not} necessarily true that
+\[
+    \pqty{a \cdot b}\inverse = a \inverse \cdot b \inverse.
+\]
+
+However, we notice that
+\begin{align*}
+    \pqty{a \cdot b} \cdot \pqty{b \inverse \cdot a \inverse} &= \pqty{\pqty{a \cdot b} \cdot b\inverse} \cdot a\inverse \\
+    &= \pqty{a \cdot \pqty{b \cdot b\inverse}} \cdot a\inverse \\
+    &= \pqty{a \cdot e} \cdot a\inverse \\
+    &= a \cdot a\inverse \\
+    &= e.
+\end{align*}
+
+Hence, we have that
+\[
+    \pqty{a \cdot b}\inverse = b \inverse \cdot a \inverse.
+\]
+
+We give a special name for those groups which are commutative.
+
+\begin{definition}[Commutativity, Abelian Group]
+    \label{def:abelian-group}%
+    If \((G, \cdot, e)\) is a group, and
+    \[
+        a \cdot b = b \cdot a
+    \]
+    for all \(a, b \in G\), then \(G\) is \emph{commutative}, and \(G\) is called an \emph{abelian group}.
+\end{definition}
+
+\begin{example*}[Trivial Group]
+    If \(G = \Bqty{e}\) and \(\functionmap{\cdot}{\pqty{e, e}}{e}\), then \(\pqty{G, \cdot, e}\) is the \emph{trivial group}.
+\end{example*}
+
+\begin{examples*}[Familiar Examples from Arithemetic]
+    \begin{enumerate}
+        \item \(\pqty{\ZZ, +, 0}\), \(\pqty{\QQ, +, 0}\), \(\pqty{\RR, +, 0}\) and \(\pqty{\CC, +, 0}\) are all \emph{abelian} groups.
+        
+        The inverse of \(x\) in these groups are \(-x\) -- this is known as the \emph{additive notation}.
+
+        \item \(\pqty{\NN, +, 0}\) is \emph{not} a group, since it does not satisfy the Inverse Axiom.
+        
+        \item \(\pqty{\QQ, \times, 1}\) is \emph{not} a group because \(0 \in \QQ\) has no inverse. However, \(\pqty{\QQ \setminus \Bqty{0}, \times, 1}\) is an \emph{abelian group}, and we denote this as \(\QQ\multiplicative\).
+        
+        Similarly, \(\pqty{\RR \setminus \Bqty{0}, \times, 1}\) and \(\pqty{\CC \setminus \Bqty{0}, \times, 1}\) are as well, and we denote them as \(\RR\multiplicative\) and \(\CC\multiplicative\) respectively.
+    \end{enumerate}
+\end{examples*}
+
+Most examples of groups given above are infinite, apart from the trivial group.
+
+We would like to define the size of a group, and the definition is as in  \autoref{def:order-group}
+
+\begin{definition}[Order of a Group, Finite Group]
+    \label{def:order-group}%
+    The \emph{order} of a group \(\pqty{G, \cdot, e}\) is the number of elements of \(G\), denoted by \(\abs{G}\) or \(\size G\).
+
+    If \(\abs{G} < \infty\), then we say \(\pqty{G, \cdot, e}\) is a \emph{finite} group.
+\end{definition}
+
+\begin{examples*}
+    \begin{enumerate}
+        \item For any \(n \in \NN\), let \(C_n = \set{z \in \CC}{z^n = 1}\), then \(\pqty{C_n, \times, 1}\) is an abelian group.
+        \item Let \(\ZZ_n = \Bqty{0, 1, \cdots, n - 1}\). We let for \(a, b \in \ZZ_n\), we have
+        \[
+            a +_n b = (a + b) \modulo n.
+        \]
+
+        We can see \(\pqty{\ZZ_n, +_n, 0}\) is an abelian group.
+    \end{enumerate}
+\end{examples*}
+
+\subsection{Symmetric Groups}
+\label{sec:symmetric-groups}
+
+Symmetries on a set (with no additional constraints) are naturally interpreted as permutations, and we give a formal definition below.
+
+\begin{definition}[Bijection, Permutation]
+    \label{def:bijection-permutation}%
+    Let \(X, Y\) be sets. A \emph{bijection} is a map \(\functiondomain{f}{X}{Y}\) that has an inverse \(\functiondomain{g}{Y}{X}\) such that
+    \[
+        f \circ g = \identity_Y, g \circ f = \identity_X
+    \]
+    where
+    \[
+        \function{\identity_S}{S}{S}{x}{x}
+    \]
+    for all \(x \in S\) is the \emph{identity map}.
+
+    Here,
+    \[
+        \pqty{f \circ g}\pqty{x} = f \pqty{g \pqty{x}}
+    \]
+    by definition of composition.
+
+    A bijection \(X \to X\) is called a \emph{permutation}.
+\end{definition}
+
+\begin{definition}[Symmetry Group]
+    \label{def:symmetry-group}%
+    \(\Sym\pqty{X}\) is defined to be the set of permutations of a set \(X\).
+\end{definition}
+
+To show \(\Sym\pqty{X}\) is indeed a group, we first show \autoref{lem:composition-associative}.
+
+\begin{lemma}[Composition is Associative]
+    \label{lem:composition-associative}%
+    Consider maps of sets
+    \[
+        \functiondomain{f}{W}{X}, \functiondomain{g}{X}{Y}, \functiondomain{h}{Y}{Z},
+    \]
+    we have
+    \[
+        \pqty{h \circ g} \circ f = h \circ \pqty{g \circ f}.
+    \]
+\end{lemma}
+
+\begin{proof}
+    For any \(w \in W\), we have
+    \begin{align*}
+        \pqty{\pqty{h \circ g} \circ f} \pqty{w} &= \pqty{h \circ g} \pqty{f\pqty{w}} \\
+        &= h \pqty{g \pqty{f \pqty{w}}} \\
+        &= h \pqty{\pqty{g \circ f} \pqty{w}} \\
+        &= \pqty{h \circ \pqty{g \circ f}} \pqty{w}
+    \end{align*}
+    as required.
+\end{proof}
+
+\begin{proposition}
+    \label{prop:symmetry-group}%
+    For any set \(X\), \(\pqty{\Sym\pqty{X}, \circ, \identity_X}\) is a group.
+\end{proposition}
+
+\begin{proof}
+    Closure is automatic, and associativity follows from \autoref{lem:composition-associative}.
+
+    The identity on \(X\), \(\identity_X\) provides an identity element.
+
+    Inverses exist by definition.
+\end{proof}
+
+\begin{definition}[\(S_n\)]
+    \label{def:s-n}%
+    If \(X = \Bqty{1, 2, \ldots, n}\), we write \(S_n = \Sym\pqty{X}\).
+\end{definition}
+
+\begin{examples*}
+    \begin{itemize}
+        \item \(S_3\) may represent the groups to rearrange three flower pits.
+        \item \(S_{52}\) may represent the group of ways to shuffle a deck of cards.
+    \end{itemize}
+\end{examples*}
+
+\begin{remark}
+    We note that \(\abs{S_n} = n!\) by basic combinatorics.
+\end{remark}
+
+\begin{notation}
+    Writing \(\pqty{G, \cdot, e}\) for a group is often cumbersome. Henceforth, we will normally just write \(G\) for the group.
+    
+    If we would like to emphasise that \(e\) is the identity element of \(G\), we will write \(e_G\) for \(e\).
+
+    Likewise, we can write \(\cdot_G\) for the operation on \(G\).
+\end{notation}
+
+\subsection{Subgroups}
+\label{sec:subgroups}
+
+Sometimes we want to restrict our attention to smaller groups rather than the whole group, for instance, \(\ZZ\) inside \(\RR\), or the rotations that preserve a triangle, instead of all symmetries of the plane.
+
+\begin{definition}[Subgroup]
+    \label{def:subgroup}%
+    Let \(G\) be a group, and \(H \subseteq G\). If we have
+    \begin{itemize}
+        \item \emph{Identity.} \(e \in H\);
+        \item \emph{Closure.} \(a \cdot b \in H\) for all \(a, b \in H\);
+        \item \emph{Inverse.} \(a \in H\) implies \(a\inverse \in H\);
+    \end{itemize}
+    we say \(H\) is a \emph{subgroup} of \(G\), and we write \(H \subgroup G\).
+\end{definition}
+
+\begin{remark}
+    If \(G\) is a group, then any subgroup \(H \subgroup G\) is itself a group. Note associativity is not required -- it is inherited from \(G\).
+\end{remark}
+
+\begin{examples*}
+    \begin{enumerate}
+        \item Every group \(G\) is a subgroup of itself.
+
+        \item For any group \(G\),
+        \[
+            \trivialgp_G = \Bqty{e_G}
+        \]
+        is the \emph{trivial subgroup}.
+
+        \item \(\ZZ \subseteq \QQ \subseteq \RR \subseteq \CC\), and in fact
+        \[
+            \ZZ \subgroup \QQ \subgroup \RR \subgroup \ZZ.
+        \]
+
+        \item For \(n = 0, 1, 2, 3, \cdots,\) let
+        \[
+            n\ZZ = \set{nk}{k \in \ZZ} = \Bqty{\cdots, -2n, -n, 0, n, 2, \cdots}.
+        \]
+
+        Now, we have
+        \begin{itemize}
+            \item \(0 \in \ZZ\).
+            \item Let \(x = nk, y = nl \in n\ZZ\) for \(k, l \in \ZZ\).
+            
+            Then \(x + y = nk + nl = n \pqty{k + l} \in n\ZZ\).
+            \item Let \(x = nk \in n\ZZ\) for \(k \in \ZZ\).
+            
+            Then \(-x = -nk = n \cdot \pqty{-k} \in n\ZZ\).
+        \end{itemize}
+
+        Hence, \(n\ZZ \subgroup \ZZ\).
+
+        We will see in \autoref{prop:subgroups-of-integers} that all subgroups of \(\ZZ\) are of this form.
+    \end{enumerate}
+\end{examples*}
+
+\begin{remark}
+    A subgroup \(H\leq G\) is \emph{proper} if \(H\neq G\). It is \emph{nontrivial proper} if also \(H\neq\trivialgp_G\). Thus the trivial subgroup is proper whenever \(G\) is nontrivial.
+\end{remark}
+
+\begin{proposition}
+    \label{prop:subgroups-of-integers}%
+    If \(H \subgroup \ZZ\), then \(H = n\ZZ\) for some \(n = 0, 1, 2, \cdots\).
+\end{proposition}
+
+\begin{proof}
+    If \(H = \Bqty{0}\) then \(H = 0\ZZ\) is indeed of this form.
+
+    Otherwise, \(H \neq \Bqty{0}\), we may choose \(n \in H \setminus \Bqty{0}\) to be the smallest positive \(n \in H\).
+
+    Note that if \(x \in H\) and \(x < 0\), then \(-x \in H\) and \(x > 0\). Therefore, such positive number \(n\) must exist.
+
+    By induction, we may show that \(nk \in H\) for all \(k = 1, 2, 3, \cdots\), and \(-n \in H\), so \(-nk \in H\) for all \(k = 1, 2, 3, \cdots\).
+
+    This gives us \(n\ZZ \subseteq H\), and we next show \(n\ZZ = H\) by contradiction. Suppose \(n \ZZ \neq H\), so there is some \(x \in H\) such that \(x \notin n\ZZ\).
+
+    Dividing by \(n\) and taking the remainder (integer division), we get \(x = nq + r\) for some integers \(q, r \in \ZZ\), where \(0 < r < n\).
+
+    But we know \(r = x - nq\) and \(x \in H, nq \in n\ZZ \subseteq H\) so \(r \in H\), and this contradicts that \(n\) is the smallest.
+
+    So \(n\ZZ = H\) as desired.
+\end{proof}
+
+We give more examples of subgroups here.
+
+\begin{examples*}[More Examples of Subgroups]
+    \begin{enumerate}
+        \item If \(H, K \subgroup G\), then \(H \cap K \subgroup G\). (See Example Sheet 1, Question 2).
+        \item Similarly, for any family of subgroups,
+        \[
+            H_i \subgroup G
+        \]
+        for \(i \in I\), an arbitrary index set (could be uncountable). We have
+        \[
+            \bigcap_{i \in I} H_i = \set{a \in G}{\forall i \in I: a \in H_i} \subgroup G.
+        \]
+    \end{enumerate}
+\end{examples*}
+
+Specifically, the second example allows us to define `the smallest group' containing a set as follows.
+
+\begin{definition}[Subgroup Generated by a Set]
+    \label{def:generating-set}%
+    Let \(X\) be a subset of a group \(G\). Then we define
+    \[
+        \angBrac{X} = \bigcap_{X \subseteq H \subgroup G} H
+    \]
+    is the smallest subgroup of \(G\) containing \(X\).
+
+    It is the intersection of all subgroups of \(G\) that contains \(X\), and this is called \emph{the subgroup generated by \(X\)}.
+
+    If \(G = \angBrac{X}\) we say \(X\) \emph{generates} \(G\), or \(X\) is a \emph{generating set} for \(G\).
+\end{definition}
+
+\begin{remark}
+    Intuitively, \(\angBrac{X}\) is the \emph{smallest} subgroup containing \(X\), and if \(X\) generates \(G\), this means every element in \(g \in G\) can be written as
+    \[
+        g = x_1^{\pm 1} \cdot x_2^{\pm 1} \cdots x_n^{\pm 1}
+    \]
+    for some \(n \geq 0\), where all \(x_i \in X\), not necessarily distinct. (See Example Sheet 1 Q9 (a).)
+\end{remark}
+
+\subsection{Isometry and Dihedral Groups}
+\label{sec:isometry-and-dihedral-groups}
+
+Let \(\CC\) be the complex plane, equipped with the usual notion of distance (the Euclidean norm), where
+\[
+    \abs{z - w} = \sqrt{\pqty{z_1 - w_1}^2 + \pqty{z_2 - w_2}^2}.
+\]
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Distance on \(\CC\)}
+    \label{fig:distance-on-C}
+\end{figure}
+
+We consider a certain group of symmetries that preserves distances.
+
+\begin{definition}[Isometry]
+    \label{def:isometry}%
+    For any subset \(X \subseteq \CC\), an \emph{isometry} of \(X\) is a bijection \(\functiondomain{f}{X}{X}\) that preserves distance, that is,
+    \[
+        \abs{f\pqty{x} - f\pqty{y}} = \abs{x - y}
+    \]
+    for all \(x, y \in X\).
+\end{definition}
+
+\begin{proposition}[Isometry Groups in \(\CC\)]
+    \label{prop:isometry-group-in-C}%
+    Let \(X \subseteq \CC\). The set of isometries of \(X\), denoted as \(\Isom\pqty{X}\), is a subgroup of \(\Sym\pqty{X}\):
+    \[
+        \Isom\pqty{X} \subgroup \Sym\pqty{X}.
+    \]
+
+    In particular, \(\Isom\pqty{X}\) is a group.
+\end{proposition}
+
+\begin{proof}
+    We check \autoref{def:subgroup} (Subgroup). Let \(f, h \in \Isom\pqty{X}\), and \(x, y \in X\).
+
+    \begin{itemize}
+        \item We see that \(\identity_{X} \in \Isom\pqty{X}\) since \(\identity_{X}\) is a bijection \(X \to X\), and
+        \[
+            \abs{\identity\pqty{x} - \identity\pqty{y}} = \abs{x - y},
+        \]
+        so it is indeed an isometry.
+
+        \item Since \(f, g\) are isometries,
+        \begin{align*}
+            \abs{f\pqty{g \pqty{x}} - f\pqty{g \pqty{y}}} &= \abs{g\pqty{x} - g\pqty{y}} && f \in \Isom\pqty{X} \\
+            &= \abs{x - y}, && g \in \Isom\pqty{X}
+        \end{align*}
+        so \(f \circ h \in \Isom\pqty{X}\).
+
+        \item If \(f \in \Isom\pqty{X}\), let \(x' = f\inverse\pqty{x}\) and \(y' = f\inverse\pqty{y}\), then
+        \begin{align*}
+            \abs{x' - y'} &= \abs{f\pqty{x'} - f\pqty{y'}} && f \in \Isom\pqty{X} \\
+            &= \abs{f \circ f\inverse \pqty{x} - f \circ f\inverse \pqty{y}} \\
+            &= \abs{\identity_{X} \pqty{x} - \identity_{X} \pqty{y}} \\
+            &= \abs{x - y},
+        \end{align*}
+        so \(f \inverse \in \Isom\pqty{X}\), as desired.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}[Dihedral Group]
+    Let \(X_n \subseteq \CC\) be the \(n\)-gon with vertices
+    \[
+        \set{e^{\frac{2 \pi i}{n}}}{k = 0, 1, \ldots, n - 1}
+    \]
+    for \(n \geq 3\), as in \autoref{fig:regular-n-gon-on-C}.
+
+    The \emph{\(n\)-th Dihedral Group} \(D_{2n}\) is defined as
+    \[
+        D_{2n} = \Isom\pqty{X_n}.
+    \]
+\end{definition}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{The regular \(n\)-gon on \(\CC\)}
+    \label{fig:regular-n-gon-on-C}
+\end{figure}
+
+\begin{example*}[\(D_6\)]
+    \(D_{2 \cdot 3} = D_6\) is the symmetry group of the equilateral triangle that we studied at the start.
+\end{example*}
+
+\begin{theorem}[Size of Dihedral Group]
+    \label{thm:size-of-dihedral-group}%
+    \(\abs{D_{2n}} = 2n\).
+\end{theorem}
+
+The proof will give us a good description of all the elements in \(D_{2n}\). However, we first provide some geometric lemmas, the first of which is a basic fact from Euclidean geometry.
+
+\begin{lemma}[Kite Lemma]
+    \label{lem:kite-lemma}%
+    Let \(x_1, y_1, x_2, y_2 \in \CC\). If \(\abs{x_1 - y_1} = \abs{x_1 - y_2}\), and \(\abs{x_2 - y_1} = \abs{x_2 - y_2}\), then
+    \[
+        \pqty{x_2 - x_1} \perp \pqty{y_2 - y_1}.
+    \]
+\end{lemma}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{The Kite Lemma}
+    \label{fig:kite-lemma}
+\end{figure}
+
+\begin{proof}
+    Referring to \autoref{fig:kite-lemma}, let \(z\) be the intersection of \(x_1 x_2\) and \(y_1 y_2\). By symmetry, we have \(\angle x_1 z y_1 = \angle x_1 z y_2\).
+
+    However, \(y_1 y_2\) is a straight line, so \(\angle x_1 z y_1 + \angle x_1 z y_2 = \pi\), and therefore \(\angle x_1 z y_1 = \frac{\pi}{2}\), as desired.
+\end{proof}
+
+\begin{lemma}[Three--Point Lemma]
+    \label{lem:three-point-lemma}%
+    Let \(X \subseteq \CC\) and \(f \in \Isom\pqty{X}\). If there exist some \(x_1, x_2, x_3 \in X\) that are not co-linear, such that
+    \[
+        x_i = f\pqty{x_i}
+    \]
+    for \(i = 1, 2, 3\), then \(f = \identity_{X}\).
+\end{lemma}
+
+\begin{proof}
+    We prove by contradiction. Suppose that \(f\pqty{y} \neq y\) for some \(y \in X\), then
+    \[
+        \abs{f\pqty{y} - x_i} = \abs{f\pqty{y} - f\pqty{x_i}} = \abs{y - x_i}
+    \]
+    by the hypothesis and that \(f \in \Isom\pqty{X}\), for \(i = 1, 2, 3\).
+
+    We apply \autoref{lem:kite-lemma} (Kite Lemma) with \(y_1 = y, y_2 = f\pqty{y}\), and hence \(\pqty{x_2 - x_1}\) is perpendicular to \(\pqty{f\pqty{y} - y} \neq 0\).
+
+    Similarly, \(\pqty{x_3 - x_1}\) is perpendicular to \(\pqty{f\pqty{y} - y} \neq 0\).
+
+    Hence, \(x_1, x_2, x_3\) lie on a line, which contradicts with \(x_1, x_2, x_3\) being not co-linear.
+\end{proof}
+
+\begin{remark}
+    There is equally a \(\pqty{n + 1}\)-point lemma valid in \(\RR^n\) equipped with the usual notion of distance.
+\end{remark}
+
+Now, to prove \autoref{thm:size-of-dihedral-group} (\(\abs{D_{2n}} = 2n\)), we define \emph{2 elements} of \(D_{2n}\):
+\begin{align*}
+    r\pqty{z} &= e^{\frac{2 \pi i}{n}} z, && \text{a rotation} \\
+    s\pqty{z} &= \conjugate{z}. && \text{a reflection} \\
+\end{align*}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Two Elements of \(D_{2n}\)}
+    \label{fig:two-elements-of-d-2n}
+\end{figure}
+
+We claim that in particular,
+\[
+    D_{2n} = \Bqty{e, r, r^2, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1} s}
+\]
+and that these two elements generate the dihedral group,
+\[
+    D_{2n} = \angBrac{r, s}.
+\]
+
+The proof structure would be a typical subset-superset proof, i.e.
+\begin{enumerate}
+    \item \(\Bqty{e, r, r^2, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1} s} \subseteq D_{2n}\);
+    \item \(D_{2n} \subseteq \Bqty{e, r, r^2, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1} s}\).
+\end{enumerate}
+
+\begin{proof}
+    First, we show that \(r, s \in D_{2n}\). Indeed, for any \(x, y \in \CC\),
+    \begin{align*}
+        \abs{r\pqty{x} - r\pqty{y}} &= \abs{e^{\frac{2 \pi i}{n}} x - e^{\frac{2 \pi i}{n}} y} \\
+        &= \abs{e^{\frac{2 \pi i}{n}}} \abs{x - y} \\
+        &= \abs{x - y}
+    \end{align*}
+    so \(r\) is indeed an isometry of \(\CC\).
+
+    Also, applying \(r\) to a particular vertex,
+    \begin{align*}
+        r\pqty{e^{\frac{2 \pi i k}{n}}} &= e^{\frac{2 \pi i}{n}} \cdot e^{\frac{2 \pi i k}{n}} \\
+        &= e^{\frac{2 \pi i}{n} \pqty{k + 1}}
+    \end{align*}
+    is another vertex.
+
+    So \(r\) sends vertices of \(X_n\) to vertices of \(X_n\), and preserves \(X_n\).
+
+    Similarly, for any \(x, y \in \CC\),
+    \begin{align*}
+        \abs{s \pqty{x} - s \pqty{y}} &= \abs{\conjugate{x} - \conjugate{y}} \\
+        &= \abs{\conjugate{x - y}} \\
+        &= \abs{x - y}
+    \end{align*}
+    so \(s\) is an isometry on \(\CC\).
+
+    Furthermore, applying \(s\) to a vertex of \(X_n\), we have
+    \begin{align*}
+        s\pqty{e^{\frac{2 \pi i k}{n}}} &= e^{- \frac{2 \pi i k}{n}} \\
+        &= e^{\frac{2 \pi i \pqty{n - k}}{n}}
+    \end{align*}
+    is another vertex of \(X_n\).
+
+    Therefore, we have shown that \(\Bqty{r, s} \subseteq D_{2n}\), and therefore, by induction,
+    \[\Bqty{e, r, r^2, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1} s} \subseteq D_{2n}.\]
+
+    To show that indeed these elements are all the elements of \(D_{2n}\), we let \(f \in D_{2n}\) be an isometry on \(X_n\), and consider its action of three points on the polygon, as in \autoref{fig:three-points-on-polygon}.
+
+    \begin{figure}[ht!]
+        \centering
+        \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Three Points on the Polygon}
+        \label{fig:three-points-on-polygon}
+    \end{figure}
+
+    Namely, let \(x = 1, y = e^{\frac{2 \pi i}{n}}, z = e^{- \frac{2 \pi i}{n}}\).
+
+    Since \(f \in D_{2n}\), \(f(x)\) is a vertex of \(X_n\), so
+    \[
+        f\pqty{x} = e^{\frac{2 \pi i k}{n}}
+    \]
+    for some \(k = 0, 1, \ldots, n - 1\).
+
+    Therefore,
+    \begin{align*}
+        r^{-k} \circ f \pqty{x} &= r^{-k} \pqty{e^{\frac{2 \pi i k}{n}}} \\
+        &= e^{- \frac{2 \pi i k}{n}} \cdot e^{\frac{2 \pi i k}{n}} \\
+        &= 1 \\
+        &= x.
+    \end{align*}
+
+    Now, \(r^{-k} \circ f \in D_{2n}\) since \(r^{-k}, f \in D_{2n}\). Therefore,
+    \begin{align*}
+        \abs{r^{-k} \circ f \pqty{y} - x} &= \abs{r^{-k} \circ f \pqty{y} - r^{-k} \circ f \pqty{x}} \\
+        &= \abs{y - x},
+    \end{align*}
+    so \(r^{-k} \circ f \pqty{y} \in \Bqty{y, z}\), and similarly \(r^{-k} \circ f \pqty{z} \in \Bqty{y, z}\) but \(r^{-k} \circ f \pqty{y} \neq r^{-k} \circ f \pqty{z}\).
+
+    Therefore, there are \(2\) cases here:
+    \begin{enumerate}
+        \item \(r^{-k} \circ f \pqty{y} = y, r^{-k} \circ f \pqty{z} = z.\) Then \(r^{-k} \circ f\) fixes \(x, y\) and \(z\), which are three non-collinear points. This means
+        \[
+            r^{-k} \circ f = \identity_{X_n}
+        \]
+        by \autoref{lem:three-point-lemma} (Three--Point Lemma), and hence
+        \[
+            f = r^k \in \Bqty{e, r, \ldots, r^{n - 1}} \subseteq \Bqty{e, r, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1}s}.
+        \]
+
+        \item We have
+        \begin{align*}
+            r^{-k} \circ f \pqty{x} &= x = s\pqty{x}, \\
+            r^{-k} \circ f \pqty{y} &= z = s\pqty{y}, \\
+            r^{-k} \circ f \pqty{z} &= y = s\pqty{z}.
+        \end{align*}
+
+        Hence, left-multiplying both sides by \(s\inverse = s\), we have that \(s\inverse \circ r^{-k} \circ f\) fixes \(x, y, z\).
+
+        Hence, by \autoref{lem:three-point-lemma} (Three--Point Lemma),
+        \[
+            s\inverse \circ r^{-k} \circ f = \identity_{X_n}
+        \]
+        and hence
+        \[
+            f = r^k s \in \Bqty{s, rs, \ldots, r^{n - 1}s} \subseteq \Bqty{e, r, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1}s},
+        \]
+        as required.
+    \end{enumerate}
+
+    So far, we have shown that
+    \[
+        D_{2n} = \Bqty{e, r, \ldots, r^{n - 1}, s, rs, \ldots, r^{n - 1}s}.
+    \]
+
+    Now, we show that the right-hand side has size \(2n\), so we check all elements on the right-hand side are distinct from each other.
+
+    First, if \(0 \leq k, l < n\) such that \(r^k = r^l\), then in particular, \(r^k \pqty{1} = r^l \pqty{1}\), and hence \(e^{\frac{2 \pi i k}{n}} = e^{\frac{2 \pi i l}{n}}\), and hence \(k = l\).
+
+    If \(r^{k} = s\), then
+    \[
+        e^{\frac{2 \pi i k}{n}} = r^{k} \pqty{1} = s \pqty{1} = 1,
+    \]
+    so \(k = 0\), and \(s = r^{0} = \identity\). But then
+    \[
+        z = s\pqty{y} = \identity\pqty{y} = y,
+    \]
+    which is impossible. So \(r^{k} \neq s\) for any \(k\).
+
+    Finally, if \(r^{k} = r^{l} s\), then \(s = r^{k - l}\), which is impossible by previous case; if \(r^{k} s = r^{l} s\), then \(r^{k} = r^{l}\), then \(k = l\).
+
+    So indeed, we finished proving that \(\abs{D_{2n}} = 2n\).
+\end{proof}
+
+To understand the group operation on \(D_{2n}\), we need to understand the different ways to multiply \(r\) and \(s\), which leads to \autoref{lem:dihedral-relation}.
+
+\begin{lemma}[Dihedral Relation]
+    \label{lem:dihedral-relation}%
+    For \(r, s \in D_{2n}\) as above, we have
+    \[
+        s r = r^{-1} s.
+    \]
+\end{lemma}
+
+\begin{proof}
+    By \autoref{lem:three-point-lemma} (Three--Point Lemma), it suffices to check that the two expressions do the same thing to \(x, y\) and \(z\).
+
+    Indeed,
+    \begin{align*}
+        sr\pqty{x} &= \conjugate{e^{\frac{2 \pi i}{n}}} \\
+        &= e^{-\frac{2 \pi i}{n}} \\
+        &= r\inverse \pqty{x} \\
+        &= r\inverse s \pqty{x},
+    \end{align*}
+    \begin{align*}
+        sr\pqty{y} &= \conjugate{e^{\frac{2 \pi 2 i}{n}}} \\
+        &= e^{-\frac{2 \pi 2 i}{n}} \\
+        &= r\inverse \pqty{e^{- \frac{2 \pi i}{n}}} \\
+        &= r\inverse s \pqty{y},
+    \end{align*}
+    and
+    \begin{align*}
+        sr\pqty{z} &= \conjugate{1} \\
+        &= 1 \\
+        &= r\inverse \pqty{e^{\frac{2 \pi i}{n}}} \\
+        &= r\inverse s \pqty{z}.
+    \end{align*}
+
+    Hence, \(sr = r\inverse s\).
+\end{proof}
+
+\subsection{Homomorphisms and Isomorphisms}
+\label{sec:homomorphism-isomorphism}
+
+Some groups are not literally (set-theoretically) equal, but none-the-less having the same structure.
+
+\begin{example*}[Groups that seem equal]
+    We would say that \(\Sym\pqty{\text{deck of cards}}\) are somehow equal to \(\Sym\pqty{\text{52 undergraduate students}}\) in a way, since they all represent permutations on 52 objects.
+\end{example*}
+
+\begin{definition}[Homomorphism]
+    \label{def:homomorphism}%
+    A map between groups \(\functiondomain{\phi}{G}{H}\) is called a \emph{homomorphism} if it preserves the group structure, the operation:
+    \[
+        \phi\pqty{g \cdot_{G} g'} = \phi\pqty{g} \cdot_{H} \phi\pqty{g'}
+    \]
+    for all \(g, g' \in G\).
+\end{definition}
+
+\begin{examples*}[Examples of Homomorphisms]
+    \begin{enumerate}
+        \item For any two groups \(G, H\), the map
+        \[
+            \function{\phi}{G}{H}{g}{e_{H}}
+        \]
+        is a homomorphism. This is the \emph{trivial homomorphism}.
+        
+        \item If \(H \subgroup G\), the map
+        \[
+            \function{i}{H}{G}{h}{h}
+        \]
+        is a homomorphism. This is the \emph{inclusion homomorphism}.
+
+        \item Recall \(C_n = \set{z \in \CC}{z^n = 1}\) for \(n \in \NN\). If \(n \divides m\), then the map
+        \[
+            \function{\phi}{C_m}{C_n}{z}{z^{\frac{m}{n}}}
+        \]
+        is a homomorphism.
+
+        \item Since \(\det \pqty{AB} = \det \pqty{A} \det \pqty{B}\), the determinant
+        \[
+            \function{\det}{\GL_2\pqty{\RR}}{\pqty{\RR \setminus \Bqty{0}, \times} = \RR\multiplicative}{A}{\det A}
+        \]
+        is a homomorphism.
+    \end{enumerate}
+\end{examples*}
+
+Homomorphisms between groups must map certain elements to certain elements.
+
+\begin{lemma}[Homomorphisms Preserve the Identity and Inverses]
+    \label{lem:homomorphism-preserve-identity-inverse}%
+    If \(\functiondomain{\phi}{G}{H}\) is a homomorphism, then
+    \begin{enumerate}
+        \item \(\phi\pqty{e_G} = e_H\),
+        \item \(\phi\pqty{g\inverse} = \phi\pqty{g}\inverse\) for all \(g \in G\).
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We have
+        \begin{align*}
+            \phi\pqty{e_G} \cdot \phi\pqty{e_G} &= \phi\pqty{e_G \cdot e_G} && \phi \text{ is a homomorphism} \\
+            &= \phi\pqty{e_G}
+        \end{align*}
+        and hence \(\phi\pqty{e_G} = e_H\) by \autoref{prop:inverse-identity} that the inverse is unique.
+
+        \item We have
+        \begin{align*}
+            \phi\pqty{g} \cdot \phi\pqty{g \inverse} &= \phi\pqty{g \cdot g\inverse} && \phi \text{ is a homomorphism} \\
+            &= \phi\pqty{e_G} \\
+            &= e_H,
+        \end{align*}
+        so \(\phi\pqty{g \inverse} = \phi\pqty{g}\inverse\) by the definition of the inverse.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[Isomorphism]
+    \label{def:isomorphism}%
+    If a homomorphism \(\functiondomain{\phi}{G}{H}\) is also a \emph{bijection} (a map with an inverse), then \(\phi\) is an \emph{isomorphism}, and we write
+    \[
+        G \isomorphic H. 
+    \]
+\end{definition}
+
+From the perspective of group theory, \(G\) and \(H\) are \textbf{the same}.
+
+\begin{examples*}[Examples of Isomorphic Groups]
+    \begin{enumerate}
+        \item Recall that
+        \[
+            C_n = \set{z \in \CC}{z^n = 1}
+        \]
+        and
+        \[
+            \ZZ_n = \Bqty{0, 1, \ldots, n - 1}
+        \]
+        equipped with \(+_n\).
+
+        Let
+        \[
+            \function{\phi}{\ZZ_n}{C_n}{k}{e^{\frac{2 \pi i k}{n}}.}
+        \]
+
+        Clearly, \(\phi\) is bijective. Furthermore, for any \(k, l \in \ZZ_{n}\), we have
+        \[
+            k + l = np + \pqty{k +_n l}
+        \]
+        for some \(p \in \ZZ\).
+
+        Hence,
+        \begin{align*}
+            \phi\pqty{k +_n l} &= e^{\frac{2 \pi i \pqty{k +_n l}}{n}} && \text{by definition of }\phi \\
+            &= e^{\frac{2 \pi i \pqty{k +_n l}}{n}} \cdot e^{\frac{2 \pi i p n}{n}} \\
+            &= e^{\frac{2 \pi i}{n} \pqty{k + l}} \\
+            &= e^{\frac{2 \pi i k}{n}} e^{\frac{2 \pi i l}{n}} \\
+            &= \phi\pqty{k} \cdot \phi\pqty{l}
+        \end{align*}
+        so \(\phi\) is indeed a homomorphism.
+
+        So \(\phi\) is in fact an isomorphism, and
+        \[
+            \ZZ_{n} \isomorphic C_n
+        \]
+        for all \(n\).
+
+        \item We have
+        \[
+            \pqty{\RR, +, 0} \isomorphic \pqty{\RR_{>0}, \times, 1}
+        \]
+        by considering the exponentiation function
+        \[
+            \function{\exp}{\RR}{\RR_{>0}}{x}{e^x.}
+        \]
+
+        By laws on exponentiation, \(\exp\) is indeed a homomorphism, and it has \(\log\) as its inverse, so is bijective, and hence isomorphisms.
+    \end{enumerate}
+\end{examples*}
+
+\autoref{lem:homomorphism-isomorphism} allows us to think that isomorphic groups are the same.
+
+\begin{lemma}[Properties on Homomorphisms and Isomorphisms]
+    \label{lem:homomorphism-isomorphism}%
+    \begin{enumerate}
+        \item If \(\functiondomain{\phi}{G}{H}\) is an isomorphism, so is \(\phi \inverse\).
+        \item If
+        \[
+            G \xrightarrow{\phi} H \xrightarrow{\psi} K
+        \]
+        and \(\phi\) and \(\psi\) are both homomorphisms, then
+        \[
+            \functiondomain{\psi \circ \phi}{G}{K}
+        \]
+        is also a homomorphism.
+        \item \(\isomorphic\) is an equivalence relation.
+    \end{enumerate}
+\end{lemma}
+
+We saw that every subgroup leads to an inclusion homomorphism. It is also true that homomorphisms give subgroups.
+
+\begin{definition}[Image and Kernel]
+    \label{def:image-kernel}%
+    Let \(\functiondomain{\phi}{G}{H}\) be a homomorphism.
+
+    \begin{enumerate}
+        \item The \emph{image} of \(\phi\) is
+        \[
+            \img \phi = \set{h \in H}{\exists g \in G: \phi\pqty{g} = h} \subseteq H.
+        \]
+        \item The \emph{kernel} of \(\phi\) is
+        \[
+            \ker \phi = \set{g \in G}{\phi\pqty{g} = e_H} \subseteq G.
+        \]
+    \end{enumerate}
+\end{definition}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Image and Kernel}
+    \label{fig:image-and-kernel}
+\end{figure}
+
+\begin{proposition}[Image and Kernel are Subgroups]
+    If \(\functiondomain{\phi}{G}{H}\) is a homomorphism, then
+    \[
+        \img \phi \subgroup H, \ker \phi \subgroup G
+    \]
+\end{proposition}
+
+\begin{proof}
+    We verify the subgroup axioms.
+
+    \begin{enumerate}
+        \item For \(\img \phi\),
+        \begin{itemize}
+            \item \(e_H = \phi\pqty{e_G}\) and \(e_G \in G\), so \(e_H \in \img \phi\).
+            \item For \(\phi\pqty{g_1}, \phi\pqty{g_2} \in \img \phi\), where \(g_1, g_2 \in G\), we have
+            \[
+                \phi\pqty{g_1} \cdot \phi\pqty{g_2} = \phi\pqty{g_1 \cdot g_2} \in \img \phi
+            \]
+            since \(g_1 \cdot g_2 \in G\).
+            \item If \(\phi \pqty{g} \in \img \phi\) for some \(g \in G\),
+            \[
+                \phi\pqty{g}\inverse = \phi\pqty{g\inverse} \in \img \phi
+            \]
+            since \(g\inverse \in G\).
+        \end{itemize}
+
+        So \(\img \phi \subgroup H\).
+        
+        \item For \(\ker \phi\),
+        \begin{itemize}
+            \item \(\phi\pqty{e_G} = e_H\), so \(e_G \in \ker \phi\).
+            \item If \(g_1, g_2 \in \ker \phi\),
+            \[
+                \phi\pqty{g_1 \cdot g_2} = \phi\pqty{g_1} \cdot \phi\pqty{g_2} = e_H \cdot e_H = e_H
+            \]
+            so \(g_1 \cdot g_2 \in \ker \phi\).
+            \item If \(g \in \ker \phi\),
+            \[
+                \phi\pqty{g\inverse} = \phi\pqty{g}\inverse = e_H\inverse = e_H
+            \]
+            so \(g \inverse \in \ker \phi\).
+        \end{itemize}
+
+        So \(\ker \phi \subgroup G\).
+    \end{enumerate}
+\end{proof}
+
+\begin{remarks}
+    We can use the image and kernel to determine whether a homomorphism is an isomorphism. Let \(\functiondomain{\phi}{G}{H}\) be a homomorphism.
+    \begin{enumerate}
+        \item \(\phi\) is \emph{surjective} if and only if \(\img \phi = H\).
+        \item \(\phi\) is \emph{injective} if and only if \(\ker \phi = \trivialgp_{G}\).
+    \end{enumerate}
+\end{remarks}
+
+We prove the second remark.
+
+\begin{proof}
+    If \(\phi\) is injective, then
+    \[
+        \ker \phi = \phi\inverse\pqty{e_H}
+    \]
+    has \(\leq 1\) element, which must be \(e_G\).
+
+    Conversely, suppose \(\ker \phi = \trivialgp_G\). If \(\phi\pqty{g_1} = \phi\pqty{g_2}\), then
+    \[
+        \phi\pqty{g_1 g_2\inverse} = \phi\pqty{g_1} \phi\pqty{g_2}\inverse = e_H
+    \]
+    and hence
+    \[
+        g_1 g_2\inverse \in \ker \phi = \trivialgp_G.
+    \]
+
+    Therefore, \(g_1 g_2\inverse = e_G\), and \(g_1 = g_2\), therefore \(\phi\) is injective.
+\end{proof}
+
+\begin{remark}
+    Combining the previous remark, we see a homomorphism \(\functiondomain{\phi}{G}{H}\) is an isomorphism if and only if \(\img \phi = H\) and \(\ker \phi = \trivialgp_G\).
+\end{remark}
+
+\subsection{Cyclic Groups}
+\label{sec:cyclic-groups}
+
+The groups \(C_n \isomorphic \ZZ_n\) that we described above has a special property.
+
+\begin{definition}[Cyclic Group]
+    \label{def:cyclic-group}%
+    A group \(G\) is \emph{cyclic} if there is \(g \in G\) and that
+    \[
+        G = \set{g^k}{k \in \ZZ} = \angBrac{g}.
+    \]
+
+    That is, \(\Bqty{g}\) generates \(G\), and \(g\) is called a \emph{generator} of \(G\).
+\end{definition}
+
+\begin{examples*}[Examples of Cyclic Groups]
+    \begin{enumerate}
+        \item \(C_n\) is cyclic with generator \(e^{\frac{2 \pi i}{n}}\).
+        \item \(\ZZ\) is cyclic with generator \(1\).
+        \item \(\ZZ_n\) is cyclic since \(\ZZ_n \isomorphic C_n\).
+    \end{enumerate}
+\end{examples*}
+
+We will see in \autoref{thm:classification-cyclic-groups} that these are in fact all the cyclic groups (up to isomorphism).
+
+\begin{theorem}[Classification of Cyclic Groups]
+    \label{thm:classification-cyclic-groups}%
+    If \(G\) is cyclic, then
+    \begin{itemize}
+        \item \(G \isomorphic C_n\) for some \(n \in \NN\); or
+        \item \(G \isomorphic \ZZ\).
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    Let \(G\) by a cyclic group with generator \(g\), and let
+    \[
+        S = \set{k \in \NN}{g^k = e}
+    \]
+    and let
+    \[
+        n = \begin{cases}
+            \min S, & S \neq \emptyset, \\
+            \infty, & S = \emptyset,
+        \end{cases}
+        \in \NN \cup \Bqty{\infty}.
+    \]
+
+    \begin{itemize}
+        \item If \(n = \infty\), we let
+        \[
+            \function{\phi}{\ZZ}{G}{k}{g^k,}
+        \]
+        we would like to show that \(\phi\) is an isomorphism.
+
+        Since
+        \begin{align*}
+            \phi \pqty{k + l} &= g^{k + l} \\
+            &= g^k g^l \\
+            &= \phi \pqty{k} \phi \pqty{l},
+        \end{align*}
+        \(\phi\) is a homomorphism. \(\phi\) is surjective since \(G\) is cyclic, and from \autoref{def:cyclic-group} (Cyclic Group).
+
+        We show \(\phi\) is injective by contradiction. Suppose \(0 \neq k \in \ker \phi\), then since \(\ker \phi \subgroup \ZZ\), we may replace \(k\) by \(-k\), so we assume \(k > 0\).
+
+        Then \(k \in S\), so \(S \neq \emptyset\), which gives a contradiction. So \(\ker \phi = \Bqty{0}\), and \(\phi\) is injective.
+
+        Therefore, \(\phi\) gives an isomorphism \(\ZZ \to G\), we have \(G \isomorphic \ZZ\).
+
+        \item If \(n \in \NN\), we define
+        \[
+            \function{\phi}{\ZZ_n}{G}{k}{g^k.}
+        \]
+
+        Since \(k + l = qn + \pqty{k +_n l}\) for some \(q \in \ZZ\), we have
+        \begin{align*}
+            \phi \pqty{k} \phi \pqty{l} &= g^k g^l \\
+            &= g^{k + l} \\
+            &= g^{qn + \pqty{k +_n l}} \\
+            &= g^{k +_n l} && g^n = e \\
+            &= \phi \pqty{k +_n l},
+        \end{align*}
+        so \(\phi\) is a homomorphism. To show \(\ZZ_n \isomorphic G\), it remains to show that \(\phi\) is a bijection.
+
+        Since \(G\) is cyclic, every element can be written as \(g^k\) for some \(k \in \ZZ\). Conducting integer division of \(k\) by \(n\) gives
+        \[
+            k = nq + r
+        \]
+        for some \(q \in \ZZ\) and \(r \in \ZZ_n\). Therefore,
+        \begin{align*}
+            g^k &= g^{nq + r} \\
+            &= \pqty{g^n}^q g^r \\
+            &= g^r && g^n = e \\
+            &= \phi\pqty{r}
+        \end{align*}
+        so \(\phi\) is surjective.
+
+        To prove that \(\phi\) is injective, suppose \(\phi\pqty{k} = e\) where \(k \in \ker \phi\), for some \(k \in \ZZ_{n}\). Then \(k \in S\), so \(k = 0, 1, \ldots, n - 1\).
+
+        But if \(k \in \NN\), then \(k \geq n\), since \(n\) is the minimal element in \(S\) for \(\NN\).
+
+        Therefore, it follows that \(k = 0\), and hence
+        \[
+            \ker \phi = \Bqty{0}
+        \]
+        showing that \(\phi\) is injective.
+
+        Hence,
+        \[
+            G \isomorphic \ZZ_n \isomorphic C_n
+        \]
+        as required.
+    \end{itemize}
+\end{proof}
+
+Because of \autoref{thm:classification-cyclic-groups}, we can write \(C_n\) for \emph{any} cyclic group of order \(n\), and \(C_\infty\) for \(\ZZ\).
+
+\begin{definition}[Order of an Element]
+    \label{def:order-of-element}%
+    The subgroup generated by an element \(g \in G\)
+    \[
+        \angBrac{g} = \set{g^k}{k \in \ZZ} \subgroup G
+    \]
+    is cyclic, so
+    \[
+        \angBrac{g} \isomorphic C_n
+    \]
+    for some \(n \in \NN \cup \Bqty{\infty}\).
+
+    The \emph{order} of an element \(g \in G\), is the \(n\) above, and we denote this as
+    \[
+        n = \ord \pqty{g} = o\pqty{g}.
+    \]
+\end{definition}
+
+\subsection{Dihedral Groups Revisited}
+\label{sec:dihedral-group-revisited}
+\begin{remark}
+    First, whenever \(x, y \in G\) satisfy \autoref{lem:dihedral-relation} (Dihedral Relation), here \(G\) not necessarily being dihedral,
+    \[
+        xy = y x\inverse,
+    \]
+    then for any \(l > 0\), we have
+    \begin{align*}
+        y x^{-l} &= \pqty{y x \inverse} x^{1 - l} \\
+        &= x \pqty{y x^{1 - l}} \\
+        &= \cdots\\
+        &= x^l y
+    \end{align*}
+    by induction on \(l\).
+
+    If \(y^2 = e\), we also have
+    \begin{align*}
+        y x^l &= y \pqty{x^l y} y \\
+        &= y \pqty{y x^{-l}} y \\
+        &= x^{-l} y
+    \end{align*}
+    for \(l > 0\). Therefore, \(y x^l = x^{-l} y\) for any \(l \in \ZZ\).
+\end{remark}
+
+\begin{lemma}[Homomorphism from Dihedral Group]
+    \label{lem:homomorphism-dihedral-group}
+    Let \(G\) be a group and \(a, b \in G\) satisfy
+    \begin{enumerate}
+        \item \(a^n = e\): \(a\) is a `rotation';
+        \item \(b^2 = e\): \(b\) is a `reflection'; and
+        \item \(ab = b a\inverse\): \(a, b\) satisfy \autoref{lem:dihedral-relation} (the dihedral relation),
+    \end{enumerate}
+    then
+    \[
+    \phi \pqty{r^k} = a^k, \phi \pqty{s} = b
+    \]
+    defines a homomorphism
+    \[
+        \functiondomain{\phi}{D_{2n}}{G}
+    \]
+    with \(r \mapsto a\) and \(s \mapsto b\).
+\end{lemma}
+
+\begin{proof}
+    We check that \(\phi\) does indeed give a homomorphism by considering the different elements in \(D_{2n}\).
+
+    \begin{enumerate}
+        \item For two rotations,
+        \begin{align*}
+            \phi\pqty{r^k} \phi\pqty{r^l} &= a^k a^l \\
+            &= a^{k + l} \\
+            &= a^{k +_n l} \\
+            &= \phi\pqty{r^{k +_n l}}.
+        \end{align*}
+        \item For a rotation and a reflection,
+        \begin{align*}
+            \phi\pqty{r^k} \phi\pqty{r^l s} &= a^k a^l b \\
+            &= a^{k +_n l} n \\
+            &= \phi\pqty{r^{k +_n l} s}.
+        \end{align*}
+        \item For a reflection and a rotation,
+        \begin{align*}
+            \phi\pqty{r^k s} \phi\pqty{r^l} &= a^k b a^l \\
+            &= a^{k - l} b && \text{dihedral relation} \\
+            &= \phi\pqty{r^{k - l} s} \\
+            &= \phi\pqty{r^k r^{-l} s} \\
+            &= \phi\pqty{r^k s r^l}. && \text{dihedral relation}
+        \end{align*}
+        \item For two reflections,
+        \begin{align*}
+            \phi\pqty{r^k s} \phi\pqty{r^l s} &= a^k b a^l b \\
+            &= a^{k - l} b^2 \\
+            &= a^{k - l} \\
+            &= \phi\pqty{r^{k - l}} \\
+            &= \phi\pqty{r^{k - l} s s} \\
+            &= \phi\pqty{r^{k} s r^{l} s}.
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+
+Finally, \autoref{prop:group-isomorphic-dihedral} gives a useful condition to show a group being isomorphic to the dihedral group.
+
+\begin{proposition}[Groups Isomorphic to the Dihedral Group]
+    \label{prop:group-isomorphic-dihedral}%
+    If a group \(G\) has a generating set \(\Bqty{a, b}\) such that
+    \begin{enumerate}
+        \item \(a^n = e\),
+        \item \(b^2 = e\),
+        \item \(ab = b a \inverse\),
+        \item \(\abs{G} = 2n\),
+    \end{enumerate}
+    then \(G \isomorphic D_{2n}\).
+\end{proposition}
+
+\begin{proof}
+    By \autoref{lem:homomorphism-dihedral-group}, this gives a homomorphism \(\functiondomain{\phi}{D_{2n}}{G}\).
+
+    \(\phi\) is surjective since \(\Bqty{a, b}\) generates \(G\). Also, since
+    \[
+        \abs{D_{2n}} = 2n = \abs{G},
+    \]
+    such a surjective map must be a bijection, so this gives an isomorphism, \(G \isomorphic D_{2n}\).
+\end{proof}
+
+\section{Lagrange's Theorem}
+\label{sec:lagranges-theorem}
+
+This very important theorem in group theory helps us to think about the order of groups and subgroups.
+
+\begin{theorem}[Lagrange's Theorem, Weak Version]
+    \label{thm:lagrange-weak}%
+    If \(H \subgroup G\), and \(\abs{G} < \infty\), then
+    \[
+        \abs{H} \divides \abs{G}.
+    \]
+\end{theorem}
+
+The proof is to `cut' \(G\) up into `copies' of \(H\), which are called \emph{cosets}.
+
+\subsection{Cosets}
+\label{sec:cosets}
+
+\begin{definition}[Left Coset]
+    \label{def:left-coset}%
+    Let \(H \subgroup G\) and \(g \in G\). The corresponding \emph{left-coset} is
+    \[
+        gH = \set{gh}{h \in H} \subseteq G,
+    \]
+    and the set of all left cosets of \(H\) in \(G\) is
+    \[
+        \flatfrac{G}{H} = \set{gH}{g \in G}.
+    \]
+\end{definition}
+
+\begin{remark}
+    We may equally define right-cosets as
+    \[
+        Hg = \set{hg}{h \in H}
+    \]
+    and the set of all right cosets of \(H\) in \(G\) as
+    \[
+        H \backslash G = \set{Hg}{g \in G}.
+    \]
+
+    They provide equivalent formulations, and we use left-cosets from now onwards.
+\end{remark}
+
+\begin{lemma}[Cosets Partition]
+    \label{lem:cosets-partition}%
+    If \(H \subgroup G\), the left-cosets of \(H\) \emph{partition} \(G\). That is,
+    \begin{enumerate}
+        \item \(G\) is the union of all left-cosets:
+        \[
+            G = \bigcup_{gH \in \flatfrac{G}{H}} \pqty{gH};
+        \]
+        \item Cosets are either disjoint or equal: for any \(g_1 H, g_2 H \in \flatfrac{G}{H}\), if \(g_1 H \cap g_2 H \neq \emptyset\), then \(g_1 H = g_2 H\).
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \begin{enumerate}
+        \item For any \(g \in G\), we have \(g = g \cdot e \in gH\), so
+        \[
+            \bigcup gH = G
+        \]
+        as required.
+
+        \item Suppose that \(g_1 H \cap g_2 H \neq \emptyset\), let \(k \in g_1 H \cap g_2 H\) lie in the intersection. Then for some \(h_1, h_2 \in H\),
+        \[
+            k = g_1 h_1 = g_2 h_2.
+        \]
+
+        Therefore,
+        \[
+            g_1 = \pqty{g_2 h_2} h_1\inverse = g_2 \pqty{h_2 h_1\inverse}
+        \]
+        so \(g_1 \in g_2 H\).
+
+        Furthermore, for any \(h \in H\), we have
+        \begin{align*}
+            g_1 h &= \pqty{g_2 \pqty{h_2 h_1\inverse}} h \\
+            &= g_2 \pqty{\pqty{h_2 h_1\inverse} h} \\
+            &\in g_2 H,
+        \end{align*}
+        and therefore \(g_1 H \subseteq g_2 H\).
+
+        Symmetrically, we have \(g_2 H \subseteq g_1 H\), so \(g_1 H = g_2 H\) as required.
+    \end{enumerate}
+\end{proof}
+
+Therefore, we may visualise that cosets partition as in \autoref{fig:cosets-partition}.
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Cosets of a subset partition a group}
+    \label{fig:cosets-partition}
+\end{figure}
+
+But in fact, those cosets have the same size!
+
+\begin{lemma}[Cosets have same size as subgroup]
+    \label{lem:cosets-size}%
+    Let \(H \subgroup G\), then there is a bijection
+    \[
+        H \to gH
+    \]
+    for any \(g \in G\).
+\end{lemma}
+
+\begin{proof}
+    We take the na\"{i}ve map
+    \[
+        \function{\phi}{H}{gH}{h}{gh,}
+    \]
+    and this has inverse
+    \[
+        \function{\phi\inverse}{gH}{H}{gh}{\pqty{g\inverse \pqty{gh}} = h.}
+    \]
+\end{proof}
+
+Therefore, the picture is more like \autoref{fig:cosets-partition-equally}.
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Cosets of a subset partition a group equally}
+    \label{fig:cosets-partition-equally}
+\end{figure}
+
+\begin{definition}[Index of Subgroup]
+    \label{def:index-of-subgroup}%
+    The \emph{index} of a subgroup \(H \subgroup G\) is the size of the set of left-cosets
+    \[
+        \abs{G : H} = \abs{\flatfrac{G}{H}}.
+    \]
+\end{definition}
+
+We may show that the index of a subgroup is the same, whether using left-cosets or right-cosets. In fact, there is always a bijection between \(\flatfrac{G}{H}\) and \(H \backslash G\), even in the infinite case.
+
+\subsection{Lagrange's Theorem and its Consequences}
+\label{sec:lagrange-consequences}
+
+We are ready to state the stronger version of \autoref{thm:lagrange-weak} (Lagrange's Theorem).
+
+\begin{theorem}[Lagrange's Theorem]
+    \label{thm:lagrange}%
+    If \(\abs{G} < \infty\), then
+    \[
+        \abs{G} = \abs{G : H} \abs{H}
+    \]
+    for any \(H \subgroup G\).
+\end{theorem}
+
+\begin{proof}
+    By \autoref{lem:cosets-partition}, the set of left cosets partition \(G\), hence
+    \begin{align*}
+        \abs{G} &= \sum_{gH \in \flatfrac{G}{H}} \abs{gH} \\
+        &= \sum_{gH \in \flatfrac{G}{H}} \abs{H} && \text{\autoref{lem:cosets-size}} \\
+        &= \abs{H} \abs{G : H}
+    \end{align*}
+    as desired.
+\end{proof}
+
+We next give some group-theoretic consequences of \autoref{thm:lagrange} (Lagrange's Theorem).
+
+\begin{corollary}[Order of Element Divides Order of Group]
+    \label{cor:order-of-element-divides}%
+    If \(\abs{G} < \infty\), then
+    \[
+        \ord\pqty{g} \divides \abs{G}
+    \]
+    for any \(g \in G\).
+\end{corollary}
+
+\begin{proof}
+    Recall that \(\ord\pqty{g} = \abs{\angBrac{g}}\) and that \(\angBrac{g} \subgroup G\), and we have \(\abs{\angBrac{g}} \divides \abs{G}\) by \autoref{thm:lagrange} (Lagrange's Theorem).
+\end{proof}
+
+\begin{corollary}[Element raised to the Order of Group]
+    \label{cor:element-to-order}%
+    If \(\abs{G} < \infty\), then
+    \[
+        g^{\abs{G}} = e
+    \]
+    for any \(g \in G\).
+\end{corollary}
+
+\begin{proof}
+    \autoref{cor:order-of-element-divides} shows that
+    \[
+        \abs{G} = k \ord \pqty{g}
+    \]
+    for some \(k \in \ZZ\).
+
+    Hence,
+    \begin{align*}
+        g^{\abs{G}} &= g^{k \ord \pqty{g}} \\
+        &= \pqty{g^{\ord \pqty{g}}}^{k} \\
+        &= e^k \\
+        &= e.
+    \end{align*}
+\end{proof}
+
+\begin{corollary}[Groups of Prime Order are Cyclic]
+    \label{cor:group-prime-order}%
+    If \(\abs{G}\) is prime, then \(G\) is cyclic, and \emph{any} element \(g \neq e\) generates \(G\).
+\end{corollary}
+
+\begin{proof}
+    We choose any \(g \in G\), \(g \neq e\). Then by \autoref{cor:order-of-element-divides}
+    \[
+        \ord \pqty{g} \divides \abs{G}.
+    \]
+
+    Therefore, since \(\abs{G}\) is prime, either \(\ord \pqty{g} = 1\) or \(\ord \pqty{g} = \abs{G}\).
+
+    Since \(g \neq e\), we have \(\ord \pqty{g} \neq 1\), and hence \(\ord \pqty{g} = \abs{G}\).
+
+    Therefore, \(\angBrac{g} = G\), so \(g\) generates \(G\) and \(G\) is cyclic.
+\end{proof}
+
+\subsection{Fermat--Euler Theorem}
+\label{sec:femat-euler}
+
+We can apply these results to elementary number theory, and this gives an important result in Numbers and Sets.
+
+\begin{definition}[Euler Totient Function]
+    \label{def:euler-totient}%
+    The \emph{Euler Totient Function} is defined as
+    \[
+        \totient\pqty{n} = \abs{\set{x \in \ZZ_{n}}{\gcd\pqty{x, n} = 1}}.
+    \]
+\end{definition}
+
+Let \(\times_{n}\) denote multiplication modulo \(n\) on \(\ZZ_n\), which is associative with identity \(1 \in \ZZ_n\).
+
+Recall that, by the division algorithm, \(x \in \ZZ_n\) has a multiplicative inverse modulo \(n\), if and only if there exists \(y, m \in \ZZ\) such that \(xy + mn = 1\), if and only if \(\gcd\pqty{x, n} = 1\).
+
+Therefore,
+\[
+    \ZZ_n^{\times} = \set{x \in \ZZ_n}{\gcd\pqty{x, n} = 1}
+\]
+is a group with operation \(\times_n\).
+
+\begin{theorem}[Fermat--Euler Theorem]
+    \label{thm:fermat-euler}%
+    Let \(x, n \in \ZZ\). If \(\gcd\pqty{x, n} = 1\), then
+    \[
+        x^{\totient\pqty{n}} \equiv 1 \pmod{n}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    By \autoref{cor:element-to-order}, we have
+    \[
+        x^{\abs{\ZZ_n^{\times}}} = 1,
+    \]
+    and from \autoref{def:euler-totient} (Euler Totient Function), \(\totient\pqty{n} = \abs{\ZZ_n^{\times}}\), so the result follows.
+\end{proof}
+
+\section{Group Actions}
+\label{sec:group-actions}
+
+We return to the aspect where we started, that groups describe symmetries. Groups become groups of symmetry when they \textbf{act}.
+
+\subsection{Group Actions and Homomorphisms}
+\label{sec:group-actions-homomorphisms}
+
+\begin{definition}[Group Action]
+    \label{def:group-action}%
+    An \emph{action} of a group \(G\) on a set \(X\) is a map
+    \[
+        \function{\alpha}{G \times X}{X}{\pqty{g, x}}{\alpha\pqty{g, x} = gx}
+    \]
+    satisfying
+    \begin{enumerate}
+        \item \(\alpha\pqty{e, x} = ex = x\) for all \(x \in X\): the identity acts as an identity;
+        \item \(\alpha\pqty{g \cdot h, x} = \alpha\pqty{g, \alpha\pqty{h, x}}\), or \(\pqty{g \cdot h}x = g \pqty{hx}\) for all \(g, h \in G\) and \(x \in X\): composition is compatible.
+    \end{enumerate}
+
+    We write \(G \actson X\) to indicate that \(G\) acts on \(X\).
+\end{definition}
+
+\begin{examples*}[Examples of Group Actions]
+    \begin{enumerate}
+        \item For any group \(G\) and set \(X\), the action
+        \[
+            gx = x
+        \]
+        is the \emph{trivial action}.
+        \item \(\Sym\pqty{X}\) acts on \(X\) for any set \(X\) by
+        \[
+            fx = f\pqty{x}.
+        \]
+        \item If \(G \actson X\) and \(H \subgroup G\), then \(H \actson X\) by restriction.
+        \item In particular, \(\Isom\pqty{\CC} \subgroup \Sym\pqty{\CC}\) acts on \(\CC\).
+        \item Similarly, \(D_{2n}\) acts on \(X_n\), the regular \(n\)-gon. It acts on the set of vertices
+        \[
+            \set{z \in \CC}{z^n = 1}.
+        \]
+        \item Every group \(G\) acts on \emph{itself} by left-multiplication: let \(X = G\), and \(G \actson G\) by
+        \[
+            g\gamma = g \cdot \gamma
+        \]
+        for \(g \in G\), \(\gamma \in X = G\). This is the \emph{left regular action}.
+    \end{enumerate}
+\end{examples*}
+
+We may think of group actions in another useful way.
+
+\begin{theorem}[Actions Define Homomorphisms]
+    \label{thm:action-homomorphism}%
+    An action of a group \(G\) on a set \(X\) is the same as a homomorphism
+    \[
+        \functiondomain{\phi}{G}{\Sym\pqty{X}}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Suppose \(G \actson X\). Consider the map
+    \[
+        \function{t_g}{X}{X}{x}{gx}
+    \]
+    for any \(g \in G\). Now,
+    \begin{align*}
+        t_{g\inverse} \pqty{t_g x} &= t_{g\inverse} \pqty{gx} \\
+        &= g\inverse \pqty{gx} \\
+        &= \pqty{g\inverse g} x \\
+        &= ex \\
+        &= x
+    \end{align*}
+    so \(t_{g\inverse} \circ t_g = \identity_{X}\).
+
+    Therefore, \(t_{g\inverse}\) is \(\pqty{t_g}\inverse\) and hence \(t_g\) is a bijection.
+
+    This tells us that \(t_g\) is a permutation on \(X\),
+    \[
+        t_g \in \Sym\pqty{X}.
+    \]
+
+    Therefore, we define
+    \[
+        \function{\phi}{G}{\Sym\pqty{X}}{g}{t_{g},}
+    \]
+    and we prove that \(\phi\) is a homomorphism. Take \(g, h \in G\), we have
+    \[
+        \phi\pqty{g} \phi\pqty{h} = t_g \circ t_h,
+    \]
+    so for all \(x \in X\),
+    \begin{align*}
+        \phi\pqty{g} \phi\pqty{h} \pqty{x} &= t_g \circ t_h \pqty{x} \\
+        &= t_g \pqty{t_h \pqty{x}} \\
+        &= t_g \pqty{hx} \\
+        &= g \pqty{hx} \\
+        &= \pqty{gh} x \\
+        &= t_{gh} \pqty{x} \\
+        &= \phi\pqty{gh} \pqty{x},
+    \end{align*}
+    and hence, \(\phi\pqty{g} \phi\pqty{h} = \phi\pqty{gh}\).
+
+    Therefore, \(\phi\) is a homomorphism as required.
+
+    Conversely, given a homomorphism
+    \[
+        \functiondomain{\phi}{G}{\Sym\pqty{X}}
+    \]
+    we may define an action \(G \actson X\) by \(gx = \phi\pqty{g} x\). We check this is indeed an action:
+    \begin{enumerate}
+        \item Identity: \(ex = \phi\pqty{e} \pqty{x} = \identity_{X} \pqty{x} = x\).
+        \item Compatibility:
+        \begin{align*}
+            \pqty{gh} x &= \phi\pqty{gh} \pqty{x} \\
+            &= \phi\pqty{g} \phi\pqty{h} \pqty{x} \\
+            &= \phi\pqty{g} \pqty{\phi\pqty{h} \pqty{x}} \\
+            &= \phi\pqty{g} \pqty{hx} \\
+            &= g \pqty{hx}.
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+
+The left regular action allows us to think of groups as subgroups of symmetric groups.
+
+\begin{theorem}[Cayley's Theorem]
+    \label{thm:cayley}%
+    Every group \(G\) is isomorphic to a subgroup to some \(\Sym\pqty{X}\). Furthermore, if \(\abs{G} < \infty\), we may choose \(X\) to be \(\abs{X} < \infty\), or even stronger, \(\abs{X} \leq \abs{G}\).
+\end{theorem}
+
+\begin{proof}
+    We choose in particular \(X = G\), and the left regular action gives \(G \actson X = G\). By \autoref{thm:action-homomorphism}, this is equivalent to a homomorphism
+    \[
+        \functiondomain{\phi}{G}{\Sym\pqty{X}}
+    \]
+
+    Let \(H = \img \pqty{\phi} \subgroup \Sym\pqty{X}\) be a subgroup. Then we may think of \(\phi\) as a \emph{surjective} homomorphism
+    \[
+        \functiondomain{\phi}{G}{H},
+    \]
+    and we claim that this is injective. Indeed, take \(g \in \ker\pqty{\phi}\), then \(\phi\pqty{g} = \identity_{X}\), and therefore
+    \[
+        g \gamma = \gamma
+    \]
+    for all \(\gamma \in G\). In particular, taking \(\gamma = e \in G\) gives \(g = e\).
+
+    Therefore, the kernel is trivial, and \(\phi\) is an injection. Therefore, \(\phi\) is a bijection,
+    \[
+        G \isomorphic H \subgroup \Sym\pqty{X},
+    \]
+    as required.
+
+    Furthermore, notice \(X = G\), so \(\abs{G} < \infty\) allows us to choose \(\abs{X} < \infty\).
+\end{proof}
+
+\subsection{Orbits and Stabilisers}
+\label{sec:orbits-and-stabilisers}
+
+We in fact can learn a huge amount about groups by thinking about group actions.
+
+\begin{definition}[Orbits and Stabilisers]
+    \label{def:orbit-stabiliser}%
+    Let \(G \actson X\) and let \(x \in X\).
+    \begin{enumerate}
+        \item The \emph{orbit} of \(x\) is the set
+        \[
+            \Orb_{G}\pqty{x} = Gx = \set{y \in X}{\exists g \in G: y = gx}.
+        \]
+        \item The \emph{stabiliser} of \(x\) is the set
+        \[
+            \Stab_{G}\pqty{x} = \set{g \in G}{g\pqty{x} = x}.
+        \]
+    \end{enumerate}
+
+    Note some authors use \(G_x\) for stabilisers, where \(x\) is a subscript.
+
+    \begin{itemize}
+        \item If \(\Orb_{G}\pqty{x} = X\), we say the action is \emph{transitive}. (We will see soon that this statement is equivalent with for \emph{all} \(x \in X\) or for \emph{some} \(x \in X\).)
+        \item If every element \(g \in G\) (except the identity \(g = e\)) has an \(x \in X\) such that \(gx \neq x\), then we say the action is \emph{faithful}.
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+    An action \(G \actson X\) is faithful is equivalent to that the associated homomorphism has a trivial kernel/is injective.
+\end{remark}
+
+\begin{proposition}[Stabilisers are Subgroups, Orbits Partition]
+    \label{prop:stabilisers-subgroups-orbits-partition}%
+    Suppose \(G \actson X\). Then
+    \begin{enumerate}
+        \item \(\Stab_{G} \pqty{x} \subgroup G\) for any \(x \in X\).
+        \item The orbits
+        \[
+            \set{\Orb_{G}\pqty{y}}{y \in X}
+        \]
+        form a partition of \(X\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+    The second part of \autoref{prop:stabilisers-subgroups-orbits-partition} tells us that if \(\Orb\pqty{x} = X\) for some \(x \in X\), then there is only one orbit, and hence \(\Orb\pqty{x} = X\) for all \(x \in X\).
+\end{remark}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We check that \(\Stab_{G} \pqty{x}\) satisfies \autoref{def:subgroup} (Subgroup). If \(g, h \in \Stab_{G}\pqty{x}\), then
+        \begin{align*}
+            \pqty{gh} x &= g\pqty{h\pqty{x}} && \text{\autoref{def:group-action} (Group Action)} \\
+            &= g\pqty{x} && h \in \Stab_{G} \pqty{x} \\
+            &= x, && g \in \Stab_{G} \pqty{x}
+        \end{align*}
+        so \(gh \in \Stab_{G} \pqty{x}\).
+
+        Also, \(ex = x\) from \autoref{def:group-action} (the definition of a group action), so \(e \in \Stab_G \pqty{x}\).
+
+        Finally, for \(g \in \Stab_G \pqty{x}\),
+        \begin{align*}
+            g\inverse x &= g\inverse \pqty{gx} && g \in \Stab_{G} \pqty{x} \\
+            &= \pqty{g\inverse g} x && \text{\autoref{def:group-action} (Group Action)} \\
+            &= ex \\
+            &= x, && \text{\autoref{def:group-action} (Group Action)}
+        \end{align*}
+        so \(g\inverse \in \Stab_{G} \pqty{x}\).
+
+        Hence, \(\Stab_{G} \pqty{x} \subgroup G\).
+
+        \item The proof is similar to the proof of \autoref{lem:cosets-partition} (Cosets Partition).
+        \begin{itemize}
+            \item For any \(x \in X\), \(x = ex\) for \(e \in G\), so \(x \in \Orb_G \pqty{x}\), so indeed orbits cover \(X\).
+            \item If \(\Orb_{G} \pqty{x_1} \cap \Orb_{G} \pqty{x_2} \neq \emptyset\), then there is \(y = g_1 x_1 = g_2 x_2\) for some \(g_1, g_2 \in G\).
+        
+            Hence,
+            \begin{align*}
+                x_1 &= \pqty{g_1 \inverse g_1} x_1 \\
+                &= g_1 \inverse \pqty{g_1 x_1} \\
+                &= g_1 \inverse \pqty{g_2 x_2} \\
+                &= \pqty{g_1 \inverse g_2} x_2 \\
+                &\in \Orb_{G} \pqty{x_2}.
+            \end{align*}
+
+            Moreover, any \(g x_1\) can be written as
+            \[
+                g x_1 = g \pqty{g_1\inverse g_2} x_2 \in \Orb_{G} \pqty{x_2}.
+            \]
+
+            Hence, \(\Orb_{G} \pqty{x_1} \subseteq \Orb_{G} \pqty{x_2}\). Likewise, \(\Orb_{G} \pqty{x_2} \subseteq \Orb_{G} \pqty{x_1}\), so we have
+            \[
+                \Orb_{G} \pqty{x_1} = \Orb_{G} \pqty{x_2}
+            \]
+            as desired.
+        \end{itemize}
+    \end{enumerate}
+\end{proof}
+
+\begin{example*}[\(D_{2n} \actson X_n\), the regular \(n\)-gon]
+    As in \autoref{fig:dihedral-group-action-hexagon} for the hexagon case, for any \(j\),
+    \begin{align*}
+        r^j s \pqty{x} &= r^j \pqty{x} \\
+        &= e^{\frac{2 \pi i j}{n}} \cdot 1 \\
+        &= e^{\frac{2 \pi i j}{n}},
+    \end{align*}
+    so
+    \begin{align*}
+        \Orb_{D_{2n}}\pqty{x} &= \set{e^{\frac{2 \pi i j}{n}}}{0 \leq j < n} \\
+        &= \Bqty{n\text{-th roots of unity}}.
+    \end{align*}
+
+    The above calculation also shows that
+    \[
+        gx = x \iff g \in \Bqty{r, s},
+    \]
+    so
+    \[
+        \Stab_{D_{2n}}\pqty{x} = \Bqty{r, s}.
+    \]
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{\(D_{2n} \actson X_n\) for \(n = 6\), the regular hexagon}
+    \label{fig:dihedral-group-action-hexagon}
+\end{figure}
+
+\begin{theorem}[Orbit--Stabiliser]
+    \label{thm:orbit-stabiliser}%
+    Suppose \(G \actson X\). Let \(x \in X\), the map
+    \[
+        g \Stab_{G}\pqty{x} \mapsto gx
+    \]
+    defines a well-defined bijection
+    \[
+        \flatfrac{G}{\Stab_{G}\pqty{x}} \to \Orb_{G}\pqty{x}.
+    \]
+\end{theorem}
+
+We first prove a corollary of this theorem, naming the counting version of this.
+
+\begin{corollary}[Orbit--Stabiliser]
+    \label{cor:orbit-stabiliser}%
+    If \(G \actson X\) and \(x \in X\), then
+    \[
+        \abs{G} = \abs{\Orb_{G}\pqty{x}} \abs{\Stab_{G}\pqty{x}}.
+    \]
+\end{corollary}
+
+\begin{proof}
+    \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser Theorem) gives
+    \[
+        \abs{\Orb_{G} \pqty{x}} = \abs{\flatfrac{G}{\Stab_{G}} \pqty{x}},
+    \]
+    and \autoref{thm:lagrange} (Lagrange's Theorem) gives
+    \[
+        \abs{\flatfrac{G}{\Stab_{G} \pqty{x}}} = \frac{\abs{G}}{\abs{\Stab_{G} \pqty{x}}}.
+    \]
+
+    This gives the result as desired.
+\end{proof}
+
+Before we prove \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser Theorem), we first give an example of the counting version of this.
+
+\begin{example*}[\(D_{2n} \actson X_n\)]
+    We see that if \(x \in X_n\) is a vertex, then
+    \[
+        \abs{\Orb_{D_{2n}} \pqty{x}} = n
+    \]
+    and
+    \[
+        \abs{\Stab_{D_{2n}} \pqty{x}} = 2.
+    \]
+
+    This gives an easy (but circular) `proof' that
+    \[
+        \abs{D_{2n}} = 2n.
+    \]
+\end{example*}
+
+\begin{proof}[\proofname\ of \autoref{thm:orbit-stabiliser} (Orbit--Stabiliser Theorem)]
+    We write
+    \[
+        S = \Stab_{G} \pqty{x},
+    \]
+    and define
+    \[
+        \phi \pqty{gS} = gx.
+    \]
+
+    We check that \(\phi\) is a well-defined bijection.
+
+    \begin{itemize}
+        \item \textbf{\(\phi\) is well-defined.} Let \(g_1, g_2 \in G\) such that \(g_1 S = g_2 S\). We need to check that \(\phi\pqty{g_1 S} = \phi\pqty{g_2 S}\). Now, \(g_1 S = g_2 S\) means that
+        \[
+            g_1 = g_2 s
+        \]
+        for some \(s \in S\).
+
+        Hence,
+        \begin{align*}
+            g_1 x &= \pqty{g_2 s} x \\
+            &= g_2 \pqty{sx} \\
+            &= g_2 x
+        \end{align*}
+        since \(s \in S\) gives \(sx = x\), as required.
+
+        \item \textbf{\(\phi\) is surjective.} For any \(gx \in \Orb_{G} \pqty{x}\), \(g \in G\), we note
+        \[
+            \phi\pqty{gS} = gx
+        \]
+        so \(\phi\) is surjective.
+
+        \item \textbf{\(\phi\) is injective.} Suppose that \(\phi\pqty{g_1 S} = \phi\pqty{g_2 S}\), which is equivalent to \(g_1 x = g_2 x\). We want to show \(g_1 S = g_2 S\). Indeed, let \(g_1 = g_2 s\) for some \(s\), we want to show \(s \in S\):
+        \begin{align*}
+            sx &= \pqty{g_2 \inverse g_1} x \\
+            &= g_2 \inverse \pqty{g_1 x} \\
+            &= g_2 \inverse \pqty{g_2 x} \\
+            &= \pqty{g_2 \inverse g_2} x \\
+            &= ex \\
+            &= x,
+        \end{align*}
+        so \(s \in \Stab_{G} \pqty{x}\), and hence \(s \in S\).
+
+        Therefore,
+        \begin{align*}
+            g_1 &= \pqty{g_2 g_2\inverse} g_1 \\
+            &= g_2 \pqty{g_2\inverse g_1} \\
+            &= g_2 s \\
+            &= g_2 S,
+        \end{align*}
+        and since cosets partition, it follows that \(g_1 S = g_2 S\) as required.
+    \end{itemize}
+\end{proof}
+
+\begin{example*}[Symmetries of a Cube]
+    Let \(G\) be the group of isometries of a cube.
+
+    As in \autoref{fig:symmetries-of-a-cube}, let \(x\) be the centre of a face of a cube. Then
+    \[
+        \abs{\Orb_{G} \pqty{x}} = 6,
+    \]
+    while
+    \[
+        \Stab_{G}\pqty{x} \isomorphic D_8,
+    \]
+    so
+    \[
+       \abs{\Stab_{G}\pqty{x}} = 8.
+    \]
+
+    Therefore,
+    \begin{align*}
+        \abs{G} &= \abs{\Orb_{G} \pqty{x}} \abs{\Stab_{G} \pqty{x}} \\
+        &= 6 \cdot 8 \\
+        &= 48.
+    \end{align*}
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{A Cube and the Centre of a Face}
+    \label{fig:symmetries-of-a-cube}
+\end{figure}
+
+The next theorem is a different kind of application of \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem). The proof is not very intuitive, but gives a very important result in group theory.
+
+\begin{theorem}[Cauchy's Theorem]
+    \label{thm:cauchy}
+    If \(\abs{G} < \infty\), and \(p\) is a prime that divides \(\abs{G}\), then there is a \(g \in G\) such that
+    \[
+        \ord\pqty{g} = p.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Consider the set \(X\) of \(p\)-tuples
+    \[
+        X = \set{\pqty{g_1, \ldots, g_p}}{g_i \in G, g_1 g_2 \cdots g_p = e}.
+    \]
+
+    We define an action of \(C_p\) on \(X\), where
+    \[
+        C_p = \Bqty{1, t, t^2, \ldots, t^{p - 1}} = \angBrac{t}
+    \]
+    as follows. Let
+    \[
+        t^k \pqty{g_1, \ldots, g_p} = \pqty{g_{k + 1}, \ldots, g_p, g_1, \ldots, g_k}.
+    \]
+
+    It is easy to see that
+    \[
+        \pqty{t^k \cdot t^l} \pqty{g_1, \ldots, g_p} = \pqty{t^k} \pqty{t^l \pqty{g_1, \ldots, g_p}}.
+    \]
+
+    We also need to check that
+    \[
+        \pqty{g_{k + 1}, \ldots, g_p, g_1, \ldots, g_k} \in X.
+    \]
+
+    Suppose that
+    \[
+        a = g_1 \cdots g_k, b = g_{k + 1} \cdots g_p,
+    \]
+    we have \(ab = e\), and hence \(b = a\inverse\), therefore
+    \[
+        ba = g_{k + 1} \cdots g_p g_1 \cdots g_k = e
+    \]
+    as required. This means we indeed defined an action \(C_p \actson X\).
+
+    We now compute the size of \(X\). We may decide \(g_1, \ldots, g_{p - 1} \in G\) to be arbitrary elements, then \(g_p\) has to be determined uniquely, namely
+    \[
+        g_p = g_{p - 1}\inverse \cdots g_2\inverse g_1\inverse
+    \]
+    such that
+    \[
+        \pqty{g_1, \ldots, g_{p - 1}, g_p} \in X.
+    \]
+
+    Therefore,
+    \[
+        \abs{X} = \abs{G}^{p - 1}.
+    \]
+
+    From \autoref{prop:stabilisers-subgroups-orbits-partition}, \(C_p \actson X\) partition \(X\) into orbits
+    \[
+        X = \Orb\pqty{x_1} \cup \Orb\pqty{x_2} \cup \cdots \cup \Orb\pqty{x_k}.
+    \]
+
+    Hence, by \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem), for each \(j = 1, 2, \ldots, k\),
+    \[
+        \abs{\Orb\pqty{x_j}} \divides \abs{C_p} = p
+    \]
+    so either the size of \(\Orb\pqty{x_j}\) is \(1\), or \(p\).
+
+    Let \(l\) be the number of orbits with size \(1\). After re-numbering, we may assume that
+    \[
+        \abs{\Orb\pqty{x_j}} = \begin{cases}
+            1, & 1 \leq j \leq l, \\
+            p, & j > l.
+        \end{cases}
+    \]
+
+    Since the orbits partition \(X\),
+    \begin{align*}
+        \abs{G}^{p - 1} &= \abs{X} \\
+        &= \sum_{j = 1}^{k} \abs{\Orb\pqty{x_j}} \\
+        &= \sum_{j = 1}^{l} \abs{\Orb{\pqty{x_j}}} + \sum_{j = l + 1}^{k} \abs{\Orb{\pqty{x_j}}} \\
+        &= l + p \cdot \pqty{k - l}.
+    \end{align*}
+
+    Since \(p \divides \abs{G}\), it follows that \(p \divides l\).
+
+    Now, note that \(x = \pqty{g_1, \ldots, g_p}\) has an orbit of size \(1\) if and only if \(g_1 = g_2 = \cdots = g_p\).
+
+    In particular, there is at least one such element giving such an orbit, namely
+    \[
+        \pqty{e, e, \ldots, e} \in X.
+    \]
+
+    So \(l > 0\). Since \(p \divides l\), it follows that
+    \[
+        l \geq p > 1,
+    \]
+    so there is at least \(1\) more orbit
+    \[
+        \pqty{g, g, \ldots, g} \in X
+    \]
+    with \(g \neq e\).
+
+    The definition of \(X\) implies that \(g^p = e\), and hence we can see \(\ord\pqty{g} \divides p\), and hence \(\ord\pqty{g} = p\) since \(p\) is prime and \(g \neq e\), as required.
+\end{proof}
+
+This is a proof that is not very intuitive, but the result is very useful.
+
+\subsection{Conjugation}
+\label{sec:conjugation}
+
+\begin{definition}[Conjugate, Conjugacy Class]
+    \label{def:conjugate-ccl}%
+    Let \(G\) be a group, and \(g \in G\). For any \(h \in G\), the element \(hgh\inverse \in G\) is called \emph{the conjugate of \(g\) by \(h\)}.
+
+    The \emph{conjugacy class} of \(g \in G\) is
+    \[
+        \ccl_{G}\pqty{g} = \set{hgh\inverse}{h \in G}.
+    \]
+\end{definition}
+
+The intuition behind this definition is that \(hgh\inverse\) has the same `shape' as \(g\), and \(hgh\inverse\) corresponds to a 'change in coordinates' of \(g\) by \(h\). Conjugacy classes partition the group.
+
+\begin{example*}[Conjugacy in an Abelian Group]
+    If \(G\) is abelian, then for any \(g, h \in G\),
+    \[
+        hgh\inverse = ghh\inverse = ge = g,
+    \]
+    so the only element conjugate to \(g\) is \(g\) itself. All conjugacy classes have size \(1\). (This condition is equivalent to a group being abelian.)
+\end{example*}
+
+Conjugacy classes of reflections in a dihedral group demonstrates the intuition of `shape' well.
+
+\begin{example*}[Conjugacy Classes of Reflections in Dihedral Group]
+    In Sheet 2, Q6, \(D_{2n}\) has \(1\) conjugacy class of reflections if \(n\) is odd, and \(2\) if \(n\) is even.
+    
+    As in \autoref{fig:ccl-dihedral}, when \(n = 6\), there are two `types' of reflections, those whose axis run through vertices, and those who run through midpoints of edges. When \(n = 5\), there is only one `type' of reflection: their axis all run through a vertex and a midpoint of an edge.
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Conjugacy in Dihedral Groups}
+    \label{fig:ccl-dihedral}
+\end{figure}
+
+Conjugation defines another action of \(G \actson G\):
+\[
+    g \star \gamma = g \gamma g\inverse
+\]
+for \(g \in G, \gamma \in X = G\). This is \textbf{very different} to the left regular action. In terms of language in actions,
+\[
+    \ccl_{G} \pqty{g} = \Orb_{G\star} \pqty{g}.
+\]
+
+From the example on abelian groups, we see that conjugating to an element itself is closely related to commutativity:
+\[
+    hgh\inverse = g \iff hg = gh.
+\]
+
+This leads to \autoref{def:centraliser-centre}.
+
+\begin{definition}[Centraliser, Centre]
+    \label{def:centraliser-centre}%
+    The \emph{centraliser} of \(g \in G\) is
+    \[
+        C_G\pqty{g} = \set{h \in G}{h g h\inverse = g}.
+    \]
+
+    It is the elements that \emph{commute with \(g\)}.
+
+    The \emph{centre} of \(G\) is
+    \[
+        Z\pqty{G} = \set{h \in G}{\forall g \in G, hg = gh} = \bigcap_{g \in G} C_G \pqty{g}.
+    \]
+
+    It is the elements that \emph{commute with everything in \(G\)}.
+\end{definition}
+
+Using the language of the conjugation action, we have
+\[
+    C_G\pqty{g} = \Stab_{G\star} \pqty{g}
+\]
+and hence \(C_G\pqty{g} \subgroup G\) forms a group. Since \(Z\pqty{G}\) is an intersection of subgroups, it is itself a subgroup: \(Z\pqty{G} \subgroup G\).
+
+\begin{remark}
+    Another useful way to think of the centre is
+    \[
+        Z\pqty{G} = \bigcup_{g \in G, \abs{\ccl\pqty{g}} = 1} \ccl\pqty{g} = \bigcup_{g \in G, \abs{\ccl\pqty{g}} = 1} \Bqty{g},
+    \]
+    i.e. the union of the conjugacy classes with size one. (We will see later that this means \(Z\pqty{G} \normalsub G\).)
+\end{remark}
+
+\section{M\"{o}bius Group}
+\label{sec:mobius-group}
+
+This section is about a fantastically interesting group. It is \emph{almost} a group of bijections on \(\CC\), but we need to formally define a `point at infinity'.
+
+\subsection{M\"{o}bius Transformations}
+
+\begin{definition}[Riemann Sphere]
+    \label{def:riemann-sphere}%
+    The \emph{Riemann Sphere} is
+    \[
+        \CC\compactify = \CC \cup \Bqty{\infty}.
+    \]
+\end{definition}
+
+The geometric explanation of a `sphere' is as follows. Consider the map defined in \autoref{fig:stereographic-projection-riemann-sphere}, the \emph{stereographic projection}
+\[
+    \functiondomain{\pi}{\CC}{S^2}.
+\]
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Stereographic Projection for the Riemann Sphere}
+    \label{fig:stereographic-projection-riemann-sphere}
+\end{figure}
+
+This identifies \(\CC\) with all the points of the sphere, except for the `North Pole' of the sphere, which corresponds to \(\infty\).
+
+\begin{remark}
+    In geometry terms, we may also think of this as the \emph{complex projective line}, \(\CP^{1}\).
+\end{remark}
+
+\begin{definition}[M\"{o}bius Transformation]
+    \label{def:mobius-transformation}%
+    Let \(a, b, c, d \in \CC\), and \(ad - bc \neq 0\). We define the corresponding \emph{M\"{o}bius Transformation} \(\functiondomain{\mu}{\CC\compactify}{\CC\compactify}\) as follows.
+
+    \begin{itemize}
+        \item If \(c \neq 0\), then
+        \[
+            \functionmap{\mu}{z}{\begin{cases}
+                \frac{az + b}{cz + d}, & z \in \CC \setminus \Bqty{-\frac{d}{c}}, \\
+                \infty, & z = - \frac{d}{c} \\
+                \frac{a}{c}, & z = \infty.
+            \end{cases}}
+        \]
+        \item If \(c = 0 \), then
+        \[
+            \functionmap{\mu}{z}{\begin{cases}
+                \frac{az + b}{d}, & z \in \CC,\\
+                \infty, & z = \infty.
+            \end{cases}}
+        \]
+    \end{itemize}
+
+    We usually just write
+    \[
+        \mu\pqty{z} = \frac{az + b}{cz + d}
+    \]
+    and interpret the different cases appropriately.
+
+    The set of all M\"{o}bius Transformations is denoted as \(\mobius\).
+\end{definition}
+
+We compute the composition of two M\"{o}bius transformations. Let
+\[
+    \mu_{1} \pqty{z} = \frac{a_1 z + b_1}{c_1 z + d_1}, \mu_{2} \pqty{z} = \frac{a_2 z + b_2}{c_2 z + d_2},
+\]
+then
+\[
+    \mu_{1} \circ \mu_{2} \pqty{z} = \frac{\pqty{a_1 a_2 + b_1 c_2} z + \pqty{a_1 b_2 + b_1 d_2}}{\pqty{c_1 a_2 + d_1 c_2} z + \pqty{c_1 b_2 + d_1 d_2}}.
+\]
+
+We may compare this with matrix multiplication:
+\[
+    \pmqty{a_1 & b_1 \\ c_1 & d_1}
+    \pmqty{a_2 & b_2 \\ c_2 & d_2}
+    =
+    \pmqty{a_1 a_2 + b_1 c_2 & a_1 b_2 + b_1 d_2 \\
+        c_1 a_2 + d_1 c_2 & c_1 b_2 + d_1 d_2},
+\]
+and using the fact that the determinant is multiplicative, we see that composition does define a binary operation on \(\mobius\).
+
+\begin{theorem}[M\"{o}bius Group]
+    \label{thm:mobius-group}%
+    \(\pqty{\mobius, \circ, \identity_{\CC\compactify}}\) is a group.
+\end{theorem}
+
+\begin{proof}
+    Composition of functions is associative. The identity
+    \[
+        \functionmap{\identity_{\CC\compactify}}{z}{z = \frac{1 \cdot z + 0}{0 \cdot z + 1}}
+    \]
+    is the identity.
+
+    For \(\functionmap{\mu}{z}{\frac{az + b}{cz + d}}\), let \(\functionmap{\nu}{z}{\frac{dz - b}{-cz + a}}\), then
+    \[
+        \mu \nu = \frac{\pqty{ad - bc}{z}}{ad - bc} = z
+    \]
+    gives the identity. (Compare this to inverse of matrices.)
+\end{proof}
+
+There is a na\"{i}ve group action from those mappings: \(\mobius \actson \CC\compactify\) by M\"{o}bius transformations.
+
+\begin{remark}
+    The previous observation with matrix multiplication shows that the na\"{i}ve mapping is a surjective homomorphism \(\functiondomain{\phi}{\GL_{2} \pqty{\CC}}{\mobius}\). In fact, we see that the restriction \(\functiondomain{\rightbar{\phi}_{\SL_{2} \pqty{\CC}}}{\SL_{2} \pqty{\CC}}{\mobius}\) is surjective as well, and the kernels are
+    \[
+        \ker \phi = \set{\lambda \identityM}{\lambda \in \CC\setminus\{0\}},
+    \]
+    and
+    \[
+        \ker \rightbar{\phi}_{\SL_{2} \pqty{\CC}} = \Bqty{\pm \identityM}.
+    \]
+
+    In the future, we see by taking quotients, we have
+    \[
+        \mobius \isomorphic \flatfrac{\GL_{2}\pqty{\CC}}{\set{\lambda \identityM}{\lambda \in \CC\setminus\{0\}}} = \PGL_{2} \pqty{\CC},
+    \]
+    and
+    \[
+        \mobius \isomorphic \flatfrac{\SL_{2}\pqty{\CC}}{\Bqty{\pm \identityM}} = \PSL_{2} \pqty{\CC}.
+    \]
+
+    This shows \(\PGL_{2} \pqty{\CC} \isomorphic \PSL_{2} \pqty{\CC}\), and provides actions \(\PGL_{2} \pqty{\CC} \actson \CP^{1}\), \(\PSL_{2} \pqty{\CC} \actson \CP^{1}\).
+\end{remark}
+
+One important way to study M\"{o}bius transformations is via their \emph{fixed points}.
+
+\begin{definition}[Fixed Point]
+    \label{def:fixed-point}%
+    Suppose \(\functiondomain{f}{X}{X}\) is a permutation. Then any \(x \in X\) such that \(f\pqty{x} = x\) is called a \emph{fixed point} of \(f\). The set of all fixed points is denoted as
+    \[
+        \Fix\pqty{f} = \set{x \in X}{f\pqty{x} = x}.
+    \]
+\end{definition}
+
+Recall that for \(\Isom\pqty{\CC}\), there is \autoref{lem:three-point-lemma} (Three--Point Lemma). There is a similar lemma for the M\"{o}bius group.
+
+\begin{lemma}[Three--Point Lemma for \(\mobius\)]
+    \label{lem:three-point-mobius}%
+    If \(\mu \in \mobius\) fixes three distinct points \(w_1, w_2, w_3 \in \CC\compactify\), then \(\mu = \identity\).
+\end{lemma}
+
+\begin{proof}
+    Let \(\mu\pqty{z} = \frac{az + b}{cz + d}\). Then a fixed point \(w_i\) satisfies
+    \[
+        w_i = \frac{a w_i + b}{c w_i + d}.
+    \]
+
+    We consider the following cases.
+
+    \begin{itemize}
+        \item If there is some \(w_i = \infty\), say \(w_1\), then \(c = 0\). Hence, \(w_2\) and \(w_3\) are such that
+        \[
+            w_i = \frac{a w_i + b}{d}
+        \]
+        and hence
+        \[
+            \pqty{a - d} w_i + b = 0.
+        \]
+
+        This gives a linear equation with \(\geq 2\) roots, so must be trivial. So \(a = d, b = 0\), and \(\mu\pqty{z} = z\) as desired.
+
+        \item If all \(w_i\)s are not \(\infty\), then \(w_1, w_2\) and \(w_3\) satisfy
+        \[
+            w_i = \frac{a w_i + b}{c w_i + d}
+        \]
+        and this rearranges to
+        \[
+            c w_i^2 + \pqty{d - a} w_i - b = 0.
+        \]
+
+        This is a quadratic with \(\geq 3\) roots, so must be trivial, and hence \(b = c = 0\) and \(a = d\), so \(\mu\pqty{z} = z\) as desired.
+    \end{itemize}
+\end{proof}
+
+We can see that any M\"{o}bius transformation has at least \(1\) fixed point in \(\CC\compactify\). In fact, a M\"{o}bius transformation can have \(1, 2\) or \(\infty\)-many fixed points (in the case where it has at least \(3\), it must be the identity and hence trivial).
+
+\begin{examples*}[M\"{o}bius Transformations and Fixed Points]
+    \begin{enumerate}
+        \item The map
+        \[
+            \mu\pqty{z} = z + 1 = \frac{1 \cdot z + 1}{0 \cdot z + 1}
+        \]
+        fixes \(\infty\):
+        \[
+            \Fix\pqty{\mu} = \Bqty{\infty}.
+        \]
+
+        \item If
+        \[
+        \mu\pqty{z} = 2z = \frac{2 \cdot z + 0}{0 \cdot z + 1},
+        \]
+        then \(\mu\) fixes \(\Bqty{0, \infty}\):
+        \[
+            \Fix\pqty{\mu} = \Bqty{0, \infty}.
+        \]
+    \end{enumerate}
+\end{examples*}
+
+\begin{lemma}[Triple Transitivity]
+    \label{lem:triple-transitive}%
+    For any triples of distinct points \(z_1, z_2, z_3 \in \CC\compactify\) and \(w_1, w_2, w_3 \in \CC\compactify\), there is a \(\mu \in \mobius\) such that
+    \[
+        \mu\pqty{z_i} = w_i
+    \]
+    for \(i = 1, 2, 3\).
+\end{lemma}
+
+\begin{proof}
+    Let
+    \[
+        \functionmap{\alpha \in \mobius}{z}{\frac{z - z_1}{z - z_3} \cdot \frac{z_2 - z_3}{z_2 - z_1},}
+    \]
+    and we observe that
+    \begin{align*}
+        z_1 & \mapsto 0, \\
+        \alpha: z_2 & \mapsto 1, \\
+        z_3 & \mapsto \infty.
+    \end{align*}
+
+    Similarly, we can write down \(\beta \in \mobius\) such that
+    \begin{align*}
+        w_1 & \mapsto 0, \\
+        \beta: w_2 & \mapsto 1, \\
+        w_3 & \mapsto \infty.
+    \end{align*}
+
+    Then the map \(\mu = \beta\inverse \circ \alpha \in \mobius\) gives a construction as desired.
+\end{proof}
+
+From \autoref{lem:three-point-mobius} (Three--Point Lemma for the M\"{o}bius Group), we see that the \(\mu\) given by \autoref{lem:triple-transitive} is \emph{unique}. We say the action \(\mobius \actson \CC\compactify\) is \textbf{sharply triply transitive}.
+
+This property allows us to give the following definition, which will show significance later when the geometry of the Riemann Sphere is discussed.
+
+\begin{definition}[Cross Ratio]
+    \label{def:cross-ratio}%
+    Let \(z_1, z_2, z_3, z_4 \in \CC_{\infty}\) be distinct. Since \(\mobius \actson \CC\compactify\) sharply triply transitively, let \(\alpha \in \mobius\) be the unique M\"{o}bius transformation such that
+    \[
+        \alpha\pqty{z_1} = 0, \alpha\pqty{z_2} = 1, \alpha\pqty{z_3} = \infty,
+    \]
+    and the \emph{cross ratio} of \(z_1, z_2, z_3, z_4\) is then given by
+    \[
+        \bqty{z_1, z_2, z_3, z_4} = \alpha\pqty{z_4} = \frac{z_4 - z_1}{z_4 - z_3} \cdot \frac{z_2 - z_3}{z_2 - z_1}.
+    \]
+\end{definition}
+
+Similar to what we did in dihedral groups, we may use \autoref{lem:three-point-mobius} (Three--Point Lemma for the M\"{o}bius Group) to find a generating set for \(\mobius\).
+
+\begin{proposition}[Generating Set for \(\mobius\)]
+    \label{prop:generating-set-mobius}%
+    \(\mobius\) is generated by the set of elements of the following \(3\) forms:
+    \begin{enumerate}
+        \item \(\functionmap{\alpha_{a}}{z}{az}\) for \(a \neq 0, a \in \CC\);
+        \item \(\functionmap{\beta_{b}}{z}{z + b}\) for \(b \in \CC\);
+        \item \(\functionmap{\gamma}{z}{\frac{1}{z}}\).
+    \end{enumerate}
+\end{proposition}
+
+Instead of showing this by explicit construction by elementary algebra, we show this similarly to what we did for dihedral groups.
+
+\begin{proof}
+    Let \(\mu \in \mobius\), and \(z_1 = \mu\pqty{0}\), \(z_2 = \mu\pqty{1}\), and \(z_3 = \mu\pqty{\infty}\). We `decompose' \(\mu\) by the following three steps.
+
+    \begin{enumerate}
+        \item Construct \(\mu_1\) such that \(\mu_1 \pqty{z_3} = \infty\). If \(z_3 = \infty\), we take \(\mu_1 = \identity_{\CC\compactify}\), or if \(z_3 \neq \infty\), take
+        \[
+            \mu_{1}\pqty{z} = \frac{1}{z - z_3} = \gamma \circ \beta_{- z_3} \pqty{z}.
+        \]
+
+        Now, let \(z_1' = \mu_1 \pqty{z_1}\) and \(z_2' = \mu_1 \pqty{z_2}\).
+
+        \item Let \(\mu_2 = \beta_{- z_1'}\), i.e.
+        \[
+            \mu_2\pqty{z} = z - z_1'.
+        \]
+
+        Then \(\mu_2\pqty{\infty} = \infty\) and \(\mu_2\pqty{z_1'} = 0\).
+
+        By the construction so far,
+        \[
+            \mu_2 \circ \mu_1 \pqty{z_3} = \infty, \mu_2 \circ \mu_1 \pqty{z_1} = 0.
+        \]
+
+        Let \(z_2'' = \mu_2 \circ \mu_1 \pqty{z_2} \neq 0\).
+
+        \item Let \(\mu_3 = \alpha_{\frac{1}{z_2''}}\). By construction,
+        \begin{align*}
+            \mu_3 \circ \mu_2 \circ \mu_1 \pqty{z_1} &= 0, \\
+            \mu_3 \circ \mu_2 \circ \mu_1 \pqty{z_2} &= 1, \\
+            \mu_3 \circ \mu_2 \circ \mu_1 \pqty{z_3} &= \infty,
+        \end{align*}
+        so \(\pqty{\mu_3 \circ \mu_2 \circ \mu_1}\inverse = \mu_1\inverse \circ \mu_2\inverse \circ \mu_3\inverse\) sends
+        \begin{align*}
+            0 &\mapsto z_1, \\
+            1 &\mapsto z_2, \\
+            \infty &\mapsto z_3,
+        \end{align*}
+        which are the same as \(\mu\). Therefore, by \autoref{lem:three-point-mobius} (Three--Point Lemma for the M\"{o}bius Group), we have
+        \[
+            \mu = \mu_1\inverse \circ \mu_2\inverse \circ \mu_3\inverse,
+        \]
+        as desired.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Lines and Circles}
+\label{sec:lines-and-circles}
+
+We consider the geometry that M\"{o}bius maps preserve.
+
+\begin{definition}[Circle in \(\CC\compactify\)]
+    \label{def:circle-riemann}%
+    A \emph{circle} in \(\CC\compactify\) is:
+    \begin{enumerate}
+        \item a Euclidean circle in \(\CC\), defined as
+        \[
+            \set{z \in \CC}{\abs{z - c} = r}
+        \]
+        for \(c \in \CC, r > 0\); or
+        \item \(L \cup \Bqty{\infty}\) where \(L\) is a Euclidean straight line in \(\CC\), defined as
+        \[
+            \set{z \in \CC}{\abs{z - a} = \abs{z - b}}
+        \]
+        for \(a, b \in \CC\).
+    \end{enumerate}
+\end{definition}
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Circles in \(\CC\compactify\)}
+    \label{fig:circles-in-riemann-sphere}
+\end{figure}
+
+To visualise this, a circle in \(\CC\compactify\) gives a Euclidean straight line in \(\CC\) when it is a circle passing through the `North Pole' of the Riemann sphere.
+
+\begin{theorem}[M\"{o}bius Transformations Preserve Circles]
+    \label{thm:mobius-preserve-circles}%
+    If \(C \subseteq \CC\compactify\) is a circle and \(\mu \in \mobius\), then \(\mu\pqty{C}\) is also a circle.
+\end{theorem}
+
+\begin{proof}
+    Recall that \(\mobius\) is generated by
+    \begin{enumerate}
+        \item \(\functionmap{\alpha_{a}}{z}{az}\) for \(a \neq 0, a \in \CC\);
+        \item \(\functionmap{\beta_{b}}{z}{z + b}\) for \(b \in \CC\);
+        \item \(\functionmap{\gamma}{z}{\frac{1}{z}}\).
+    \end{enumerate}
+
+    This is easy for \(\alpha_a\) and \(\beta_b\), so we verify for \(\gamma\).
+    \begin{itemize}
+        \item If \(C\) is a Euclidean circle, \(\gamma\pqty{C}\) has equation
+        \begin{align*}
+            \abs{\frac{1}{z} - c} = r &\iff \abs{\frac{1}{z} - c}^2 = r^2 \\
+            &\iff \pqty{\frac{1}{z} - c} \pqty{\frac{1}{\conjugate{z}} - \conjugate{c}} = r^2 \\
+            &\iff \frac{1}{\abs{z}^2} - \frac{c}{\conjugate{z}} - \frac{\conjugate{c}}{z} + \abs{c}^2 - r^2 = 0 \\
+            &\iff \pqty{\abs{c}^2 - r^2} \abs{z}^2 - cz - \conjugate{c} \conjugate{z} + 1 = 0.
+        \end{align*}
+        \begin{itemize}
+            \item If \(\abs{c}^2 = r^2\), i.e. when \(C\) passes through the origin, this is equivalent to
+            \begin{align*}
+                \abs{\frac{1}{z} - c} = r &\iff cz + \conjugate{c} \conjugate{z} = 1 \\
+                &\iff \frac{z}{\conjugate{c}} + \frac{\conjugate{z}}{c} = \frac{1}{\abs{c}^2} \\
+                &\iff \abs{z}^2 = \abs{z}^2 - \frac{z}{\conjugate{c}} - \frac{\conjugate{z}}{c} + \frac{1}{\abs{c}^2} \\
+                &\iff \abs{z} = \abs{z - \frac{1}{c}}
+            \end{align*}
+            gives a straight line as required.
+            \item Otherwise, \(\abs{c}^2 \neq r^2\), and the equation becomes
+            \begin{align*}
+                \abs{\frac{1}{z} - c} = r &\iff \abs{z}^2 - \pqty{\frac{c}{\abs{c}^2 - r^2}} z - \pqty{\frac{\conjugate{c}}{\abs{c}^2 - r^2}} \conjugate{z} + \frac{1}{\abs{c}^2 - r^2} = 0 \\
+                &\iff \abs{z - \frac{\conjugate{c}}{\abs{c}^2 - r^2}}^2 = \frac{\abs{c}^2}{\pqty{\abs{c}^2 - r^2}^2} - \frac{1}{\abs{c}^2 - r^2} \\
+                &\iff \abs{z - \frac{\conjugate{c}}{\abs{c}^2 - r^2}}^2 = \frac{r^2}{\pqty{\abs{c}^2 - r^2}^2}
+            \end{align*}
+            is a Euclidean circle.
+        \end{itemize}
+        \item The case where \(C\) is a line is similar. 
+    \end{itemize}
+\end{proof}
+
+We now relate the cross ratio defined in \autoref{def:cross-ratio} to geometry.
+
+\begin{corollary}[Condition for Points in \(\CC\compactify\) to lie on a Circle]
+    \(4\) points \(z_1, z_2, z_3, z_4 \in \CC\compactify\) lie on a circle if and only if their cross ratio
+    \[
+        \bqty{z_1, z_2, z_3, z_4} \in \RR\compactify = \RR \cup \Bqty{\infty}.
+    \]
+\end{corollary}
+
+\begin{proof}
+    From \autoref{def:cross-ratio}, let \(\alpha \in \mobius\) such that
+    \begin{align*}
+        \alpha \pqty{z_1} &= 0, \\
+        \alpha \pqty{z_2} &= 1, \\
+        \alpha \pqty{z_3} &= \infty, \\
+        \alpha \pqty{z_4} &= \bqty{z_1, z_2, z_3, z_4}.
+    \end{align*}
+
+    We prove the two directions separately.
+    \begin{itemize}
+        \item \(\implies\). If \(z_1, z_2, z_3, z_4\) lie on a circle \(C\), then by \autoref{thm:mobius-preserve-circles}, \(0, 1, \infty, \alpha\pqty{z_4}\) lie on a circle \(\alpha\pqty{C}\).
+        
+        But the only circle containing \(0, 1, \infty\) is the line \(\RR\compactify\), and hence \(\alpha\pqty{z_4} \in \RR\compactify\) as required.
+
+        \item \(\impliedby\). If \(\bqty{z_1, z_2, z_3, z_4} \in \RR\compactify\), then \(\alpha\pqty{z_1}, \alpha\pqty{z_2}, \alpha\pqty{z_3}, \alpha\pqty{z_4} \in \RR\compactify\) is a circle, so
+        \[
+            z_1, z_2, z_3, z_4 \in \alpha\inverse\pqty{\RR\compactify}
+        \]
+        which is a circle as well, by \autoref{thm:mobius-preserve-circles}.
+    \end{itemize}
+\end{proof}
+
+\section{Finite Groups}
+\label{sec:finite-groups}
+
+We have already seen several useful theorems on finite groups, e.g. \autoref{thm:lagrange} (Lagrange's Theorem), \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem), \autoref{thm:cayley} (Cayley's Theorem) and \autoref{thm:cauchy} (Cauchy's Theorem).
+
+In this section we will be thinking of small examples of finite groups. Namely, we proceed na\"{i}vely, classifying all groups up to order \(8\).
+
+\subsection{Groups of Order 1, 2, 3, 5 and 7}
+\label{sec:groups-of-order-1-2-3-5-7}
+
+\begin{itemize}
+    \item If \(\abs{G} = 1\), then \(G\) must be trivial: \(G \isomorphic \trivialgp\).
+    \item If \(\abs{G} = 2, 3, 5, 7\), since those are all primes, by \autoref{cor:group-prime-order} (groups of prime order are cyclic), \(G \isomorphic C_{\abs{G}}\).
+\end{itemize}
+
+\subsection{Groups of Order 4}
+\label{sec:groups-of-order-4}
+
+We have \(C_4\) as an example of a group of order \(4\). For another group of this order, we first define the following.
+
+\begin{definition}[Direct Product]
+    \label{def:direct-product}%
+    If \(G, H\) are groups, the \emph{direct product} is
+    \[
+        G \times H = \set{\pqty{g, h}}{g \in G, h \in H}
+    \]
+    equipped with the group operation
+    \[
+        \pqty{g_1, h_1} \cdot_{G \times H} \pqty{g_2, h_2} = \pqty{g_1 \cdot_G g_2, h_1 \cdot_H h_2}.
+    \]
+
+    Note that the element \(e_G, e_H\) is the identity, and for the inverse
+    \[
+        \pqty{g, h}\inverse = \pqty{g\inverse, h\inverse}.
+    \]
+\end{definition}
+
+The direct product of two groups is a group, and it is easy to see for any group \(G, H, K\),
+\begin{itemize}
+    \item \(G \times H \isomorphic H \times G\): the direct product is \emph{commutative} up to isomorphism;
+    \item \(\pqty{G \times H} \times K \isomorphic G \times \pqty{H \times K}\): the direct product is \emph{associative} up to isomorphism;
+    \item \(\trivialgp \times G \isomorphic G \times \trivialgp \isomorphic G\): the trivial group is \textbf{an} \emph{identity} up to isomorphism (for infinite groups, \(G \times H \isomorphic G\) \textbf{does not require} \(H\) to be trivial, for example \(\RR \times \RR \isomorphic \RR\), since they are isomorphic when viewed as \(\QQ\)-vector spaces);
+    \item If \(G \isomorphic H\), then \(G \times K \isomorphic H \times K\): we may replace elements in the direct product up to isomorphism;
+    \item \(\abs{G \times H} = \abs{G} \times \abs{H}\): the order of the direct product is the product of the orders;
+    \item \(\ord\pqty{g, h} = \lcm\Bqty{\ord\pqty{g}, \ord\pqty{h}}\): the order of an element is the least common multiple of the order of the separate elements.
+\end{itemize}
+
+\begin{remark}
+    The direct product \(H_1 \times H_2\) provides a \emph{projection map}, defined as
+    \[
+        \function{\pi}{H_1 \times H_2}{H_1}{\pqty{h_1, h_2}}{h_1}
+    \]
+    and obviously this map is surjective with kernel
+    \[
+        \ker \pi = \trivialgp_{H_1} \times H_2 \isomorphic H_2.
+    \]
+\end{remark}
+
+\begin{example*}[The Klein--4 Group]
+    The group
+    \[
+        K_4 = C_2 \times C_2
+    \]
+    is called the \emph{Klein--4 Group}. It can be thought of the dihedral group \(D_4\).
+
+    For any \(\pqty{a, b} \in K_4\), we have
+    \[
+        \pqty{a, b}^2 = \pqty{a^2, b^2} = \pqty{e, e} = e,
+    \]
+    so every element has order \(1\) or order \(2\). In particular, \(K_4 \notisomorphic C_4\).
+\end{example*}
+
+To show these are the only groups of order \(4\), it is useful to introduce a theorem regarding direct products.
+
+\begin{theorem}[Direct Product Theorem]
+    \label{thm:dpt-direct-product-theorem}%
+    If \(H_1, H_2 \subgroup G\), and
+    \begin{enumerate}
+        \item \(H_1 \cap H_2 = \Bqty{e}\): \(H_1\) and \(H_2\) \emph{intersect trivially};
+        \item \(h_1 h_2 = h_2 h_1\) for all \(h_1 \in H_1, h_2 \in H_2\): elements in \(H_1\) and \(H_2\) \emph{commute}; and
+        \item \(G = H_1 H_2\): for all \(g \in G\), \(g = h_1 h_2\) for some \(h_1 \in H_1\) and \(h_2 \in H_2\);
+    \end{enumerate}
+    then \(G \isomorphic H_1 \times H_2\).
+\end{theorem}
+
+\begin{proof}
+    We consider the na\"{i}ve map
+    \[
+        \function{\phi}{H_1 \times H_2}{G}{\pqty{h_1, h_2}}{h_1 h_2.}
+    \]
+
+    We show that \(\phi\) is an isomorphism.
+
+    \emph{\(\phi\) is a homomorphism.} For any \(\pqty{h_1, h_2}, \pqty{h_1', h_2'} \in H_1 \times H_2\), we have
+    \begin{align*}
+        \phi\pqty{\pqty{h_1, h_2}} \phi\pqty{\pqty{h_1', h_2'}} &= \pqty{h_1 h_2} \pqty{h_1' h_2'} \\
+        &= \pqty{h_1 h_1'} \pqty{h_2 h_2'} && \text{by condition (iii)} \\
+        &= \phi\pqty{\pqty{h_1 h_1', h_2 h_2'}} \\
+        &= \phi\pqty{\pqty{h_1, h_2} \cdot \pqty{h_1', h_2'}}.
+    \end{align*}
+
+    \emph{\(\phi\) is injective.} Recall this is equivalent to showing that the kernel \(\ker \phi = \trivialgp\) is trivial.
+
+    Suppose \(\pqty{h_1, h_2} \in H_1 \times H_2\) is such that \(\phi\pqty{\pqty{h_1, h_2}} = e = h_1 h_2\), i.e. \(\pqty{h_1, h_2} \in \ker\phi\).
+
+    Then we have
+    \[
+        H_1 \ni h_1 = h_2\inverse \in H_2
+    \]
+    so \(h_2\inverse = h_1 \in H_1 \cap H_2 = \trivialgp\) by condition (i). Hence, \(h_1 = h_2 = e\) and \(\pqty{h_1, h_2} = \pqty{e, e}\), showing \(\ker \phi = \trivialgp\) as desired.
+
+    \emph{\(\phi\) is surjective.} This is from condition (iii).
+
+    This shows \(\phi\) is an isomorphism, as desired.
+\end{proof}
+
+\begin{remark}
+    Condition (iii) is to show \(\phi\) is surjective, and in the case where \(H_1, H_2 \leq G\) is finite, we have if \(H_1 \cap H_2 = \trivialgp\), then
+    \[
+        \abs{\set{h_1 h_2}{h_1 \in H_1, h_2 \in H_2}} = \abs{H_1 H_2} = \abs{H_1} \abs{H_2},
+    \]
+    so we may replace condition (iii) with \(\abs{G} = \abs{H_1} \abs{H_2}\) to show that the mapping is surjective.
+\end{remark}
+
+\begin{remark}
+    For any group \(G \isomorphic H_1 \times H_2\), we may choose the natural copies of \(H_1\) and \(H_2\) in \(G\), \(H_1'\) and \(H_2'\):
+    \[
+        H_1' = H_1 \times \trivialgp = \set{\pqty{h_1, e}}{h_1 \in H_1} \isomorphic H_1
+    \]
+    and
+    \[
+        H_2' = \trivialgp \times H_2 = \set{\pqty{e, h_2}}{h_2 \in H_2} \isomorphic H_2,
+    \]
+    and we have \(G \isomorphic H_1' \times H_2'\). \(H_1'\) and \(H_2'\) here satisfy the condition for \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem). Therefore, this theorem is, in a sense, `if and only if', up to isomorphism.
+\end{remark}
+
+Now we are ready to classify all groups of order 4.
+
+\begin{lemma}[Groups of Order 4]
+    \label{lem:groups-of-order-4}%
+    If \(\abs{G} = 4\), then \(G \isomorphic C_4\) or \(G \isomorphic C_2 \times C_2\).
+\end{lemma}
+
+\begin{proof}
+    By \autoref{cor:order-of-element-divides} (Corollary of Lagrange's Theorem), every non-trivial element in \(G\) has order \(2\) or \(4\).
+    
+    \begin{itemize}
+        \item If there is some \(g \in G\) such that \(\ord\pqty{g} = 4\), then \(G = \angBrac{g} \isomorphic C_4\).
+        \item Otherwise, every non-trivial element has order \(2\). Let \(a, b \in G\) be distinct elements such that \(\ord{a} = \ord{b} = 2\).
+        
+        Let \(H_1 = \angBrac{a} \isomorphic C_2\), \(H_2 = \angBrac{b} \isomorphic C_2\). We aim to show that \(G \isomorphic H_1 \times H_2 \isomorphic C_2 \times C_2\).
+
+        First, \(H_1 \cap H_2 = \trivialgp_{G}\) since \(a \neq b\), giving condition (i). Then, \(\abs{G} = \abs{H_1} \abs{H_2}\), which gives condition (iii).
+
+        Finally, since \(\ord\pqty{ab} = 2\) (since \(ab \neq e\)), then
+        \[
+            ab = \pqty{ab}\inverse = b\inverse a\inverse = ba,
+        \]
+        as required for (ii).
+
+        Therefore, \(G \isomorphic C_2 \times C_2\) by \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem), as desired.
+    \end{itemize}
+\end{proof}
+
+It is useful to see when/whether a direct product of cyclic groups is cyclic -- in the example above \(C_2 \times C_2 \notisomorphic C_4\), but we will soon see that \(C_2 \times C_3 \isomorphic C_6\).
+
+\begin{theorem}[Chinese Remainder Theorem]
+    \label{thm:crt-chinese-remainder-theorem}%
+    If \(\gcd\Bqty{m, n} = 1\), then
+    \[
+        C_m \times C_n \isomorphic C_{mn}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Let \(C_{mn} = \angBrac{g}\). Let
+    \[
+        H_1 = \angBrac{g^n} \isomorphic C_m, H_2 = \angBrac{g^m} \isomorphic C_n,
+    \]
+    we check the hypothesis of \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem).
+
+    \emph{(i).} Note that \(g^k \in H_1\) if and only if \(n \divides k\), and similarly, \(g^k \in H_2\) if and only if \(m \divides k\).
+
+    Hence, \(g^k \in H_1 \cap H_2\) if and only if \(m \divides k\) and \(n \divides k\). This is equivalent to
+    \[
+        \lcm\Bqty{m, n} \divides k,
+    \]
+    and since \(\gcd\Bqty{m, n} = 1\), we have \(\lcm\Bqty{m, n} = mn\), and hence this is equivalent to
+    \[
+        mn \divides k,
+    \]
+    which is equivalent to \(g^k = e\).
+
+    \emph{(ii).} Cyclic groups are abelian.
+
+    \emph{(iii).} \(\abs{C_{mn}} = \abs{C_m} \abs{C_n}\) so this is immediate.
+\end{proof}
+
+\subsection{Groups of Order 6}
+\label{sec:groups-of-order-6}
+
+We may guess the groups of order \(6\) are the dihedral group \(D_6\), and the cyclic group \(C_6 \isomorphic C_2 \times C_3\). In fact, through some experiment, we may see that they are the only ones.
+
+\begin{lemma}[Groups of Order 6]
+    \label{lem:groups-of-order-6}%
+    If \(\abs{G} = 6\), then \(G \isomorphic C_6\) or \(G \isomorphic D_6\).
+\end{lemma}
+
+\begin{proof}
+    By \autoref{thm:cauchy} (Cauchy's Theorem), there are \(r, s \in G\) such that \(\ord\pqty{r} = 3, \ord\pqty{s} = 2\).
+
+    Since \(\abs{\angBrac{r}} = 3\), we have from \autoref{thm:lagrange} (Lagrange's Theorem), that \(\abs{G : \angBrac{r}} = 2\), i.e. there are two cosets of \(\angBrac{r}\). One of them is \(\angBrac{r}\), and since \(s \notin \angBrac{r}\), the other left coset is \(s\angBrac{r}\). Similarly, for right cosets, the right coset other than the trivial one is \(\angBrac{r}s\). Therefore, we have
+    \[
+        s\angBrac{r} = G \setminus \angBrac{r} = \angBrac{r} s.
+    \]
+
+    Hence, \(sr = r^i s\) for some \(i = 0, 1, 2\).
+
+    \begin{itemize}
+        \item \(i = 0\). Then \(sr = s\), so \(r = e\) which is impossible since \(\ord\pqty{r} = 3\).
+        \item \(i = 1\). Then \(sr = rs\), so elements in \(\angBrac{r}\) and \(\angBrac{s}\) commute. By \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem),
+        \[
+            G \isomorphic \angBrac{r} \times \angBrac{s} \isomorphic C_3 \times C_2 \isomorphic C_6.
+        \]
+        \item \(i = 2\). Then \(sr = r^2 s = r\inverse s\) give the \emph{dihedral relation}. Therefore, by \autoref{prop:group-isomorphic-dihedral}, we have \(G \isomorphic D_6\).
+    \end{itemize}
+\end{proof}
+
+\begin{remark}
+    Another obvious group of order \(6\) is \(S_3\), but in fact \(S_3 \isomorphic D_6\) since it is non-abelian with order \(6\). (Consider permutations on vertices of triangle.)
+\end{remark}
+
+\subsection{Groups of Order 8}
+\label{sec:groups-of-order-8}
+
+We already know the groups \(C_2 \times C_2 \times C_2\), \(C_2 \times C_4\) and \(C_8\) as abelian groups of order 8, and \(D_8\) which is non-abelian, and by examining the order of elements, we can easily see none of them are isomorphic to each other.
+
+Another example of a group of order 8 is the quaternion group \(Q_8\).
+
+\begin{examples*}[The Quaternion Group \(Q_8\)]
+    The \emph{quaternion group} is
+    \begin{align*}
+        Q_8 &= \Bqty{
+            \pmqty{\pm 1 & 0 \\ 0 & \pm 1},
+            \pmqty{\pm i & 0 \\ 0 & \mp i},
+            \pmqty{0 & \pm 1 \\ \mp 1 & 0},
+            \pmqty{0 & \pm i \\ \pm i & 0}} \\
+        &\leq \SU\pqty{2} \leq \SL_2\pqty{\CC} \leq \GL_2\pqty{\CC}.
+    \end{align*}
+
+    This is a group under matrix multiplication.
+
+    We usually use Hamilton's notation to simplify this: let
+    \begin{align*}
+        1 &= \pmqty{1 & 0 \\ 0 & 1}, \\
+        i &= \pmqty{i & 0 \\ 0 & -i},\\
+        j &= \pmqty{0 & 1 \\ -1 & 0},\\
+        k &= \pmqty{0 & i \\ i & 0},
+    \end{align*}
+    then we have
+    \[
+        Q_i = \Bqty{\pm 1, \pm i, \pm j, \pm k}
+    \]
+    satisfying
+    \begin{itemize}
+        \item \(i^2 = j^2 = k^2 = -1\),
+        \item \(\pqty{-1} i = -i\), etc.,
+        \item \(ij = k, jk = i, ki = j\), and
+        \item \(\pqty{-1}\) commutes with everything.
+    \end{itemize}
+\end{examples*}
+
+Note since \(ji = -k \neq k = ij\), \(Q_8\) is \emph{non-abelian}, so
+\[
+    Q_8 \notisomorphic C_2 \times C_2 \times C_2, C_2 \times C_4, C_8,
+\]
+and since \(D_8\) has 5 elements of order 2, while \(Q_8\) only has 1 (\(-1\)), we see
+\[
+    Q_8 \notisomorphic D_8.
+\]
+
+In fact these are all groups of order 8.
+
+\begin{lemma}[Groups of Order 8]
+    \label{lem:groups-of-order-8}%
+    If \(\abs{G} = 8\), then \(G\) is isomorphic to one of the following:
+    \[
+        C_2 \times C_2 \times C_2, C_2 \times C_4, C_8, D_8, Q_8.
+    \]
+\end{lemma}
+
+\begin{proof}
+    By \autoref{cor:order-of-element-divides} (Corollary of Lagrange's Theorem), every element of \(G\) has order \(1\), \(2\), \(4\) or \(8\). We conduct casework on the order of the elements in the group.
+
+    \begin{itemize}
+        \item If there is an element of order \(8\), then \(G \isomorphic C_8\).
+        
+        \item Suppose that every non-trivial element has order \(2\). Then choosing non-trivial elements
+        \[
+            a, b \neq a, c \neq a, c \neq b, c \neq ab
+        \]
+        gives by \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem) that
+        \begin{align*}
+            G &\isomorphic \angBrac{a} \times \angBrac{b} \times \angBrac{c} \\
+            &\isomorphic C_2 \times C_2 \times C_2.
+        \end{align*}
+
+        \item We now suppose that there is an \(a \in G\) such that \(\ord\pqty{a} = 4\). Let \(b \in G \setminus \angBrac{a}\), and we have from \autoref{thm:lagrange} (Lagrange's Theorem) that
+        \[
+            \abs{G : \angBrac{a}} = 2
+        \]
+        so
+        \[
+            b\angBrac{a} = G \setminus \angBrac{a} = \angBrac{a} b.
+        \]
+
+        Therefore,
+        \[
+            b a = a^i b
+        \]
+        for some \(i = 0, 1, 2, 3\).
+
+        \begin{itemize}
+            \item If \(i = 0\), we have \(ba = eb = e\), which gives \(a = e\). This is impossible.
+            \item If \(i = 1\), we have \(ba = ab\), and hence by induction, \(b a^j = a^j b\) for all \(j\), therefore \(G\) is abelian. We leave this case here.
+            \item If \(i = 2\), we have \(ba = a^2 b\), and hence
+            \[
+                b a b\inverse = a^2,
+            \]
+            and the left-hand side has order 4:
+            \[
+                \ord\pqty{b a b \inverse} = \ord\pqty{a} = 4,
+            \]
+            while the right-hand side has order 2. This is impossible.
+            \item If \(i = 3\), this gives \(ba = a^3 b = a\inverse b\), the dihedral relation. We leave this case here.
+        \end{itemize}
+
+        On the other hand, note that if \(b^2 \in b \angBrac{a}\), then \(b \in \angBrac{a}\), which is not true. So \(b^2 \in \angBrac{a}\), and we get several cases here.
+        \begin{itemize}
+            \item \(b^2 = e\). We leave this for future discussion.
+            \item \(b^2 = a\). Hence, \(\ord\pqty{b} = 8\), and hence \(G = \angBrac{b} \isomorphic C_8\).
+            \item \(b^2 = a^2\). We leave this for future discussion.
+            \item \(b^2 = a^3 = a\inverse\). Hence, \(\ord\pqty{b} = 8\), and hence \(G = \angBrac{b} \isomorphic C_8\).
+        \end{itemize}
+
+        Now, we have 4 remaining combinations to discuss.
+        \begin{itemize}
+            \item \(G\) being abelian, and \(b^2 = e\). By \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem), since \(\angBrac{b} \isomorphic C_2\), \(\angBrac{a} \isomorphic C_4\), and \(\angBrac{a} \cap \angBrac{b} = \Bqty{e}\), we have
+            \[
+                G \isomorphic C_2 \times C_4.
+            \]
+            \item \(G\) being abelian, and \(b^2 = a^2\), and therefore \(\pqty{a b \inverse}^2 = e\), so \(\ord \pqty{a b \inverse} = 2\). Similarly, by \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem), we have \(G \isomorphic C_2 \times C_4\).
+            \item \(\ord\pqty{a} = 4\), \(\ord\pqty{b} = 2\), \(ba = a\inverse b\). By \autoref{prop:group-isomorphic-dihedral}, we see \(G \isomorphic D_8\).
+            \item \(\ord\pqty{a} = 4\), \(b^2 = a^2\) and \(b a = a \inverse b\). We set \(i = a\), \(j = b\), \(k = ab\), \(-1 = a^2 = b^2\), then this defines an isomorphism \(Q_8 \to G\) as in \autoref{tab:quartonian-group-isomorphism}.
+
+            \begin{table}[ht!]
+                \centering
+                \begin{tabular}{cc}
+                    \(Q_8\) & \(G\) \\
+                    \hline
+                    \(e\) & \(e\) \\
+                    \(i\) & \(a\) \\
+                    \(-1\) & \(a^2\) \\
+                    \(-i\) & \(a^3\) \\
+                    \(j\) & \(b\) \\
+                    \(k\) & \(a b\) \\
+                    \(-j\) & \(a^2 b\) \\
+                    \(-k\) & \(a^3 b\)
+                \end{tabular}
+                \caption{Isomorphism of Elements in \(Q_8\) and \(G\)}
+                \label{tab:quartonian-group-isomorphism}
+            \end{table}
+        \end{itemize}
+    \end{itemize}
+\end{proof}
+
+In summary, \autoref{tab:groups-up-to-order-8} gives a table of all groups up to order 8, up to isomorphism.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{cl}
+        \(\abs{G}\) & \(G\) \\
+        \hline
+        1 & \(\trivialgp\) \\
+        2 & \(C_2 \isomorphic S_2\) \\
+        3 & \(C_3 \isomorphic A_3\) \\
+        4 & \(C_4, C_2 \times C_2 \isomorphic D_4 \isomorphic K_4\) \\
+        5 & \(C_5\) \\
+        6 & \(C_6 \isomorphic C_2 \times C_3, D_6 \isomorphic S_3\) \\
+        7 & \(C_7\) \\
+        8 & \(C_8, C_4 \times C_2, C_2 \times C_2 \times C_2, D_8, Q_8\)
+    \end{tabular}
+    \caption{Groups of Order up to 8 up to Isomorphism}
+    \label{tab:groups-up-to-order-8}
+\end{table}
+
+\section{Quotients}
+\label{sec:quotients}
+
+\subsection{Normal Subgroups}
+\label{sec:normal-subgroups}
+
+Let \(\functiondomain{\phi}{G}{H}\) be a homomorphism, then \(\ker \phi \subgroup G\) is always a special kind of subgroup.
+
+\begin{definition}[Normal Subgroup]
+    \label{def:normal-subgroup}%
+    A subgroup \(H \subgroup G\) is called \emph{normal} if \(g h g\inverse \in H\) for any \(h \in H\) and \(g \in G\). If so, we write \(H \normalsub G\).
+\end{definition}
+
+\begin{examples*}[Examples of Normal Subgroups]
+    \begin{enumerate}
+        \item \(\trivialgp \normalsub G\) and \(G \normalsub G\) for any group \(G\).
+        \item All subgroups of an abelian group is normal. If \(G\) is abelian, and \(H \subgroup G\), then \(H \normalsub G\).
+        \item \(\angBrac{r} \normalsub D_{2n}\) since
+        \[
+            s r^k s\inverse = r^{-k} \in \angBrac{r}
+        \]
+        by \autoref{lem:dihedral-relation} (Dihedral Relation). But \(\angBrac{s}\) is \emph{not} normal since
+        \[
+            r s r \inverse = s r^{-2} \notin \angBrac{s}.
+        \]
+        \item Suppose \(\functiondomain{\phi}{G}{G'}\) is a homomorphism. If \(h \in \ker \phi\), \(g \in G\), then
+        \[
+            \phi\pqty{g h g\inverse} = e
+        \]
+        and hence \(g h g\inverse \in \ker \phi\), so \(\ker \phi \normalsub G\).
+    \end{enumerate}
+\end{examples*}
+
+From the definition, we can see that normal subgroups are subgroups which are precisely unions of conjugation classes: indeed, the condition for a subgroup to be normal is that all \(h \in H \normalsub G\) satisfy \(\ccl\pqty{h} \subseteq H\).
+
+Another way to think of normal subgroups is that their left and right cosets are equivalent.
+
+\begin{lemma}[Left and Right Cosets of Normal Subgroup are the same]
+    \label{lem:left-right-coset-normal}%
+    Suppose \(H \subgroup G\). Then \(H \normalsub G\) if and only if \(gH = Hg\) for all \(g \in G\).
+\end{lemma}
+
+Intuitively, this is true, since the definition of a normal subgroup is equivalent to that \(gHg\inverse \subseteq H\) and \(g\inverse H g \subseteq H \iff H \subseteq g H g\inverse\) for all \(g \in G\), and is hence equivalent to \(gHg\inverse = H\), equivalent to \(gH = Hg\) for all \(g \in G\).
+
+\begin{proof}
+    \begin{itemize}
+        \item \(\implies\). Let \(h \in H\) and \(g \in G\). Since \(H\normalsub G\), we have \(g h g\inverse \in H\). Hence,
+        \[
+            gh = \pqty{ghg\inverse} g \in Hg,
+        \]
+        so \(gH \subseteq Hg\), and similarly \(Hg \subseteq gH\), so \(gH = Hg\) as desired.
+        \item \(\impliedby\). Suppose \(gH = Hg\). Let \(h \in H\), then
+        \[
+            gh \in gH = Hg,
+        \]
+        so there exists \(h' \in H\) such that
+        \[
+            gh = h' g
+        \]
+        and hence
+        \[
+            ghg\inverse = h' \in H
+        \]
+        as desired.
+    \end{itemize}
+\end{proof}
+
+From here, we can see that the second condition in \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem) that elements in \(H_1\) and \(H_2\) commute can be replaced by \(H_1, H_2 \normalsub G\), given that \(H_1 \cap H_2 = \trivialgp\) and that \(G = H_1 H_2\).
+
+Indeed, if \(H_1\) and \(H_2\) are normal in \(G\), then for any \(h_1 \in H_1\) and \(\eta_2 \in H_2\), we have
+\[
+    h_1 h_2 \in h_1 H_2 = H_2 h_1
+\]
+so
+\[
+    h_1 h_2 = \eta_2 h_1
+\]
+for some \(h'_2 \in H_2\). Then,
+\[
+    h_1 h_2 \eta_2\inverse = \eta_2 h_1 \eta_2\inverse \in H_1
+\]
+since \(H_1 \normalsub G\), and hence \(h_2 \eta_2\inverse \in H_1\), the only possibility being \(\eta_2 = h_2\), so \(h_1 h_2 = h_2 h_1\).
+
+Conversely, if \(G = H_1 H_2\) and elements in \(H_1\) and \(H_2\) commute, let \(g = h_1 h_2 \in G\) for \(h_1 \in H_1\) and \(h_2 \in H_2\), let \(\eta_1 \in H_1\) and \(\eta_2 \in H_2\), we have
+\begin{align*}
+    g \eta_1 g\inverse &= h_1 h_2 \eta_1 h_2\inverse h_1\inverse \\
+    &= h_1 \eta_1 h_2 h_2\inverse h_1\inverse \\
+    &= h_1 \eta_1 h_1\inverse \\
+    &\in H_1,
+\end{align*}
+and
+\begin{align*}
+    g \eta_2 g\inverse &= h_1 h_2 \eta_2 h_2\inverse h_1\inverse \\
+    &= h_2 h_1 \eta_2 h_1\inverse h_2\inverse \\
+    &= h_2 \eta_2 h_1 h_1\inverse h_2\inverse \\
+    &= h_2 \eta_2 h_2\inverse \\
+    &\in H_2,
+\end{align*}
+so indeed \(H_1, H_2 \normalsub G\).
+
+\subsection{Quotient Groups and the First Isomorphism Theorem}
+\label{sec:quotient-groups-isomorphism-theorem}
+
+Now, normal subgroups allow us to make the set of cosets a group of its own.
+
+\begin{theorem}[Quotient Group]
+    \label{thm:quotient-group}%
+    If \(H \normalsub G\), the set of (left) cosets \(\flatfrac{G}{H}\) forms a group with operation
+    \[
+        \pqty{g_1 H} \pqty{g_2 H} = \pqty{g_1 g_2} H.
+    \]
+\end{theorem}
+
+\begin{proof}
+    We first check that the operation is well-defined. Suppose \(g_1 H = g_1' H\) and \(g_2 H = g_2' H\). Note that \(g_2 H = g_2' H\) if and only if \(H g_2 = H g_2'\) by \autoref{lem:left-right-coset-normal}, since \(H \normalsub G\). That is, there are \(h_1, h_2 \in H\), such that
+    \[
+        g_1 = g_1' h_1, g_2 = h_2 g_2'.
+    \]
+
+    Hence,
+    \[
+        g_1 g_2 = \pqty{g_1' h_1} \pqty{h_2 g_2'} = g_1' \pqty{h_1 h_2} g_2' = g_1' g_2' h_3
+    \]
+    again by \autoref{lem:left-right-coset-normal}, for some \(h_3 \in H\).
+
+    Therefore, \(g_1 g_2 \in g_1' g_2' H\), and hence \(g_1 g_2 H = g_1' g_2' H\), showing the operation is well-defined.
+
+    \emph{Associativity} is obvious by definition.
+
+    \emph{Identity} is \(H = eH\).
+
+    \emph{Inverse} of \(gH\) is \(g\inverse H\):
+    \[
+        \pqty{gH} \pqty{g\inverse H} = \pqty{g g\inverse} H = eH = H
+    \]
+    so \(\pqty{gH}\inverse = \pqty{g\inverse H}\), as required.
+\end{proof}
+
+\begin{definition}[Quotient Group, Quotient Map]
+    \label{def:quotient-group-map}
+    If \(H \normalsub G\), then the quotient \(\flatfrac{G}{H}\) provided by \autoref{thm:quotient-group} is called the \emph{quotient of \(G\) by \(H\)}.
+    
+    The map
+    \[
+        \function{\phi_{H}}{G}{\flatfrac{G}{H}}{g}{gH}
+    \]
+    is the \emph{quotient map}.
+\end{definition}
+
+\begin{remark}
+    The quotient map satisfies \(\ker \phi_{H} = H\). This show that normal subgroups are precisely kernels of homomorphisms from the given group.
+\end{remark}
+
+\begin{examples*}[Examples of Quotient Groups]
+    \begin{enumerate}
+        \item For any group \(G\), \(\flatfrac{G}{\trivialgp} \isomorphic G\), and \(\flatfrac{G}{G} \isomorphic \trivialgp\).
+        \item Since \(\ZZ\) is abelian, \(n\ZZ \normalsub \ZZ\) for any \(n \neq 0\). We see that \(\flatfrac{\ZZ}{n \ZZ}\) is cyclic of order \(n\), with generator \(1 + n\ZZ\), so
+        \[
+            \flatfrac{\ZZ}{n\ZZ} \isomorphic C_n.
+        \]
+        \item All subgroups of index \(2\) are normal. Let \(G\) be a group and \(H \subgroup G\) with \(\abs{G : H} = 2\). Then, for any \(g \notin H\), we have
+        \[
+            gH = G \setminus H = Hg
+        \]
+        and \(eH = He\), so \(H \normalsub G\) by \autoref{lem:left-right-coset-normal}. Furthermore,
+        \[
+            \flatfrac{G}{H} \isomorphic C_2.
+        \]
+        \item In particular, \(C_n \isomorphic \angBrac{r} \normalsub D_{2n}\), and \(\flatfrac{D_{2n}}{C_n} \isomorphic C_2\).
+    \end{enumerate}
+\end{examples*}
+
+\begin{remark}
+    Note that \(\flatfrac{C_4}{C_2} \isomorphic C_2 \isomorphic \flatfrac{K_4}{C_2}\), but \(C_4 \notisomorphic K_4\). In particular, for groups \(A, B\) and \(C\),
+    \[
+        \flatfrac{A}{B} \isomorphic C \notimplies A \isomorphic B \times C.
+    \]
+
+    However, it is indeed true that
+    \[
+        A \isomorphic B \times C \implies \flatfrac{A}{\pqty{B \times \trivialgp}} \isomorphic C, \flatfrac{A}{\pqty{\trivialgp \times C}} \isomorphic B.
+    \]
+
+    This can be easily shown by considering the projection map and applying \autoref{thm:first-isomorphism} (First Isomorphism Theorem) introduced below.
+
+    However, note that if \(H_1, H_2\) are isomorphic normal subgroups of \(G\), this does \emph{not} necessarily imply that \(\flatfrac{G}{H_1} \isomorphic \flatfrac{G}{H_2}\). An infinite example would be \(\flatfrac{\ZZ}{n\ZZ}\) where \(n\) can be any integer, and a finite one would be considering \(C_2 \times C_4\) where \(C_2 = \angBrac{a}\) and \(C_4 = \angBrac{b}\), and taking the quotient by \(\angBrac{\pqty{a, e}}\), or \(\angBrac{\pqty{e, b^2}}\) -- the former produces \(C_4\) and the latter produces \(C_2 \times C_2\).
+\end{remark}
+    
+\begin{theorem}[First Isomorphism theorem]
+    \label{thm:first-isomorphism}%
+    If \(\functiondomain{\phi}{G}{H}\) is a homomorphism, then
+    \[
+        \flatfrac{G}{\ker \phi} \isomorphic \img \phi.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Since \(\ker \phi \normalsub G\), we see \(\flatfrac{G}{\ker \phi}\) is indeed a group. We define a map corresponding to \(\phi\) as
+    \[
+        \function{\bar{\phi}}{\flatfrac{G}{\ker \phi}}{\img \phi}{g \ker \phi}{\phi \pqty{g}.}
+    \]
+
+    We would like to show this is a well-defined isomorphism.
+
+    \emph{\(\bar{\phi}\) is well-defined.} Suppose \(g_1 \ker \phi = g_2 \ker \phi\) for some \(g_1, g_2 \in G\). Then
+    \[
+        g_1 = g_2 k
+    \]
+    for some \(k \in \ker \phi\). Then,
+    \begin{align*}
+            \bar{\phi} \pqty{g_1 \ker \phi} &= \phi\pqty{g_1} \\
+            &= \phi\pqty{g_2 k} \\
+            &= \phi\pqty{g_2} \phi\pqty{k} \\
+            &= \phi\pqty{g_2} e \\
+            &= \phi\pqty{g_2} \\
+            &= \bar{\phi} \pqty{g_2 \ker \phi}
+    \end{align*}
+    showing the map \(\bar{\phi}\) is well-defined as desired.
+
+    \emph{\(\bar{\phi}\) is a homomorphism.} This inherits from \(\phi\) being a homomorphism: for any \(g_1, g_2 \in G\),
+    \begin{align*}
+        \bar{\phi} \pqty{\pqty{g_1 \ker \phi} \pqty{g_2 \ker \phi}} &= \bar{\phi} \pqty{\pqty{g_1 g_2} \ker \phi} \\
+        &= \phi \pqty{g_1 g_2} \\
+        &= \phi \pqty{g_1} \phi \pqty{g_2} \\
+        &= \bar{\phi} \pqty{g_1 \ker \phi} \bar{\phi} \pqty{g_2 \ker \phi}.
+    \end{align*}
+
+    \emph{\(\bar{\phi}\) is injective.} Suppose that \(\bar{\phi} \pqty{g \ker \phi} = e\) for some \(g \in G\).
+    
+    Then \(\phi\pqty{g} = \bar{\phi} \pqty{g \ker \phi} = e\), which shows that \(g \in \ker \phi\), and \(g \ker \phi = \ker \phi\).
+
+    Therefore, \(\ker \bar{\phi} = \Bqty{\ker \phi} \isomorphic \trivialgp_{\flatfrac{G}{\ker \phi}}\), showing \(\bar{\phi}\) is injective.
+
+    \emph{\(\bar{\phi}\) is surjective.} A typical element of \(\img \phi\) is \(\phi\pqty{g}\), and we have
+    \[
+        \bar{\phi} \pqty{g \ker \phi} = \phi\pqty{g}.
+    \]
+
+    Therefore, \(\bar{\phi}\) defines an isomorphism, so
+    \[
+        \flatfrac{G}{\ker \phi} \isomorphic \img \phi.
+    \]
+\end{proof}
+
+\autoref{thm:first-isomorphism} (First Isomorphism Theorem) is very important in studying quotients of groups, and in fact, constructing a such map also shows a group being a normal, so we do not need to show \(H \normalsub G\) before showing \(\flatfrac{G}{H} \isomorphic K\) by this theorem -- simply constructing a surjective homomorphism \(\functiondomain{\phi}{G}{K}\) with \(\ker \phi = H\) immediately shows \(H\) being normal and the quotient being isomorphic.
+
+\begin{examples*}[Applications of \autoref{thm:first-isomorphism} (First Isomorphism Theorem)]
+    \begin{enumerate}
+        \item The map
+        \[
+            \function{\phi}{\ZZ}{\CC\multiplicative}{k}{e^{\frac{2\pi i k}{n}}}
+        \]
+        is a homomorphism with \(\img \phi \isomorphic C_n\) and \(\ker \phi = n\ZZ\), so
+        \[
+            \flatfrac{\ZZ}{n\ZZ} \isomorphic \img \phi \isomorphic C_n
+        \]
+        by \autoref{thm:first-isomorphism} (First Isomorphism Theorem).
+
+        \item Similarly,
+        \[
+            \function{\phi}{\RR}{\CC\multiplicative}{t}{e^{2 \pi i t}}
+        \]
+        is a homomorphism with
+        \[
+            \img \phi = \set{z \in \CC}{\abs{z} = 1} = \U\pqty{1}
+        \]
+        and
+        \[
+            \ker \phi = \ZZ,
+        \]
+        and hence
+        \[
+            \flatfrac{\RR}{\ZZ} \isomorphic \U\pqty{1}.
+        \]
+    \end{enumerate}
+\end{examples*}
+
+\subsection{Simple Groups}
+\label{sec:simple-groups}
+
+Taking quotients using normal subgroups allow us to break groups down into smaller pieces, but there are some groups where are no proper normal subgroups, and we cannot break them into smaller groups. Those are analogues to primes in elementary number theory for groups.
+
+\begin{definition}[Simple Groups]
+    A group \(G\) is \emph{simple} if the only normal subgroups are \(\trivialgp\) and \(G\) itself. Equivalently, all homomorphisms
+    \[
+        \functiondomain{\phi}{G}{H}
+    \]
+    are either trivial with \(\ker \phi = G\), or injective with \(\ker \phi = \trivialgp\).
+\end{definition}
+
+\begin{example*}[Simple Abelian Groups]
+    \(C_p\) is simple whenever \(p\) is a prime. Since any subgroup of an abelian group is simple, a simple abelian group must have no proper subgroups, and for finite groups, \(C_p\) for prime \(p\)s are all of those.
+
+    If \(G\) is an infinite abelian group and \(e \neq x \in G\) has infinite order, then \(\angBrac{x^2} \subgroup G\) is a proper subgroup; if \(x\) has finite order, then \(\angBrac{x}\) is a proper subgroup. Therefore, there are no infinite simple abelian groups. 
+\end{example*}
+
+Non-abelian simple groups are more complicated, and we will see the first of those examples in the next chapter on permutations, namely \(A_5\).
+
+It is worth noting that mathematicians have fully classified finite simple groups, and this is an extremely remarkable result in group theory. The above-mentioned families of \(C_p\) for prime \(p\) and \(A_n\) for \(n \geq 5\) are two families of those, with the rest being 16 families of `Simple Groups of Lie Type', and 26 `Sporadic Groups' (including the famous Monster Group).
+
+\section{Permutations}
+\label{sec:permutations}
+
+Recall that a permutation of a set \(X\) is a bijection
+\[
+    X \to X
+\]
+and \(\Sym\pqty{X}\) is the group of all such permutations.
+
+In particular, for this section, we are interested in the case where \(X\) is finite, and we need not worry about the particular details of \(X\), since only the size of \(X\) matters: for any set \(X\) with \(\abs{X} = n\),
+\[
+    S_n \isomorphic \Sym\pqty{X}.
+\]
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzcd}[row sep = tiny]
+        \arrow[from=1-1, to=1-2, shift left=3ex, phantom, "\sigma"]
+        \arrow[from=1-4, to=1-5, shift left=3ex, phantom, "\tau"]
+        \arrow[from=1-7, to=1-8, shift left=3ex, phantom, "\rho"]
+        1 \arrow[rdd] & 1 & & 1 \arrow[rd] & 1 & & 1 \arrow[r]  & 1 \\
+        2 \arrow[ru]  & 2 & & 2 \arrow[ru] & 2 & & 2 \arrow[r]  & 2 \\
+        3 \arrow[ru]  & 3 & & 3 \arrow[r]  & 3 & & 3 \arrow[ru] & 3
+    \end{tikzcd}
+    \caption{Examples of Elements in \(S_3\)}
+    \label{fig:examples-elements-s3}
+\end{figure}
+
+\begin{example*}[Example of Elements in \(S_3\)]
+    For \(X = \Bqty{1, 2, 3}\), we have \(\Sym\pqty{X} \isomorphic S_3\). In the example \autoref{fig:examples-elements-s3}, we have \(\sigma, \tau \in \Sym\pqty{X}\) and \(\rho \notin \Sym\pqty{X}\).
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+        \begin{tikzcd}[row sep = tiny]
+        \arrow[from=1-1, to=1-2, shift left=3ex, phantom, "\sigma"]
+        \arrow[from=1-2, to=1-3, shift left=3ex, phantom, "\tau"]
+        \arrow[from=3-1, to=3-3, shift right=3ex, phantom, "\tau \circ \sigma"]
+        1 \arrow[mapsto, r] & 3 \arrow[mapsto, r] & 3 \\
+        2 \arrow[mapsto, r] & 1 \arrow[mapsto, r] & 2 \\
+        3 \arrow[mapsto, r] & 2 \arrow[mapsto, r] & 1
+    \end{tikzcd}
+    \caption{Composition of Permutations in \(S_3\)}
+    \label{fig:composition-of-permutations-s3}
+\end{figure}
+
+\begin{example*}[Composition of Permutations in \(S_3\)]
+    As shown in \autoref{fig:composition-of-permutations-s3}, we may compose the permutation \(\sigma\) and \(\tau\) from right to left.
+\end{example*}
+
+\subsection{Cycles and Transpositions}
+\label{sec:cycles-and-transpositions}
+
+\begin{definition}[Cycles]
+    \label{def:cycles}%
+    Any list of \(k\) distinct elements \(a_1, a_2, \ldots, a_k \in \Bqty{1, 2, \ldots, k}\) determines a \emph{\(k\)-cycle}
+    \[
+        \sigma = \perm{{a_1}{a_2}{\cdots}{a_k}},
+    \]
+    as follows:
+    \[
+        \sigma\pqty{b} = \begin{cases}
+            a_{i + 1}, & b = a_i, i < b, \\
+            a_1, & b = a_k, \\
+            b, & \text{otherwise}.
+        \end{cases}
+    \]
+\end{definition}
+
+\begin{example*}[Cycle Notation]
+    For the example permutations in \autoref{fig:examples-elements-s3}, we have
+    \[
+        \sigma = \perm{132} = \perm{321}, \tau = \perm{12}.
+    \]
+\end{example*}
+
+Multiplication of cycles are calculated from right to left.
+
+\begin{examples*}[Multiplication of Cycles]
+    \begin{itemize}
+        \item As in \autoref{fig:composition-of-permutations-s3}, we have
+        \[
+            \tau \sigma = \perm{12}\perm{132} = \perm{13}.
+        \]
+        \item We have
+        \[
+            \perm{1432}\perm{243} = \perm{1423}.
+        \]
+    \end{itemize}
+\end{examples*}
+
+The notation we use for a particular cycle is not unique: in particular, we can conduct cyclic permutations on a cycle:
+\[
+    \perm{{a_1} {a_2} \cdots {a_{k - 1}} {a_k}} = \perm{{a_2} {a_3} \cdots {a_k} {a_1}}.
+\]
+
+\begin{definition}[Disjoint Cycles]
+    \label{def:disjoint-cycles}%
+    Cycles \(\perm{{a_1} \cdots {a_k}}\) and \(\perm{{b_1} \cdots {b_l}}\) are \emph{disjoint} if \(a_i \neq b_j\) for all \(i, j\).
+\end{definition}
+
+Disjoint cycles commute:
+\[
+    \perm{{a_1} \cdots {a_k}} \perm{{b_1} \cdots {b_l}} = \perm{{b_1} \cdots {b_l}} \perm{{a_1} \cdots {a_k}}.
+\]
+
+\begin{theorem}[Disjoint Cycles Decomposition]
+    \label{thm:disjoint-cycles-decomposition}%
+    Every permutation \(\sigma \in S_n\) can be written as a product of disjoint cycles. This decomposition is unique, up to:
+    \begin{enumerate}
+        \item shifting the elements in a cycle, and
+        \item reordering the cycles.
+    \end{enumerate}
+\end{theorem}
+
+\begin{example*}
+    As an example we have
+    \begin{align*}
+        \perm{12}\perm{34}\perm{56}\perm{123456} &= \pqty{1} \perm{246} \pqty{3} \pqty{5} \\
+        &= \perm{246}.
+    \end{align*}
+\end{example*}
+
+\begin{proof}
+    We consider the action of \(\angBrac{\sigma}\) on \(X = \Bqty{1, 2, \ldots, n}\) by permutations. This partition \(X\) into orbits
+    \[
+        X = \Orb\pqty{i_1} \cup \Orb\pqty{i_2} \cup \cdots \cup \Orb\pqty{i_k}.
+    \]
+
+    Let \(n_j = \abs{\Orb\pqty{i_j}}\) be the size of the \(j\)th orbit. Then we see that
+    \begin{align*}
+        \sigma &= \perm{{i_1} {\sigma\pqty{i_1}} {\sigma^{2}\pqty{i_1}} \cdots {\sigma^{n_1 - 1} \pqty{i_1}}} \\
+        &\phantom{=} \perm{{i_2} {\sigma\pqty{i_2}} {\sigma^{2}\pqty{i_2}} \cdots {\sigma^{n_2 - 1} \pqty{i_2}}} \\
+        &\phantom{=} \cdots \\
+        &\phantom{=} \perm{{i_k} {\sigma\pqty{i_k}} {\sigma^{2}\pqty{i_k}} \cdots {\sigma^{n_k - 1} \pqty{i_k}}},
+    \end{align*}
+    which proves the existence of the decomposition.
+
+    For the uniqueness, note that the only choices we made were the orbit representatives \(\Bqty{i_j}\), and the indexing function (the ordering of the orbits)
+    \[
+        j \mapsto i_j.
+    \]
+
+    Changing the orbit representative shifts the elements of a cycle, while changing the indexing permutes the cycles.
+\end{proof}
+
+This allows us to characterise the type of permutation.
+
+\begin{definition}[Cycle Type]
+    \label{def:cycle-type}%
+    If
+    \[
+        \sigma = \perm{{a_1^1} \cdots {a_{k_1}^1}} \cdots \perm{{a_1^l} \cdots {a_{k_l}^l}}
+    \]
+    is a product of disjoint cycles, then \(\sigma\) is called a \emph{\(\pqty{k_1, \ldots, k_l}\)-cycle}. The set of numbers
+    \[
+        \Bqty{k_1, \ldots, k_l}
+    \]
+    is called the \emph{cycle type} of \(\sigma\). We often omit the \emph{singletons}, e.g. a \(\pqty{3, 2, 1}\)-cycle is also a \(\pqty{3, 2}\)-cycle.
+\end{definition}
+
+\begin{remark}
+    Note that if \(\sigma\) is a \(k\)-cycle, then \(\ord\pqty{\sigma} = k\). More generally, if \(\sigma\) is a \(\pqty{k_1, \ldots, k_l}\)-cycle, then
+    \[
+        \ord \pqty{\sigma} = \lcm \Bqty{k_1, \ldots, k_l}.
+    \]
+\end{remark}
+
+We now study a particular generating set of \(S_n\).
+
+\begin{definition}[Transposition]
+    \label{def:transposition}%
+    A \(2\)-cycle is a \emph{transposition}.
+\end{definition}
+
+\begin{theorem}[Transpositions Generate]
+    \label{thm:transposition-generate}%
+    The set of transpositions generates \(S_n\) for any \(n\).
+\end{theorem}
+
+\begin{proof}
+    We prove by induction on \(n\). In the base case, \(n = 2\),
+    \[
+        S_2 = \Bqty{e, \perm{12}}
+    \]
+    and the result is obvious.
+
+    For the inductive step, assume that \(S_{n - 1}\) is generated by transpositions, and let \(\sigma \in S_n\).
+
+    If \(\sigma\pqty{n} = n\) (i.e. \(\sigma\) fixes \(n\)), then \(\sigma \in S_{n - 1} \subgroup S_n\), and by the induction hypothesis,
+    \[
+        \sigma = \tau_1 \cdots \tau_k
+    \]
+    for some \(k\) and transpositions \(\tau_1, \ldots, \tau_k \in S_{n - 1}\). Otherwise, let \(\tau = \perm{n {\sigma\pqty{n}}}\), then
+    \[
+        \tau \sigma \pqty{n} = \tau\pqty{\sigma\pqty{n}} = n
+    \]
+    so \(\tau \sigma \in S_{n - 1} \subgroup S_n\). Similar to previously, by induction hypothesis,
+    \[
+        \tau \sigma = \tau_1 \cdots \tau_k
+    \]
+    for some \(k\) and transpositions \(\tau_1, \ldots, \tau_k \in S_{n - 1}\), and hence
+    \[
+        \sigma = \tau \tau_1 \cdots \tau_k,
+    \]
+    as desired.
+\end{proof}
+
+\subsection{Signs of Permutations}
+\label{sec:signs-of-permutations}
+
+A transposition of the form \(\perm{i {i + 1}}\) is called \emph{adjacent}, and there are \(\pqty{n - 1}\) adjacent transpositions in \(S_n\).
+
+\begin{lemma}[Adjacent Transpositions]
+    \label{lem:adjacent-transpositions}%
+    Any transposition \(\perm{ij}\) can be written as a product of an \emph{odd} number of adjacent transpositions.
+\end{lemma}
+
+\begin{proof}
+    Assume \(j > i\). The proof is by induction on \(\pqty{j - i}\).
+    
+    \emph{Base Case.} When \(j = i + 1\), we have \(\perm{ij} = \perm{i {i + 1}}\) is itself an adjacent transposition as desired.
+
+    \emph{Inductive Step.} If \(j > i + 1\), notice that
+    \[
+        \perm{i j} = \perm{{j - 1} j} \perm{i {j - 1}} \perm{{j - 1} j}
+    \]
+    and by induction hypothesis, \(\perm{i j - 1}\) can be represented as an odd number of transpositions, and an odd number plus \(2\) is again odd.
+
+    The result follows by mathematical induction.
+\end{proof}
+
+In particular, from \autoref{lem:adjacent-transpositions}, \(S\) is generated by adjacent transpositions. This restriction on parities allows us to define the \emph{parity} for permutations.
+
+\begin{lemma}[Identity Permutation is Even]
+    \label{lem:identity-permutation-is-even}%
+    If \(\tau_1, \tau_2, \ldots, \tau_k\) are all transpositions, and
+    \[
+        \sigma = \tau_1 \tau_2 \cdots \tau_k = e,
+    \]
+    then \(k\) is even.
+\end{lemma}
+
+\begin{proof}
+    By \autoref{lem:adjacent-transpositions}, we may assume that all \(\tau_{i}\)s are adjacent transpositions.
+
+    A pair \(\Bqty{i, j} \subseteq \Bqty{1, 2, \ldots, n}\) is an \emph{inversion} of a permutation if \(i < j\) but \(\sigma\pqty{i} > \sigma\pqty{j}\).
+    
+    We first show that \(k\) is congruent to the number of inversions in \(\sigma\) modulo \(2\) by induction on \(k\).
+
+    \emph{Base Case.} If \(k = 0\), then \(\sigma = e\) has zero inversions, and gives as desired.
+
+    \emph{Induction Step.} Let
+    \[
+        \sigma = \underbrace{\tau_1}_{\tau} \underbrace{\tau_2 \cdots \tau_k}_{\sigma'} = \tau \sigma' = \perm{l {l + 1}} \sigma'.
+    \]
+
+    Which pairs \(\Bqty{i, j}\) could be inversions of \(\sigma'\) but not \(\sigma\)? The only such possible pair is the pair
+    \[
+        \Bqty{i, j}
+    \]
+    where
+    \[
+        \sigma'\pqty{i} = l, \sigma'\pqty{j} = l + 1.
+    \]
+
+    For the pair, we have
+    \[
+        \sigma'\pqty{i} = l < l + 1 = \sigma'\pqty{j}
+    \]
+    but
+    \[
+        \sigma\pqty{i} = \tau\sigma'\pqty{i} = l + 1 > l = \tau\sigma'\pqty{j} = \sigma{j}.
+    \]
+
+    Therefore, if \(i < j\), then \(\Bqty{i, j}\) is an inversion of \(\sigma\) but not for \(\sigma'\), and if \(i > j\), then \(\Bqty{i, j}\) is an inversion for \(\sigma'\) but not for \(\sigma\). The number of inversions has changed by \(\pm 1\), and
+    \[
+        \size \text{ inversions of }\sigma = \size \text{ inversions of } \sigma' \pm 1
+    \]
+    and under modulo \(2\), this proves our claim as desired.
+
+    Therefore, \(\sigma = e\) has zero inversions, and hence \(k \equiv 0 \pmod{2}\), showing \(k\) is even.
+\end{proof}
+
+This enables us to define the \emph{sign homomorphism}.
+
+\begin{theorem}[Sign Homomorphism]
+    \label{thm:sign-homomorphism}%
+    The map
+    \[
+        \function{\sign}{S_n}{C_2 \isomorphic \pqty{\Bqty{\pm 1}, \times}}{\tau_1 \tau_2 \cdots \tau_k}{\pqty{-1}^k}
+    \]
+    where \(\tau_1, \tau_2, \ldots, \tau_k\) are transpositions, is a well-defined homomorphism.
+\end{theorem}
+
+\begin{proof}
+    To see that this maps is well-defined, suppose that \(\tau_i\) and \(\tau_j'\) are transpositions such that
+    \[
+        \tau_1 \cdots \tau_k = \tau_1' \cdots \tau_l'
+    \]
+    then
+    \[
+        \tau_k \cdots \tau_1 \tau_1' \cdots \tau_l' = e,
+    \]
+    and hence \(\pqty{k + l}\) is even by \autoref{lem:identity-permutation-is-even}, and hence \(k \equiv l \pmod{2}\). Hence, \(\pqty{-1}^k = \pqty{-1}^l\).
+
+    To see this is indeed a homomorphism, notice
+    \begin{align*}
+        \sign\pqty{\tau_1 \cdots \tau_k \tau_1' \cdots \tau_l'} &= \pqty{-1}^{k + l} \\
+        &= \pqty{-1}^k \pqty{-1}^l \\
+        &= \sign\pqty{\tau_1 \cdots \tau_k} \sign\pqty{\tau_1' \dots \tau_l'}.
+    \end{align*}
+\end{proof}
+
+This allows us to split the elements of \(S_n\) into two types, those with \(\sign \sigma = 1\) and those with \(\sign \sigma = -1\).
+
+\begin{definition}[Sign of Permutations, Alternating Group]
+    \label{def:sign-permutation-alternating-group}%
+    If \(\sign\pqty{\sigma} = 1\), then \(\sigma\) is \emph{even}. If \(\sign\pqty{\sigma} = -1\), then \(\sigma\) is \emph{odd}.
+
+    The subgroup \(A_n \normalsub S_n\) with
+    \[
+        A_n = \ker\pqty{\sign}
+    \]
+    is the \emph{alternating group with \(n\) elements}.
+\end{definition}
+
+Note that by applying \autoref{thm:first-isomorphism} (First Isomorphism Theorem) on the sign homomorphism, for \(n \geq 2\), this homomorphism is surjective, and hence
+\[
+    \flatfrac{S_n}{A_n} \isomorphic C_2
+\]
+and hence by \autoref{thm:lagrange} (Lagrange's Theorem), we have
+\[
+    \abs{S_n} = 2 \abs{A_n}.
+\]
+
+\begin{example*}[\(S_3\) and \(A_3\)]
+    In
+    \[
+        S_3 = \Bqty{e, \perm{12}, \perm{13}, \perm{23}, \perm{123}, \perm{132}},
+    \]
+    we have
+    \[
+        \perm{123} = \perm{12} \perm{23}
+    \]
+    and
+    \[
+        \perm{132} = \perm{13} \perm{23},
+    \]
+    hence
+    \[
+        A_3 = \Bqty{e, \perm{123}, \perm{132}} \isomorphic C_3.
+    \]
+\end{example*}
+
+\begin{remark}
+    We can use the cycle type to determine the sign of a permutation. Notice a cycle can be decomposed into transpositions
+    \[
+        \perm{{a_1} {a_2} \cdots {a_k}} = \perm{{a_1} {a_2}} \perm{{a_2} {a_3}} \cdots \perm{{a_{k - 1}}{a_k}}
+    \]
+    or
+    \[
+        \perm{{a_1} {a_2} \cdots {a_k}} = \perm{{a_1} {a_k}} \perm{{a_1} {a_{k - 1}}} \cdots \perm{{a_1} {a_2}}
+    \]
+    so \(\perm{{a_1} {a_2} \cdots {a_k}}\) is \emph{even} if and only if \(k\) is \emph{odd}.
+
+    More generally, a \(\pqty{k_1, k_2, \ldots, k_l}\)-cycle is even if and only if the number of \(k_i\)s that are even, is even.
+\end{remark}
+
+\begin{example*}
+    \begin{itemize}
+        \item \(\perm{12}\perm{34}\), a \(\pqty{2, 2}\)-cycle, is even.
+
+        \item \(\perm{12}\perm{34}\perm{56}\), a \(\pqty{2, 2, 2}\)-cycle, is odd.
+    \end{itemize}
+\end{example*}
+
+\subsection{Conjugation in Symmetric and Alternating Groups}
+\label{sec:conjugation-in-sn-an}
+
+Now we investigate the conjugacy classes in \(S_n\) and \(A_n\). Recall that conjugacy of two elements means that they have the same `shape', and the na\"{i}ve idea in \(S_n\) is indeed correct: two elements in \(S_n\) are conjugate if and only if they have the same cycle type, as we will see in \autoref{thm:conjugacy-class-sn}.
+
+\begin{theorem}[Conjugacy Classes in \(S_n\)]
+    \label{thm:conjugacy-class-sn}
+    Two permutations \(\sigma_1, \sigma_2 \in S_n\) are conjugate if and only if their cycle types are the same.
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item \(\impliedby\). Suppose that \(\sigma_1\) and \(\sigma_2\) have the same cycle type \(\pqty{l_1, l_2, \ldots, l_k}\), and let their disjoint cycle decompositions be
+        \begin{align*}
+            \sigma_1 &= \perm{{a_1^1} {a_2^1} \cdots {a_{l_1}^1}} \perm{{a_1^2} {a_2^2} \cdots {a_{l_2}^2}} \cdots \perm{{a_1^k} {a_2^k} \cdots {a_{l_k}^k}}, \\
+            \sigma_2 &= \perm{{b_1^1} {b_2^1} \cdots {b_{l_1}^1}} \perm{{b_1^2} {b_2^2} \cdots {b_{l_2}^2}} \cdots \perm{{b_1^k} {b_2^k} \cdots {b_{l_k}^k}}.
+        \end{align*}
+
+        Notice that
+        \[
+            \sigma_1 \pqty{a_j^i} = a_{j +_{l_i} 1}^i, \sigma_2 \pqty{b_j^i} = b_{j +_{l_i} 1}^i
+        \]
+        so define the `change of basis' permutation \(\tau \in S_n\) be
+        \[
+            \tau \pqty{a_j^i} = b_j^i,
+        \]
+        and hence we may verify indeed
+        \[
+            \tau\sigma_1\tau\inverse \pqty{b_j^i} = \tau\sigma_1\pqty{a_j^i} = \tau\pqty{a_{j +_{l_i} 1}^{i}} = b_{j +_{l_i} 1}^i
+        \]
+        and that
+        \[
+            \sigma_2\pqty{b_j^i} = b_{j +_{l_i} 1}^i
+        \]
+        so
+        \[
+            \tau \sigma_1 \tau\inverse = \sigma_2
+        \]
+        giving that \(\sigma_1\) and \(\sigma_2\) are conjugate, as desired.
+
+        \item \(\implies\). Conversely, suppose \(\sigma_2 = \tau \sigma_1 \tau\inverse\), and if
+        \[
+            \sigma_1 = \perm{{a_1^1} {a_2^1} \cdots {a_{l_1}^1}} \perm{{a_1^2} {a_2^2} \cdots {a_{l_2}^2}} \cdots \perm{{a_1^k} {a_2^k} \cdots {a_{l_k}^k}},
+        \]
+        and let
+        \[
+            \tau = \bigl(a_j^i\mapsto b_j^i\bigr)_{1\leq i\leq k,\,1\leq j\leq l_i},
+        \]
+        i.e.,
+        \[
+            \tau\pqty{a_j^i} = b_j^i
+        \]
+        for \(1 \leq i \leq k, 1 \leq j \leq l_i\). Then we have
+        \[
+            \sigma_2 = \perm{{b_1^1} {b_2^1} \cdots {b_{l_1}^1}} \perm{{b_1^2} {b_2^2} \cdots {b_{l_2}^2}} \cdots \perm{{b_1^k} {b_2^k} \cdots {b_{l_k}^k}},
+        \]
+        and hence \(\sigma_1\) and \(\sigma_2\) have the same cycle type.
+    \end{itemize}
+\end{proof}
+
+This allows us to easily count size of conjugacy classes in \(S_n\).
+
+\begin{examples*}[Size of Conjugacy Classes in \(S_3\) and \(S_4\)]
+    \begin{enumerate}
+        \item For
+        \[
+            S_3 = \Bqty{e, \perm{12}, \perm{13}, \perm{23}, \perm{123}, \perm{132}},
+        \]
+        we have
+        \begin{itemize}
+            \item \(\abs{\ccl_{S_3} \perm{12}} = \binom{3}{2} = 3\).
+            \item \(\abs{\ccl_{S_3} \perm{123}} = 2 \times 1 = 2\).
+        \end{itemize}
+
+        \item Similarly, in \(S_4\), we have
+        \[
+            \abs{\ccl_{S_4} \pqty{\perm{12} \perm{34}}} = \frac{1}{2} \binom{4}{2} = 3.
+        \]
+    \end{enumerate}
+\end{examples*}
+
+Recall by \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem), under the conjugation action, we have
+\[
+    \abs{C_{S_n} \pqty{\gamma}} = \frac{\abs{S_n}}{\abs{\ccl_{S_n} \pqty{\gamma}}}
+\]
+for \(\gamma \in S_n\). Therefore, it is also easy to count the sizes of the centralisers, which contain the elements that commute with a particular element.
+
+\begin{example*}[Size of Centraliser in \(S_4\)]
+    For \(\perm{12}\perm{34} \in S_4\), we have
+    \begin{align*}
+        \abs{C_{S_4} \pqty{\perm{12} \perm{34}}} &= \frac{\abs{S_4}}{\abs{\ccl_{S_4} \pqty{\perm{12} \perm{34}}}} \\
+        &= \frac{4!}{3} \\
+        &= 8,
+    \end{align*}
+    and we can indeed make a list of elements in this centraliser:
+    \[
+        C_{S_4} \pqty{\perm{12}\perm{34}} = \Bqty{
+            e, \perm{12}, \perm{34}, \perm{12}\perm{34}, \perm{13}\perm{24}, \perm{14}\perm{23}, \perm{1423}, \perm{1324}
+        }.
+    \]
+\end{example*}
+
+As an example, we list all the conjugacy classes in \(S_4\).
+
+\begin{example*}[Conjugacy Classes in \(S_4\)]
+    \autoref{tab:conjugacy-class-s4} gives all conjugacy classes in \(S_4\).
+\end{example*}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ccc}
+        Typical Element \(\gamma\) & \(\abs{\ccl_{S_4} \pqty{\gamma}}\) & \(\abs{C_{S_4} \pqty{\gamma}}\) \\
+        \hline\hline
+        \(e\) & \(1\) & \(24\) \\
+        \(\perm{12}\) & \(\binom{4}{2} = 6\) & \(4\) \\
+        \(\perm{12}\perm{34}\) & \(\frac{1}{2} \binom{4}{2} = 3\) & \(8\) \\
+        \(\perm{123}\) & \(2 \binom{4}{3} = 8\) & \(3\) \\
+        \(\perm{1234}\) & \(3! = 6\) & \(4\) \\
+        \hline
+        Total & \(\sum = 24 = 4! = \abs{S_4}\) &
+    \end{tabular}
+    \caption{Conjugacy Classes in \(S_4\)}
+    \label{tab:conjugacy-class-s4}
+\end{table}
+
+Counting conjugacy classes in \(A_n\) can also be done with some thought.
+
+\begin{lemma}[Conjugacy Classes in \(A_n\)]
+    \label{lem:conjugacy-class-an}%
+    Let \(\gamma \in A_n \normalsub S_n\).
+    \begin{enumerate}
+        \item If some odd element of \(S_n\) commutes with \(\gamma\), then
+        \[
+            \ccl_{A_n} \pqty{\gamma} = \ccl_{S_n} \pqty{\gamma}.
+        \]
+        \item IF every element that commutes with \(\gamma\) is even, i.e., \(C_{S_n} \pqty{\gamma} \subgroup A_n\), then \(\ccl_{S_n} \pqty{\gamma}\) splits into two:
+        \[
+            \ccl_{S_n} \pqty{\gamma} = \ccl_{A_n} \pqty{\gamma} \cup \ccl_{A_n} \pqty{\tau \gamma \tau\inverse}
+        \]
+        where \(\tau\) is a transposition.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    Applying \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem) on \(S_n\) and \(A_n\) gives
+    \begin{align*}
+        \abs{S_n} &= \abs{\ccl_{S_n} \pqty{\gamma}} \abs{C_{S_n} \pqty{\gamma}}, \\
+        \abs{A_n} &= \abs{\ccl_{A_n} \pqty{\gamma}} \abs{C_{A_n} \pqty{\gamma}},
+    \end{align*}
+    and since \(\abs{S_n} = 2 \cdot \abs{A_n}\), this gives
+    \[
+        \abs{\ccl_{S_n} \pqty{\gamma}} = 2 \cdot \frac{\abs{C_{A_n} \pqty{\gamma}}}{\abs{C_{S_n} \pqty{\gamma}}} \cdot \abs{\ccl_{A_n} \pqty{\gamma}}.
+    \]
+
+    Furthermore, we have
+    \begin{align*}
+        C_{A_n} \pqty{\gamma} &= A_n \cap C_{S_n} \pqty{\gamma} \\
+        &= \ker\pqty{\functiondomain{\rightbar{\sign}_{C_{S_n} \pqty{\gamma}}}{C_{S_n}}{C_2}}
+    \end{align*}
+    and we have
+    \[
+        \abs{\img\pqty{\rightbar{\sign}_{C_{S_n}\pqty{\gamma}}}} \in \Bqty{1, 2}.
+    \]
+
+    Hence, by \autoref{thm:first-isomorphism} (First Isomorphism Theorem) and \autoref{thm:lagrange} (Lagrange's Theorem), we have
+    \[
+        \frac{\abs{C_{S_n} \pqty{\gamma}}}{\abs{C_{A_n} \pqty{\gamma}}} \in \Bqty{1, 2}.
+    \]
+
+    We consider the corresponding casework.
+    \begin{enumerate}
+        \item If some odd element of \(S_n\) commutes with \(\gamma\), this means that such element is in \(S_n \setminus A_n\), and
+        \[
+            C_{S_n} \pqty{\gamma} \setminus C_{A_n} \pqty{\gamma} \neq \emptyset,
+        \]
+        hence this gives
+        \[
+            \abs{C_{S_n} \pqty{\gamma}} = 2 \abs{C_{A_n} \pqty{\gamma}}.
+        \]
+
+        Hence,
+        \begin{align*}
+            \abs{\ccl_{S_n} \pqty{\gamma}} &= 2 \cdot \frac{\abs{C_{A_n} \pqty{\gamma}}}{\abs{C_{S_n} \pqty{\gamma}}} \cdot \abs{\ccl_{A_n} \pqty{\gamma}} \\
+            &= \abs{\ccl_{A_n} \pqty{\gamma}}
+        \end{align*}
+        and hence
+        \[
+            \ccl_{A_n} \pqty{\gamma} = \ccl_{S_n} \pqty{\gamma}
+        \]
+        as desired.
+
+        \item If every element of \(S_n\) that commutes with \(\gamma\) is even, then we have
+        \[
+            \abs{\ccl_{S_n} \pqty{\gamma}} = 2 \abs{\ccl_{A_n} \pqty{\gamma}}
+        \]
+        and hence \(\ccl_{A_n} \pqty{\gamma}\) is half as big. Consider any transposition \(\tau \in S_n\). Note that
+        \[
+            \tau \gamma \tau\inverse \in \ccl_{S_n} \pqty{\gamma}.
+        \]
+
+        If, for the sake of contradiction, that \(\tau \gamma \tau\inverse \in \ccl_{A_n}\pqty{\gamma}\), then
+        \[
+            \tau \gamma \tau\inverse = \alpha \gamma \alpha\inverse
+        \]
+        for some even permutation \(\alpha in A_n\). Hence,
+        \[
+            \pqty{\tau \alpha} \gamma \pqty{\tau \alpha}\inverse = \gamma
+        \]
+        so \(\tau \alpha \in C_{S_n} \pqty{\gamma}\), and since \(\alpha\) is even, \(\tau\) is odd, we have \(\tau \alpha\) is odd and commutes with \(\gamma\), giving a contradiction.
+
+        Hence, \(\tau \gamma \tau\inverse \notin \ccl_{A_n} \pqty{\gamma}\), and its conjugacy class in \(A_n\) gives the remaining elements, as desired.
+    \end{enumerate}
+\end{proof}
+
+This makes it possible to determine conjugacy classes in \(A_n\).
+
+\begin{example*}[Conjugacy Classes in \(A_4\)]
+    The even elements of \(S_4\) are \(e\), \(\pqty{2, 2}\)-cycles, and \(3\)-cycles.
+
+    Since there is an odd number of \(\pqty{2, 2}\)-cycles, the conjugacy class of \(\perm{12}\perm{34}\) cannot split and remains intact in \(A_4\).
+
+    For a \(3\)-cycle \(\sigma = \perm{123}\), we have
+    \[
+        \abs{C_{S_4} \pqty{\sigma}} = 3
+    \]
+    is cyclic, so
+    \[
+        C_{S_4} \pqty{\sigma} = \angBrac{\sigma} \subgroup A_4,
+    \]
+    so the conjugacy class splits. (Alternatively, this means the centraliser cannot split into two equal parts, one of which in \(S_4\) but not \(A_4\), and one of which in \(A_4\), so it must be entirely contained in \(A_4\).)
+
+    \autoref{tab:conjugacy-class-a4} gives a summary of this discussion.
+\end{example*}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ccc}
+        Typical Element \(\gamma\) & \(\abs{\ccl_{A_4} \pqty{\gamma}}\) & \(\abs{C_{A_4} \pqty{\gamma}}\)\\
+        \hline\hline
+        \(e\) & \(1\) & \(12\) \\
+        \(\perm{12} \perm{34}\) & \(3\) & \(4\) \\
+        \(\perm{123}\) & \(4\) & \(3\) \\
+        \(\perm{132}\) & \(4\) & \(3\) \\
+        \hline
+        Total & \(\sum = 12 = \frac{4!}{2} = \abs{A_4}\)
+    \end{tabular}
+    \caption{Conjugacy Classes in \(A_4\)}
+    \label{tab:conjugacy-class-a4}
+\end{table}
+
+Now we study conjugacy classes in \(S_5\) and \(A_5\).
+
+\begin{example*}[Conjugacy Classes in \(S_5\)]
+    \autoref{tab:conjugacy-class-s5} gives conjugacy classes in \(S_5\).
+\end{example*}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ccc}
+        Typical Element \(\gamma\) & \(\abs{\ccl_{S_5} \pqty{\gamma}}\) & \(\abs{C_{S_5} \pqty{\gamma}}\)\\
+        \hline\hline
+        \(e\) & \(1\) & \(120\) \\\
+        \(\perm{12}\) & \(\binom{5}{2} = 10\) & \(12\) \\
+        \(\perm{123}\) & \(2 \binom{5}{3} = 20\) & \(6\) \\
+        \(\perm{12} \perm{34}\) & \(\frac{1}{2} \binom{5}{3} \binom{3}{2} = 15\) & \(8\) \\
+        \(\perm{123} \perm{45}\) & \(2 \binom{5}{3} \binom{2}{2} = 20\) & \(6\) \\
+        \(\perm{1234}\) & \(\binom{5}{4} \cdot 3! = 30\) & \(4\) \\
+        \(\perm{12345}\) & \(\binom{5}{5} \cdot 4! = 24\) & \(5\) \\
+        \hline
+        Total & \(\sum = 120\) &
+    \end{tabular}
+    \caption{Conjugacy Classes in \(S_5\)}
+    \label{tab:conjugacy-class-s5}
+\end{table}
+
+\begin{example*}[Conjugacy Classes in \(A_5\)]
+    The typical elements \(e, \perm{123}, \perm{12}\perm{34}, \perm{12345}\) are in \(A_5\).
+    \begin{itemize}
+        \item The conjugacy class for \(e\) does not split.
+        \item We notice that \(\perm{45} \in C_{S_5} \pqty{\gamma}\) so the conjugacy class for \(\perm{123}\) does not split.
+        \item The conjugacy class for \(\perm{12} \perm{34}\) has odd size so does not split.
+        \item The centraliser for \(\perm{12345}\) has odd size, so the conjugacy class for \(\perm{12345}\) must split. Alternatively, the centraliser
+        \[
+            C_{S_5} \perm{12345} = \angBrac{\perm{12345}} \subseteq A_5.
+        \]
+    \end{itemize}
+
+    \autoref{tab:conjugacy-class-a5} gives a summary of this discussion.
+\end{example*}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ccc}
+        Typical Element \(\gamma\) & \(\abs{\ccl_{A_5} \pqty{\gamma}}\) & \(\abs{C_{A_5} \pqty{\gamma}}\)\\
+        \hline\hline
+        \(e\) & \(1\) & \(60\) \\\
+        \(\perm{123}\) & \(20\) & \(3\) \\
+        \(\perm{12} \perm{34}\) & \(15\) & \(4\) \\
+        \(\perm{12345}\) & \(12\) & \(5\) \\
+        \(\perm{12354}\) & \(12\) & \(5\) \\
+        \hline
+        Total & \(\sum = 60\) &
+    \end{tabular}
+    \caption{Conjugacy Classes in \(A_5\)}
+    \label{tab:conjugacy-class-a5}
+\end{table}
+
+Recall that normal subgroups are subgroups which are precisely unions of conjugacy classes.
+
+\begin{theorem}[\(A_5\) is Simple]
+    \label{thm:a5-is-simple}%
+    \(A_5\) is simple.
+\end{theorem}
+
+\begin{proof}
+    Suppose \(N \normalsub A_5\), then \(N\) is a union of conjugacy classes in \(A_5\).
+
+    Since the identity must be contained in \(N\), the possible orders of \(N\) are
+    \begin{align*}
+        1 &= 1 \divides 60, \\
+        1 + 20 &= 21 \notdivides 60, \\
+        1 + 15 &= 16 \notdivides 60, \\
+        1 + 12 &= 13 \notdivides 60, \\
+        1 + 20 + 15 &= 36 \notdivides 60, \\
+        1 + 20 + 12 &= 33 \notdivides 60, \\
+        1 + 15 + 12 &= 28 \notdivides 60, \\
+        1 + 12 + 12 &= 25 \notdivides 60, \\
+        1 + 20 + 15 + 12 &= 48 \notdivides 60, \\
+        1 + 20 + 12 + 12 &= 45 \notdivides 60, \\
+        1 + 15 + 12 + 12 &= 40 \notdivides 60, \\
+        1 + 20 + 15 + 12 + 12 &= 60 \divides 60,
+    \end{align*}
+    and by \autoref{thm:lagrange} (Lagrange's Theorem), we have
+    \[
+        \abs{N} \divides \abs{A_5} = 60,
+    \]
+    so we have \(\abs{N} = 1\) or \(\abs{N} = 60\), and hence \(N = \trivialgp\) or \(N = A_5\). This shows \(A_5\) is simple as desired.
+\end{proof}
+
+In fact, one may show that \(A_n\) for \(n \geq 5\) are simple groups, giving an infinite family of finite non-abelian simple groups. Furthermore, we may show that \(A_n\) is the only proper normal subgroup of \(S_n\) for \(n \geq 5\).
+
+\section{Matrix Groups}
+\label{sec:matrix-groups}
+
+Let
+\[
+    \matrixset_n\pqty{\RR} = \Bqty{n \times n \text{ matrices with entries in } \RR}.
+\]
+
+Matrix multiplication is associative and the matrix
+\[
+    \identityM = \diag\pqty{1, 1, \ldots, 1} = \operatorname{diag}\pqty{1, 1, \ddots, 1}
+\]
+gives an identity. However, we know not all matrices are invertible.
+
+\subsection{Linear Groups}
+\label{sec:linear-groups}
+
+\begin{lemma}[Invertible Matrices]
+    \label{lem:invertible-matrices}%
+    \(\vb{M} \in \matrixset_n\pqty{\RR}\) has an inverse if and only if \(\det \vb{M} \neq 0\).
+\end{lemma}
+
+\begin{definition}[General Linear Group]
+    \label{def:general-linear}%
+    Let
+    \[
+        \GL_n\pqty{\RR} = \set{\vb{M} \in \matrixset_n \pqty{\RR}}{\det \vb{M} \neq 0}
+    \]
+    is the \emph{general linear group of \(n \times n\) matrices over \(\RR\)}.
+\end{definition}
+
+\begin{lemma}[The Determinant is a Homomorphism]
+    \label{lem:determinant}%
+    For matrices \(\vb{A}, \vb{B} \in \matrixset_n\pqty{\RR}\), we have
+    \[
+        \det\pqty{\vb{A}\vb{B}} = \det\vb{A} \det\vb{B}
+    \]
+    so \(\det\) is a homomorphism
+    \[
+        \function{\det}{\GL_n\pqty{\RR}}{\RR\multiplicative}{\vb{M}}{\det\vb{M}}.
+    \]
+\end{lemma}
+
+\begin{definition}[Special Linear Group]
+    \label{def:special-linear}%
+    The subgroup
+    \[
+        \SL_n\pqty{\RR} = \ker \det = \set{\vb{M} \in \matrixset_n \pqty{\RR}}{\det \vb{M} = 1}
+    \]
+    is the \emph{special linear group of \(n \times n\) matrices over \(\RR\)}.
+\end{definition}
+
+By \autoref{thm:first-isomorphism} (First Isomorphism Theorem), we have
+\[
+    \SL_n\pqty{\RR} \normalsub \GL_n\pqty{\RR}
+\]
+and
+\[
+    \flatfrac{\GL_n\pqty{\RR}}{\SL_n\pqty{\RR}} \isomorphic \img\det.
+\]
+
+For any \(x \in \RR\multiplicative\), we have
+\[
+    \det \operatorname{diag}\pqty{x, 1, \ddots, 1} = \det\diag\pqty{x, 1, \ldots, 1} = x
+\]
+so \(\det\) is surjective,
+\[
+    \img\det = \RR\multiplicative.
+\]
+
+Everything above makes sense as well when \(\RR\) is replaced by \(\CC\), so we may speak of \(\GL_n\pqty{\CC}\) and \(\SL_n\pqty{\CC}\), and similarly,
+\[
+    \flatfrac{\GL_n\pqty{\CC}}{\SL_n\pqty{\CC}} \isomorphic \CC\multiplicative.
+\]
+
+\subsection{Change of Basis}
+\label{sec:change-of-basis}
+
+There is a natural action by conjugation \(\GL_n\pqty{\RR} \actson \matrixset_n\pqty{\RR}\) where
+\[
+    \vb{P}\pqty{\vb{A}} = \vb{P} \vb{A} \vb{P}\inverse
+\]
+for \(\vb{P} \in \GL_n\pqty{\RR}\) and \(\vb{A} \in \matrixset_n\pqty{\RR}\).
+
+\begin{proposition}[Conjugation represent Change of Basis]
+    \label{prop:conjugation-change-of-basis}%
+    Let \(\mathcal{V}\) be an \(n\)-dimensional vector space over \(\RR\) and \(\functiondomain{\alpha}{\mathcal{V}}{\mathcal{V}}\) be a linear map/endomorphism (not necessarily injective/surjective). If \(\vb{A} \in \matrixset_n\pqty{\RR}\) represents \(\alpha\) with respect to some basis, then the orbit
+    \[
+        \Orb_{\GL_n\pqty{\RR}} \pqty{\vb{A}} = \set{\vb{P} \vb{A} \vb{P}\inverse}{\vb{P} \in \GL_n\pqty{\RR}}
+    \]
+    consists of \emph{all} the matrices that represent \(\alpha\) in some basis.
+\end{proposition}
+
+\begin{proof}
+    \begin{figure}[ht!]
+        \centering
+        \begin{tikzcd}
+            \RR^n \arrow[r, "\phi", "\isomorphic"'] \arrow[d, "\vb{A}"']
+            \arrow[rr, bend left, "\vb{P}"]
+            & \mathcal{V} \arrow[d, "\alpha"] 
+            & \RR^n \arrow[l, "\psi"', "\isomorphic"] \arrow[d, "\vb{B}"]\\
+            \RR^n \arrow[r, "\phi", "\isomorphic"']
+            \arrow[rr, bend right, "\vb{P}"']
+            & \mathcal{V}
+            & \RR^n \arrow[l, "\psi"', "\isomorphic"]
+        \end{tikzcd}
+        \caption{Change of Basis and Conjugation}
+        \label{fig:change-of-basis-conjugation}
+    \end{figure}
+
+    \autoref{fig:change-of-basis-conjugation} shows an outline of the proof.
+
+    A choice of basis \(\Bqty{\vb{v}_1, \vb{v}_2, \ldots, \vb{v}_n}\) for \(\mathcal{V}\) defines an isomorphism of vector spaces
+    \[
+        \function{\phi}{\RR^n}{\mathcal{V}}{\pqty{\lambda_1, \lambda_2, \ldots, \lambda_n}\transpose}{\sum_{i = 1}^{n} \lambda_i \vb{v}_i}.
+    \]
+
+    This claims that \(\vb{A}\) represents \(\alpha\) in this basis means that \(\alpha = \phi \vb{A} \phi\inverse\).
+
+    Likewise, another basis \(\Bqty{\vb{u}_1, \vb{u}_2, \ldots, \vb{u}_n}\) for \(\mathcal{V}\) defines an isomorphism
+    \[
+        \functiondomain{\psi}{\RR^n}{\mathcal{V}}
+    \]
+    and a matrix \(\vb{B}\) represents \(\alpha\) in the coordinates
+    \[
+        \alpha = \psi \vb{B} \psi\inverse.
+    \]
+
+    Therefore,
+    \begin{align*}
+        \vb{B} &= \psi\inverse \alpha \psi \\
+        &= \pqty{\psi\inverse \circ \phi} \vb{A} \pqty{\phi\inverse \circ \psi} \\
+        &= \vb{P} \vb{A} \vb{P}\inverse
+    \end{align*}
+    for some \(\vb{P} \in \GL_n\pqty{\RR}\) representing
+    \[
+        \functiondomain{\psi\inverse \circ \phi}{\RR^n}{\RR^n}
+    \]
+    since this mapping is invertible. Thus, the set of all matrices representing \(\alpha\) is indeed contained in the orbit.
+
+    Conversely, if \(\vb{B} = \vb{P} \vb{A} \vb{P}\inverse\) for some \(\vb{P} \in \GL_n\pqty{\RR}\), then let
+    \[
+        \functiondomain{\psi = \phi \circ \vb{P}\inverse}{\RR^n}{\mathcal{V}},
+    \]
+    we get a basis
+    \[
+        \Bqty{\vb{u}_i = \phi\pqty{\unitv{e}_i}}
+    \]
+    where \(\unitv{e}_i\) is the standard basis for \(\RR^n\). In this basis, \(\vb{B}\) represents \(\alpha\), as desired.
+\end{proof}
+
+\subsection{M\"{o}bius Transformations Revisited}
+\label{sec:mobius-transformations-revisited}
+
+Recall that multiplication in \(\mobius\) looks similar to multiplication of \(2 \times 2\) complex matrices.
+
+\begin{proposition}[Identification of \(\mobius\)]
+    \label{prop:identification-of-mobius-group}%
+    Identity
+    \[
+        \CC\multiplicative = \set{\operatorname{diag}\pqty{\lambda, \lambda}}{\lambda \in \CC \setminus \Bqty{0}} \subgroup \GL_2\pqty{\CC}.
+    \]
+
+    Then \(\CC\multiplicative \normalsub \GL_2\pqty{\CC}\), and
+    \[
+        \mobius \isomorphic \flatfrac{\GL_2\pqty{\CC}}{\CC\multiplicative}.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Define the na\"{i}ve map
+    \[
+        \function{\phi}{\GL_2\pqty{\CC}}{\mobius}{
+            \pmqty{a & b \\ c & d}}{\pqty{z \mapsto \frac{az + b}{cz + d}}}.
+    \]
+
+    By computation of multiplication in \(\mobius\), we see that \(\phi\) is a homomorphism and is clearly surjective.
+
+    A matrix \(\pmqty{a & b \\ c & d} \in \ker \phi\) if and only if its image fixes \(0\), \(1\) and \(\infty\), if and only if
+    \[
+        b = c = 0, a = d.
+    \]
+
+    So
+    \[
+        \ker \phi = \CC\multiplicative \normalsub \GL_2\pqty{\CC}.
+    \]
+
+    The result then directly follows from \autoref{thm:first-isomorphism} (First Isomorphism Theorem).
+\end{proof}
+
+\subsection{Orthogonal Groups}
+\label{sec:orthogonal-groups}
+
+We write \(\norm{\cdot}\) for the usual notion of length in \(\RR^n\): let
+\[
+    \norm{\vb{u}} = \sqrt{\sum_{i = 1}^{n} u_i^2}
+\]
+be the \emph{Euclidean norm}.
+
+\begin{definition}[Orthogonal Group]
+    \label{def:orthogonal-group}%
+    The \emph{\(n\)-dimensional orthogonal group} is the subgroup of \(\GL_n\pqty{\RR}\) that preserve distance in \(\RR^n\):
+    \[
+        \Or\pqty{n} = \set{\vb{M} \in \GL_n\pqty{\RR}}{\forall \vb{v} \in \RR^n: \norm{\vb{Mv}} = \norm{\vb{v}}}.
+    \]
+\end{definition}
+
+In fact, the \emph{dot product}
+\[
+    \vb{u} \vdot \vb{v} = \sum_{i = 1}^{n} u_i v_i
+\]
+is often more convenient to work with. In fact, preserving the dot product is equivalent to preserving lengths.
+
+\begin{lemma}[Polarisation Identity]
+    \label{lem:polarisation-identity}%
+    For \(\vb{u}, \vb{v} \in \RR^n\), we have
+    \[
+        2 \pqty{\vb{u} \vdot \vb{v}} = \norm{\vb{u}}^2 + \norm{\vb{v}}^2 - \norm{\vb{u} - \vb{v}}^2.
+    \]
+\end{lemma}
+
+\begin{proof}
+    We have
+    \begin{align*}
+        \norm{\vb{u} - \vb{v}}^2 &= \pqty{\vb{u} - \vb{v}} \vdot \pqty{\vb{u} - \vb{v}} \\
+        &= \norm{\vb{u}}^2 - 2 \pqty{\vb{u} \vdot \vb{v}} + \norm{\vb{v}}^2.
+    \end{align*}
+\end{proof}
+
+We can characterise \(\Or\pqty{n}\) using the dot product.
+
+\begin{lemma}[\(\Or\pqty{n}\) are Matrices Preserving the Dot Product]
+    \label{lem:orthogonal-dot-product}%
+    Orthogonal matrices are precisely those matrices preserving the dot product, i.e.,
+    \[
+        \Or\pqty{n} = \set{\vb{M} \in \GL_n\pqty{\RR}}{\forall \vb{x}, \vb{y} \in \RR^n: \pqty{\vb{Mx}} \cdot \pqty{\vb{My}} = \vb{x} \cdot \vb{y}}.
+    \]
+
+    Equivalently, for \(\vb{M} \in \GL_{n} \pqty{\RR}\), \(\vb{M} \in \Or\pqty{n}\) if and only if \(\vb{M}\) preserves dot product.
+\end{lemma}
+
+\begin{proof}
+    \(\impliedby\). If \(\pqty{\vb{Mx}} \cdot \pqty{\vb{My}} = \vb{x} \cdot \vb{y}\) for all \(\vb{x}, \vb{y} \in \RR^n\), then for any \(\vb{v} \in \RR^n\), we have
+    \begin{align*}
+        \norm{\vb{Mv}}^2 &= \pqty{\vb{Mv}} \cdot \pqty{\vb{Mv}} \\
+        &=\vb{v} \cdot \vb{v} \\
+        &= \norm{\vb{v}}^2,
+    \end{align*}
+    so \(\norm{\vb{Mv}} = \norm{\vb{v}}\), and hence \(\vb{M} \in \Or\pqty{n}\).
+
+    \(\implies\). Conversely, for any \(\vb{M} \in \Or\pqty{n}\) and \(\vb{x}, \vb{y} \in \RR^n\), we have
+    \begin{align*}
+        2 \pqty{\vb{Mx} \cdot \vb{My}} &= \norm{\vb{Mx}}^2 + \norm{\vb{My}}^2 - \norm{\vb{Mx} - \vb{My}}^2 && \text{by \autoref{lem:polarisation-identity} (Polarisation Identity)} \\
+        &= \norm{\vb{Mx}}^2 + \norm{\vb{My}}^2 - \norm{\vb{M} \pqty{\vb{x} - \vb{y}}}^2 \\
+        &= \norm{\vb{x}}^2 + \norm{\vb{y}}^2 - \norm{\vb{x} - \vb{y}}^2 && \vb{M} \in \Or\pqty{n} \\
+        &= 2 \pqty{\vb{x} \cdot \vb{y}}. && \text{by \autoref{lem:polarisation-identity} (Polarisation Identity)}
+    \end{align*}
+
+    Therefore, \(\pqty{\vb{Mx}} \cdot \pqty{\vb{My}} = \vb{x} \cdot \vb{y}\), and \(\vb{M}\) preserves dot product as desired.
+\end{proof}
+
+This quickly leads to a nice characterisation of matrices in \(\Or\pqty{n}\).
+
+\begin{lemma}[Matrices in \(\Or\pqty{n}\)]
+    \label{lem:orthogonal-matrices-orthonormal-transpose}%
+    For \(\vb{M} \in \matrixset_n \pqty{\RR}\). The following are equivalent:
+    \begin{enumerate}
+        \item \(\vb{M} \in \Or\pqty{n}\);
+        \item The columns of \(\vb{M}\) form an orthonormal basis;
+        \item \(\vb{M}\transpose \vb{M} = \identityM\).
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \emph{(i) \(\implies\) (ii).} Let \(\Bqty{\unitv{e}_1, \unitv{e}_2, \ldots, \unitv{e}_n}\) be the standard basis for \(\RR^n\). The \(i\)-th column of \(\vb{M}\) is the column vector \(\vb{M} \unitv{e}_i\), since
+    \[
+        \pqty{\vb{M} \unitv{e}_i} \cdot \pqty{\vb{M} \unitv{e}_j} = \unitv{e}_i \cdot \unitv{e}_j = \kronecker_{ij} = \begin{cases}
+            1, & i = j, \\
+            0, & i \neq j.
+        \end{cases}
+    \]
+
+    Therefore, the columns form an orthonormal basis indeed.
+
+    \emph{(ii) \(\implies\) (iii).} As explained above, (ii) is equivalent to
+    \[
+        \pqty{\vb{M} \unitv{e}_i} \cdot \pqty{\vb{M} \unitv{e}_j }= \kronecker_{ij}.
+    \]
+
+    Since \(\vb{u} \cdot \vb{v} = \vb{u} \transpose \vb{v}\), this means
+    \[
+        \pqty{\vb{M} \unitv{e}_i}\transpose \pqty{\vb{M} \unitv{e}_j} = \kronecker_{ij}.
+    \]
+    
+    The left-hand side satisfies
+    \begin{align*}
+        \pqty{\vb{M} \unitv{e}_i}\transpose \pqty{\vb{M} \unitv{e}_j} &= \unitv{e}_i\transpose \vb{M}\transpose \vb{M} \unitv{e}_j \\
+        &= \pqty{\vb{M}\transpose \vb{M}}_{ij},
+    \end{align*}
+    since for any square matrix \(\vb{N}\), \(\unitv{e}_i \transpose \vb{N} \unitv{e}_j = \pqty{\vb{N}}_{ij}\) gives the \(\pqty{i, j}\)-th element of \(\vb{N}\). Therefore,
+    \[
+        \vb{M}\transpose \vb{M} = \identityM.
+    \]
+
+    \emph{(iii) \(\implies\) (i).} Suppose \(\vb{u}, \vb{v} \in \RR^n\), then
+    \begin{align*}
+        \pqty{\vb{Mu}} \cdot \pqty{\vb{Mv}} &= \pqty{\vb{Mu}}\transpose \pqty{\vb{Mv}} \\
+        &= \vb{u}\transpose \vb{M}\transpose \vb{M} \vb{v} \\
+        &= \vb{u}\transpose \identityM \vb{v} \\
+        &= \vb{u}\transpose \vb{v} \\
+        &= \vb{u} \cdot \vb{v},
+    \end{align*}
+    so we have \(\vb{M} \in \Or\pqty{n}\) by \autoref{lem:orthogonal-dot-product}.
+\end{proof}
+
+Recall that for any matrix \(\vb{M} \in \matrixset_{n} \pqty{\RR}\), we have \(\det \pqty{\vb{M}\transpose} = \det \pqty{\vb{M}}\). Hence, for any \(\vb{M} \in \Or\pqty{n}\),
+\begin{align*}
+    1 &= \det \identityM \\
+    &= \det \pqty{\vb{M}\transpose\vb{M}} \\
+    &= \pqty{\det \vb{M}\transpose} \pqty{\det \vb{M}} \\
+    &= \pqty{\det \vb{M}}^2,
+\end{align*}
+and hence \(\det \vb{M} = \pm 1\).
+
+\begin{definition}[Special Orthogonal Group]
+    \label{def:special-orthogonal-group}%
+    Consider the restriction of \(\det\) on \(\Or\pqty{n}\), giving
+    \[
+        \functiondomain{\rightbar{\det}_{\Or\pqty{n}}}{\Or\pqty{n}}{C_2 \isomorphic \Bqty{\pm 1}}.
+    \]
+
+    Define the \emph{\(n\)-dimensional special orthogonal group} as
+    \[
+        \SO\pqty{n} = \ker \rightbar{\det}_{\Or\pqty{n}} = \Or\pqty{n} \cap \SL_n\pqty{\RR}.
+    \]
+\end{definition}
+
+Note that such restriction of the determinant is surjective, hence by \autoref{thm:first-isomorphism} (First Isomorphism Theorem), we have
+\[
+    \abs{\Or\pqty{n} : \SO\pqty{n}} = \abs{\img \pqty{\rightbar{\det}_{\Or\pqty{n}}}} = 2 \quad (n\geq1).
+\]
+
+Recall that a positive determinant preserved orientation, and a negative determinant reverses orientation. Examples of elements of \(\Or\pqty{n} \setminus \SO\pqty{n}\) are provided by \emph{reflections}.
+
+\begin{definition}[Reflections]
+    \label{def:reflections}%
+    Any \(\vb{v} \in \RR^n \setminus \Bqty{\vb{0}}\) defines an \emph{orthogonal plane}
+    \[
+        \vb{v}\perppl = P_{\vb{v}} = \set{\vb{u} \in \RR^n}{\vb{u} \cdot \vb{v} = 0}.
+    \]
+
+    The \emph{reflection} in \(P_{\vb{v}}\) is defined to be
+    \[
+        S_{\vb{v}} \pqty{\vb{x}} = \vb{x} - \frac{2 \pqty{\vb{x} \cdot \vb{v}}}{\norm{\vb{v}}^2} \vb{v}.
+    \]
+\end{definition}
+
+\autoref{fig:reflection-in-plane} visualises the reflection.
+
+\begin{figure}[ht!]
+    \centering
+    \emph{No drawing was supplied in the source for this figure.}\par
+\caption{Reflection in a Plane}
+    \label{fig:reflection-in-plane}
+\end{figure}
+
+\begin{remarks}
+    \begin{enumerate}
+        \item We sometimes use \(S_P\) for the reflection in the plane \(P\).
+        \item If we replace \(\vb{v}\) by \(\frac{\vb{v}}{\norm{\vb{v}}}\), and assume \(\norm{\vb{v}} = 1\) (i.e. use the unit vector in \(\vb{v}\) direction, \(\unitv{v}\)), then \(P_{\vb{v}} = P_{\unitv{v}}\), and we have
+        \[
+        S_{\vb{v}} \pqty{\vb{x}} = \vb{x} - 2 \pqty{\vb{x} \cdot \vb{v}} \vb{v}.
+        \]
+    \end{enumerate}
+\end{remarks}
+
+We study some properties on those reflections.
+
+\begin{lemma}[Reflections are Orthogonal and have Order 2]
+    \label{lem:reflections-orthogonal-order-2}%
+    For any nonzero \(\vb{v} \in \RR^n\), we have \(S_{\vb{v}}^2 = \identityM\), and \(S_{\vb{v}} \in \Or\pqty{n}\).    
+\end{lemma}
+
+\begin{proof}
+    Assume \(\norm{\vb{v}} = 1\). Note that \(S_{\vb{v}}\) is indeed linear, so
+    \[
+        S_{\vb{v}} \in \matrixset_n \pqty{\RR}.
+    \]
+
+    Now, we have for any \(\vb{x} \in \RR^n\), we have
+    \begin{align*}
+        S_{\vb{v}} \pqty{\vb{x}} \cdot \vb{v} &= \pqty{\vb{x} \cdot \vb{v}} - 2 \pqty{\vb{x} \cdot \vb{v}} \cdot \pqty{\vb{v} \cdot \vb{v}} \\
+        &= - \pqty{\vb{x} \cdot \vb{v}},
+    \end{align*}
+    and hence
+    \begin{align*}
+        S_{\vb{v}}^2 \pqty{\vb{x}} &= S_{\vb{v}} \pqty{\vb{x}} - 2 \pqty{S_{\vb{v}} \pqty{\vb{x}} \cdot \vb{v}} \vb{v} \\
+        &= \vb{x} - 2\pqty{\vb{x} \cdot \vb{v}} \vb{v} + 2 \pqty{\vb{x} \cdot \vb{v}} \vb{v} \\
+        &= \vb{x},
+    \end{align*}
+    and hence \(S_{\vb{v}}^2 = \identityM\). Hence, we see \(S_{\vb{v}}\) is non-singular, and hence
+    \[
+        S_{\vb{v}} \in \GL_n \pqty{\RR}.
+    \]
+
+    Finally, we verify that reflections indeed preserve lengths. For any \(\vb{x} \in \RR^n\),
+    \begin{align*}
+        \norm{S_{\vb{v}} \pqty{\vb{x}}}^2 &= \pqty{\vb{x} - 2 \pqty{\vb{x} \cdot \vb{v}} \vb{v}} \cdot \pqty{\vb{x} - 2 \pqty{\vb{x} \cdot \vb{v}} \vb{v}} \\
+        &= \norm{\vb{x}}^2 - 4 \pqty{\vb{x} \cdot \vb{v}}^2 + 4 \pqty{\vb{x} \cdot \vb{v}}^2 \\
+        &= \norm{\vb{x}}^2,
+    \end{align*}
+    and hence \(S_{\vb{v}} \in \Or\pqty{n}\) as desired.
+\end{proof}
+
+\begin{remark}
+    To see that reflections are in \(\Or\pqty{n} \setminus \SO\pqty{n}\) indeed, let \(\norm{\vb{v}} = 1\), and we pick an orthonormal basis
+    \[
+        \Bqty{\vb{v}_1, \vb{v}_2, \ldots, \vb{v}_{n - 1}}
+    \]
+    for the \(\pqty{n-1}\)-dimensional subspace \(P_{\vb{v}}\). Then, in the basis
+    \[
+        \Bqty{\vb{v}_1, \vb{v}_2, \ldots, \vb{v}_{n - 1}, \vb{v}}
+    \]
+    for \(\RR^n\), \(S_{\vb{v}}\) is represented by the matrix
+    \[
+        \operatorname{diag}\pqty{1, 1, \ddots, 1, -1} = \diag\pqty{1, 1, \ldots, 1, -1}.
+    \]
+
+    Therefore, \(\det S_{\vb{v}} = -1\), and \(S_{\vb{v}} \notin \SO\pqty{n}\).
+\end{remark}
+
+Reflections are in general not the only elements of \(\Or\pqty{n} \setminus \SO\pqty{n}\), specifically for \(n \geq 3\). A significant reason we study those reflections is they provide a useful generating set for \(\Or\pqty{n}\). Even stronger, we have \autoref{thm:reflections-generate}.
+
+\begin{theorem}[Reflections Generate \(\Or\pqty{n}\)]
+    \label{thm:reflections-generate}%
+    Every \(\vb{A} \in \Or\pqty{n}\) is a product of at most \(n\) reflections.
+\end{theorem}
+
+\begin{proof}
+We use induction on $n$, allowing the empty product to represent the identity.
+For $n=1$, the orthogonal group is $\{1,-1\}$, and $-1$ is a reflection.
+Suppose $n>1$ and $A\in O(n)$, and let $e_n$ be the last standard basis vector.
+If $Ae_n=e_n$, then $A$ preserves $e_n^\perp$. Its restriction is a product of at most $n-1$ reflections by induction. Extend their nonzero normal vectors to $\mathbb R^n$ by adding a last coordinate zero; the resulting reflections fix $e_n$ and give $A$.
+
+Otherwise set $v=e_n-Ae_n\ne0$ and $S_v(x)=x-2\frac{x\cdot v}{\|v\|^2}v$.
+Writing $a=e_n\cdot Ae_n$, we have $\|v\|^2=2(1-a)$ and $(Ae_n)\cdot v=a-1$, so $S_vAe_n=Ae_n+v=e_n$.
+Apply the preceding case to $S_vA$: it is a product of at most $n-1$ reflections. Since $S_v^2=I$, multiplication by $S_v$ expresses $A$ as a product of at most $n$ reflections.
+\end{proof}
+
+We next aim to characterise elements of \(\Or\pqty{n}\) and \(\SO\pqty{n}\) in lower dimensions, specifically for \(\Or\pqty{2}\), \(\SO\pqty{2}\) and \(\SO\pqty{3}\).
+
+\begin{lemma}[Elements in \(\Or\pqty{2}\)]
+    \label{lem:elements-in-o2}%
+    Let \(\vb{M} \in \Or\pqty{2}\).
+    \begin{enumerate}
+        \item If \(\vb{M} \notin \SO\pqty{2}\), then \(\vb{M}\) is a reflection.
+        \item If \(\vb{M} \in \SO\pqty{2}\), then \(\vb{M}\) is a rotation about \(O\).
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    Recall that \(\det S_{\vb{v}} = -1\), so
+    \[
+        \det \pqty{S_{\vb{v}_1} S_{\vb{v}_2} \cdots S_{\vb{v}_k}} = \pqty{-1}^k.
+    \]
+
+    By \autoref{thm:reflections-generate}, we may take \(k \leq 2\).
+    \begin{enumerate}
+        \item If \(\vb{M} \notin \SO\pqty{2}\), then \(k\) is odd, and hence \(k = 1\) giving \(\vb{M}\) is a reflection.
+        \item If \(\vb{M} \in \SO\pqty{2}\), then \(k\) is even, so unless \(\vb{M} = \identityM\), then 
+        \[
+            \vb{M} = S_{\vb{u}} S_{\vb{v}}
+        \]
+        for some \(\vb{u}, \vb{v} \in \RR^2\) not parallel.
+
+        Now we claim that \(\vb{M}\) only fixes the origin and hence is a rotation. Suppose for contradiction, that for some \(\vb{x} \neq \vb{0}\), we have that \(\vb{M}\) fixes \(\vb{x}\), note that
+        \[
+            S_{\vb{u}} S_{\vb{v}} \vb{x} = \vb{x} \iff S_{\vb{u}} \vb{x} = S_{\vb{v}} \vb{x}.
+        \]
+
+        \(\vb{v}\) is parallel to \(\vb{x} - S_{\vb{v}} \vb{x}\), and \(\vb{u}\) is parallel to \(\vb{x} - S_{\vb{u}} \vb{x}\). But since \(\vb{x} \neq \vb{0}\), we have \(\vb{x} \neq S_{\vb{v}} \vb{x} = S_{\vb{u}} \vb{x}\), and hence \(\vb{u}\) is parallel to \(\vb{v}\), which is not possible.
+
+        Therefore, \(\vb{M}\) only fixes the origin \(O\), as desired.
+    \end{enumerate}
+\end{proof}
+
+\begin{remark}
+    Let \(\vb{M} \in \SO\pqty{2}\), since the columns form an orthonormal basis, we have
+    \[
+        \vb{M} = \pmqty{a & b \\ -b & a}
+    \]
+    with \(a, b \in \RR\) and \(a^2 + b^2 = \det \vb{M} = 1\). Then, let \(a = \cos \theta, b = \sin \theta\) for some \(\theta \in \RR\), and hence we have
+    \[
+        \vb{M} = \pmqty{\cos \theta & \sin \theta \\ - \sin \theta & \cos \theta}.
+    \]
+
+    Similarly, if \(\vb{M} \in \Or\pqty{2} \setminus \SO\pqty{2}\) is some reflection, we have
+    \[
+        \vb{M} = \pmqty{a & b \\ b & -a}
+    \]
+    with \(a, b \in \RR\) and \(-a^2 - b^2 = \det \vb{M} = -1\). Then, let \(a = \cos \theta, b = \sin \theta\) for some \(\theta \in \RR\), and hence we have
+    \[
+        \vb{M} = \pmqty{\cos \theta & \sin \theta \\ \sin \theta & -\cos \theta}.
+    \]
+\end{remark}
+
+\begin{lemma}[Elements in \(\SO\pqty{3}\)]
+    \label{lem:elements-in-so3}%
+    If \(\vb{M} \in \SO\pqty{3}\), then \(\vb{M}\) is a rotation.
+\end{lemma}
+
+\begin{proof}
+    Similarly to the proof of \autoref{lem:elements-in-o2}, \(\vb{M}\) is a product of at most \(3\) reflections. So either \(\vb{M} = \identityM\), or \(\vb{M} = S_{\vb{u}} S_{\vb{v}}\) for some non-parallel \(\vb{u}, \vb{v} \in \RR^3\).
+
+    Since \(n = 3\), we have
+    \[
+        P_{\vb{u}} \cap P_{\vb{v}} = l
+    \]
+    for a line \(l\), so \(A\) fixes \(l\).
+
+    Also, proceeding similarly as in \autoref{lem:elements-in-o2} shows us either \(S_{\vb{u}} = S_{\vb{v}}\) giving \(\vb{M} = \identityM\) or the fixed point is in \(P_{\vb{u}} \cap P_{\vb{v}} = l\).
+
+    Therefore, any non-trivial \(\vb{M}\) only fixes a line \(l\), hence a rotation.
+\end{proof}
+
+\section{Platonic Solids}
+\label{sec:platonic-solids}
+
+Amazingly, while there are infinitely many regular 2-dimensional polygons, in 3 dimensions, there are only 5 polyhedrons, which are called \emph{platonic solids}.
+
+\begin{definition}[Platonic Solid]
+    \label{def:platonic-solid}%
+    A convex polyhedron \(X \subseteq \RR^3\) is a \emph{platonic solid} if
+    \begin{itemize}
+        \item every face is a regular \(n\)-gon;
+        \item \(G = \Isom\pqty{X}\) acts transitively on the faces; and
+        \item if \(x \in X\) is the midpoint of a face, then
+        \[
+            \Stab_{G} \pqty{x} \isomorphic D_{2n}.
+        \]
+    \end{itemize}
+\end{definition}
+
+There are (up to similarity) 5 platonic solids, as shown in \autoref{fig:platonic-solids}:
+\begin{itemize}
+    \item the \emph{tetrahedron} (4 triangular faces, 4 vertices);
+    \item the \emph{cube/hexahedron} (6 square faces, 8 vertices);
+    \item the \emph{octahedron} (8 triangular faces, 6 vertices);
+    \item the \emph{dodecahedron} (12 pentagonal faces, 20 vertices); and
+    \item the \emph{icosahedron} (20 triangular faces, 12 vertices).
+\end{itemize}
+
+\begin{figure}[ht!]
+    \centering
+    \par Tetrahedron: 4 vertices, 6 edges, 4 triangular faces.\par
+
+    \par Cube: 8 vertices, 12 edges, 6 square faces.\par
+
+    \par Octahedron: 6 vertices, 12 edges, 8 triangular faces.\par
+
+    \par Dodecahedron: 20 vertices, 30 edges, 12 pentagonal faces.\par
+
+    \par Icosahedron: 12 vertices, 30 edges, 20 triangular faces.\par
+
+    \caption{The 5 Platonic Solids}
+    \label{fig:platonic-solids}
+\end{figure}
+
+Two solids \(X, Y\) are \emph{dual} if \(Y\) can be constructed from \(X\) by putting vertices in the centres of each face, and joining vertices in adjacent faces by edges.
+
+\begin{examples*}[Dual Platonic Solids]
+    \begin{itemize}
+        \item The cube and the octahedron are dual, as shown in \autoref{fig:duality-cube-octahedron}.
+        \item The tetrahedron is dual with itself.
+        \item The dodecahedron and the icosahedron are dual.
+    \end{itemize}
+\end{examples*}
+
+\begin{figure}[ht!]
+    \centering
+    \par The centres of the six faces of a cube form the six vertices of its dual octahedron; adjacency of cube faces gives octahedron edges.\par
+
+    \caption{Cube and Octahedron are Dual}
+    \label{fig:duality-cube-octahedron}
+\end{figure}
+
+In particular, if \(X\) and \(Y\) are dual, then
+\[
+    \Isom\pqty{X} \isomorphic \Isom\pqty{Y}
+\]
+so we only 3 isometry groups to identity.
+
+Before we continue, note that the isometry group of any such platonic solid \(G\) satisfies \(G \subgroup \Or\pqty{3}\), and hence \(G_0 = G \cap \SO\pqty{3}\) being the subgroup preserving orientation satisfies that
+\[
+    G_0 = \ker \pqty{\functiondomain{\rightbar{\det}_{G}}{G}{C_2}}
+\]
+and hence by \autoref{thm:first-isomorphism} (First Isomorphism Theorem)
+\[
+    \abs{G : G_0} = \abs{\img \pqty{\rightbar{\det}_{G}}} \leq 2.
+\]
+
+For any platonic solid, there are reflectional symmetries which belong to \(\Or\pqty{3} \setminus \SO\pqty{3}\), so we must have
+\[
+    \abs{G : G_0} = 2
+\]
+and hence by \autoref{sec:lagranges-theorem} (Lagrange's theorem),
+\[
+    \abs{G} = 2 \abs{G_0}
+\]
+
+\begin{example*}[Symmetries of Tetrahedron]
+    Let \(G = \Isom\pqty{\text{tetrahedron}}\). From \autoref{def:platonic-solid}, \(G\) acts transitively on the \(4\) surfaces, and each stabiliser has size \(6\), so by \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem), we have
+    \[
+        \abs{G} = 4 \times 6 = 24.
+    \]
+
+    Furthermore, \(G\) acts on the \(4\) vertices, defining a homomorphism
+    \[
+        \functiondomain{\theta}{G}{S_4}.
+    \]
+
+    We prove that \(\theta\) is injective. Suppose for some \(g \in G\), that
+    \[
+        \theta\pqty{g} = e.
+    \]
+
+    Then \(g\) fixes the \(4\) vertices which are not co-planar, and hence by the 3-dimensional version (four point lemma) of \autoref{lem:three-point-lemma} (three point lemma), we have \(g = \identity\).
+    
+    Hence, \(\theta\) is injective, and by comparing sizes, we see
+    \[
+        G \isomorphic S_4.
+    \]
+\end{example*}
+
+To identify the group of \emph{rotational symmetries}
+\[
+    G_0 = G \cap \SO\pqty{3}
+\]
+where the tetrahedron is centred on the origin, we conjecture \(G_0 \isomorphic A_4\).
+
+\begin{lemma}[Uniqueness of Index 2 Subgroup of \(S_n\)]
+    \label{lem:uniqueness-index-2-subgroup}
+    If \(H \subgroup S_n\) and \(\abs{S_n : H} = 2\), then \(H = A_n\).
+\end{lemma}
+
+\begin{proof}
+    Because \(\abs{S_n : H} = 2\), then \(H \subgroup S_n\) is normal, hence \(H \normalsub S_n\), and by taking quotients,
+    \[
+        \flatfrac{S_n}{H} \isomorphic C_2.
+    \]
+
+    We therefore have the quotient map as a surjective homomorphism
+    \[
+        \functiondomain{\theta}{S_n}{C_2 = \Bqty{\pm 1}}
+    \]
+    and hence \(\ker \theta = H\).
+
+    Since transpositions generate \(S_n\) and \(\theta\) is surjective, there is some transposition \(\tau_0\) such that
+    \[
+        \theta \pqty{\tau_0} = -1.
+    \]
+
+    Since all transpositions are conjugate to \(\tau_0\), for any transposition \(\tau\),
+    \[
+        \tau = \sigma \tau_0 \sigma\inverse
+    \]
+    for some \(\sigma \in S_n\), then
+    \begin{align*}
+        \theta \pqty{\sigma \tau_0 \sigma\inverse} &= \theta\pqty{\sigma} \theta\pqty{\tau_0} \theta\pqty{\sigma}\inverse \\
+        &= \theta\pqty{\tau_0} \\
+        &= -1,
+    \end{align*}
+    so \(\theta\) and \(\sign\) (the sign homomorphism) agree on a generating set of \(S_n\), and hence they are identical, so
+    \[
+        H = \ker \theta = \ker \sign = A_n.
+    \]
+\end{proof}
+
+Therefore, in particular, we have \(\abs{G : G_0} = 2\), so
+\[
+    G_0 \isomorphic A_4.
+\]
+
+\begin{example*}[Cube/Octahedron]
+    Let \(G = \Isom\pqty{\text{cube}}\). Similarly, applying \autoref{cor:orbit-stabiliser} (Orbit--Stabiliser Theorem) on the midpoints of faces gives
+    \[
+        \abs{G} = 6 \times 8 = 48.
+    \]
+
+    In particular, the index 2 normal subgroup
+    \[
+        \abs{G_0} = 24.
+    \]
+
+    Notice that \(G \actson\) set of 4 long diagonals of the cube, so we obtain a homomorphism
+    \[
+        \functiondomain{\theta}{G_0}{S_4}.
+    \]
+
+    Instead, we show this time that \(\theta\) is surjective, and since transpositions generate \(S_4\) from \autoref{thm:transposition-generate}, it suffices to show that any transposition is contained in \(\img \theta\). Indeed, from \autoref{fig:diagonals-of-cube-and-transpositions}, we see that a rotation about an axis through midpoint of two opposite edges maps to a transposition under \(\theta\), and we get
+    \[
+        \binom{4}{2} = 6 = \frac{12}{2}
+    \]
+    transpositions, which are all of them. Hence, \(\img \theta = S_4\) indeed. By comparing sizes, we have \(G_0 \isomorphic S_4\).
+
+    Now, notice that \(-\identityM \notin G_0\) but \(-\identityM \in G\) and commutes with everything in \(G_0 \isomorphic S_4\). So by \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem), we have
+    \[
+        G \isomorphic S_4 \times C_2.
+    \]
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \par The four body diagonals of a cube join opposite vertices: for the vertices $(\pm1,\pm1,\pm1)$, identify each pair $\{v,-v\}$. Rotations permute these four lines.\par
+
+    \caption{Diagonals of the Cube and Transpositions}
+    \label{fig:diagonals-of-cube-and-transpositions}
+\end{figure}
+
+Finally, we examine the isometry group of a dodecahedron/icosahedron. (This is non-examinable in the course.)
+
+\begin{example*}[Dodecahedron/Icosahedron]
+    Let \(G = \Isom \pqty{\text{dodecahedron}}\) and \(G_0\) be the rotational subgroup with index 2.
+
+    Similar to the examples above, we have
+    \[
+        \abs{G} = 12 \times 10 = 120, \abs{G_0} = 60.
+    \]
+
+    By drawing diagonals on the faces, as shown in \autoref{fig:cubes-in-dodecahedron}, we may inscribe 5 cubes into the dodecahedron. (This diagram shows one of them, using one diagonal on each of the \(12\) faces, and there are \(5\) diagonals in a pentagon, so there are \(5\) such cubes.)
+
+    Since the 5 cubes are built symmetrically from the geometry of the dodecahedron, we see that
+    \[
+        G_0 \actson 5 \text{ cubes}.
+    \]
+
+    This leads to a homomorphism
+    \[
+        \functiondomain{\theta}{G_0}{S_5}.
+    \]
+
+    Now, notice rotation around an axis through opposite pair of vertices lead to a \(3\)-cycle in \(S_5\). There are \(10\) diagonals between opposite pairs of vertices, and we get \(10\) inverse pairs of \(3\)-cycles this way, which must then be all \(20\) \(3\)-cycles in \(S_5\).
+
+    Since the set of \(3\)-cycles form a conjugacy class in \(A_5\), by Sheet 4, Q2, the subgroup generated by a conjugacy class is normal, and hence using the fact that \(A_5\) is simple, these \(3\)-cycles must then generate the whole of \(A_5\).
+
+    This shows that
+    \[
+        A_5 \subgroup \img \theta,
+    \]
+    but we have
+    \[
+        60 = \abs{G_0} \geq \abs{\img \theta} \geq \abs{A_5} = 60
+    \]
+    so all the equal signs must be taken at the same time, and hence \(\theta\) is an injective homomorphism, with \(\img \theta = A_5\), and hence by \autoref{thm:first-isomorphism} (First Isomorphism Theorem), we have
+    \[
+        G_0 \isomorphic A_5.
+    \]
+
+    Similar to the cubes, \(-\identityM\) is a symmetry of the dodecahedron that commutes with everything. So \autoref{thm:dpt-direct-product-theorem} (Direct Product Theorem) implies that
+    \[
+        G \isomorphic A_5 \times C_2.
+    \]
+\end{example*}
+
+\begin{figure}[ht!]
+    \centering
+    \par The five cubes inscribed in a regular dodecahedron form a set permuted by its rotations. This text edition does not reproduce the geometric drawing.\par
+
+    \caption{Cubes Inscribed into Dodecahedron}
+    \label{fig:cubes-in-dodecahedron}
+\end{figure}
+\end{document}

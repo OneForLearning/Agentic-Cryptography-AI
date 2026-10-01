@@ -1,0 +1,69 @@
+226 Pascal Paillier
+We denote by Bα ⊂ Z
+∗
+n2 the set of elements of order nα and by B their
+disjoint union for α =1 , ··· ,λ.
+Proof. Since the two groups Z
+n × Z
+∗
+n and Z
+∗
+n2 have the same number of ele-
+ments nφ(n), we just have to prove that Eg is injective. Suppose that gx1 yn
+1 =
+gx2 yn
+2 mod n2.I tc o m e sgx2− x1 ·(y2/y1)n =1m o d n2, which impliesgλ(x2− x1) =
+1m o dn2.T h u sλ(x2 − x1) is a multiple of g’s order, and then a multiple of
+n.S i n c eg c d (λ, n)=1 , x2 − x1 is necessarily a multiple of n.C o n s e q u e n t l y ,
+x2 − x1 =0m o d n and (y2/y1)n =1m o d n2, which leads to the unique solution
+y2/y1 =1o v e rZ
+∗
+n. This means that x2 = x1 and y2 = y1. Hence, Eg is bijective.
+⊓⊔
+Deﬁnition 4. Assume that g ∈B .F o rw ∈ Z
+∗
+n2,w ec a l ln-th residuosity class
+of w with respect to g the unique integer x ∈ Z
+n for which there exists y ∈ Z
+∗
+n
+such that
+Eg(x, y)= w.
+Adopting Benaloh’s notations [3], the class ofw is denoted [[w]]g.I ti sw o r t h -
+while noticing the following property :
+Lemma 5. [[w]]g =0 if and only if w is a n-th residue modulon2.F u r t h e r m o r e ,
+∀w1,w 2 ∈ Z
+∗
+n2 [[w1w2]]g =[ [w1]]g +[ [w2]]g mod n
+that is, the class functionw ↦→ [[w]]g is a homomorphism from(Z
+∗
+n2, ×) to (Z
+n, +)
+for any g ∈B .
+The n-th Residuosity Class Problemof base g, denoted Class[n, g], is deﬁned
+as the problem of computing the class function in base g :f o rag i v e nw ∈ Z
+∗
+n2,
+compute [ [w]]g from w. Before investigating further Class[ n, g]’s complexity, we
+begin by stating the following useful observations :
+Lemma 6. Class [n, g] is random-self-reducible over w ∈ Z
+∗
+n2.
+Proof. Indeed, we can easily transform any w ∈ Z
+∗
+n2 into a random instance
+w′ ∈ Z
+∗
+n2 with uniform distribution, by posing w′ = wg αβn mod n2 where α
+and β are taken uniformly at random over Z
+n (the event β ⁄∈ Z
+∗
+n occurs with
+negligibly small probability). After [ [w′]]g has been computed, one has simply to
+return [ [w]]g =[ [w′]]g − α mod n. ⊓⊔
+Lemma 7. Class [n, g] is random-self-reducible over g ∈B , i.e.
+∀g1,g 2 ∈B Class [n, g1] ≡ Class [n, g2] .
+Proof. I tc a ne a s i l yb es h o w nt h a t ,f o ra n yw ∈ Z
+∗
+n2 and g1, g2 ∈B ,w eh a v e
+[[w]]g1 =[ [w]]g2 [[g2]]g1 mod n, (1)

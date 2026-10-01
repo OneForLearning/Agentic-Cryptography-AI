@@ -1,0 +1,32 @@
+Le cryptosystème de Paillier
+Résiduosité de degré composite, trappes algébriques et chirement homomorphe
+Synthèse technique rédigée par Claude (Anthropic)
+25 septembre 2026
+Ce document est une synthèse pédagogique originale, réorganisée et reformulée, du problème
+et des constructions introduits par Pascal Paillier dans :
+P. Paillier,  Public-Key Cryptosystems Based on Composite Degree Residuosity Classes ,
+in J. Stern (Ed.), Advances in Cryptology  EUROCRYPT'99, LNCS vol. 1592, p. 223
+238, Springer-Verlag, 1999.
+Il ne s'agit pas d'une reproduction du texte original (dont Springer détient les droits), mais
+d'une réexposition des idées et résultats mathématiques, avec un plan, des explications et
+des mises en perspective propres à ce document.
+Table des matières
+1 Contexte et portée du papier 1
+2 Cadre algébrique : résiduosité de degré composite 1
+2.1 Notations de base . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+2.2 Résidus de degré n modulo n2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+3 La fonction Eg et les classes de résiduosité 2
+3.1 Une bijection paramétrée par g . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+4 Une hiérarchie de réductions 3
+5 T rois cryptosystèmes dérivés 3
+5.1 Schéma 1  le chirement probabiliste  Paillier  . . . . . . . . . . . . . . . . 3
+5.2 Schéma 2  une permutation à trappe (rare) sur Z∗
+n2 . . . . . . . . . . . . . . . 4
+5.3 Schéma 3  la variante à déchirement rapide . . . . . . . . . . . . . . . . . . 4
+6 Propriétés algébriques remarquables 4
+6.1 Homomorphisme additif . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+6.2 Auto-aveuglement (re-chirement) . . . . . . . . . . . . . . . . . . . . . . . . . 5
+6.3 Auto-réductibilité aléatoire . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+7 Aspects pratiques 5
+8 Postérité et usages actuels 5
+Référence 6

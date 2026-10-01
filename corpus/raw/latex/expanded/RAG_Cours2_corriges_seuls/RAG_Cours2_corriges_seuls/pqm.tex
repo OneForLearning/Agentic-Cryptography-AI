@@ -1,0 +1,41 @@
+% \documentclass[a4, 10pt]{scrartcl}
+\documentclass[a4paper, 10pt, twocolumn]{amsart}
+
+\usepackage[
+% fancytheorems,
+% fancyproofs
+nokoma
+]{adam}
+
+\usepackage[margin=0.75in]{geometry}
+
+\title{Principles of Quantum Mechanics}
+\author{Adam Kelly -- Mathematical Tripos Part II}
+\date{\today. Email \texttt{ak2316@cam.ac.uk}}
+
+\begin{document}
+
+\maketitle
+
+\section{Uncertainty Principle}
+
+For a normalized vector $\psi$ in a finite-dimensional complex inner product space and Hermitian operators $A,B$, write $\langle T\rangle_\psi=\langle\psi,T\psi\rangle$, using an inner product linear in its second argument. Define
+\[
+A_0=A-\langle A\rangle_\psi I,\qquad B_0=B-\langle B\rangle_\psi I,
+\qquad (\Delta A)_\psi=\|A_0\psi\|,\quad (\Delta B)_\psi=\|B_0\psi\|.
+\]
+With $z=\langle A_0\psi,B_0\psi\rangle$, Hermiticity gives
+$\langle[A,B]\rangle_\psi=z-\overline z=2i\operatorname{Im}z$.
+Cauchy--Schwarz therefore yields
+\[
+(\Delta A)_\psi(\Delta B)_\psi\geq\tfrac12|\langle[A,B]\rangle_\psi|.
+\]
+This proof includes zero-variance cases. Noncommuting operators alone do not imply a strictly positive lower bound in every state: the expectation of the commutator can vanish.
+
+For unbounded operators, domain hypotheses are essential. The same argument applies to a normalized vector $\psi$ in a common domain where $A\psi,B\psi,AB\psi,BA\psi$ exist, and where symmetry justifies the displayed inner-product identities. In particular, for position and momentum satisfying $[x,p]\psi=i\hbar\psi$ on such a domain, it gives
+\[
+(\Delta x)_\psi(\Delta p)_\psi\geq\hbar/2.
+\]
+This is a conditional application, not an assertion that arbitrary unbounded operators share such a domain. Canonical position and momentum are not finite-dimensional matrices.
+
+\end{document}

@@ -1,0 +1,111 @@
+% RAG editorial revision v1; source: 3-2.tex
+% Original SHA256: 421b481d674e92e3704955104f0afc94e3762eb60868f6db6c8ca0ebcbf6e9b5
+% Mathematical audit: PARTIAL; no automatic RAG admission.
+% !TEX root = ../notes.tex
+
+\section{Tuesday, January 22}
+
+Recall that there is a ring homomorphism from $\mathbb{Z}[x]$ to $\F_p[x]$ which is reduction modulo $p$ of the coefficients. There is subtlety when we talk about irreducibility in $\mathbb{Z}[x]$; consider that $2x-2 = 2 \cdot (x-1)$ is not irreducible as an element of the ring $\mathbb{Z}[x]$, but it is irreducible as a polynomial in a polynomial ring over a field in the sense that we cannot factor it as $g\cdot h$ where $\partial g, \partial h > 0$. This is why we care about nonconstant factors. This discrepancy occurs when we have $2$ appearing everywhere, which seems to present a problem. We need a way to distinguish between these two conflated notions.
+
+\begin{definition}[Primitive]
+A polynomial $f \in \mathbb{Z}[x]$ if its coefficients are \emph{all} relatively prime, so that the ideal $(a_0, \dotsc, a_n)$ is simply $\mathbb{Z}$, or equivalently that there exist $b_0,\dotsc,b_n \in \mathbb{Z}$ such that $\sum b_ia_i = 1$.
+\end{definition}
+
+\begin{example}
+The polynomial $4x^3 + 6x^2 + 15x + 9$ is primitive while $4x^3 + 6x^2 + 16x + 18$ is not, since every term is divisible by $2$.
+\end{example}
+
+\begin{proposition}
+A polynomial $f \in \mathbb{Z}[x]$ is primitive if and only if its reduction $\bar{f}$ modulo $p$ is not the zero polynomial for all prime $p$.
+\end{proposition}
+
+\begin{lemma}[Primitive decomposition with a sign convention]
+For every nonzero $f\in\mathbb Q[X]$, there is a unique pair
+$(c,f_0)$ with $c\in\mathbb Q\setminus\{0\}$ and $f_0\in\mathbb Z[X]$
+primitive with positive leading coefficient such that $f=cf_0$.
+Here primitive means that the greatest common divisor of all coefficients is one.
+\end{lemma}
+\begin{proof}
+Choose a positive integer $D$ with $h=Df\in\mathbb Z[X]$ and let $g>0$
+be the gcd of the coefficients of $h$. Let $\epsilon\in\{1,-1\}$ be the
+sign of its leading coefficient. Set $f_0=\epsilon h/g$ and $c=\epsilon g/D$.
+Then $f_0$ is primitive with positive leading coefficient and $cf_0=f$.
+For uniqueness, suppose $cf_0=c'f'_0$ with both primitive parts normalized.
+Write $f'_0=qf_0$ with $q=c/c'=u/v>0$, where $u,v$ are coprime positive integers.
+Integrality of $qf_0$ implies that $v$ divides every coefficient of $f_0$,
+so $v=1$. Primitivity of $f'_0=uf_0$ then gives $u=1$.
+Thus $q=1$, $f'_0=f_0$ and $c'=c$.
+\end{proof}
+\begin{remark}
+Without the sign convention, $X=1\cdot X=(-1)\cdot(-X)$ gives two decompositions.
+The zero polynomial is excluded because it has no such unique primitive part.
+\end{remark}
+
+\begin{lemma}
+If we start with a polynomial in $\mathbb{Z}[x]$, then the $c$ which we pull out will also be an integer.
+\end{lemma}
+
+\begin{lemma}
+Let $f,g \in \mathbb{Z}[x]$ be primitive. Then $f\cdot g \in \mathbb{Z}[x]$ is also primitive.
+\end{lemma}
+
+\begin{proof}
+For every prime $p$, the reductions $\bar f,\bar g\in\mathbb F_p[X]$
+are nonzero because $f$ and $g$ are primitive. The polynomial ring
+$\mathbb F_p[X]$ is an integral domain, so $\overline{fg}=\bar f\bar g\ne0$.
+Thus no prime divides every coefficient of $fg$, and $fg$ is primitive.
+\end{proof}
+
+\begin{lemma}
+If $f \in \mathbb{Z}[x]$ is primitive and $g \in \mathbb{Z}[x]$ is any polynomial, then if $f$ divides $g$ in $\mathbb{Q}[x]$ then $f$ divides $g$ in $\mathbb{Z}[x]$.
+\end{lemma}
+
+\begin{example}[Counter example when not primitive]
+Consider that $4x$ divides $x(x-1)$ in $\mathbb{Q}[x]$ but not in $\mathbb{Z}[x]$ because $4x$ is not primitive.
+\end{example}
+
+\begin{proof}
+There exists some unique way of writing $g$ as $c \cdot g_0$. Since $f$ divides $g$ in $\mathbb{Q}[x]$ then $g = f \cdot h$ for some $h \in \mathbb{Q}[x]$. Thus $f \cdot h = c \cdot g_0$, and we can write $h = d \cdot h_0$. Then $g = d \cdot f \cdot h_0$, and since $f$ and $h_0$ are primitive we know that $fh_0$ is primitive as well. Since this decomosition is unique, this implies that $c = d$ and $g_0 = f h_0$. Then $f$ divides $g_0$ and $g_0$ divides $g$ in $\mathbb{Z}[x]$, so $f$ divides $g$ in $\mathbb{Z}[x]$.
+\end{proof}
+
+\begin{lemma}[Gauss]
+Let $f \in \mathbb{Z}[x]$. If $f$ is an irreducible polynomial in $\mathbb{Z}[x]$ then $f$ is irreducible in $\mathbb{Q}[x]$.
+\end{lemma}
+
+\begin{proof}
+Assume $f = gh$ in $\mathbb{Q}[x]$ where $\partial g > 0$. Write $f = bf_0$, $g = cg_0$, and $h = dh_0$. Then $bf_0 = gh = cdg_0h_0$. Then $g_0h_0$ is primitive, so $f_0 = g_0h_0$ and $f = bg_0h_0$.
+\end{proof}
+
+\begin{lemma}[Eisenstein's Criterion]
+Let $f = \sum a_ix^i \in \mathbb{Z}[x]$. Fix a prime $p$ and assume the following:
+\begin{enumerate}
+\item $p$ does not divide $a_n$;
+\item $p$ divides all $a_i$ where $0 \leq i \leq n-1$; and 
+\item $p^2$ does not divide $a_0$.
+\end{enumerate}
+Then $f$ is irreducible in $\mathbb{Z}[x]$, and by Gauss' Lemma in $\mathbb{Q}[x]$ as well.
+\end{lemma}
+
+\begin{proof}
+Proof by contradiction. Assume $f$ has the requisite properties but $f$ is reducible in $\mathbb{Z}[x]$, so $f = gh$. Let $g = \sum_{0 \leq i \leq m} g_ix^i$ and $h = \sum_{0 \leq i \leq \ell} h_ix^i$. Consdier $\bar{f} = \bar{a}_nx^n = \bar{g}\bar{h}$. Recall that $a_n = g_mh_\ell$ and $a_0 = g_0h_0$. Then $p$ divides $g_0$ and $h_0$; then $p^2$ divides $g_0h_0 = a_0$ which is a contradiction.
+\end{proof}
+
+\begin{example}
+Consider that $x^2-p$ is irreducible in $\mathbb{Q}[x]$ by Eisenstein. Thus $\sqrt{p}$ is irrational. And just like that, most of ancient greek mathematics is solved.
+\end{example}
+
+\begin{example}
+Notice that $x^p - 1 = (x-1) \cdot x^{p-1} + x^{p-2} + \cdots + 1 = (x-1)\Phi_p(x)$. This is irreducible by Eisenstein.
+
+\begin{proof}
+Consider $\Phi_p(x+1)$, so $(x+1)^p - 1 = x \cdot \Phi_p(x+1)$. We can use the binomial theorem to say that 
+\[ (x+1)^p = \sum {p \choose i}x^i = x^p + px^{p-1} + \cdots + px + 1. \]
+Then 
+\[ \Phi_p(x+1) = x^{p-1} + px^{p-1} + \cdots + p. \]
+Recall that $p$ divides ${p \choose i}$ for all $1 \leq i \leq p-1$. Then $\Phi_p(x+1)$ is Eisenstein, and so $\Phi_p(x+1)$ is irreducible, and so $\Phi_p(x)$ is irreducible.
+\end{proof}
+\end{example}
+
+\begin{problem}[Challenge, find a better proof than the current one which is terrible]
+Prove that $x^n + x + 1 \in \F_2[x]$ is irreducible for $n \geq 2$.
+\end{problem}

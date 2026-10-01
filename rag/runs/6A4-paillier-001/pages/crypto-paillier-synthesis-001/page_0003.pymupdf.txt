@@ -1,0 +1,56 @@
+Le cryptosystème de Paillier    synthèse technique                                             3
+
+
+3 La fonction Eg et les classes de résiduosité
+
+3.1 Une bijection paramétrée par g
+    Soit g ∈Z∗n2. On dé nit
+                     Eg : Zn × Z∗n −→Z∗n2,     Eg(x, y) = gx yn mod n2.
+Théorème 1. Si l'ordre de g dans Z∗n2 est un multiple non nul de n, alors Eg est une bijection.
+     Idée : Un tel g engendre, modulo le sous-groupe des résidus de degré n, un groupe quotient
+      d'ordre exactement n : faire varier x dans Zn parcourt donc exactement les n classes pos-
+       sibles. À l'intérieur d'une classe  xée, faire varier y dans Z∗n parcourt exactement les φ(n)
+      résidus de degré n via yn. Les deux paramètres se combinent donc sans collision ni trou :
+      chaque w ∈Z∗n2 s'écrit de façon unique gxyn.
+  On note B l'ensemble des  bonnes   bases g satisfaisant cette condition d'ordre.
+Dé nition 3. Pour g ∈B et w ∈Z∗n2, la classe de résiduosité de degré n de w en base g, notée
+[[w]]g, est l'unique x ∈Zn tel qu'il existe y avec Eg(x, y) = w.
+
+Propriété 1.  [[w]]g = 0 si et seulement si w est un résidu de degré n. De plus, w 7→[[w]]g est
+un morphisme de groupes de (Z∗n2, ×) vers (Zn, +) : [[w1w2]]g = [[w1]]g + [[w2]]g mod n.
+   Cette fonction de classe est elle aussi auto-réductible aléatoirement, à la fois sur w et sur le
+choix de g ∈B (changer de base revient à multiplier par une constante calculable). Sa di  culté
+ne dépend donc que de n  : c'est le problème de la classe de résiduosité composite,
+noté Class[n], dont l'intractabilité conjecturée est appelée CCRA (Computational Composite
+Residuosity Assumption).
+
+4 Une hiérarchie de réductions
+
+    Paillier relie ce nouveau problème à des problèmes bien étudiés grâce à un outil très simple :
+la fonction
+                   u −1
+               L(u) =          ,    dé nie sur Sn = { u < n2 | u ≡1 mod n },
+                   n
+qui est bien dé nie car Sn est stable par multiplication. Le résultat-clé est que, pour tout
+w ∈Z∗n2,
+                       L(wλ mod n2) = λ · [[w]]1+n mod n.
+Autrement dit, élever w à la puissance secrète λ puis appliquer L lit directement la classe de w
+en base 1 + n, multipliée par la constante publique-calculable λ    sans jamais calculer de vrai
+logarithme discret. C'est le mécanisme qui rend le déchi rement praticable.
+   De là découle une chaîne de réductions :
+
+              CR[n] ≡D-Class[n] ⇐Class[n] ⇐RSA[n, n] ⇐Fact[n],
+
+où RSA[n, n] désigne l'extraction de racines n-ièmes modulo n et Fact[n] la factorisation de n.
+     Idée :  Factoriser ⇒calculer une classe. Connaître p, q donne λ, donc L(wλ), donc
+       [[w]]1+n via la relation ci-dessus, et donc [[w]]g pour n'importe quelle base g ∈B par change-
+     ment de base.
+     Racine n-ième ⇒calculer une classe. Écrire w = (1 + n)xyn mod n2 et réduire mo-
+      dulo n fait disparaître le terme (1 + n)x (qui vaut 1 mod n) : il reste exactement w ≡yn
+     (mod n), un dé RSA d'exposant n. Un oracle qui extrait y permet alors, en divisant w par
+     yn modulo n2, d'isoler (1 + n)x = 1 + xn et donc de lire x directement.
+
+   Cette hiérarchie place la résiduosité composite au moins aussi facile que RSA et la factori-
+sation, tout en laissant ouverte   comme le note explicitement l'auteur, et comme c'est resté
+le cas depuis    l'équivalence stricte entre Class[n] et sa version décisionnelle. C'est le même
+type d'écart, non résolu, qui sépare CDH de DDH pour le logarithme discret.

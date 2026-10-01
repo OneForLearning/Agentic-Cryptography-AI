@@ -1,0 +1,17 @@
+{
+  "profile": "ace-6A4-code-backup-v1",
+  "files_before": {
+    "scripts/compare_pdf_extractors.py": null,
+    "scripts/extract_corpus.py": null,
+    "scripts/verify_extraction_run.py": null,
+    "src/livre_crypto_rag/extraction_runs.py": null,
+    "tests/test_extraction_runs.py": null
+  },
+  "files_installed": {
+    "scripts/compare_pdf_extractors.py": "bb9891162da56ccff4ba094647be03c600700838303e8d49b0c7fb240f2c5895",
+    "scripts/extract_corpus.py": "89613c6ba454e3cfffcf1a2c19e33fa9bc13f52136e4e844fa00cb6c2345f623",
+    "scripts/verify_extraction_run.py": "968404b2e181396649f26e0cbd2ec8a578c863698b5c4e4e141c24b8dc523726",
+    "src/livre_crypto_rag/extraction_runs.py": "e50b4321ca8652b23e3718ed65d6d4e1cb582841f3c3c0c4f5dca5eba0685e8d",
+    "tests/test_extraction_runs.py": "379265034b03a8f11bce0665eaee7a5721f77b7ce1f8b9b34047e1df7cecff9e"
+  }
+}

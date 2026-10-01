@@ -1,0 +1,54 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes    229
+
+4 A New Probabilistic Encryption Scheme
+
+We now proceed to describe a public-key encryption scheme based on the Com-
+posite Residuosity Class Problem. Our methodology is quite natural : employing
+Eg for encryption and the polynomial reduction of Theorem 9 for decryption, us-
+ing the factorisation as a trapdoor.
+   Set n = pq and randomly select a base g ∈B : as shown before, this can be
+done eﬃciently by checking whether
+
+                       gcd L(gλ mod n2), n = 1 .                        (4)
+
+   Now, consider (n, g) as public parameters whilst the pair (p, q) (or equiva-
+lently λ) remains private. The cryptosystem is depicted below.
+
+
+
+             Encryption :
+                                plaintext m < n
+                                   select a random r < n
+                                ciphertext c = gm · rn mod n2
+
+
+             Decryption :
+                                ciphertext c < n2
+
+                                           L(cλ mod n2)
+                                plaintext m =           mod n
+                                         L(gλ mod n2)
+
+
+  Scheme 1. Probabilistic Encryption Scheme Based on Composite Residuosity.
+
+
+   The correctness of the scheme is easily veriﬁed from Equation 2, and it is
+straightforward that the encryption function is a trapdoor function with λ (that
+is, the knowledge of the factors of n) as the trapdoor secret. One-wayness is
+based on the computational problem discussed in the previous section.
+
+Theorem 14. Scheme 1 is one-way if and only if the Computational Composite
+Residuosity Assumption holds.
+
+Proof. Inverting our scheme is by deﬁnition the Composite Residuosity Class
+Problem.                                                                                          ⊓⊔
+
+
+Theorem 15. Scheme 1 is semantically secure  if and only  if the Decisional
+Composite Residuosity Assumption holds.
+
+Proof. Assume that m0 and m1 are two known messages and c the ciphertext
+of either m0 or m1. Due to Lemma 5, c is the ciphertext of m0  if and only
+if cg−m0 mod n2 is a n-th residue. Therefore, a successfull chosen-plaintext at-
+tacker could decide composite residuosity, and vice-versa.                           ⊓⊔

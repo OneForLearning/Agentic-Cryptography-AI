@@ -1,0 +1,549 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xparse,multicol,enumitem,hyperref}
+\usepackage[a4paper,margin=25mm]{geometry}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Exercise}
+\newtheorem{examples}[theorem]{Exercises}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\pqty}[1]{\left(#1\right)}
+\newcommand{\bqty}[1]{\left[#1\right]}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\set}[2]{\left\{#1\mid #2\right\}}
+\newcommand{\ccintv}[2]{[#1,#2]}
+\newcommand{\oointv}[2]{(#1,#2)}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\pmqty}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\compl}{^{\mathrm{c}}}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\qif}{\quad\text{if}\quad}
+\newcommand{\qfor}{\quad\text{for}\quad}
+\newcommand{\qqtext}[1]{\quad\text{#1}\quad}
+\newcommand{\dd}[1]{\,\mathrm{d}#1}
+\NewDocumentCommand{\dv}{s o m g}{\IfNoValueTF{#4}{\frac{\mathrm{d}}{\mathrm{d}#3}}{\IfNoValueTF{#2}{\frac{\mathrm{d}#3}{\mathrm{d}#4}}{\frac{\mathrm{d}^{#2}#3}{\mathrm{d}#4^{#2}}}}}
+\newcommand{\SI}[2]{#1\,\text{#2}}
+\newcommand{\centi}{c}
+\newcommand{\metre}{m}
+\newcommand{\percent}{\%}
+
+\title{TMUA Lecture 4 -- Sequences and Series, and Calculus}
+\author{Eason Shao; revised edition}
+\date{2026-09-28}
+\begin{document}
+\maketitle
+\paragraph{Editorial scope and provenance.}
+Revised from Eason Shao's TMUA lecture notes; language and exercise attributions are retained.
+The supplied licence assigns CC BY-NC-SA 4.0 to the text and GNU GPL 3.0 to the source files
+(\url{https://creativecommons.org/licenses/by-nc-sa/4.0/};
+\url{https://www.gnu.org/licenses/gpl-3.0.html}).
+Revision: 2026-09-28. Missing personal-package macros have been defined locally;
+selected mathematical errors and missing hypotheses have been corrected.
+This is not an exhaustive certification of every exercise or its historical attribution.
+Exercise alternatives and attempted proofs are questions to assess, not asserted results.
+Keep each exercise with its statement, alternatives and any editorial explanation when indexing.
+Figures are replaced by textual mathematical descriptions. Syllabus remarks describe the
+source notes, not a verified current examination specification.
+Unless stated otherwise, variables are real and \(\NN=\{1,2,3,\ldots\}\).
+Explicit indices starting at zero override this convention.
+
+\tableofcontents
+
+
+\section{Sequences and Series}\label{tmua-4-section-001}
+
+\subsection{General Stuff}\label{tmua-4-subsection-001}
+
+A \textbf{sequence} is a list of objects (e.g. numbers). (Formally, a sequence \(a_n\) with elements in \(S\) is a function from \(\NN\) to \(S\).) We usually denote a sequence with \(\pqty{a_n}\) or \(\pqty{x_n}\), where \(n\) usually starts from \(1\) and takes positive integers. For the purpose of TMUA, we usually only consider sequences of real numbers, although some questions might use the notation for functions, etc.
+
+A sequence can be defined \textbf{explicitly} using a \textbf{general formula} for the \(n\)th term, for example \(a_n = n^2\) for all \(n \in \NN\) (which is the sequence \(1, 4, 9, 16, 25, \ldots\)); or it could be defined \textbf{inductively} using a \textbf{inductive formula}, for example, the Fibonacci sequence is defined by
+\[
+    F_{n + 2} = F_{n + 1} + F_n
+\]
+for \(n \geq 0\), with \textbf{initial conditions} \(F_0 = 0, F_1 = 1\). In TMUA, you will only be asked for inductive formulae of the form
+\[
+    x_{n + 1} = f\pqty{x_n}
+\]
+which means only the previous term will be involved in the induction formula.
+
+The best way to deal with inductive formula is by \textbf{observation} (i.e. \textbf{trying out small examples} to find a \textbf{pattern}). I would suggest writing out at least \(n = 1, 2, 3, 4, 5\) for \textbf{any} sequence to help with your thinking. A pattern from finitely many terms is a conjecture; verify it from the recurrence, for example by induction.
+
+A \textbf{series} is a sum of terms in a sequence. We use the \textbf{summation symbol} \(\sum\) in the following way:
+\[
+    \sum_{i = 1}^{m} a_i = a_1 + a_2 + \cdots + a_m,
+\]
+for example,
+\[
+    \boxed{\sum_{i = 1}^{m} i = 1 + 2 + \cdots + m = \frac{m \pqty{m + 1}}{2},}
+\]
+and
+\[
+    \sum_{i = 1}^{m} i^2 = 1^2 + 2^2 + \cdots + m^2 = \frac{m \pqty{m + 1} \pqty{2m + 1}}{6}.
+\]
+
+Note the boxed formula is examinable.
+
+\begin{example}[TMUA 2016 P2 Q6]\label{tmua-4-unit-001}
+    The sequence of functions \(f_1, f_2, f_3, \ldots\) is defined as
+    \begin{align*}
+        f_1 \pqty{x} &= x^{10} \\
+        f_{n + 1} \pqty{x} &= x f_n'\pqty{x} \qfor n \geq 1
+    \end{align*}
+    where
+    \[
+        f'_n \pqty{x} = \dv{f_n\pqty{x}}{x}.
+    \]
+
+    Find the value of
+    \[
+        \sum_{n = 1}^{20} f_n \pqty{x}.
+    \]
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q11]\label{tmua-4-unit-002}
+    The sequence \(x_n\) is defined by the rules
+    \begin{align*}
+        x_1 &= 7, \\
+        x_{n + 1} &= \frac{23 x_n - 53}{5 x_n + 1}.
+    \end{align*}
+
+    The first three terms in this sequence are \(7, 3, 1\). What is the value of \(x_{100}\)?
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q6]\label{tmua-4-unit-003}
+    A sequence \(u_0, u_1, u_2, \ldots\) is defined as follows:
+    \begin{align*}
+        u_0 &= 1 \\
+        u_n &= \int_{0}^{1} 4x u_{n - 1} \dd{x} \qfor n \geq 1
+    \end{align*}
+
+    What is the value of \(u_{1000}\)?
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q15]\label{tmua-4-unit-004}
+    The function \(f\) is defined on the positive integers as follows:
+    \[
+        f\pqty{1} = 5, \text{ and for } n \geq 1: \quad
+        \begin{aligned}
+            f\pqty{n + 1} &= 3 f\pqty{n} + 1 && \qif f\pqty{n} \text{ is odd} \\
+            f\pqty{n + 1} &= \frac{1}{2} f\pqty{n} && \qif f\pqty{n} \text{ is even}
+        \end{aligned}
+    \]
+
+
+    The function \(g\) is defined on the positive integers as follows:
+    \[
+        g\pqty{1} = 3, \text{ and for } n \geq 1: \quad
+        \begin{aligned}
+            g\pqty{n + 1} &= g\pqty{n} + 5 && \qif g\pqty{n} \text{ is odd} \\
+            g\pqty{n + 1} &= \frac{1}{2} g\pqty{n} && \qif g\pqty{n} \text{ is even}
+        \end{aligned}
+    \]
+
+    Find \(f\pqty{1000} - g\pqty{1000}\).
+\end{example}
+
+\begin{example}[MAT 2010, Question G]\label{tmua-4-unit-005}
+    The function \(f\), defined for whole positive numbers, satisfies \(f\pqty{1} = 1\) and also the rules
+    \begin{align*}
+        f\pqty{2n} &= 2 f\pqty{n} \\
+        f\pqty{2n + 1} &= 4 f\pqty{n}
+    \end{align*}
+    for all values of \(n\). Find the number of \(n\)s that satisfy \(f\pqty{n} = 16\).
+\end{example}
+
+\begin{example}[MAT 2016, Question G]\label{tmua-4-unit-006}
+    The sequence \(\pqty{x_n}\), where \(n \geq 0\), is defined by \(x_0 = 1\) and
+    \[
+        x_n = \sum_{k = 0}^{n - 1} x_k \qfor n \geq 1.
+    \]  
+
+    Find the sum
+    \[
+        \sum_{k = 0}^{\infty} \frac{1}{x_k}.
+    \]
+\end{example}
+
+For \textbf{infinite sums}, the formalisation is using a limit of a partial sum, but computationally, it is mostly fine to think about
+\[
+    \sum_{i = 1}^{\infty} a_i = a_1 + a_2 + \cdots.
+\]
+
+\subsection{Arithmetic Sequence and Arithmetic Series}\label{tmua-4-subsection-002}
+
+An \textbf{arithmetic sequence} is a sequence of the form
+\[
+    a_n = a + \pqty{n - 1} d
+\]
+for all \(n \geq 1\), for some (fixed) \(a\) and \(d\). \(a\) is the \textbf{first term}, and \(d\) is the \textbf{common difference}. This means
+\[
+    a_2 - a_1 = a_3 - a_2 = \cdots = a_{n + 1} - a_n = \cdots = d.
+\]
+
+We may see that \(a_m - a_n = \pqty{m - n} d\), and hence, if \(m + n = p + q\), then
+\[
+    a_m + a_n = a_p + a_q.
+\]
+
+The numbers \(a\), \(b\) and \(c\) are three consecutive terms of an arithmetic sequence (in this order), if and only if \(2b = a + c\).
+
+In an arithmetic sequence, the average/mean of some evenly spaced terms is the median of the terms as well. This therefore leads to the summation formula for
+\[
+    S_n = \sum_{i = 1}^{n} a_i = \frac{n}{2} \pqty{a_1 + a_n} = \frac{n}{2} \pqty{2 a + \pqty{n - 1}d}.
+\]
+
+Because of the averaging properties, we also have
+\[
+    S_{2n} = 2n \cdot \frac{a_n + a_{n + 1}}{2} = n \pqty{a_n + a_{n + 1}} \qand S_{2n + 1} = \pqty{2n + 1} a_{n + 1}.
+\]
+
+\begin{example}\label{tmua-4-unit-007}
+    Find the sums
+    \[
+        \sum_{i = 1}^{n} a_{2i} \qand \sum_{i = 1}^{n} a_{2i - 1}.
+    \]
+\end{example}
+
+\begin{example}\label{tmua-4-unit-008}
+    For an arithmetic sequence, \(a_2 + a_4 = 36\). Find the sum of the first \(5\) terms.
+\end{example}
+
+\begin{example}\label{tmua-4-unit-009}
+    For an arithmetic sequence, \(a_2 + a_4 = 4\) and \(a_3 + a_5 = 10\). Find the sum of the first \(10\) terms.
+\end{example}
+
+\begin{example}[TMUA 2016 P2 Q12]\label{tmua-4-unit-010}
+    The first term of an arithmetic sequence is \(a\) and the common difference is \(d\). The sum of the first \(n\) terms is denoted by \(S_n\).
+
+    If \(S_8 > 3 S_6\), what can be deduced about the sign of \(a\) and the sign of \(d\)?
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q7]\label{tmua-4-unit-011}
+    The first three terms of an arithmetic progression are \(p\), \(q\) and \(p^2\) respectively, where \(p < 0\). The first three terms of a geometric progression are \(p\), \(p^2\) and \(q\) respectively.
+
+    Find the sum of the first \(10\) terms of the arithmetic progression.
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q17]\label{tmua-4-unit-012}
+    The two functions \(F\) and \(G\) are defined as follows for positive integers \(n\):
+    \begin{align*}
+        F\pqty{n} &= \frac{1}{n} \int_{0}^{n} \pqty{n - x} \dd{x} \\
+        G\pqty{n} &= \sum_{r = 1}^{n} F\pqty{r}
+    \end{align*}
+
+    What is the smallest positive integer \(n\) such that \(G\pqty{n} > 150\)?
+\end{example}
+
+\subsection{Geometric Sequence and Geometric Series}
+Equivalently define \(a_1=a\), \(a_{n+1}=ra_n\). This recurrence includes \(r=0\) without needing to evaluate \(0^0\).\label{tmua-4-subsection-003}
+
+A \textbf{geometric sequence} is a sequence of the form
+\[
+    a_n = a r^{n - 1}
+\]
+for all \(n \geq 1\), for some (fixed) \(a\) and \(r\). \(a\) is the \textbf{first term}, and \(r\) is the \textbf{common ratio}. This means
+\[
+    \frac{a_2}{a_1} = \frac{a_3}{a_2} = \cdots = \frac{a_{n + 1}}{a_n} = \cdots = r.
+\]
+
+We may see that \(\flatfrac{a_m}{a_n} = r^{m - n}\), and hence, if \(m + n = p + q\), then
+\[
+    a_m a_n = a_p a_q.
+\]
+
+(For the ratios, we assume that \(a \neq 0\) and \(r \neq 0\).)
+
+The numbers \(a\), \(b\) and \(c\) are three consecutive terms of a geometric sequence (in this order), when all three are nonzero, if and only if \(b^2=ac\). If zero terms are allowed, use the definition \(b=ar\), \(c=ar^2\) for some \(r\); the equation alone is insufficient.
+
+The finite-sum formula follows by subtracting \(rS_n\) from \(S_n\): all intermediate terms cancel, giving \((1-r)S_n=a_1(1-r^n)\). For geometric series with \(r\ne1\), we have
+\[
+    S_n = \sum_{i = 1}^{n} a_i = \frac{a_1 \pqty{1 - r^n}}{1 - r}.
+\]
+
+For \(r=1\), \(S_n=na_1\). If \(\abs{r} < 1\), as \(n \to \infty\), we have \(r^n \to 0\), and hence the \textbf{sum to infinity}
+\[
+    S_\infty = \lim_{n \to \infty} S_n = \frac{a_1}{1 - r}
+\]
+converges.
+
+\begin{example}[TMUA 2016 P1 Q4]\label{tmua-4-unit-013}
+    The sequence \(a_n\) is defined by the rule
+    \[
+        a_n = \pqty{-1}^{n} - \pqty{-1}^{n - 1} + \pqty{-1}^{n + 2} \qfor n \geq 1
+    \]
+
+    Find
+    \[
+        \sum_{n = 1}^{39} a_n.
+    \]
+\end{example}
+
+\begin{example}[TMUA 2016 P1 Q14]\label{tmua-4-unit-014}
+    The terms of an infinite series \(S\) are formed by adding together the corresponding terms in two infinite geometric series, \(T\) and \(U\).
+
+    The first term of \(T\) and the first term of \(U\) are each \(4\).
+
+    In order, the first three terms of the combined series \(S\) are \(8\), \(3\) and \(\flatfrac{5}{4}\).
+
+    Find the sum to infinity of \(S\).
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q3]\label{tmua-4-unit-015}
+    The first term of a geometric progression is \(2 \sqrt{3}\) and the fourth term is \(\flatfrac{9}{4}\). What is the sum to infinity of this geometric progression?
+\end{example}
+
+\section{Differentiation}\label{tmua-4-section-002}
+\subsection{Definitions}\label{tmua-4-subsection-004}
+
+The \textbf{derivative} of \(f\pqty{x}\) is the gradient of the \textbf{tangent} to the graph \(y = f\pqty{x}\) at a point, and is denoted as \(f'\pqty{x}\) or \(\dv*{y}{x}\). It measures the \textbf{local rate of change} of a function.
+
+The derivative of the first derivative is the \textbf{second derivative}, which is denoted \(f''\pqty{x}\) or \(\dv*[2]{y}{x}\).
+
+The only derivative you are required to know is \(x^n\) which differentiates to \(n x^{n - 1}\), for rational \(n\in\QQ\), on intervals where the real power is differentiable (in particular \(x>0\)). It is almost always better to differentiate sums/differences of this form, rather than applying product/quotient rule.
+
+\begin{example}[TMUA 2016 P2 Q2]\label{tmua-4-unit-016}
+    Let
+    \[
+        f\pqty{x} = \frac{\pqty{x^2 + 5} \pqty{2x}}{\sqrt[4]{x^3}} \qfor x > 0.
+    \]  
+
+    Find \(f'\pqty{x}\).
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q2]\label{tmua-4-unit-017}
+    The function \(f\) is given by
+    \[
+        f\pqty{x} = \pqty{\frac{2}{x} - \frac{1}{2x^2}}^2 \qfor x \neq 0.
+    \]
+
+    Find \(f''\pqty{1}\).
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q1]\label{tmua-4-unit-018}
+    Given that
+    \[
+        y = \frac{\pqty{1 - 3x}^2}{2 x^{\flatfrac{3}{2}}},
+    \]
+    find \(\dv*{y}{x}\).
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q16]\label{tmua-4-unit-019}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    Consider the following argument: \textbf{if} \(f\pqty{x}\) is an integer for every integer \(x\), \textbf{then} \(f'\pqty{x}\) is an integer for every integer \(x\).
+
+    Which one of the following is a counterexample to this argument?
+
+    \begin{enumerate}[label=\Alph*.]
+        \item \(f\pqty{x} = \dfrac{x^3 + x + 1}{4}\)
+        \item \(f\pqty{x} = \dfrac{x^4 + x^2 + x}{2}\)
+        \item \(f\pqty{x} = \dfrac{x^4 + x^3 + x^2 + x}{2}\)
+        \item \(f\pqty{x} = \dfrac{x^4 + 2 x^3 + x^2}{4}\)
+    \end{enumerate}
+\end{example}
+
+\subsection{Applications: Coordinate Geometry}\label{tmua-4-subsection-005}
+
+We may use differentiation to find gradients of \textbf{tangents} and \textbf{normals}.
+
+
+\begin{example}[TMUA 2016 P1 Q3]\label{tmua-4-unit-020}
+    A line is drawn normal to the curve \(y = \flatfrac{2}{x^2}\) at the point on the curve where \(x = 1\). This line cuts the \(x\)-axis at \(P\) and the \(y\)-axis at \(Q\). Find the length of \(PQ\).
+\end{example}
+
+\subsection{Applications: Function Monotonicity}\label{tmua-4-subsection-006}
+
+The \textbf{monotonicity} of a function is whether a function increases or decreases. On an interval where the function is differentiable, we may use the \textbf{sign} of the derivative to find the monotonicity of a function: \textbf{increasing} if \(f'\pqty{x} \geq 0\), and \textbf{decreasing} if \(f'\pqty{x} \leq 0\).
+
+\begin{example}[TMUA 2016 P1 Q18]\label{tmua-4-unit-021}
+    The function \(\frac{1 - x}{\sqrt[3]{x^2}}\) is defined for all \(x \neq 0\). Find the complete set of values of \(x\) for which the function is decreasing.
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q16]\label{tmua-4-unit-022}
+    The functions \(f\) and \(g\) are given by \(f\pqty{x} = 3 x^2 + 12 x + 4\) and \(g\pqty{x} = x^3 + 6 x^2 + 9x - 8\). Find the complete set of values of \(x\) for which one of the functions is increasing and the other decreasing.
+\end{example}
+
+\subsection{Applications: Optimisation}\label{tmua-4-subsection-007}
+
+To optimise a function in one variable, we may differentiate it and find its \textbf{stationary points} (where \(f'\pqty{x} = 0\)). A stationary point is a candidate for a local extremum, but need not be one. For global optimisation, also check boundary points, points of nondifferentiability, and behaviour at open or infinite ends. With a little bit of extra thought, they can often be easily classified.
+
+Be very careful with the variable you are differentiating with respect to -- this is the \textbf{changing} variable in the question (that you are allowed to alter).
+
+\begin{example}[TMUA 2016 P1 Q15]\label{tmua-4-unit-023}
+    Find the least possible value of the gradient of the curve \(y = \pqty{2x + a} \pqty{x - 2a}^2\) at the point where \(x = 1\), as \(a\) varies.
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q10]\label{tmua-4-unit-024}
+    A curve \(C\) has equation \(y = f\pqty{x}\) where
+    \[
+        f\pqty{x} = p^3 - 6 p^2 x + 3 p x^2 - x^3
+    \]
+    and \(p\) is real.
+
+    The gradient of the normal to the curve \(C\) at the point where \(x = -1\) is \(M\). What is the greatest possible value of \(M\) as \(p\) varies?
+\end{example}
+
+\section{Integration}\label{tmua-4-section-003}
+\subsection{Motivational Question}\label{tmua-4-subsection-008}
+
+\begin{example}[TMUA 2017 P1 Q1]\label{tmua-4-unit-025}
+    Given that
+    \[
+        \dv{y}{x} = 3 x^2 - \frac{2 - 3x}{x^3} \qfor x \neq 0
+    \]
+    and \(y = 5\) when \(x = 1\), find \(y\) in terms of \(x\).
+\end{example}
+
+\subsection{Definitions}\label{tmua-4-subsection-009}
+
+The \textbf{integral} of a function is defined as the \textbf{signed area} between the graph of the function and the \(x\)-axis. \textbf{Signed} means that the area is positive if above the \(x\)-axis, and negative if below the \(x\)-axis.
+
+Calculating the integral is by calculating the \textbf{anti-derivative}, and this is precisely related to the \textbf{Fundamental Theorem of Calculus}, which, for continuous \(f\) on \([a,b]\), states that if \(F'\pqty{x} = f\pqty{x}\), then
+\[
+    \int_{a}^{b} f\pqty{x} \dd{x} = F\pqty{b} - F\pqty{a}.
+\]
+
+On intervals where the real powers are differentiable (in particular \(x>0\)), we use the antiderivatives of \(x^n\) for rational \(n\) with \(n \neq -1\) (which integrates to \(\frac{x^{n+1}}{n+1}+C\)).
+
+\begin{example}[TMUA 2016 P2 Q1]\label{tmua-4-unit-026}
+    Find the value of
+    \[
+        \int_{1}^{2} \pqty{x^2 - \frac{4}{x^2}}^2 \dd{x}.
+    \]
+\end{example}
+
+We define, if \(a < b\), that
+\[
+    \int_{b}^{a} f\pqty{x} \dd{x} = - \int_{a}^{b} f\pqty{x} \dd{x}.
+\]
+
+Integrals can be combined, i.e.,
+\[
+    \int_{a}^{b} f\pqty{x} \dd{x} + \int_{b}^{c} f\pqty{x} \dd{x} = \int_{a}^{c} f\pqty{x} \dd{x}.
+\]
+
+\subsection{Area under a Curve}\label{tmua-4-subsection-010}
+
+Recall that integration gives a \textbf{signed} area. If a question just asks for the \textbf{area} of the function, do not forget to consider separately the area under and above the curve (i.e., separate the intervals where \(f\) is positive/negative).
+
+\begin{example}[TMUA 2016 P1 Q5]\label{tmua-4-unit-027}
+    What is the total area enclosed between the curve \(y = x^2 - 1\), the \(x\)-axis and the lines \(x = -2\) and \(x = 2\)?
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q11]\label{tmua-4-unit-028}
+    The function \(f\pqty{x}\) is increasing and \(f\pqty{0} = 0\). The positive constants \(a\) and \(b\) are such that \(a < b\). The area of the region enclosed by the curve \(y = f\pqty{x}\), the \(x\)-axis and the lines \(x = a\) and \(x = b\) is denoted by \(R\).
+
+    The function \(g\pqty{x}\) is defined by \(g\pqty{x} = f\pqty{x} + 2 f\pqty{b}\). Find an expression for the area enclosed by the curve \(y = g\pqty{x}\), the \(x\)-axis, and the lines \(x = a\) and \(x = b\)?
+\end{example}
+
+\begin{example}[TMUA 2016 P2 Q11]\label{tmua-4-unit-029}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    \(f\) is a polynomial with real coefficients. The equation \(f\pqty{x} = 0\) has exactly two real roots, \(x = -p\) and \(x = p\), where \(p > 0\).
+
+    Which of the following statements \textbf{must} be true?
+
+    \begin{enumerate}[label=\Roman*.]
+        \item \(f'\pqty{x} = 0\) for exactly one value of \(x\) between \(-p\) and \(p\)
+        \item The area between the curve \(y = f\pqty{x}\), the \(x\)-axis and the lines \(x = -p\) and \(x = p\) is given by \(2 \int_{0}^{p} f\pqty{x} \dd{x}\)
+        \item The graph of \(y = - f\pqty{-x}\) intersects the \(x\)-axis at the points \(x = -p\) and \(x = p\) only.
+    \end{enumerate}
+\end{example}
+
+\subsection{Trapezium Rule}\label{tmua-4-subsection-011}
+
+To estimate the area under a curve, we may use the \textbf{trapezium} rule, which approximates the curve as very small line segments. Formally, if we split the integral from \(a\) to \(b\) into \(n\) equal pieces, with the splits at
+\[
+    x_i = a + \frac{b - a}{n} \cdot i
+\]
+for \(i = 0, 1, 2, \ldots, n\), with \(x_0 = a\) and \(x_n = b\), then the trapezium rule gives the area
+\[
+    \sum_{i = 1}^{n} \frac{1}{2} \cdot \frac{b - a}{n} \cdot \pqty{f\pqty{x_{i - 1}} + f\pqty{x_i}}
+\]
+which reduces to
+\[
+    \frac{b - a}{2n} \cdot \bqty{f\pqty{x_0} + 2\pqty{f\pqty{x_1} + f\pqty{x_2} + \cdots + f\pqty{x_{n - 1}}} + f\pqty{x_n}}.
+\]
+This is only an approximation of the area: it is not a precise value. It \textbf{underestimates} when the line segment lies \textbf{below} the curve (i.e., when the function is \textbf{concave}), and \textbf{overestimates} when the line segment lies \textbf{above} the curve (i.e., when the function is \textbf{convex}). In practice, it might just simply be easier to sketch a graph and see visually -- always don't forget that area below the \(x\)-axis is negative!
+
+\begin{example}[TMUA 2017 P1 Q15]\label{tmua-4-unit-030}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    It is given that \(f\pqty{x} = - 2x^2 + 10\). The trapezium rule is used to estimate the area under each of these three curves between \(x = 0\) and \(x = 1\). Consider the following three curves:
+    \begin{enumerate}[label=\Roman*.]
+        \item \(y = f\pqty{x}\)
+        \item \(y = f\pqty{x + 1}\)
+        \item \(y = f\pqty{x + 1}\) reflected in the line \(y = 6\)
+    \end{enumerate}
+
+    State whether the trapezium rule gives an overestimate or underestimate.
+\end{example}
+
+\subsection{Derivative of the Integral}\label{tmua-4-subsection-012}
+
+If \(f\) is continuous, differentiation of its integral with a variable upper bound gives \(f\):
+\[
+    \dv{x} \int_{a}^{x} f\pqty{t} \dd{t} = f\pqty{x}.
+\]
+
+\subsection{More Complicated Questions}\label{tmua-4-subsection-013}
+
+\begin{example}[TMUA 2016 P2 Q18]\label{tmua-4-unit-031}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    Consider this statement about a function \(f\pqty{x}\): if \(\pqty{f\pqty{x}}^2 \leq 1\) for all \(-1 \leq x \leq 1\), then \(\int_{-1}^{1} \pqty{f\pqty{x}}^2 \dd{x} \leq \int_{-1}^{1} f\pqty{x} \dd{x}\).
+
+    Which of the following functions provides a \textbf{counterexample} to this statement?
+    
+    \begin{enumerate}[label=\Alph*.]
+        \item \(f\pqty{x} = x + \frac{1}{2}\)
+        \item \(f\pqty{x} = x - \frac{1}{2}\)
+        \item \(f\pqty{x} = x + x^3\)
+        \item \(f\pqty{x} = x - x^3\)
+        \item \(f\pqty{x} = x^2 + x^4\)
+        \item \(f\pqty{x} = x^2 - x^4\)
+    \end{enumerate}
+\end{example}
+
+\begin{example}[TMUA 2017 P1 Q12]\label{tmua-4-unit-032}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    The polynomial function \(f\pqty{x}\) is such that \(f\pqty{x} > 0\) for all values of \(x\). Given \(\int_2^4 f\pqty{x} \dd{x} = A\), which one of the following statements \textbf{must} be correct?
+    \begin{enumerate}[label=\Alph*.]
+        \item \[\int_{0}^{2} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 1\]
+        \item \[\int_{0}^{2} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 2\]
+        \item \[\int_{2}^{4} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 1\]
+        \item \[\int_{2}^{4} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 2\]
+        \item \[\int_{4}^{6} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 1\]
+        \item \[\int_{4}^{6} \bqty{f\pqty{x + 2} + 1} \dd{x} = A + 2\]
+    \end{enumerate}
+\end{example}
+
+\begin{example}[TMUA 2017 P2 Q10]\label{tmua-4-unit-033}
+\textit{Exercise: the proposed statements or reasoning below must be assessed; they are not all asserted as true.}\par
+
+    \(f\pqty{x}\) is defined for all real \(x\) and integrable on \([1,3]\). Which one of the following is a \textbf{sufficient} condition for \(\int_{1}^{3} f\pqty{x} \dd{x} = 0\)?
+    
+    \begin{enumerate}[label=\Alph*.]
+        \item \(f\pqty{2} = 0\)
+        \item \(f\pqty{1} = f\pqty{3} = 0\)
+        \item \(f\pqty{-x} = - f \pqty{x}\) for all \(x\)
+        \item \(f\pqty{x + 2} = - f \pqty{2 - x}\) for all \(x\)
+        \item \(f\pqty{x - 2} = - f \pqty{2 - x}\) for all \(x\)
+    \end{enumerate}
+\end{example}
+
+
+\end{document}

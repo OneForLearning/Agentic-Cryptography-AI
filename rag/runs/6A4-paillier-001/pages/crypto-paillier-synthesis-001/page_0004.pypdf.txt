@@ -1,0 +1,44 @@
+Le cryptosystème de Paillier  synthèse technique 4
+5 Trois cryptosystèmes dérivés
+5.1 Schéma 1  le chirement probabiliste  Paillier
+C'est la construction devenue emblématique, exploitant directement Eg pour chirer et le
+ truc en L  pour déchirer.
+Génération de clés : n = pq, λ = lcm(p− 1,q− 1), g∈B . Clé publique : (n,g ). Clé
+privée : λ.
+Chirement d'un message m<n : tirer r<n au hasard, poser c =gmrn modn2.
+Déchirement de c<n 2 : m = L(cλ modn2)
+L(gλ modn2) modn.
+Théorème 2. Le schéma 1 est à sens unique si et seulement si la CCRA est vraie ; il est
+sémantiquement sûr (IND-CPA) si et seulement si la DCRA est vraie.
+Idée : Inverser le chirement, c'est par dénition calculer une classe de résiduosité : d'où
+l'équivalence avec CCRA. Pour la sécurité sémantique : distinguer le chiré de m0 de celui
+de m1 revient exactement à décider si cg −m0 modn2 est un résidu de degré n  c'est-à-dire
+à résoudre CR[n].
+5.2 Schéma 2  une permutation à trappe (rare) sur Z∗
+n2
+En exploitant la bijectivité de Eg, on obtient une permutation à trappe de tout Z∗
+n2  un
+objet cryptographique peu courant.
+Chirement de m<n 2 : décomposer m =m1 +nm2 (division euclidienne par n), poser
+c =gm1mn
+2 modn2.
+Déchirement : (1) retrouver m1 exactement comme au schéma 1 ; (2)  déblinder  :
+c′ =cg−m1 modn (=mn
+2 modn) ; (3) extraire m2 =c′n−1 modλ modn  une extraction
+RSA d'exposant public n.
+Théorème 3. Le schéma 2 est à sens unique si et seulement si RSA[n,n ] est dicile.
+Un point de correction important : comme pour RSA, il faut m2∈ Z∗
+n pour que tout fonc-
+tionne ; ce schéma n'est donc pas fait pour chirer des messages courts ( <n ). En contrepartie,
+Paillier en tire directement un schéma de signature : le signataire calcule (s1,s 2) par le même
+mécanisme que le déchirement appliqué à h(m) (avec h vu comme un oracle aléatoire), et le
+vérieur teste h(m) ?=gs1sn
+2 modn2. La sécurité existentielle contre les attaques adaptatives se
+ramène, dans le modèle de l'oracle aléatoire, à la diculté de RSA[n,n ].
+5.3 Schéma 3  la variante à déchirement rapide
+L'idée est de ne plus utiliser tout le secret λ, mais un diviseur α choisi court (typiquement
+un nombre premier de 160 bits), en restreignant les chirés au sous-groupe cyclique ⟨g⟩ d'ordre
+lié à α.
+Chirement de m<n : tirer r<n , poser c =gm+nr modn2.
+Déchirement : m = L(cα modn2)
+L(gα modn2) modn.

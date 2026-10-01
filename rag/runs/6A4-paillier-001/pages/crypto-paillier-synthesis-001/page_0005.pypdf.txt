@@ -1,0 +1,46 @@
+Le cryptosystème de Paillier  synthèse technique 5
+L'opération la plus coûteuse, c7→cα modn2, ne coûte plus que O(|n|2|α|) au lieu de O(|n|3) :
+en choisissant |α| = Ω(|n|ϵ), on obtient un déchirement en O(|n|2+ϵ), ce que l'auteur présente
+comme la seule construction de ce type reposant sur l'arithmétique modulaire classique. La
+contrepartie est une hypothèse de sécurité plus faible et moins bien comprise : on dénit le
+problème du logarithme discret partiel PDL[n,g ] (calculer [ [w] ]g pour w∈⟨g⟩) et son analogue
+décisionnel D- PDL[n,g ], dont dépendent respectivement le sens unique et la sécurité sémantique
+du schéma 3. Leur équivalence avec Class[n]/ CR[n] n'est établie que dans des cas particuliers
+(ordre maximal de g, n produit de nombres premiers sûrs).
+6 Propriétés algébriques remarquables
+6.1 Homomorphisme additif
+En notant E le chirement et D le déchirement, les schémas 1 et 3 vérient
+D
+
+E(m1)·E(m2) modn2
+=m1 +m2 modn, D
+
+E(m1)m2 modn2
+=m1m2 modn.
+On peut donc additionner deux messages chirés en multipliant leurs chirés, et multiplier
+un message chiré par une constante connue en élevant le chiré à cette puissance  le tout
+sans jamais déchirer ni connaître la clé privée. C'est cette propriété, plus que la nouveauté du
+problème algébrique lui-même, qui explique la longévité du schéma.
+6.2 Auto-aveuglement (re-chirement)
+Pour tout r, D(E(m)·rn modn2) = m : n'importe qui peut transformer un chiré en un
+autre chiré, indistinguable du premier, du même message, sans connaître ni le message ni la
+clé privée. Cette propriété de re-randomisation publique est très utilisée pour masquer des ux
+de données chirées (vote électronique, mixage).
+6.3 Auto-réductibilité aléatoire
+CR[n], Class[n] et leurs versions aaiblies PDL[n,g ]/ D- PDL[n,g ] partagent une propriété
+structurelle avec RSA et le logarithme discret : toute instance peut être ramenée à une instance
+uniformément aléatoire. La diculté  en moyenne  coïncide alors avec la diculté dans le
+pire cas, ce qui est considéré comme un indice de robustesse pour fonder une fonction à sens
+unique.
+7 Aspects pratiques
+Le déchirement se prête, comme RSA, à une accélération par le théorème des restes chinois :
+on calcule séparément la partie du message modulo p et modulo q (avec des fonctions Lp, Lq
+analogues), puis on recombine  un gain d'un facteur voisin de 4 par rapport à un calcul direct
+modulo n2.
+En termes de complexité, le schéma 1 a un déchirement de coût cubique en la taille de n
+(dominé par une exponentiation modulaire pleine taille modulo n2), tandis que le schéma 3 le
+ramène à un coût quasi quadratique en réduisant l'exposant secret à une taille xe et courte.
+Le prix commun aux trois schémas est une expansion des chirés : un chiré modulo n2 occupe
+le double de la taille du message modulo n, contre une expansion nulle pour RSA  le coût
+du caractère probabiliste (donc sémantiquement sûr) du chirement et de son homomorphisme
+additif.

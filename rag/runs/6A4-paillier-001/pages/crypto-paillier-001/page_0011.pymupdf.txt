@@ -1,0 +1,51 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes    233
+
+
+   The proofs are similar to those given in section 4. By opposition to the
+original class problems, these ones are not random-self-reducible over g ∈B but
+over cyclic subgroups of B, and present other interesting characteristics that we
+do not discuss here due to the lack of space. Obviously,
+
+      PDL [n, g] ⇐   Class [n]  and  D-PDL [n, g] ⇐  CR [n]
+
+but equivalence can be reached when g is of maximal order nλ and n the product
+of two safe primes. When g ∈Bα for some α < λ such that |α| = Ω(|n|ϵ) for
+ϵ > 0, we conjecture that both PDL [n, g] and D-PDL [n, g] are intractable.
+   In order to thwart Baby-Step Giant-Step attacks, we recommend the use
+of 160-bit prime numbers for αs in practical use. This can be managed by an
+appropriate key generation. In this setting, the computational load of Scheme 3
+is smaller than a RSA decryption with Chinese Remaindering for |n| ≥1280.
+Next section provides tight evaluations and performance comparisons for all the
+encryption schemes presented in this paper.
+
+
+7  Eﬃciency and Implementation Aspects
+
+In this section, we brieﬂy analyse the main practical aspects of computations
+required by our cryptosystems and provide various implementation strategies
+for increased performance.
+
+Key Generation. The prime factors p and q must be generated according to the
+usual recommandations in order to make n as hard to factor as possible. The fast
+variant (Scheme 3) requires additionally λ = lcm(p−1, q −1) to be a multiple of
+a 160-bit prime integer, which can be managed by usual DSA-prime generation
+or other similar techniques. The base g can be chosen randomly among elements
+of order divisible by n, but note that the fast variant will require a speciﬁc
+treatment (typically raise an element of maximal order to the power λ/α). The
+whole generation may be made easier by carrying out computations separately
+mod p2 and mod q2 and Chinese-remaindering g mod p2 and g mod q2 at the
+very end.
+
+Encryption. Encryption requires a modular exponentiation of base g. The com-
+putation may be signiﬁcantly accelerated by a judicious choice of g. As an illus-
+trative example, taking g = 2 or small numbers allows an immediate speed-up
+factor of 1/3, provided the chosen value fulﬁlls the requirement g ∈B imposed by
+the setting. Optionally, g could even be ﬁxed to a constant value if the key gen-
+eration process includes a speciﬁc adjustment. At the same time, pre-processing
+techniques for exponentiating a constant base can dramatically reduce the com-
+putational cost. The second computation rn or gnr mod n2 can also be computed
+in advance.
+
+Decryption. Computing L(u) for u ∈Sn may be achieved at a very low cost
+(only one multiplication modulo 2 |n|) by precomputing n−1 mod 2 |n|. The con-
+stant parameter

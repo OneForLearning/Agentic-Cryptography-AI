@@ -1,0 +1,51 @@
+234    Pascal Paillier
+
+            L(g λ mod n2 )−1 mod n        or L(g α mod n2 )−1 mod n
+
+
+can also be precomputed once for all.
+
+
+Decryption using Chinese-remaindering. The Chinese Remainder Theo-
+rem [6] can be used to efficiently reduce the decryption workload of the three
+cryptosystems. To see this, one has to employ the functions Lp and Lq defined
+over
+
+
+      Sp = x < p2 | x = 1 mod p          and Sq = x < q 2 | x = 1 mod q
+
+
+by
+
+                                 x−1                   x−1
+                     Lp (x) =           and Lq (x) =       .
+                                  p                     q
+
+Decryption can therefore be made faster by separately computing the message
+mod p and mod q and recombining modular residues afterwards :
+
+
+                           mp = Lp (cp−1 mod p2 ) hp mod p
+                           mq = Lq (cq−1 mod q 2 ) hq mod q
+                            m = CRT(mp , mq ) mod pq
+
+
+with precomputations
+
+
+                         hp = Lp (g p−1 mod p2 )−1 mod p and
+                         hq = Lq (g q−1 mod q 2 )−1 mod q .
+
+
+where p − 1 and q − 1 have to be replaced by α in the fast variant.
+
+
+Performance evaluations. For each |n| = 512, · · · , 2048, the modular mul-
+tiplication of bitsize |n| is taken as the unitary operation, we assume that the
+execution time of a modular multiplication is quadratic in the operand size and
+that modular squares are computed by the same routine. Chinese remaindering,
+as well as random number generation for probabilistic schemes, is considered to
+be negligible. The RSA public exponent is taken equal to F4 = 216 + 1. The pa-
+rameter g is set to 2 in our main scheme, as well as in the trapdoor permutation.
+Other parameters, secret exponents or messages are assumed to contain about
+the same number of ones and zeroes in their binary representation.

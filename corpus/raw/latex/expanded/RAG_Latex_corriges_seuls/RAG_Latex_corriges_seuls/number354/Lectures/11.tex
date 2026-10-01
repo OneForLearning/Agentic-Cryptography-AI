@@ -1,0 +1,102 @@
+% RAG editorial revision v1; source: 11.tex
+% Original SHA256: e7e94aee7747ae934f093adc9b292e3d7b124fb3063ed043cd733de0b4d6a461
+% Mathematical audit: PARTIAL; no automatic RAG admission.
+% !TEX root = ../notes.tex
+
+\section{Monday, 18 February}
+
+Recall the definition of the Jacobi Symbol. This is like the multiplicative extension of the  Legendre Symbol, although we loose the nice property that $(a/n) = 1$ if and only if $a$ is a quadratic residue modulo $n$. We do that the following properties:
+\[ \qty(\frac{a}{n})\qty(\frac{b}{n}) = \qty(\frac{ab}{n}) \qquad \text{and} \qquad \qty(\frac{a}{n})\qty(\frac{a}{\ell}) = \qty(\frac{a}{n\ell}). \]
+Also recall the theorem of Jacobi Reciprocity, restated here:
+\begin{theorem}[Jacobi Reciprocity]
+Some facts:
+\begin{itemize}
+\item $(-1/n) = (-1)^{(n-1)/2}$
+\item $(2/n) = (-1)^{(n^2-1)/8}$
+\item If $m,n$ odd then $(m/n)(n/m) = (-1)^{(m-1)(n-1)/4}$
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+If $a$ is a non-square, there are infinitely many primes such that\/ $(a/p) = -1$, that is where $a$ is not a residue modulo $p$.
+\end{theorem}
+
+\begin{proof}
+Assume that $a = 2^e \cdot \prod q_i$, where $q_i$ are distinct primes and $e \in \{0,1\}$. We assume here that $a$ is square free, since we can always reduce the exponents modulo $2$ to get rid of this square part. Fix any set of primes $\ell_1, \dotsc, \ell_k$ distinct from $2,q_i$. We want to show that there is a prime $p$ not in this list such that $(a/p) = -1$. We do this by building such a number. By CRT we know there is a $x$ such that $x \cong_8 1 \cong_{\ell_i} 1 \cong_{q_{i < m}} 1 \cong_{q_m} s$, where $(s/q_m) = -1$. Consider that 
+\[ \qty(\frac{a}{x}) = \qty(\frac{2^e}{x}) \prod \qty(\frac{q_i}{x}) = 1 \cdot \prod \qty(\frac{x}{q_i}) \cdot (-1)^{(x-1)/2 \cdot (q-1)/2} = \prod \qty(\frac{x}{q_i}). \]
+Now, since $x \cong_{q_{i<m}} 1$, we get that 
+\[ \prod \qty(\frac{x}{q_i}) = 1^{m-1} \qty(\frac{s}{q_m}) = -1. \]
+Then we use the multiplicative nature of the Jacobi symbol to say that 
+\[ \qty(\frac{a}{x}) = -1 = \prod \qty(\frac{a}{p_i}) \qquad \text{where~} x = \prod p_i^{v_i}, \]
+and we know that $p_i \not= q_i$ since otherwise its congruence modulo $q_i$ would be zero. Since we already know this equals $-1$, there must be \emph{some} (at least one) $p_i$ such that $(a/p_i) = -1$. This is really similar to Euclid's proof of the infinitude of primes.
+\end{proof}
+
+Note: The above assumes that $a \not= 2$ since we implicitly assumed there was at least one odd prime factor. If $a = 2$, then it is a nonresidue if and only if $p \cong_8 3,5$. There are infinitely many primes $p \cong_8 3$.
+
+\subsection{RSA Cryptography}
+
+RSA is a public-key cryptography system. Historically, crypto systems has the same encoding and decoding key. An example is something like a cryptogram, like \texttt{XYQ ABCX}, where each letter is a swap for another letter in the alphabet, so \texttt{XYQ ABCX} $\to$ \texttt{THE BOAT}. If you know the bijection $f\colon A \to A$ then you can both encode and decode the message.
+
+\parshape=1
+0.1\textwidth 0.8\textwidth
+Fun fact, \texttt{BEBOPBOP} is a valid cryptogram for exactly one English word.
+
+Another example is Enigma (yay Alan Turing) from WWII, where the ability to read or send the messages was dependent on a (very high) number of possible dial-combinations, which made it easy to use but computationally difficult to break.
+
+Textbook RSA uses two distinct primes $p,q$, with $n=pq$ and
+$\varphi(n)=(p-1)(q-1)$. Choose an integer $e>1$ coprime to $\varphi(n)$ and a
+positive integer $d$ satisfying $ed\equiv1\pmod{\varphi(n)}$.
+The public key is $(n,e)$; $d$ and the factorization are private.
+For a representative $m\in\{0,\ldots,n-1\}$, encryption computes
+$c=m^e\bmod n$, and decryption computes $c^d\bmod n$.
+\begin{proof}[Correctness of the RSA arithmetic]
+We have $c^d\equiv m^{ed}\pmod n$, since $(m^e)^d=m^{ed}$.
+Modulo $p$, if $p\mid m$, then $m^{ed}\equiv m\equiv0$.
+Otherwise Fermat's theorem and $(p-1)\mid(ed-1)$ give $m^{ed}\equiv m\pmod p$.
+The same argument holds modulo $q$. The Chinese Remainder Theorem yields
+$m^{ed}\equiv m\pmod{pq}$ for every $m$, including nonunits.
+\end{proof}
+\begin{remark}[Correctness is not semantic security]
+This deterministic textbook map is not an IND-CPA-secure encryption scheme.
+For example, an adversary can choose distinct messages $0$ and $1$, compute
+their public encryptions $0$ and $1$, and identify which one was encrypted.
+The argument above proves correctness, not security of a deployed encryption protocol.
+\end{remark}
+\begin{remark}[Knowing the totient versus inverting RSA]
+Alice knows $p,q$ and can compute the totient. For a modulus that is the product
+of two distinct primes, knowing $n$ and $\varphi(n)$ also gives
+$s=p+q=n-\varphi(n)+1$, and $p,q$ are the roots of $T^2-sT+n$.
+Thus computing this totient and factoring such a modulus reduce to one another.
+This observation does not prove that inverting RSA is equivalent to factoring.
+\end{remark}
+
+\subsection{Diffie-Hellman Key Exchange}
+
+Diffie--Hellman establishes a shared group element over a public channel;
+it does not transport a preselected secret by the three-pass padlock protocol.
+The following equations describe the algebraic agreement. They do not by themselves
+provide authentication of the communicating parties.
+
+Alice and Bob agree publicly on a public prime $p$, and some primitive root-ish\footnote{This might be hard to find, so we can find something with a large enough order and just go with that.} $r$. Now they will each privately choose keys $k_A$ and $k_B$, which they don't reveal to anyone. Alice then transmits $c_A = r^{k_A} \bmod p$ and Bob transmits $c_B = r^{k_B} \bmod p$. Alice takes $c_B^{k_A} = r^{k_Ak_B} \bmod p$ and Bob takes $c_A^{k_B} = r^{k_Ak_B} \bmod p$. This is their shared secret. Note however that the secret they end up with $r^{k_Ak_B} \bmod p$ is different than what they started with it, but they both end up with a shared secret.
+
+\subsection{Zero-Knowledge Proofs}
+
+Suppose that Paula knows something (this is good) and she wants to prove that she knows it, but doesn't want to reveal the knowledge. A \emph{Zero-Knowledge Proof} is a protocol whereby she may interact with Vince, the verifier, that she knows this secret.
+
+\begin{example}
+Imagine that Vince is color-blind, and cannot tell red from green. Paula has a red sock and a greens sock. When Vince sees these, he can't tell which is which, but Paula wants to prove to Vince that she can distinguish between them. To do this, Paula hands both socks to Vince. In each round, 
+\begin{itemize}
+\item Vince will produce a sock (he doesn't know which one), shows it to Paula, and puts it behind his back, and then produces a second sock (either $S_1$ or $S_2$) and then asks Paula whether or not it is the same sock. 
+\item Paula answers him each time. If she couldn't tell the difference, she would have to guess which sock it was, and so in total she fails with probability $1-0.5^n$ after $n$ rounds. If, however, she \emph{does} see the difference then Vince is confident that she does so with the same probability.
+\end{itemize}
+Thus Vince can be as sure as he wants to be that Paula can see the colors without every actually learning which sock is which.
+\end{example}
+
+\begin{example}
+Paula wants to prove her identity to the world. She picks primes $p,q,u$ in private, and announces to the world ``I am Paula! $n=pq$ and $v=u^2$.'' Then Paula is anyone who knows $\sqrt{v} = u$ without showing what $u$ is. To do so, she will
+\begin{enumerate}
+\item Pick an $r$ at random and sends $x=r^2 \bmod n$ to Vince.
+\item Vince receives $x$ and flips a coin. If it is heads, Vince asks, ``Send me $r$.'' If it is tails, Vince asks, ``Send me $r^{-1} \cdot u \bmod n$''.
+\end{enumerate}
+Paula answers with $A$. Vince verifies that Paula is telling the truth. In the `heads' regime, Vince checks if $A^2 = x \bmod n$. In the `tails' regime, he checks if $A^2x = v \bmod n$.
+\end{example}

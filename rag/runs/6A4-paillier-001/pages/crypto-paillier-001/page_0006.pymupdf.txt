@@ -1,0 +1,53 @@
+228     Pascal Paillier
+
+
+Theorem 11. Class [n] ⇐  RSA[n, n].
+
+Proof. Since all the instances of Class [n, g] are computationally equivalent for
+g ∈B, and since 1 + n ∈B, it suﬃces to show that
+
+                      Class[n, 1 + n] ⇐  RSA [n, n]  .
+
+Let us be given an oracle for RSA [n, n]. We know that w = (1 +n)x ·yn mod n2
+for some x ∈ Zn and y ∈ Z∗n. Therefore, we have w = yn mod n and we get y
+by giving w mod n to the oracle. From now,
+
+              w
+               = (1 + n)x = 1 + xn mod n2 ,
+                    yn
+
+which discloses x = [[w]]1+n as announced.                                               ⊓⊔
+
+
+Theorem 12. Let D-Class [n] be the decisional problem associated to Class [n]
+i.e. given w ∈ Z∗n2, g ∈B and x ∈ Zn, decide whether x = [[w]]g or not. Then
+
+           CR [n]  ≡   D-Class [n] ⇐   Class [n]  .
+
+Proof. The hierarchy D-Class[n] ⇐Class[n] comes from the general fact that
+it is easier to verify a solution than to compute it. Let us prove the left-side
+equivalence. (⇒) Submit wg−x mod n2 to the oracle solving CR [n]. In case of
+n-th residuosity detection, the equality [[wg−x]]g = 0 implies [[w]]g = x by Lemma
+5 and then answer ”Yes”. Otherwise answer ”No” or ”Failure” according to the
+oracle’s response. (⇐) Choose an arbitrary g ∈B (1 + n will do) and submit the
+triple (g, w, x = 0) to the oracle solving D-Class [n]. Return the oracle’s answer
+without change.                                                                                 ⊓⊔
+
+   To conclude, the computational hierarchy we have been looking for was
+
+     CR [n] ≡D-Class [n] ⇐Class [n] ⇐RSA [n, n] ⇐Fact [n]  ,     (3)
+
+with serious doubts concerning a potential equivalence, excepted possibly be-
+tween D-Class [n] and Class [n]. Our second intractability hypothesis will be to
+assume the hardness of the Composite Residuosity Class Problem by making the
+following conjecture :
+
+Conjecture 13. There exists no probabilistic polynomial time algorithm that
+solves the Composite Residuosity Class Problem, i.e. Class [n] is intractable.
+
+  By contrast to the Decisional Composite Residuosity Assumption, this con-
+jecture will be refered to as the Computational Composite Residuosity Assump-
+tion (CCRA). Here again, random-self-reducibility implies that the validity of
+the CCRA is only conditioned by the choice of n. Obviously, if the DCRA is true
+then the CCRA is true as well. The converse, however, still remains a challenging
+open question.

@@ -1,0 +1,54 @@
+Public-Key Cryptosystems Based on Composite Degree Residuosity Classes      231
+
+numbers a and b such that 1 + n = g a bn mod n2 . Now if w = y0n mod n, query
+the oracle again to obtain x and y such that w = g x y n mod n2 . Since 1 + n ∈ B,
+we know there exists an x0 such that w = (1 + n)x0 y0n mod n2 , wherefrom
+                                                                 n
+            w = (g a bn )x0 y0n = g ax0 mod n g ax0 div n bx0 y0    mod n2 .
+
+By identification with w = g x y n mod n2 , we get x0 = xa−1 mod n and finally
+y0 = yg −(ax0 div n) b−x0 mod n which is the wanted value.                   t
+                                                                             u
+
+Remark 17. Note that by definition of Eg , the cryptosystem requires that m2 ∈
+Z∗n, just like in the RSA setting. The case m2 6∈ Z∗n either allows to factor n or
+leads to the ciphertext zero for all possible values of m1 . A consequence of this
+fact is that our trapdoor permutation cannot be employed ad hoc to encrypt
+short messages i.e. messages smaller than n.
+
+Digital Signatures. Finally, denoting by h : N 7→ {0, 1}k ⊂ Z∗n2 a hash func-
+tion see as a random oracle [2], we obtain a digital signature scheme as follows.
+For a given message m, the signer computes the signature (s1 , s2 ) where
+                     
+                            L(h(m)λ mod n2 )
+                      s1 =                      mod n
+                                L(g λ mod n2 )
+                     
+                                       1/n mod λ
+                       s2 = h(m)g −s1               mod n
+
+and the verifier checks that
+
+                               h(m) = g s1 sn2 mod n2 .
+                                     ?
+
+
+
+Corollary 18 (of Theorem 16). In the random oracle model, an existential
+forgery of our signature scheme under an adaptive chosen message attack has a
+negligible success probability provided that RSA [n, n] is intractable.
+    Although we feel that the above trapdoor permutation remains of moderate
+interest due to its equivalence with RSA, the rarity of such objects is such that
+we find it useful to mention its existence. Moreover, the homomorphic properties
+of this scheme, discussed in section 8, could be of a certain utility regarding some
+(still unresolved) cryptographic problems.
+
+
+6     Reaching Almost-Quadratic Decryption Complexity
+Most popular public-key cryptosystems present a cubic decryption complexity,
+and this is the case for Scheme 1 as well. The fact that no faster (and still
+appropriately secure) designs have been proposed so far strongly motivates the
+search for novel trapdoor functions allowing increased decryption performances.
+This section introduces a slightly
+                                  modified version of our main scheme (Scheme 1)
+which features an O |n|2+ decryption complexity.

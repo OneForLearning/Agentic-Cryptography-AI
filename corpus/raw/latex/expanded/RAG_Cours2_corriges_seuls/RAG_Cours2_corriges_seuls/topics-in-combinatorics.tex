@@ -1,0 +1,47 @@
+\documentclass[a4paper]{scrartcl}
+% \documentclass{article}
+
+\usepackage[
+fancytheorems, 
+fancyproofs, 
+noindent, 
+%  spacingfix,  
+]{adam}
+
+\usepackage{tikz}
+\usepackage{bbm}
+\usepackage{mathtools}
+
+\title{Topics in Combinatorics}
+\author{Adam Kelly (\texttt{ak2316@cam.ac.uk})}
+\date{\today}
+
+
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+It is relatively hard to pin down exactly what Combinatorics is. Many different types of problems are studied, usually with some recurring characters: graphs, hypergraphs, sets of numbers, sets of points, subsets of $\{0, 1\}^n$, subsets of a group, and so on. These objects all have a `subset of a structured object' flavour, and it is this type of object that combinatorics usually deals with. In this article, we will be more concerned with various \emph{techniques} used in combinatorics.
+
+This article constitutes my notes for the `Topics in Combinatorics' course, held in Lent 2021 at Cambridge and lectured by Prof. Tim Gowers. These notes are \emph{not a transcription of the lectures}, and differ significantly in quite a few areas. Still, all lectured material should be covered.
+
+
+\tableofcontents
+
+% \clearpage
+
+
+
+
+\section{Averaging Arguments}
+
+Let $X$ be an integrable real random variable: $\mathbb E|X|<\infty$. Then
+\[
+\mathbb P(X\geq\mathbb E X)>0.
+\]
+Indeed, otherwise $Y=\mathbb E X-X$ would be positive almost surely and integrable, with $\mathbb E Y=0$. Since $\{Y>0\}=\bigcup_{n\geq1}\{Y\geq1/n\}$ has probability one, some event in the union has positive probability. Thus $\mathbb E Y\geq\mathbb P(Y\geq1/n)/n>0$, a contradiction.
+For a nonempty finite list of real numbers, this says that at least one entry is at least the arithmetic mean: if every entry were smaller, summing would contradict the definition of the mean. This is the averaging argument.
+
+\end{document}

@@ -1,0 +1,489 @@
+\documentclass[11pt,a4paper]{article}
+% RAG-SANITIZED SOURCE
+% Chunking contract: keep each theorem-like environment together with its proof;
+% include the immediately preceding definitions/hypotheses when required; preserve
+% \label/\ref dependency edges and section/subsection ancestry as metadata.
+% Do not split aligned/display equations from the statement or proof that introduces them.
+% Source sanitized from a single coherent LaTeX manuscript; no auxiliary/PDF/build files included.
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=2.5cm]{geometry}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{property}[definition]{Property}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{problem}[definition]{Problem}
+\newtheorem{conjecture}[definition]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\Zn}{\mathbb{Z}_n}
+\newcommand{\Zns}{\mathbb{Z}_n^*}
+\newcommand{\Znssq}{\mathbb{Z}_{n^2}^*}
+
+\title{The Paillier's Cryptosystem and Some Variants Revisited}
+\author{Zhengjun Cao \and Lihua Liu}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+At Eurocrypt'99, Paillier presented a public-key cryptosystem based on a novel computational problem. It has interested many researchers because it was additively homomorphic. In this paper, we show that there is a big difference between the original Paillier's encryption and some variants. The Paillier's encryption can be naturally transformed into a signature scheme but these variants miss the feature. In particular, we simplify the alternative decryption procedure of Bresson-Catalano-Pointcheval encryption scheme proposed at Asiacrypt'03. The new version is more applicable to cloud computing because of its double trapdoor decryption mechanism and its flexibility to be integrated into other cryptographic schemes. It captures a new feature that its two groups of secret keys can be distributed to different users so as to enhance the robustness of key management.
+
+\medskip
+\noindent\textbf{Keywords.} Additively homomorphic encryption; Paillier's cryptosystem; double trapdoor decryption; robustness of key management.
+\end{abstract}
+
+%------------------------------------------------------------
+\section{Introduction}
+
+Homomorphic encryption is a very useful cryptographic primitive because it can translate an operation on the ciphertexts into an operation on the underlying plaintexts. The property is very important for many applications, such as e-voting, threshold cryptosystems, watermarking and secret sharing schemes. For example, if an additively homomorphic encryption is used in an e-voting scheme, one can obtain an encryption of the sum of all ballots from their encryption. Consequently, it becomes possible that a single decryption will reveal the result of the election. That is, it is unnecessary to decrypt all ciphertexts one by one.
+
+At Eurocrypt'99, Paillier \cite{Pai99} proposed a public-key cryptosystem based on a novel computational problem. It encrypts a message $m$ by
+\[
+E(m,r) = g^m r^n \bmod n^2,
+\]
+where $n=pq$ is an RSA modulus, $g$ is a public parameter such that $n \mid \ord_{n^2}(g)$, and $r$ is a random pad. The encryption function $E(m,r)$ has the additively homomorphic property, i.e.,
+\[
+E(m_1,r_1)\,E(m_2,r_2) = E(m_1+m_2,\, r_1 r_2).
+\]
+More powerful, who knows the trapdoor of the encryption function can recover not only the message $m$ but also the random pad $r$. This is another appreciated property for many applications. Due to this property, the Paillier's encryption scheme can be naturally transformed into a one-way trapdoor permutation and a digital signature scheme.
+
+\paragraph{Related Work.} In 1984, Goldwasser and Micali \cite{GM84} proposed the first probabilistic encryption scheme which was also homomorphic. It has been improved in \cite{NS98,OU98}. In 1999, Paillier \cite{Pai99} presented a novel additively homomorphic encryption which was more powerful because it can recover the random pad $r$ as well as the message $m$. At PKC'01, Damg{\aa}rd and Jurik \cite{DJ01} put forth a generalization of Paillier's encryption using computations modulo $n^i$ $(i\ge 2)$ and taking a special base $g=n+1$. They \cite{DJN10} also investigated the applications of the generalization. The elliptic curve variant of Paillier's cryptosystem is due to Galbraith \cite{Gal02}.
+
+In 2001, Choi et al.\ \cite{CCW01} revisited the Paillier's encryption by taking a special base $g$ such that $g^\lambda = 1+n \bmod n^2$, where $\lambda=\lcm(p-1,q-1)$. Shortly after that, Sakurai and Takagi \cite{ST02} pointed out that the variant cannot resist a chosen ciphertext attack which can factor the modulus $n$ by only one query to the decryption oracle.
+
+At Eurocrypt'06, Schoenmakers and Tuyls \cite{ST06} have considered the problem of converting a given Paillier's encryption of a value $x\in\Z_n$ into Paillier's encryptions of the bits of $x$. At Eurocrypt'13, Joye and Libert \cite{JL13} obtained another generalization based on $2^k$-th power residue problem. In 2013, Boneh et al.\ \cite{BGHWW13} considered the problem of private database queries using Paillier's homomorphic encryption. At Asiacrypt'14, Catalano et al.\ \cite{CMP14} presented an instantiation of publicly verifiable delegation of computation on outsourced ciphertext which supports Paillier's encryption. In 2015, Castagnos and Laguillaumie \cite{CL15} designed a linearly homomorphic encryption scheme whose security relies on the hardness of the decisional Diffie-Hellman problem. Their scheme is somehow similar to the one of \cite{BCP03}. The Gentry's fully homomorphic encryption scheme \cite{Gen09} relies on hard problems related to lattices, which actually allows to evaluate any function on messages given their ciphertexts. But Paillier's cryptosystem based on the problem of factoring RSA integers is still more competitive for applications that need only to add ciphertexts.
+
+\paragraph{Our contributions.} In this paper, we revisit the Paillier's cryptosystem and reaffirm that the Paillier's encryption can be naturally transformed into a signature scheme but some variants miss the feature. Our presentation of the cryptosystem and some variants is so plain and heuristic that it becomes possible to investigate the further applications of these schemes in different scenarios. In particular, we simplify the alternative decryption procedure of Bresson-Catalano-Pointcheval encryption scheme. Our new proposal is more applicable to cloud computing because of its double trapdoor decryption mechanism and its flexibility to be integrated into other cryptographic schemes. It captures a new feature that its two groups of secret parameters can be allocated to different users so as to enhance the robustness of key management.
+
+%------------------------------------------------------------
+\section{Paillier's encryption scheme}\label{sec:paillier}
+
+Let $n=pq$ be an RSA modulus and $\phi(n)$ be the Euler's totient function. Set $\lambda=\lcm(p-1,q-1)$. Hence, $|\Z_{n^2}^*| = \phi(n^2) = n\phi(n)$ and for any $w\in\Z_{n^2}^*$
+\[
+w^\lambda = 1 \bmod n, \qquad w^{n\lambda} = 1 \bmod n^2,
+\]
+which are due to Carmichael's theorem.
+
+\begin{definition}\label{def:nth-residue}
+A number $z$ is said to be a $n$-th residue modulo $n^2$ if there exists a number $y\in\Z_{n^2}^*$ such that
+\[
+z = y^n \bmod n^2.
+\]
+\end{definition}
+
+The set of $n$-th residues is a multiplicative subgroup of $\Z_{n^2}^*$ of order $\phi(n)$. Each $n$-th residue has exactly $n$ roots, among which exactly one is strictly smaller than $n$.
+
+Let $g$ be some element of $\Z_{n^2}^*$ and define the following integer-valued function
+\[
+\E_g : \Z_n \times \Z_n^* \longmapsto \Z_{n^2}^*, \qquad (x,y) \longmapsto g^x \cdot y^n \bmod n^2.
+\]
+
+\begin{lemma}\label{lem:Eg-bijective}
+If $n \mid \ord_{n^2}(g)$, then $\E_g$ is bijective.
+\end{lemma}
+
+\begin{proof}
+Since the two groups $\Z_n\times\Z_n^*$ and $\Z_{n^2}^*$ have the same number of elements $n\phi(n)$, it suffices to prove that $\E_g$ is injective. Suppose that $g^{x_1}y_1^n = g^{x_2}y_2^n \bmod n^2$, where $x_1,x_2\in\Z_n$, $y_1,y_2\in\Z_n^*$. It comes $g^{x_2-x_1}(y_2/y_1)^n = 1 \bmod n^2$, which implies
+\[
+g^{\lambda(x_2-x_1)}(y_2/y_1)^{\lambda n} = g^{\lambda(x_2-x_1)} = 1 \bmod n^2.
+\]
+Thus $\ord_{n^2}(g) \mid \lambda(x_2-x_1)$. Since $n\mid\ord_{n^2}(g)$, we have $n \mid \lambda(x_2-x_1)$. In view of that $(n,\lambda)=1$, we obtain $x_2 = x_1 \bmod n$. Since $x_1,x_2\in\Z_n$, it comes $x_1=x_2$. Thus, $(y_2/y_1)^n = 1 \bmod n^2$, which leads to the unique solution $y_2/y_1=1$ over $\Z_n^*$. This means $x_1=x_2$ and $y_1=y_2$. Therefore, $\E_g$ is bijective.
+\end{proof}
+
+By Lemma~\ref{lem:Eg-bijective}, for a given $w\in\Z_{n^2}^*$, there exists a pair $(x,y)$ such that $w = g^x y^n \bmod n^2$.
+
+\begin{problem}\label{prob:1}
+Given an RSA modulus $n=pq$, $c,g\in\Z_{n^2}^*$, compute $x\in\Z_n$ such that
+\[
+g^x y^n = c \bmod n^2,
+\]
+where $n\mid\ord_{n^2}(g)$ and $y$ is some element of $\Z_{n^2}^*$.
+\end{problem}
+
+\begin{theorem}\label{thm:1}
+If $\lambda$ is known and $\left(\dfrac{g^\lambda \bmod n^2 - 1}{n},\, n\right)=1$, then one can solve Problem~\ref{prob:1} by computing
+\[
+x = \left(\frac{c^\lambda \bmod n^2 - 1}{n}\right)\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n.
+\]
+\end{theorem}
+
+\begin{proof}
+By the definition of $\lambda$, it comes $c^\lambda = 1 \bmod n$, $g^\lambda = 1 \bmod n$. Set
+\[
+c^\lambda = an+1 \bmod n^2, \qquad g^\lambda = bn+1 \bmod n^2,
+\]
+i.e.,
+\[
+a = \frac{c^\lambda \bmod n^2 - 1}{n}, \qquad b = \frac{g^\lambda \bmod n^2 - 1}{n}.
+\]
+Since $n\mid\ord_{n^2}(g)$, $\E_g$ is bijective. There exists a pair $(x,y)\in\Z_n\times\Z_n^*$ such that $c = g^x y^n \bmod n^2$. Hence, $c^\lambda = (g^x y^n)^\lambda \bmod n^2$. Since $y^{n\lambda}=1 \bmod n^2$, it comes $c^\lambda = (g^\lambda)^x \bmod n^2$. Thus,
+\[
+an+1 = (bn+1)^x = xbn+1 \bmod n^2,
+\]
+this is due to $n^2 \mid \binom{x}{i}(bn)^i$, $i\ge 2$. Therefore, $an = xbn \bmod n^2$. That means $a = xb \bmod n$. Since $(b,n)=1$, it gives $x = ab^{-1} \bmod n$.
+\end{proof}
+
+\begin{remark}
+Paillier called the Problem~\ref{prob:1} as Composite Residuosity Class Problem (see Definition~8 in Ref.~\cite{Pai99}). In view of that the trapdoor $\lambda$ plays a key role in computing the exponent $x$ with respect to the base $g$, we would like to call the Problem~\ref{prob:1} as Trapdoored Partial Discrete Logarithm Problem.
+\end{remark}
+
+\begin{conjecture}
+If the trapdoor $\lambda$ is unknown, there exists no probabilistic polynomial time algorithm that solves the Problem~\ref{prob:1}.
+\end{conjecture}
+
+Based on the above results, at Eurocrypt'99 Paillier proposed his cryptosystem. The cryptosystem includes a probabilistic encryption scheme, a one-way trapdoor permutation and a digital signature scheme. We now describe the encryption scheme as follows.
+
+\begin{table}[h]
+\centering
+\caption{Paillier's encryption scheme}
+\begin{tabular}{@{}l p{0.8\textwidth}@{}}
+\toprule
+Setup & Pick an RSA modulus $n=pq$. Set $\lambda=\lcm(p-1,q-1)$. Select $g\in\Z_{n^2}^*$ such that $n\mid\ord_{n^2}(g)$. Publish $n,g$ and keep $\lambda$ in secret.\\
+Enc. & For $m\in\Z_n$, pick $r\in\Z_n^*$, compute the ciphertext $c = g^m r^n \bmod n^2$.\\
+Dec. & Recover $m = \left(\dfrac{c^\lambda \bmod n^2 - 1}{n}\right) \Big/ \left(\dfrac{g^\lambda \bmod n^2 - 1}{n}\right) \bmod n$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%------------------------------------------------------------
+\section{A Hybrid Computational Problem}\label{sec:hybrid}
+
+We now consider another computational problem which is a hybrid of partial discrete logarithm problem and $n$-th residuosity problem.
+
+\begin{problem}\label{prob:2}
+Given an RSA modulus $n=pq$, $c,g\in\Z_{n^2}^*$, compute $(x,y)\in\Z_n\times\Z_n^*$ such that
+\[
+g^x y^n = c \bmod n^2
+\]
+where $n\mid\ord_{n^2}(g)$.
+\end{problem}
+
+Notice that the solvability of Problem~\ref{prob:2} directly implies that of Problem~\ref{prob:1}. We shall prove that the inverse holds, too.
+
+If the trapdoor $\lambda$ is known, Paillier proposed a method to solve the hybrid computational problem. He pointed out that $x,y$ can be computed by
+\[
+x = \left(\frac{c^\lambda \bmod n^2 - 1}{n}\right)\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n, \qquad
+y = (cg^{-x})^{1/n \bmod \lambda} \bmod n.
+\]
+The idea behind his method can be described as follows. By the existence of $(x,y)$, it is easy to find that
+\begin{align*}
+g^x y^n = c \bmod n^2 &\Longrightarrow g^x y^n = c \bmod n \\
+&\Longleftrightarrow y^n = cg^{-x} \bmod n\\
+&\Longleftrightarrow (y^n)^{1/n \bmod \lambda} = (cg^{-x})^{1/n \bmod \lambda} \bmod n\\
+&\Longleftrightarrow y = (cg^{-x})^{1/n \bmod \lambda} \bmod n.
+\end{align*}
+By the uniqueness of $(x,y)\in\Z_n\times\Z_n^*$, we conclude that it is properly computed.
+
+\begin{theorem}\label{thm:2}
+If $\lambda$ is known and $\left(\dfrac{g^\lambda \bmod n^2 - 1}{n},\, n\right)=1$, then one can solve Problem~\ref{prob:2} by computing
+\[
+x = \left(\frac{c^\lambda \bmod n^2 - 1}{n}\right)\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n, \qquad
+y = (cg^{-x})^s \bmod n,
+\]
+where $s$ is the integer with the least absolute value such that $\lambda \mid ns-1$.
+\end{theorem}
+
+\begin{proof}
+Since $(n,\lambda)=1$, it is easy to compute the integer $s$ with the least absolute value such that $\lambda\mid ns-1$. By Theorem~\ref{thm:1}, we conclude that $x$ is properly computed. By the existence of $y$ and $y^n = cg^{-x} \bmod n^2$, we have
+\[
+(cg^{-x})^\lambda = y^{n\lambda} = 1 \bmod n^2.
+\]
+Now, suppose that $ns-1 = \lambda\varphi$ and $(cg^{-x})^s = \ell n + y \bmod n^2$ for some integers $\varphi,\ell$. Hence, it comes
+\begin{align*}
+g^x\big((cg^{-x})^s - \ell n\big)^n
+&= g^x (cg^{-x})(cg^{-x})^{ns-1}
+ = c\,(cg^{-x})^{\lambda\varphi}\\
+&= c\big((cg^{-x})^{\lambda}\big)^{\varphi}
+ = c\cdot 1^{\varphi} = c \bmod n^2.
+\end{align*}
+This completes the proof.
+\end{proof}
+
+Note that the values $s$ and $\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n$ have no relation to the ciphertext $c$. They can be computed and stored previously.
+
+\begin{conjecture}\label{conj:prob2-hard}
+If $\lambda$ is unknown, there exists no probabilistic polynomial time algorithm that solves Problem~\ref{prob:2}.
+\end{conjecture}
+
+%------------------------------------------------------------
+\section{The Paillier's one-way trapdoor permutation and the digital signature scheme}\label{sec:signature}
+
+In Ref.~\cite{Pai99}, Paillier has put forth a one-way trapdoor permutation and the digital signature scheme based on his computational method. We now relate them as follows.
+
+\begin{table}[h]
+\centering
+\caption{Paillier's signature scheme}
+\begin{tabular}{@{}l p{0.8\textwidth}@{}}
+\toprule
+Setup & See Table~1.\\
+Sign & For a message $m$, compute
+\[
+s_1 \leftarrow \rho\left(\frac{H(m)^\lambda \bmod n^2 - 1}{n}\right) \bmod n, \qquad
+s_2 \leftarrow \big(H(m)\,g^{-s_1}\big)^s \bmod n.
+\]
+The signature is $(m,s_1,s_2)$.\\
+Verify & $H(m) \overset{?}{=} g^{s_1} s_2^n \bmod n^2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Paillier's one-way trapdoor permutation}
+\begin{tabular}{@{}l p{0.8\textwidth}@{}}
+\toprule
+Setup & Set an RSA modulus $n=pq$, $\lambda=\lcm(p-1,q-1)$. Select $g\in\Z_{n^2}^*$ such that $n\mid\ord_{n^2}(g)$. Compute
+$\rho = \left(\dfrac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n$, and compute $s$ which is the integer with the least absolute value such that $\lambda \mid ns-1$. Publish $n,g$ and keep $\lambda,\rho,s$ in secret.\\
+Encryption & Given $m\in\Z_{n^2}$, set $m=m_1+nm_2$. The ciphertext is $c \leftarrow g^{m_1} m_2^n \bmod n^2$.\\
+Decryption & $m_1 \leftarrow \rho\left(\dfrac{c^\lambda \bmod n^2 - 1}{n}\right) \bmod n$, \quad $m_2 \leftarrow (cg^{-m_1})^s \bmod n$, \quad $m \leftarrow m_1 + nm_2$.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Some variants of Paillier's encryption schemes\\
+\small $n=pq$ is an RSA modulus, $\lambda=\lcm(p-1,q-1)$.}
+\begin{tabular}{@{}l p{0.78\textwidth}@{}}
+\toprule
+\textbf{Variant 1} (Paillier) &
+$g\in\Z_{n^2}^*$, $\ord_{n^2}(g)=\alpha n$. PK: $n,g$; SK: $\alpha$.\newline
+$m\in\Z_n$, $r\in\Z_n$, $c = g^{m+rn} \bmod n^2$.\newline
+$m = \left(\dfrac{c^\alpha \bmod n^2 - 1}{n}\right) \Big/ \left(\dfrac{g^\alpha \bmod n^2 - 1}{n}\right) \bmod n$\\
+\midrule
+\textbf{Variant 2} (Damg{\aa}rd-Jurik) &
+$\kappa=\tau\lambda$, $\tau=\lambda^{-1} \bmod n$. PK: $n$; SK: $\kappa$.\newline
+$m\in\Z_n$, $r\in\Z_n^*$, $c = (1+mn)\,r^n \bmod n^2$.\newline
+$m = \dfrac{c^\kappa \bmod n^2 - 1}{n}$\\
+\midrule
+\textbf{Variant 3} (Choi-Choi-Won) &
+$g^\lambda = 1+n \bmod n^2$. PK: $n,g$; SK: $\lambda$.\newline
+$m\in\Z_n$, $r\in\Z_n^*$, $c = g^m r^n \bmod n^2$.\newline
+$m = \dfrac{c^\lambda \bmod n^2 - 1}{n}$\\
+\midrule
+\textbf{Variant 4} (Catalano-Gennaro-Howgrave-Graham-Nguyen) &
+$e<n$, $d = e^{-1} \bmod \phi(n)$. PK: $n,e$; SK: $d$.\newline
+$m\in\Z_n$, $r\in\Z_n^*$, $c = (1+mn)\,r^e \bmod n^2$.\newline
+$m = \dfrac{c\,(c^d \bmod n)^{-e} \bmod n^2 - 1}{n}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%------------------------------------------------------------
+\section{On some variants of Paillier's encryption scheme}\label{sec:variants}
+
+\subsection{Descriptions of some variants}
+
+In the same article \cite{Pai99}, Paillier has pointed out that there was an efficient variant of his original encryption scheme. Shortly afterwards, other variants came out \cite{BCP03,CGHN01,CCW01,DJ01}. We list some variants as follows.
+
+\paragraph{Correctness of Variant 1.} The variant takes $x=m$, $y=g^r$ in Problem~\ref{prob:2}. Since each $n$-th residue has exactly $n$ roots, among which exactly one is strictly smaller than $n$, and $\ord_{n^2}(g)=\alpha n$, we have $g^\alpha = 1 \bmod n$. Otherwise, suppose $g^\alpha = sn+t \bmod n^2$ for some integers $0\le s<n$ and $t$ $(2\le t<n)$. It leads to
+\[
+1 = g^{\alpha n} = (sn+t)^n = t^n \bmod n^2
+\]
+which means $t=1$. It is a contradiction. Thus, $g^\alpha = sn+1 \bmod n^2$. By
+\[
+c^\alpha = \big(g^m (g^r)^n\big)^\alpha = (g^\alpha)^m = (sn+1)^m = smn+1 \bmod n^2
+\]
+we have
+\[
+\frac{\dfrac{c^\alpha \bmod n^2 - 1}{n}}{\dfrac{g^\alpha \bmod n^2 - 1}{n}} = \frac{sm}{s} = m \bmod n.
+\]
+
+\paragraph{Correctness of Variant 2.} The variant takes $g=1+n$, $x=m$, $y=r$ in Problem~\ref{prob:2}. It is easy to find that
+\[
+\frac{c^\kappa \bmod n^2 - 1}{n}
+= \frac{\big((1+n)^m r^n\big)^{\tau\lambda} \bmod n^2 - 1}{n}
+= \frac{(1+n)^{m\tau\lambda} \bmod n^2 - 1}{n}
+= \frac{nm\tau\lambda \bmod n^2}{n} = m.
+\]
+
+\paragraph{Correctness of Variant 3.} The variant takes $x=m$, $y=r$ in Problem~\ref{prob:2}. It is easy to check that
+\[
+\frac{c^\lambda \bmod n^2 - 1}{n}
+= \frac{(g^m r^n)^\lambda \bmod n^2 - 1}{n}
+= \frac{(g^\lambda)^m \bmod n^2 - 1}{n}
+= \frac{(1+n)^m \bmod n^2 - 1}{n} = m.
+\]
+
+\paragraph{Correctness of Variant 4.} It is easy to see that
+\[
+\frac{c\,(c^d \bmod n)^{-e} \bmod n^2 - 1}{n}
+= \frac{(1+n)^m r^e \big(\big(((1+n)^m r^e)^d\big) \bmod n\big)^{-e} \bmod n^2 - 1}{n}
+= \frac{(1+n)^m r^e r^{-e} \bmod n^2 - 1}{n} = m.
+\]
+
+\subsection{The Bresson-Catalano-Pointcheval encryption scheme revisited}
+
+The Bresson-Catalano-Pointcheval encryption scheme has not directly specified that $n\mid\ord_{n^2}(g)$. But it is easy to find that such a picked $g$ satisfies the condition with high probability. In view of that the condition is necessary to recover $x$ in Problem~\ref{prob:1} (see the proof of Theorem~\ref{thm:1}), we shall directly specify it in the Setup phase.
+
+The random pad $r$ is chosen by the sender and is blinded as
+\[
+A = g^r \bmod n^2, \qquad B = h^r(1+mn) \bmod n^2.
+\]
+We have $A = g^r \cdot 1^n \bmod n^2$, here it takes $x=r$, $y=1$ in Problem~\ref{prob:1}. Thus one knowing the trapdoor $\lambda$ can recover $r$ using Paillier's computational method. Note that although $B$ could be viewed as
+\[
+B = (1+n)^m h^r \bmod n^2
+\]
+it does not fall into the class of Problem~\ref{prob:1}. One cannot recover $r$ from $B$ whether the trapdoor is known or not.
+
+After $r$ is retrieved, one can recover $m = \dfrac{B/h^r \bmod n^2 - 1}{n}$ directly. Obviously, the original computational method incurs more cost. Based on the observation, we now present a revision of the scheme as follows.
+
+\begin{table}[h]
+\centering
+\caption{The Bresson-Catalano-Pointcheval encryption scheme revisited}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l p{0.42\textwidth} p{0.42\textwidth}@{}}
+\toprule
+ & \textbf{Original} & \textbf{Revised}\\
+\midrule
+Setup &
+$n=pq$, $\lambda=\lcm(p-1,q-1)$.\newline
+$\alpha\in\Z_{n^2}^*$, $a<n\lambda/2$,\newline
+$g=\alpha^2 \bmod n^2$, $h=g^a \bmod n^2$.\newline
+$\rho=\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n$.\newline
+$\tau=\lambda^{-1} \bmod n$.\newline
+PK: $n,g,h$; SK: $a,\lambda,\rho,\tau$.
+&
+$n=pq$, $\lambda=\lcm(p-1,q-1)$.\newline
+$g\in\Z_{n^2}^*$, $n\mid\ord_{n^2}(g)$.\newline
+$a\in\Z_n^*$, $h=g^a \bmod n^2$.\newline
+$\rho=\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n$.\newline
+PK: $n,g,h$; SK: $a,\lambda,\rho$.\\
+\midrule
+Enc. &
+For $m\in\Z_n$, pick $r\in\Z_n^*$, compute $A=g^r \bmod n^2$, $B=h^r(1+mn) \bmod n^2$. The ciphertext is $c=(A,B)$.
+& It is the same as the original.\\
+\midrule
+Dec.~1 &
+$m = \dfrac{B/A^a \bmod n^2 - 1}{n}$
+& It is the same as the original.\\
+\midrule
+Dec.~2 &
+$r=\rho\left(\dfrac{A^\lambda \bmod n^2 - 1}{n}\right) \bmod n$.\newline
+$\gamma = ar \bmod n$.\newline
+$m = \dfrac{(Bg^{-\gamma})^\lambda \bmod n^2 - 1}{n}\cdot\tau \bmod n$,
+&
+$r=\rho\left(\dfrac{A^\lambda \bmod n^2 - 1}{n}\right) \bmod n$.\newline
+$m = \dfrac{B/h^r \bmod n^2 - 1}{n}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We stress that the new alternative decryption method does not invoke the secret parameter $a$, which means the secret parameters $a,\lambda,\rho$ can be divided into two groups, $a$ and $(\lambda,\rho)$. The two groups of secret parameters can be allocated to different users so as to enhance the robustness of key management. The new version is more flexible to be integrated into other cryptographic schemes.
+
+\subsection{Comparisons}
+
+The Paillier's encryption scheme can be naturally transformed into a signature scheme because it can retrieve the random pad $r$ as well as the message $m$. This is due to that it only requires $n\mid\ord_{n^2}(g)$. But in the Variant~1, one cannot retrieve $r\in\Z_n^*$, instead $g^r \bmod n^2$. Though the Variant~3 is very similar to the original Paillier's encryption scheme, it is insecure against a chosen ciphertext attack \cite{ST02}. The others, Variant~2, Variant~4 and Variant~5 cannot be transformed into signature schemes. See the following Table~6 for details.
+
+By the way, the claim that some variants are more efficient than the original Paillier's encryption scheme is somewhat misleading. Actually, in Paillier's encryption scheme the computation $\left(\frac{g^\lambda \bmod n^2 - 1}{n}\right)^{-1} \bmod n$ has no relation to the ciphertext $c$. It can be computed and stored previously. The dominated computation in the decryption procedure is that $\frac{c^\lambda \bmod n^2 - 1}{n}$, while the corresponding computation in Variant~4 is $m = \frac{c\,(c^d \bmod n)^{-e} \bmod n^2 - 1}{n}$, and that in Variant~5 is $m = \frac{B/A^a \bmod n^2 - 1}{n}$. We find these decryptions require almost the same computational cost.
+
+\begin{table}[h]
+\centering
+\caption{Comparisons of Paillier's encryption and some variants}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l p{0.78\textwidth}@{}}
+\toprule
+\textbf{The original} &
+$c=g^m r^n \bmod n^2$. $n\mid\ord_{n^2}(g)$, $x=m$, $y=r$.\newline
+Verification w.r.t.\ $(m,s_1,s_2)$: $H(m) \overset{?}{=} g^{s_1}s_2^n \bmod n^2$. \textbf{True.}\\
+\midrule
+\textbf{Variant 1} &
+$c=g^m (g^r)^n = g^{m+rn} \bmod n^2$. $\ord_{n^2}(g)=\alpha n$, $x=m$, $y=g^r$ is a special random pad.\newline
+Verification: $H(m) \overset{?}{=} g^{s_1+s_2 n} \bmod n^2$. \textbf{False.}\\
+\midrule
+\textbf{Variant 2} &
+$c=(1+n)^m r^n = (1+mn)\,r^n \bmod n^2$. $g=1+n$, $\ord_{n^2}(g)=n$, $x=m$, $y=r$.\newline
+Verification: $H(m) \overset{?}{=} (1+s_1 n)\,s_2^n \bmod n^2$. \textbf{False.}\\
+\midrule
+\textbf{Variant 3} &
+$c=g^m r^n \bmod n^2$. $g^\lambda = 1+n$, $x=m$, $y=r$.\newline
+It cannot resist a chosen ciphertext attack.\\
+\midrule
+\textbf{Variant 4} &
+$c=(1+mn)\,r^e \bmod n^2$. $g=1+n$, $ed = 1 \bmod \phi(n)$.\newline
+Verification: $H(m) \overset{?}{=} (1+s_1 n)\,s_2^e \bmod n^2$. \textbf{False.}\\
+\midrule
+\textbf{Variant 5} (Bresson-Catalano-Pointcheval) &
+$(A,B) = \big(g^r \bmod n^2,\ (1+mn)\,h^r \bmod n^2\big)$.\newline
+Verification: $H(m) \overset{?}{=} (1+s_1 n)\,h^{s_2} \bmod n^2$. \textbf{False.}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%------------------------------------------------------------
+\section{Conclusion}\label{sec:conclusion}
+
+We revisit the Paillier's cryptosystem and present an efficient alternative decryption procedure for Bresson-Catalano-Pointcheval encryption scheme. We reaffirm that the original Paillier's encryption scheme has a special property that it naturally implies a signature scheme, while those variants miss this feature.
+
+%------------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{BGHWW13}
+Boneh, D., Gentry, C., Halevi, S., Wang, F., Wu, D.: Private Database Queries Using Somewhat Homomorphic Encryption. In: Jacobson, M., et al.\ (Eds.), Proc.\ of ACNS 2013, LNCS, vol.~7954, pp.~102--118. Springer, Heidelberg (2013)
+
+\bibitem{BCP03}
+Bresson, E., Catalano, D., Pointcheval, D.: A Simple Public-Key Cryptosystem with a Double Trapdoor Decryption Mechanism and Its Applications. In: Laih, C.\ (ed.), Proc.\ of ASIACRYPT 2003. LNCS, vol.~2894, pp.~37--54. Springer, Heidelberg (2003)
+
+\bibitem{CCW01}
+Choi, D., Choi, S., Won, D.: Improvement of Probabilistic Public Key Cryptosystem Using Discrete Logarithm. In: Kim, K.\ (ed.), Proc.\ of ICISC 2001, LNCS, vol.~2288, pp.~72--80. Springer, Heidelberg (2002)
+
+\bibitem{CGHN01}
+Catalano, D., Gennaro, R., Howgrave-Graham, N., Nguyen, P.: Paillier's Cryptosystem Revisited. In: Proc.\ of ACM CCS 2001, pp.~206--214 (2001)
+
+\bibitem{CL15}
+Castagnos, G., Laguillaumie, F.: Linearly Homomorphic Encryption from DDH. In: Nyberg, K.\ (ed.), Proc.\ of CT-RSA 2015, LNCS, vol.~9048, pp.~487--505. Springer, Heidelberg (2015)
+
+\bibitem{CMP14}
+Catalano, D., Marcedone, A., Puglisi, O.: Authenticating Computation on Groups: New Homomorphic Primitives and Applications. In: Sarkar, P., Iwata, T.\ (eds.), Proc.\ of ASIACRYPT 2014, LNCS, vol.~8874, pp.~193--212. Springer, Heidelberg (2014)
+
+\bibitem{DJ01}
+Damg{\aa}rd, I., Jurik, J.: A Generalisation, a Simplification and Some Applications of Paillier's Probabilistic Public-Key System. In: Kim, K.\ (ed.), Proc.\ of PKC 2001. LNCS, vol.~1992, pp.~119--136. Springer, Heidelberg (2001)
+
+\bibitem{DJN10}
+Damg{\aa}rd, I., Jurik, M., Nielsen, J.: A Generalization of Paillier's Public-key System with Applications to Electronic Voting. Int.\ J.\ Inf.\ Secur.\ 9: 371--385 (2010)
+
+\bibitem{Gal02}
+Galbraith, D.: Elliptic Curve Paillier Schemes. J.\ Cryptology 15(2), 129--138 (2002)
+
+\bibitem{Gen09}
+Gentry, C.: Fully Homomorphic Encryption Using Ideal Lattices. In: Proc.\ of STOC 2009, pp.~169--178. ACM (2009)
+
+\bibitem{GM84}
+Goldwasser, S., Micali, S.: Probabilistic Encryption. JCSS 28(2), 270--299 (1984)
+
+\bibitem{JL13}
+Joye, M., Libert, B.: Efficient Cryptosystems from $2^k$-th Power Residue Symbols. In: Johansson, T., Nguyen, P.Q.\ (eds.), Proc.\ of EUROCRYPT 2013. LNCS, vol.~7881, pp.~76--92. Springer, Heidelberg (2013)
+
+\bibitem{NS98}
+Naccache, D., Stern, J.: A New Public Key Cryptosystem Based on Higher Residues. In: Proc.\ of ACM CCS 1998, pp.~546--560 (1998)
+
+\bibitem{OU98}
+Okamoto, T., Uchiyama, S.: A New Public-Key Cryptosystem as Secure as Factoring. In: Nyberg, K.\ (ed.), Proc.\ of EUROCRYPT 1998. LNCS, vol.~1403, pp.~308--318. Springer, Heidelberg (1998)
+
+\bibitem{Pai99}
+Paillier, P.: Public-Key Cryptosystems Based on Composite Degree Residuosity Classes. In: Stern, J.\ (ed.), Proc.\ of EUROCRYPT 1999. LNCS, vol.~1592, pp.~223--238. Springer, Heidelberg (1999)
+
+\bibitem{ST02}
+Sakurai, K., Takagi, T.: On the Security of a Modified Paillier Public-Key Primitive. In: Batten, L., Seberry, J.\ (eds.), Proc.\ of ACISP 2002, LNCS, vol.~2384, pp.~436--448. Springer, Heidelberg (2002)
+
+\bibitem{ST06}
+Schoenmakers, B., Tuyls, P.: Efficient Binary Conversion for Paillier Encrypted Values. In: Vaudenay, S.\ (ed.), Proc.\ of EUROCRYPT 2006, LNCS, vol.~4004, pp.~522--537. Springer, Heidelberg (2006)
+
+\end{thebibliography}
+
+\end{document}

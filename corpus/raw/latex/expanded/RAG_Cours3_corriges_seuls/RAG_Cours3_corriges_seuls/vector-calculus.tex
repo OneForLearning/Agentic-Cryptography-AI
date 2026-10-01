@@ -1,0 +1,323 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,mathrsfs,xparse}
+\usepackage{tikz-cd,caption,makecell,pdflscape,geometry,hyperref}
+\geometry{margin=24mm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{notation}[theorem]{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+% Editorial macro definitions inferred from their explicit mathematical use in this course.
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Expt}{\mathbb{E}}
+\newcommand{\eventSpace}{\mathcal{F}}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\Conditional}[2]{#1\mid #2}
+\newcommand{\compl}{^{\mathrm{c}}}
+\newcommand{\inverse}{^{-1}}
+\newcommand{\transpose}{^{\mathsf{T}}}
+\newcommand{\plusinfty}{+\infty}
+\newcommand{\minusinfty}{-\infty}
+\newcommand{\indicator}{\mathbf{1}}
+\newcommand{\ccintv}[2]{[#1,#2]}
+\newcommand{\ocintv}[2]{(#1,#2]}
+\newcommand{\cointv}[2]{[#1,#2)}
+\newcommand{\oointv}[2]{(#1,#2)}
+\newcommand{\set}[2]{\{#1\mid #2\}}
+\newcommand{\functiondomain}[3]{#1:#2\to #3}
+\newcommand{\function}[5]{#1:#2\to #3,\quad #4\mapsto #5}
+\newcommand{\flatfrac}[2]{\frac{#1}{#2}}
+\newcommand{\bound}[1]{{#1}}
+\newcommand{\rightbar}[1]{\left.#1\right|}
+\newcommand{\indp}{\mathrel{\perp\!\!\!\perp}}
+\newcommand{\posDef}{\succ}
+\newcommand{\identityM}{I}
+\newcommand{\zeroM}{0}
+\newcommand{\littleO}{o}
+\newcommand{\toDist}{\xrightarrow{\mathrm{d}}}
+\newcommand{\toProb}{\xrightarrow{\mathbb P}}
+\newcommand{\toAlmostSure}{\xrightarrow{\mathrm{a.s.}}}
+\newcommand{\sNormCdf}{\Phi}
+\newcommand{\sNormPdf}{\varphi}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\NewDocumentCommand{\pqty}{m}{\left(#1\right)}
+\NewDocumentCommand{\bqty}{m}{\left[#1\right]}
+\NewDocumentCommand{\Bqty}{m}{\left\{#1\right\}}
+\NewDocumentCommand{\vb}{s m}{\IfBooleanTF{#1}{\boldsymbol{#2}}{\mathbf{#2}}}
+\NewDocumentCommand{\dd}{o m}{\IfNoValueTF{#1}{\mathop{}\!\mathrm{d}#2}{\mathop{}\!\mathrm{d}^{#1}#2}}
+\NewDocumentCommand{\dv}{s O{} m g}{\IfNoValueTF{#4}{\frac{\mathrm{d}^{#2}}{\mathrm{d}#3^{#2}}}{\frac{\mathrm{d}^{#2}#3}{\mathrm{d}#4^{#2}}}}
+\NewDocumentCommand{\pdv}{s O{} m g}{\IfNoValueTF{#4}{\frac{\partial^{#2}}{\partial #3^{#2}}}{\frac{\partial^{#2}#3}{\partial #4^{#2}}}}
+\newcommand{\pmqty}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\mdet}[1]{\begin{vmatrix}#1\end{vmatrix}}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\qq}[1]{\quad\text{#1}\quad}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Bernoulli}{\operatorname{Bernoulli}}
+\newcommand{\Binomial}{\operatorname{Binomial}}
+\newcommand{\Poisson}{\operatorname{Poisson}}
+\newcommand{\Uniform}{\operatorname{Uniform}}
+\newcommand{\Exponential}{\operatorname{Exponential}}
+\newcommand{\Normal}{\operatorname{Normal}}
+\newcommand{\Geometric}{\operatorname{Geometric}}
+\newcommand{\Multinomial}{\operatorname{Multinomial}}
+\newcommand{\Hypergeometric}{\operatorname{Hypergeometric}}
+\newcommand{\NegativeBinomial}{\operatorname{NegativeBinomial}}
+\newcommand{\img}{\operatorname{im}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\grad}{\nabla}
+\renewcommand{\div}{\nabla\!\cdot}
+\newcommand{\curl}{\nabla\!\times}
+\newcommand{\laplacian}{\Delta}
+\newcommand{\cross}{\times}
+\newcommand{\vdot}{\cdot}
+\newcommand{\kronecker}{\delta}
+\newcommand{\oiint}{\iint}
+\title{Vector Calculus -- revised sheet}\author{Source: Eason Shao}\date{}\begin{document}\maketitle
+
+
+
+\section*{Vector Differential Operators}
+
+\subsection*{Identities}
+
+Start proof from boxed terms.
+
+\begin{align*}
+    \laplacian \vb{F} &= \grad \pqty{\div \vb{F}} - \boxed{\curl \pqty{\curl \vb{F}}} \\
+    \grad \pqty{\vb{F} \vdot \vb{G}} &= \boxed{\vb{F} \cross \pqty{\curl \vb{G}}} + \pqty{\vb{F} \vdot \grad} \vb{G} + \boxed{\vb{G} \cross \pqty{\curl \vb{F}}} + \pqty{\vb{G} \vdot \grad} \vb{F} \\
+    \boxed{\div \pqty{\vb{F} \cross \vb{G}}} &= - \vb{F} \vdot \pqty{\curl \vb{G}} + \vb{G} \vdot \pqty{\curl \vb{F}} \\
+    \boxed{\curl \pqty{\vb{F} \cross \vb{G}}} &= \pqty{\div \vb{G}} \vb{F} - \pqty{\div \vb{F}} \vb{G} + \pqty{\vb{G} \vdot \grad} \vb{F} - \pqty{\vb{F} \vdot \grad} \vb{G}
+\end{align*}
+
+\subsection*{Orthogonal Curvilinear Coordinates}
+These formulas assume smooth orthogonal coordinates with positive scale factors and a right-handed orthonormal frame. The gradient formula follows by identifying coefficients in $df=\sum_i(\partial f/\partial q_i)dq_i=\nabla f\cdot d\mathbf r$ and $d\mathbf r=\sum_i h_i\mathbf e_i\,dq_i$.
+
+
+\begin{align*}
+    \grad f &= \frac{\vb{e}_u}{h_u} \pdv{f}{u} + \frac{\vb{e}_v}{h_v} \pdv{f}{v} + \frac{\vb{e}_w}{h_w} \pdv{f}{w} \\
+    \div \vb{F} &= \frac{1}{h_u h_v h_w} \bqty{\pdv{\pqty{h_v h_w F_u}}{u} + \pdv{\pqty{h_u h_w F_v}}{v} + \pdv{\pqty{h_u h_v F_w}}{w}} \\
+    \curl \vb{F} &= \frac{1}{h_u h_v h_w} \mdet{
+        h_u \vb{e}_u & h_v \vb{e}_v & h_w \vb{e}_w \\
+        \pdv{u} & \pdv{v} & \pdv{w} \\
+        h_u F_u & h_v F_v & h_w F_w} \\
+    \laplacian f &= \frac{1}{h_u h_v h_w} \bqty{\pdv{u} \pqty{\frac{h_v h_w}{h_u} \pdv{f}{u}} + \pdv{v} \pqty{\frac{h_u h_w}{h_v} \pdv{f}{v}} + \pdv{w} \pqty{\frac{h_u h_v}{h_w} \pdv{f}{w}}}
+\end{align*}
+
+\section*{Differential Geometry of Curves in \(\RR^3\)}
+
+\subsection*{Curve Length Parametrisation}
+Assume a regular, three-times differentiable curve with nonzero curvature; primes denote arc-length derivatives.
+
+
+\[
+    \begin{aligned}
+        \vb{t} &= \vb{x}' && \text{Tangent Vector} \\
+        \vb{n} &= \frac{1}{\abs{\vb{x}''}} \vb{x}'' && \text{Principal Normal Vector} \\
+        \vb{b} &= \vb{t} \cross \vb{n} && \text{Binormal Vector}
+    \end{aligned}
+    \qq{\qq{\qand}}
+    \begin{aligned}
+        \kappa &= \abs{\vb{x} ''} && \text{Curvature} \\
+        \tau &= - \vb{b}' \vdot \vb{n} && \text{Torsion}
+    \end{aligned}
+\]
+
+\subsection*{Frenet--Serret}
+
+\[
+    \begin{aligned}
+        \vb{t}' &= \kappa \vb{n} \\
+        \vb{n}' &= \tau \vb{b} - \kappa \vb{t} \\
+        \vb{b}' &= - \tau \vb{n}
+    \end{aligned}
+    \qq{\qq{\qor}}
+    \pmqty{\vb{t}' \\ \vb{n}' \\ \vb{b}'}
+    =
+    \pmqty{
+        0 & \kappa & 0 \\
+        -\kappa & 0 & \tau \\
+        0 & -\tau & 0
+    }
+    \pmqty{\vb{t} \\ \vb{n} \\ \vb{b}}
+\]
+
+\subsection*{General Parametrisation}
+Dots denote derivatives in a regular parameter; the displayed normal and torsion require a nonzero cross product of velocity and acceleration.
+
+
+See later for proof.
+
+\[
+    \begin{aligned}
+        \vb{t} &= \frac{\dot{\vb{x}}}{\abs{\dot{\vb{x}}}} \\
+        \vb{n} &= \frac{\dot{\vb{t}}}{\abs{\dot{\vb{t}}}} \\
+        \vb{b} &= \vb{t} \cross \vb{n} = \frac{\dot{\vb{x}} \cross \ddot{\vb{x}}}{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}}
+    \end{aligned}
+    \qq{\qq{\qand}}
+    \begin{aligned}
+        \kappa &= \frac{\abs{\dot{\vb{t}}}}{\abs{\dot{\vb{x}}}} = \frac{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}}{\abs{\dot{\vb{x}}}^3} \\ \\
+        \tau &= \frac{\bqty{\dot{\vb{x}}, \ddot{\vb{x}}, \dddot{\vb{x}}}}{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}^2}
+    \end{aligned}
+\]
+
+\section*{Laplace and Poisson Equations}
+
+\subsection*{Gauss's Flux Method}
+
+Assume $f$ and $\phi$ are radial, $\Delta\phi=f$, and $\phi$ is sufficiently smooth on the ball. Define
+\[
+    \boxed{F_R = \iiint_{\abs{\vb{x}} \leq R} f\pqty{r} \dd{V}} = \underline{4 \pi \int_0^R r^2 f\pqty{r} \dd{r}},
+\]
+and relate to
+\begin{align*}
+    F_R &= \boxed{\iiint_{\abs{\vb{x}} \leq R} \laplacian \phi \dd{V}} = \oiint_{\abs{\vb{x}} = R} \grad \phi \vdot \dd{\vb{S}} \\
+    &= \iint_{\abs{x} = R} \phi' \pqty{r} \vb{e}_r \vdot \vb{e}_r \dd{S} = \underline{4 \pi R^2 \phi' \pqty{R}}
+\end{align*}
+
+\subsection*{Integration Solution to Poisson's Equation}
+
+For the convention $\Delta\phi=f$ in $\mathbb R^3$, take $f$ smooth and compactly supported. The following Newtonian potential solves this equation in the distributional sense. Indeed, $\Delta(-1/(4\pi|x|))=\delta_0$: the outward flux of its gradient through a sphere is one. This is a whole-space formula; boundary-value problems require boundary terms or a suitable Green function.
+
+\[
+    \phi\pqty{\vb{x}} = -\iiint_{\mathbb R^3} \frac{f\pqty{\vb{y}}}{4 \pi \abs{\vb{x} - \vb{y}}} \dd[3]{\vb{y}}
+\]
+
+\subsection*{Averaging and Maximal Principle}
+Assume $\phi$ is harmonic on an open neighbourhood of the closed ball under consideration. The zero derivative below follows from the divergence theorem and $\Delta\phi=0$.
+
+
+Define
+\[
+    \bar{\phi}_r \pqty{\vb{a}} = \frac{1}{4 \pi r^2} \oiint_{\partial B_r \pqty{\vb{a}}} \phi \pqty{\vb{x}} \dd{S},
+\]
+and by differentiating \(\dv*{\bar{\phi}_r \pqty{\vb{a}}}{r} = 0\). Take \(r \to 0\) and \(\bar{\phi}_r \pqty{\vb{a}} = \phi \pqty{\vb{a}}\).
+
+\section*{Tensors}
+
+\subsection*{Transformation Matrix}
+
+\[
+    R_{ij} = \vb{e}'_i \vdot \vb{e}_j, \quad R_{ik} R_{jk} = R_{ki} R_{kj} = \kronecker_{ij}.
+\]
+
+\subsection*{Inverse Transformation}
+
+\[
+    x_j' = R_{jk} x_k \implies R_{ji} x_j' = R_{ji} R_{jk} x_k \implies x_i = R_{ji} x_j'.
+\]
+
+\subsection*{Tensor Calculus}
+
+Start from Inverse Transformation Law
+\[
+    \pdv{x_i}{x_k'} = R_{ji} \pdv{x_j'}{x_k'} = R_{ji} \kronecker_{jk} = R_{ki}
+\]
+and using Chain Rule
+\[
+    \pdv{x_i'} = \pdv{x_j}{x_i'} \pdv{x_j} = R_{ij} \pdv{x_j}.
+\]
+
+\clearpage
+
+\section*{Proof for Expressions in General Parametrisation}
+
+From \(\dv*{s}{t} = \abs{\dot{\vb{x}}}\), we have by chain rule that for any vector \(\vb{v}\),
+\[
+    \boxed{\vb{v}' = \frac{\dot{\vb{v}}}{\abs{\dot{\vb{x}}}}.}
+\]
+
+\subsection*{Tangent Vector}
+
+By definition,
+\[
+    \boxed{\vb{t}} = \vb{x}' = \boxed{\frac{\dot{\vb{x}}}{\abs{\dot{\vb{x}}}}.}
+\]
+
+\subsection*{Principal Normal Vector}
+
+By definition, \(\vb{n} = \flatfrac{\vb{t}'}{\abs{\vb{t}'}}\) and we have \(\vb{t}' = \flatfrac{\dot{\vb{t}}}{\abs{\dot{\vb{x}}}}\).
+
+Hence, \(\abs{\vb{t}'} = \flatfrac{\abs{\dot{\vb{t}}}}{\abs{\dot{\vb{x}}}}\), and
+\[
+    \boxed{\vb{n}} = \frac{\flatfrac{\dot{\vb{t}}}{\abs{\dot{\vb{x}}}}}{\flatfrac{\abs{\dot{\vb{t}}}}{\abs{\dot{\vb{x}}}}} = \boxed{\frac{\dot{\vb{t}}}{\abs{\dot{\vb{t}}}}.}
+\]
+
+\subsection*{Binormal Vector}
+
+We note that
+\begin{align*}
+    \dot{\vb{x}} \cross \ddot{\vb{x}} &= \abs{\dot{\vb{x}}} \vb{t} \cross \pqty{\pqty{\dv{t} \abs{\dot{\vb{x}}}} \vb{t} + \abs{\dot{\vb{x}}} \dot{\vb{t}}} \\
+    &= \abs{\dot{\vb{x}}}^2 \pqty{\vb{t} \cross \dot{\vb{t}}} \\
+    &= \abs{\dot{\vb{x}}}^2 \pqty{\vb{t} \cross \abs{\dot{\vb{t}}} \vb{n}} \\
+    &= \abs{\dot{\vb{x}}}^2 \abs{\dot{\vb{t}}} \pqty{\vb{t} \cross \vb{n}} \\
+    &= \abs{\dot{\vb{x}}}^2 \abs{\dot{\vb{t}}} \vb{b}.
+\end{align*}
+
+Normalising gives
+\[
+    \boxed{\vb{b} = \frac{\dot{\vb{x}} \cross \ddot{\vb{x}}}{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}}.}
+\]
+
+\subsection*{Curvature}
+
+By definition,
+\[
+    \boxed{\kappa} = \abs{\vb{x}''} = \abs{\vb{t}'} = \boxed{\frac{\abs{\dot{\vb{t}}}}{\abs{\dot{\vb{x}}}}.}
+\]
+
+From above,
+\[
+    \abs{\dot{\vb{x}} \cross \ddot{\vb{x}}} = \abs{\dot{\vb{x}}}^2 \abs{\dot{\vb{t}}}
+\]
+so
+\[
+    \boxed{\kappa} = \frac{\abs{\dot{\vb{t}}}}{\abs{\dot{\vb{x}}}} = \boxed{\frac{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}}{\abs{\dot{\vb{x}}}^3}.}
+\]
+
+\subsection*{Torsion}
+
+We have
+\begin{align*}
+    \dot{\vb{x}} &= \abs{\dot{\vb{x}}} \vb{t}, \\
+    \ddot{\vb{x}} &= \pqty{\dv{t} \abs{\dot{\vb{x}}}} \vb{t} + \abs{\dot{\vb{x}}} \abs{\dot{\vb{t}}} \vb{n} \\
+    &= \pqty{\dv{t} \abs{\dot{\vb{x}}}} \vb{t} + \abs{\dot{\vb{x}}}^2 \kappa \vb{n}.
+\end{align*}
+
+Hence,
+\[
+    \dot{\vb{x}} \cross \ddot{\vb{x}} = \abs{\dot{\vb{x}}}^3 \kappa \vb{b}
+\]
+and we only need to find the component of \(\dddot{\vb{x}}\) parallel to \(\vb{b}\), which is only possible by differentiating \(\vb{n}\). By Frenet--Serret Equations,
+\[
+    \dot{\vb{n}} = \abs{\dot{\vb{x}}} \vb{n}' = \abs{\dot{\vb{x}}} \pqty{- \kappa \vb{t} + \tau \vb{b}}
+\]
+and hence
+\begin{align*}
+    \bqty{\dot{\vb{x}}, \ddot{\vb{x}}, \dddot{\vb{x}}} &= \pqty{\dot{\vb{x}} \cross \ddot{\vb{x}}} \cdot \dddot{\vb{x}} \\
+    &= \abs{\dot{\vb{x}}}^3 \kappa \cdot \abs{\dot{\vb{x}}}^2 \kappa \cdot \abs{\dot{\vb{x}}} \tau \\
+    &= \abs{\dot{\vb{x}}}^6 \kappa^2 \tau \\
+    &= \abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}^2 \tau.
+\end{align*}
+
+Rearranging gives
+\[
+    \boxed{\tau = \frac{\bqty{\dot{\vb{x}}, \ddot{\vb{x}}, \dddot{\vb{x}}}}{\abs{\dot{\vb{x}} \cross \ddot{\vb{x}}}^2}.}
+\]
+
+\end{document}

@@ -1,0 +1,6 @@
+1. Démontrer que tout sous-groupe d'un groupe cyclique est cyclique.
+
+2. Soit f : Z/15Z -> Z/5Z définie par f([x]_15)=[x]_5.
+Déterminer son noyau, son image et appliquer correctement le premier théorème d'isomorphisme.
+
+3. Démontrer que Z/pZ est un corps si p est premier.

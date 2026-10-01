@@ -1,0 +1,51 @@
+226     Pascal Paillier
+
+    We denote by Bα ⊂ Z∗n2 the set of elements of order nα and by B their
+disjoint union for α = 1, · · · , λ.
+
+Proof. Since the two groups Zn × Z∗n and Z∗n2 have the same number of ele-
+ments nφ(n), we just have to prove that Eg is injective. Suppose that g x1 y1n =
+g x2 y2n mod n2 . It comes g x2 −x1 ·(y2 /y1 )n = 1 mod n2 , which implies g λ(x2 −x1 ) =
+1 mod n2 . Thus λ(x2 − x1 ) is a multiple of g’s order, and then a multiple of
+n. Since gcd(λ, n) = 1, x2 − x1 is necessarily a multiple of n. Consequently,
+x2 − x1 = 0 mod n and (y2 /y1 )n = 1 mod n2 , which leads to the unique solution
+y2 /y1 = 1 over Z∗n. This means that x2 = x1 and y2 = y1 . Hence, Eg is bijective.
+                                                                                        t
+                                                                                        u
+
+Definition 4. Assume that g ∈ B. For w ∈ Z∗n2, we call n-th residuosity class
+of w with respect to g the unique integer x ∈ Zn for which there exists y ∈ Z∗n
+such that
+                                 Eg (x, y) = w .
+
+   Adopting Benaloh’s notations [3], the class of w is denoted [[w]]g . It is worth-
+while noticing the following property :
+
+Lemma 5. [[w]]g = 0 if and only if w is a n-th residue modulo n2 . Furthermore,
+
+                ∀w1 , w2 ∈ Z∗n2     [[w1 w2 ]]g = [[w1 ]]g + [[w2 ]]g mod n
+
+that is, the class function w 7→ [[w]]g is a homomorphism from (Z∗n2 , ×) to (Zn, +)
+for any g ∈ B.
+
+    The n-th Residuosity Class Problem of base g, denoted Class [n, g], is defined
+as the problem of computing the class function in base g : for a given w ∈ Z∗n2 ,
+compute [[w]]g from w. Before investigating further Class [n, g]’s complexity, we
+begin by stating the following useful observations :
+
+Lemma 6. Class [n, g] is random-self-reducible over w ∈ Z∗n2.
+
+Proof. Indeed, we can easily transform any w ∈ Z∗n2 into a random instance
+w0 ∈ Z∗n2 with uniform distribution, by posing w0 = w g α β n mod n2 where α
+and β are taken uniformly at random over Zn (the event β 6∈ Z∗n occurs with
+negligibly small probability). After [[w0 ]]g has been computed, one has simply to
+return [[w]]g = [[w0 ]]g − α mod n.                                              t
+                                                                                 u
+
+Lemma 7. Class [n, g] is random-self-reducible over g ∈ B, i.e.
+
+                  ∀g1 , g2 ∈ B    Class [n, g1 ]    ≡    Class [n, g2 ] .
+
+Proof. It can easily be shown that, for any w ∈ Z∗n2 and g1 , g2 ∈ B, we have
+
+                            [[w]]g1 = [[w]]g2 [[g2 ]]g1 mod n ,                      (1)

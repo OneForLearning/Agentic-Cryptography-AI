@@ -1,0 +1,82 @@
+[
+  {
+    "source_id": "crypto-paillier-001",
+    "file": "corpus/raw/crypto/paillier_original.pdf",
+    "source_sha256": "bc5e3cec2ff4cbff315f863b1155294a7bd6b7c56b3d38b3e62c8b1f8688da1d",
+    "page": 3,
+    "kind": "TRANSCRIPTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "La racine n-ième est détachée dans le texte extrait.",
+    "proposal": "Retranscrire le fragment vérifié visuellement en LaTeX : \\sqrt[n]{z}\\bmod n. Conserver séparément la question des hypothèses mathématiques."
+  },
+  {
+    "source_id": "crypto-paillier-001",
+    "file": "corpus/raw/crypto/paillier_original.pdf",
+    "source_sha256": "bc5e3cec2ff4cbff315f863b1155294a7bd6b7c56b3d38b3e62c8b1f8688da1d",
+    "page": 5,
+    "kind": "TRANSCRIPTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Les fractions de l’équation (2) sont linéarisées avec des dénominateurs ambigus.",
+    "proposal": "Formule à relire face au PDF : [[w]]_g = L(w^{\\lambda}\\bmod n^2)\\,[L(g^{\\lambda}\\bmod n^2)]^{-1}\\bmod n. L’inverse est modulo n ; ne pas utiliser une division entière."
+  },
+  {
+    "source_id": "crypto-paillier-001",
+    "file": "corpus/raw/crypto/paillier_original.pdf",
+    "source_sha256": "bc5e3cec2ff4cbff315f863b1155294a7bd6b7c56b3d38b3e62c8b1f8688da1d",
+    "page": 11,
+    "kind": "TRANSCRIPTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Des occurrences de epsilon sont perdues.",
+    "proposal": "Restaurer les fragments |\\alpha|=\\Omega(|n|^{\\varepsilon}) et \\varepsilon>0 après vérification visuelle. Ne pas confondre cette borne de sécurité avec une borne supérieure de coût."
+  },
+  {
+    "source_id": "crypto-paillier-synthesis-001",
+    "file": "corpus/raw/crypto/paillier_synthese.pdf",
+    "source_sha256": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "page": 2,
+    "kind": "TRANSCRIPTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Les exposants n et 2 sont détachés de la définition 1.",
+    "proposal": "z\\equiv y^n\\pmod{n^2}. Les domaines doivent également être retranscrits : z,y\\in\\mathbb Z_{n^2}^{*}."
+  },
+  {
+    "source_id": "crypto-paillier-synthesis-001",
+    "file": "corpus/raw/crypto/paillier_synthese.pdf",
+    "source_sha256": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "page": 5,
+    "kind": "TRANSCRIPTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Parenthèses et exposant perdus dans la propriété homomorphe.",
+    "proposal": "D(E(m_1)E(m_2)\\bmod n^2)=(m_1+m_2)\\bmod n ; D(E(m_1)^{m_2}\\bmod n^2)=m_1m_2\\bmod n. Expliciter la randomisation de E dans une version pédagogique."
+  },
+  {
+    "source_id": "crypto-paillier-synthesis-001",
+    "file": "corpus/raw/crypto/paillier_synthese.pdf",
+    "source_sha256": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "page": 5,
+    "kind": "SOURCE_CORRECTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "« Pour tout r » ne précise pas le domaine de la rerandomisation.",
+    "proposal": "Pour le schéma 1, exiger r\\in\\mathbb Z_n^*. Contre-exemple à la formulation sans restriction : r=0 produit c r^n=0 modulo n^2, hors du groupe des chiffrés valides. Pour une rerandomisation uniforme, tirer r uniformément dans ce groupe ; traiter séparément le schéma 3."
+  },
+  {
+    "source_id": "crypto-paillier-synthesis-001",
+    "file": "corpus/raw/crypto/paillier_synthese.pdf",
+    "source_sha256": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "page": 5,
+    "kind": "SOURCE_CORRECTION",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Une borne Omega sur |alpha| est utilisée pour déduire une borne supérieure de coût.",
+    "proposal": "La déduction O(|n|^2|\\alpha|)=O(|n|^{2+\\varepsilon}) est justifiée si |\\alpha|=O(|n|^\\varepsilon), notamment si |\\alpha|=Theta(|n|^\\varepsilon). Omega seul ne suffit pas."
+  },
+  {
+    "source_id": "crypto-paillier-synthesis-001",
+    "file": "corpus/raw/crypto/paillier_synthese.pdf",
+    "source_sha256": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "page": 1,
+    "kind": "PROVENANCE",
+    "status": "PROPOSED_NOT_APPLIED",
+    "observation": "Le PDF se présente comme une synthèse rédigée par Claude (Anthropic).",
+    "proposal": "Identifier cette source comme une synthèse secondaire générée déclarée ; elle ne constitue pas une confirmation indépendante de l’article. Son contenu nécessite une revue mathématique."
+  }
+]

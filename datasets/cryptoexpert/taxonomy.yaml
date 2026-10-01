@@ -1,0 +1,97 @@
+version: "cryptoexpert-dataset-v1"
+
+domains:
+  - math
+  - crypto
+  - bridge
+
+levels:
+  - L1
+  - L2
+  - PREPA
+  - L2_PREPA
+  - L3
+  - RECHERCHE
+
+languages:
+  - fr
+  - en
+
+difficulty:
+  min: 1
+  max: 5
+
+task_types:
+  - definition
+  - concept_explanation
+  - computation
+  - derivation
+  - proof
+  - proof_audit
+  - counterexample
+  - construction
+  - correctness_proof
+  - security_definition
+  - security_reduction
+  - attack_analysis
+  - protocol_analysis
+  - parameter_analysis
+  - concept_link
+  - exercise_solution
+
+math_subdomains:
+  - algebra
+  - number_theory
+  - linear_algebra
+  - probability
+  - finite_fields
+  - polynomials
+  - lattices
+  - discrete_mathematics
+  - analysis
+
+crypto_subdomains:
+  - symmetric_crypto
+  - public_key_crypto
+  - rsa
+  - diffie_hellman
+  - elgamal
+  - elliptic_curves
+  - paillier
+  - signatures
+  - kem
+  - security_models
+  - zero_knowledge
+  - homomorphic_encryption
+  - mpc
+  - lattice_crypto
+  - lwe
+  - ring_lwe
+  - module_lwe
+  - post_quantum_crypto
+  - protocols
+
+bridge_subdomains:
+  - algebra_to_crypto
+  - number_theory_to_crypto
+  - probability_to_security
+  - linear_algebra_to_crypto
+  - finite_fields_to_crypto
+  - lattices_to_pqc
+  - polynomials_to_crypto
+
+verification_methods:
+  - human
+  - symbolic
+  - numeric
+  - reference
+  - formal
+
+source_types:
+  - original
+  - book
+  - course
+  - paper
+  - standard
+  - exercise
+  - generated

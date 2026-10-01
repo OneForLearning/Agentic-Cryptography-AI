@@ -1,0 +1,47 @@
+232 Pascal Paillier
+Here, the idea consists in restricting the ciphertext space Z
+∗
+n2 to the sub-
+group <g> of smaller order by taking advantage of the following extension of
+Equation 2. Assume that g ∈B α for some 1 ≤ α ≤ λ. Then for any w ∈<g> ,
+[[w]]g = L(wα mod n2)
+L(gα mod n2) mod n. (5)
+This motivates the cryptosystem depicted below.
+Encryption :
+plaintext m<n
+randomly select r<n
+ciphertext c = gm+nr mod n2
+Decryption :
+ciphertext c<n 2
+plaintext m = L(cα mod n2)
+L(gα mod n2) mod n
+Scheme 3. Variant with fast decryption.
+Note that this time, the encryption function’s trapdoorness relies on the
+knowledge of α (instead of λ) as secret key. The most computationally expensive
+operation involved in decryption is the modular exponentiation c → cα mod n2
+which runs in complexityO
+(
+|n|2|α|
+)
+(to be compared toO
+(
+|n|3)
+in Scheme 1). If
+g is chosen in such a way that|α| = Ω (|n|ϵ)f o rs o m eϵ> 0, then decryption will
+only take O
+(
+|n|2+ϵ)
+bit operations. To the best of our knowledge, Scheme 3 is the
+only public-key cryptosystem based on modular arithmetics whose decryption
+function features such a property.
+Clearly, inverting the encryption function does not rely on the composite
+residuosity class problem, since this time the ciphertext is known to be an ele-
+ment of <g> , but on a weaker instance. More formally,
+Theorem 19. We call Partial Discrete Logarithm Problem the computational
+problem PDL [n, g] deﬁned as follows : given w ∈<g> , compute [[w]]g.T h e n
+Scheme 3 is one-way if and only if PDL[n, g] is hard.
+Theorem 20. We call Decisional Partial Discrete Logarithm Problem the de-
+cisional problem D-PDL [n, g] deﬁned as follows : given w ∈<g> and x ∈ Z
+n,
+decide whether [[w]]g = x. Then Scheme 3 is semantically secure if and only if
+D-PDL[n, g] is hard.

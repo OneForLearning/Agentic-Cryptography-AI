@@ -1,0 +1,7 @@
+1. Expliquer précisément le rôle du théorème d'Euler dans la correction de RSA.
+
+2. Pour Paillier, étudier algébriquement l'application
+f(m,r)=g^m r^n mod n^2
+et expliquer pourquoi sa structure est pertinente pour l'homomorphisme.
+
+3. Expliquer le lien mathématique entre les réseaux euclidiens, le problème LWE et les constructions cryptographiques post-quantiques.

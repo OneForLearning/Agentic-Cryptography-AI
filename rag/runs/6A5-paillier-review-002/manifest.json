@@ -1,0 +1,120 @@
+{
+  "schema": "ace-extraction-run-v1",
+  "run_id": "6A5-paillier-review-002",
+  "status": "COMPLETE",
+  "method": "math-review-candidates-v1",
+  "created_utc": "2026-09-27T00:41:19.442841+00:00",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "versions": {
+    "pypdf": "6.19.0",
+    "pymupdf": "1.28.2",
+    "pydantic": "2.13.5",
+    "pyyaml": "6.0.3",
+    "pdftotext": "pdftotext version 26.09.0"
+  },
+  "parameters": {
+    "origin_run_id": "6A4-paillier-001",
+    "origin_manifest_sha256": "40f2027a818c5ac87aeca8f2c32dae34d8768a306e314584c181a52032a31ba3",
+    "segmentation_module_sha256": "700c55844f578dc3e81ba5277a21ca395e0a40631d2579124e6bc58977e54332"
+  },
+  "sources": [
+    {
+      "id": "crypto-paillier-001",
+      "title": "Public-Key Cryptosystems Based on Composite Degree Residuosity Classes",
+      "author": "Pascal Paillier",
+      "year": 1999,
+      "lang": "en",
+      "domain": "cryptographie",
+      "level": "L3",
+      "type": "article",
+      "topics": [
+        "paillier",
+        "cryptographie_asymetrique",
+        "homomorphisme",
+        "theorie_des_nombres"
+      ],
+      "file": "corpus/raw/crypto/paillier_original.pdf",
+      "source_url": null,
+      "license": null,
+      "rights_status": "non_verifie",
+      "authority_level": null,
+      "trusted": false,
+      "admission": "catalogue",
+      "book_selected": false
+    },
+    {
+      "id": "crypto-paillier-synthesis-001",
+      "title": "Le cryptosystème de Paillier — synthèse technique",
+      "author": null,
+      "year": null,
+      "lang": "fr",
+      "domain": "cryptographie",
+      "level": "L3",
+      "type": "cours",
+      "topics": [
+        "paillier",
+        "cryptographie_asymetrique",
+        "homomorphisme",
+        "theorie_des_nombres"
+      ],
+      "file": "corpus/raw/crypto/paillier_synthese.pdf",
+      "source_url": null,
+      "license": null,
+      "rights_status": "non_verifie",
+      "authority_level": null,
+      "trusted": false,
+      "admission": "catalogue",
+      "book_selected": false
+    }
+  ],
+  "input_sha256": {
+    "corpus/raw/crypto/paillier_original.pdf": "bc5e3cec2ff4cbff315f863b1155294a7bd6b7c56b3d38b3e62c8b1f8688da1d",
+    "corpus/raw/crypto/paillier_synthese.pdf": "a13b24e642195fbeae90dd6dd91ff5bdeef800b18d6f2f9e10b6563d603f5291",
+    "corpus/catalog/sources.yaml": "41435459d62cbaae7e34ff1b6967ba4d28dbba0d12f8b73fbf147431496ece12"
+  },
+  "script_sha256": "1608f7e9d8987f4eecdb88ae53058912e950eee129bcf13dc4618eaf7f7fb199",
+  "helper_sha256": "e50b4321ca8652b23e3718ed65d6d4e1cb582841f3c3c0c4f5dca5eba0685e8d",
+  "catalog_module_sha256": "31e43703bcb12608da4047e1d0096896c86324ec68077aa05a5cb5299fd8f6ce",
+  "notice": "Artefacts expérimentaux : aucune admission automatique au RAG.",
+  "output_sha256": {
+    "catalog.yaml": "41435459d62cbaae7e34ff1b6967ba4d28dbba0d12f8b73fbf147431496ece12",
+    "correction_proposals.json": "3df4c46cf5c8c735018fa978675c9f8e8928790e0cca3b3aa9c6e6d97f0772e2",
+    "images/crypto-paillier-001-p0001.png": "c936a362c01f88ccc2c142a61281c9d4f05635966b4e2e77cc9205a3389d66ef",
+    "images/crypto-paillier-001-p0002.png": "2bc49542670e79dcf9ebdc912bb5654a7f8fa9e0aa96730256179af28851a2ef",
+    "images/crypto-paillier-001-p0003.png": "1ea62eb77390a1d6fdc0312f0f01d395a7443955c5c5c5c1dd787d9634adecbf",
+    "images/crypto-paillier-001-p0004.png": "05413d76e19b96bf51e543a94400ef324000377f2b1819b7dcbdbc608b26a38d",
+    "images/crypto-paillier-001-p0005.png": "3ccf26de7116b74fbdff4182242b80ffbf820a6989752ce716373f2a7faf386e",
+    "images/crypto-paillier-001-p0006.png": "0f4cb27f2d8cee6996d075dd5deaf26c03226588fe35a8e475f330049fb97439",
+    "images/crypto-paillier-001-p0007.png": "e311bb5dd4098760fe9ba292b48ebaa96873af5945506551b6b097c0b0ff420c",
+    "images/crypto-paillier-001-p0008.png": "4ab5f2dc5a9fbcf7078e85ba3a165b82866a8e2aad545eaed8e7055b2371a6a7",
+    "images/crypto-paillier-001-p0009.png": "93ef0108f7e682a60676946a2a57815edd726a8ddbf74a7b6dc62bc13ffca8ac",
+    "images/crypto-paillier-001-p0010.png": "164965924aabfc7ea21f8c5a0b9ae47ee94f4510f65c6c80c69de2dba66641ee",
+    "images/crypto-paillier-001-p0011.png": "1343a993db98ea039ddf0fa1b66a02d808e4dbe4ad23f98439e100e807b1a419",
+    "images/crypto-paillier-001-p0012.png": "fe6ee0165cdcf17e0dc14042061fed09c51b1d8f95973008f73fb4bfceffe15d",
+    "images/crypto-paillier-001-p0013.png": "36db40f6968b54233d88b13aa8760b5a91656241d381ee40f60172bfd8c706ab",
+    "images/crypto-paillier-001-p0014.png": "13426f5038816e2cd442bec1eca8ef44ada2f0679bc1671c09e5ddfef878340b",
+    "images/crypto-paillier-001-p0015.png": "bc6f19be58fc436dfb378d49762b8f3b74766d53d9beee3b1fe1fe8ba1b58f30",
+    "images/crypto-paillier-001-p0016.png": "47f6d79b01276a9caa9131e473759f12545b8edb69aed05f5a94f5db9afdeb29",
+    "images/crypto-paillier-synthesis-001-p0001.png": "97a0c7b8ad13a2cd86a3f57e8d34b3f4ba0a763de6ec6bc871b01d58c0b8ada3",
+    "images/crypto-paillier-synthesis-001-p0002.png": "307a722ae89a52776f1d9a3a70806df223ce5cf7f43cc0706a96e0721ae9d2ab",
+    "images/crypto-paillier-synthesis-001-p0003.png": "f375d7694e207712563b28a84725623b1aaa40bf6d67eb12e53044d839373247",
+    "images/crypto-paillier-synthesis-001-p0004.png": "332feb84898f09d15f2915fff7543b8eb6498203559dbe1eaab1d4cf4d37c7a9",
+    "images/crypto-paillier-synthesis-001-p0005.png": "cb2584466421491a4aeb2183dca0ff9c9afbd7eefbd90926b24f08b78c7c6ea2",
+    "images/crypto-paillier-synthesis-001-p0006.png": "3dbe7d5a312ef5a5c2b94e49b7c5b1a10328d4e7cda90119a4d4680e6b860daf",
+    "origin_manifest.json": "40f2027a818c5ac87aeca8f2c32dae34d8768a306e314584c181a52032a31ba3",
+    "review.html": "6124049b7863ed040db5ad6f609404e27a23696f358fadd8f64bf7b3abe4426e",
+    "review_pages.jsonl": "25d70470c5664e4dd9b9b8d5c1b64c135462e2ad1f0f144b26cfaee460240fc1",
+    "spatial_pages.jsonl": "7d65186d8a5d0573902423c00f03f5c6aa6deed8e9eea54a95f55e47cafa79f0",
+    "units.jsonl": "13cf91fa283569732d2901e97513ed84adf2f36833870cee9013c66e7b192c33"
+  },
+  "counts": {
+    "sources": 2,
+    "pages": 22,
+    "units": 81,
+    "proof_links_candidate": 10,
+    "proposals": 8,
+    "admitted_units": 0
+  },
+  "completed_utc": "2026-09-27T00:41:19.937982+00:00"
+}

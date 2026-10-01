@@ -1,0 +1,939 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import unicodedata
+import uuid
+from collections import defaultdict
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Iterable, Iterator
+
+
+HEADING_LEVELS = {
+    "part": 0,
+    "chapter": 1,
+    "section": 2,
+    "subsection": 3,
+    "subsubsection": 4,
+    "paragraph": 5,
+}
+
+FORMAL_ENV_CANONICAL = {
+    "definition": "definition",
+    "theorem": "theorem",
+    "proposition": "proposition",
+    "lemma": "lemma",
+    "corollary": "corollary",
+    "claim": "claim",
+    "axiom": "axiom",
+    "notation": "notation",
+    "remark": "remark",
+    "remarks": "remark",
+    "example": "example",
+    "example*": "example",
+    "examples": "example_set",
+    "examples*": "example_set",
+    "problem": "problem",
+    "problem*": "problem",
+    "exercise": "exercise",
+    "question": "question",
+    "warning": "warning",
+    "pitfall": "pitfall",
+    "method": "method",
+    "wex": "example",
+    "exers": "exercise_set",
+    "proof": "proof",
+    "subproof": "proof",
+    "solution": "solution",
+}
+
+STATEMENT_TYPES = {
+    "definition", "theorem", "proposition", "lemma", "corollary", "claim",
+    "axiom", "notation", "remark", "example", "example_set", "problem",
+    "exercise", "question", "warning", "pitfall", "method", "exercise_set",
+}
+
+PROOF_TYPES = {"proof", "solution"}
+
+PROTECTED_ENVIRONMENTS = {
+    "align", "align*", "equation", "equation*", "gather", "gather*",
+    "multline", "multline*", "cases", "array", "matrix", "pmatrix",
+    "bmatrix", "vmatrix", "smallmatrix", "psmallmatrix", "tikzcd",
+    "tikzpicture", "enumerate", "itemize", "description", "tabular",
+    "tabularx", "algorithm", "algorithmic", "figure", "table",
+}
+
+STANDARD_COMMANDS = {
+    "begin", "end", "documentclass", "usepackage", "title", "author", "date",
+    "maketitle", "section", "subsection", "subsubsection", "chapter", "part",
+    "paragraph", "label", "ref", "eqref", "autoref", "cref", "Cref",
+    "text", "textbf", "textit", "emph", "mathrm", "mathbf", "mathbb",
+    "mathcal", "mathfrak", "operatorname", "left", "right", "big", "Big",
+    "bigl", "bigr", "Bigl", "Bigr", "frac", "dfrac", "tfrac", "sqrt",
+    "sum", "prod", "int", "lim", "sup", "inf", "max", "min", "log", "ln",
+    "sin", "cos", "tan", "exp", "det", "ker", "dim", "gcd", "mod", "pmod",
+    "bmod", "cdot", "times", "pm", "mp", "le", "leq", "ge", "geq", "neq",
+    "in", "notin", "subset", "subseteq", "supset", "supseteq", "cup", "cap",
+    "setminus", "emptyset", "varnothing", "forall", "exists", "neg", "land",
+    "lor", "implies", "iff", "to", "mapsto", "rightarrow", "leftarrow",
+    "Rightarrow", "Leftarrow", "Leftrightarrow", "infty", "partial", "nabla",
+    "lambda", "mu", "sigma", "Sigma", "phi", "varphi", "theta", "alpha",
+    "beta", "gamma", "delta", "epsilon", "varepsilon", "omega", "Omega",
+    "ell", "ldots", "cdots", "dots", "quad", "qquad", "hfill", "noindent",
+    "item", "footnote", "cite", "url", "href", "includegraphics", "centering",
+    "caption", "vspace", "hspace", "phantom", "qed", "qedsymbol", "ensuremath",
+    "newcommand", "renewcommand", "providecommand", "DeclareMathOperator",
+    "newtheorem", "newenvironment", "renewenvironment", "input", "include",
+}
+
+
+@dataclass
+class Span:
+    start: int
+    end: int
+    body_start: int
+    body_end: int
+    env: str
+    depth: int
+
+
+def sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def stable_id(prefix: str, *parts: str) -> str:
+    material = "\x1f".join(parts)
+    digest = hashlib.sha256(material.encode("utf-8")).hexdigest()[:20]
+    return f"{prefix}-{digest}"
+
+
+def qdrant_uuid(value: str) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, "livre-crypto:" + value))
+
+
+def normalize_unicode(text: str) -> str:
+    return unicodedata.normalize("NFC", text)
+
+
+def strip_comments(text: str) -> str:
+    out: list[str] = []
+    for line in text.splitlines(keepends=True):
+        i = 0
+        cut = None
+        while i < len(line):
+            if line[i] == "%":
+                backslashes = 0
+                j = i - 1
+                while j >= 0 and line[j] == "\\":
+                    backslashes += 1
+                    j -= 1
+                if backslashes % 2 == 0:
+                    cut = i
+                    break
+            i += 1
+        if cut is None:
+            out.append(line)
+        else:
+            newline = "\n" if line.endswith("\n") else ""
+            out.append(line[:cut] + newline)
+    return "".join(out)
+
+
+def read_braced(text: str, open_pos: int) -> tuple[str, int] | None:
+    if open_pos >= len(text) or text[open_pos] != "{":
+        return None
+    depth = 0
+    i = open_pos
+    start = open_pos + 1
+    while i < len(text):
+        ch = text[i]
+        if ch == "\\":
+            i += 2
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:i], i + 1
+        i += 1
+    return None
+
+
+def read_optional(text: str, open_pos: int) -> tuple[str, int] | None:
+    if open_pos >= len(text) or text[open_pos] != "[":
+        return None
+    depth = 0
+    i = open_pos
+    start = open_pos + 1
+    while i < len(text):
+        ch = text[i]
+        if ch == "\\":
+            i += 2
+            continue
+        if ch == "[":
+            depth += 1
+        elif ch == "]":
+            depth -= 1
+            if depth == 0:
+                return text[start:i], i + 1
+        i += 1
+    return None
+
+
+def skip_ws(text: str, pos: int) -> int:
+    while pos < len(text) and text[pos].isspace():
+        pos += 1
+    return pos
+
+
+def line_number(text: str, pos: int) -> int:
+    return text.count("\n", 0, max(0, pos)) + 1
+
+
+def parse_command_arg(text: str, command_start: int, command_name: str) -> tuple[str | None, int]:
+    pos = command_start + 1 + len(command_name)
+    if pos < len(text) and text[pos] == "*":
+        pos += 1
+    pos = skip_ws(text, pos)
+    result = read_braced(text, pos)
+    if not result:
+        return None, pos
+    return result
+
+
+def extract_headings(text: str) -> list[dict]:
+    headings: list[dict] = []
+    pattern = re.compile(r"\\(part|chapter|section|subsection|subsubsection|paragraph)(\*)?")
+    for m in pattern.finditer(text):
+        pos = skip_ws(text, m.end())
+        result = read_braced(text, pos)
+        if not result:
+            continue
+        title, end = result
+        headings.append({
+            "kind": m.group(1),
+            "level": HEADING_LEVELS[m.group(1)],
+            "title": title.strip(),
+            "starred": bool(m.group(2)),
+            "start": m.start(),
+            "end": end,
+        })
+    return headings
+
+
+def extract_environment_spans(text: str, wanted: set[str] | None = None) -> list[Span]:
+    token_re = re.compile(r"\\(begin|end)\{([^}]+)\}")
+    stack: list[tuple[str, int, int, int]] = []
+    spans: list[Span] = []
+    for m in token_re.finditer(text):
+        kind, env = m.group(1), m.group(2)
+        if kind == "begin":
+            stack.append((env, m.start(), m.end(), len(stack)))
+            continue
+        idx = None
+        for i in range(len(stack) - 1, -1, -1):
+            if stack[i][0] == env:
+                idx = i
+                break
+        if idx is None:
+            continue
+        benv, bstart, body_start, depth = stack[idx]
+        del stack[idx:]
+        if wanted is None or env in wanted:
+            spans.append(Span(bstart, m.end(), body_start, m.start(), env, depth))
+    spans.sort(key=lambda s: (s.start, -s.end))
+    return spans
+
+
+def outermost_formal_spans(text: str, env_map: dict[str, str]) -> list[Span]:
+    spans = extract_environment_spans(text, set(env_map))
+    result: list[Span] = []
+    for span in spans:
+        nested = False
+        for parent in result:
+            if parent.start <= span.start and span.end <= parent.end:
+                nested = True
+                break
+        if not nested:
+            result.append(span)
+    return result
+
+
+def parse_env_title(text: str, span: Span) -> str | None:
+    pos = skip_ws(text, span.body_start)
+    opt = read_optional(text, pos)
+    if opt:
+        title, _ = opt
+        return title.strip() or None
+    # Custom environments wex/method/exers use mandatory first argument.
+    if span.env in {"wex", "method", "exers"}:
+        br = read_braced(text, pos)
+        if br:
+            title, _ = br
+            return title.strip() or None
+    return None
+
+
+def extract_labels(text: str) -> list[str]:
+    return re.findall(r"\\label\{([^}]+)\}", text)
+
+
+def extract_refs(text: str) -> list[str]:
+    return re.findall(r"\\(?:ref|eqref|autoref|cref|Cref)\{([^}]+)\}", text)
+
+
+def extract_command_names(text: str) -> set[str]:
+    return set(re.findall(r"\\([A-Za-z@]+)", text))
+
+
+def parse_macros(text: str, source_file: str, document_id: str) -> list[dict]:
+    records: list[dict] = []
+    # Brace-aware parsing of newcommand-family. Handles common forms in this corpus.
+    pat = re.compile(r"\\(newcommand|renewcommand|providecommand)\*?")
+    for m in pat.finditer(text):
+        pos = skip_ws(text, m.end())
+        name = None
+        if pos < len(text) and text[pos] == "{":
+            br = read_braced(text, pos)
+            if not br:
+                continue
+            rawname, pos = br
+            nm = re.search(r"\\([A-Za-z@]+)", rawname)
+            name = nm.group(1) if nm else None
+        elif pos < len(text) and text[pos] == "\\":
+            nm = re.match(r"\\([A-Za-z@]+)", text[pos:])
+            if nm:
+                name = nm.group(1)
+                pos += len(nm.group(0))
+        if not name:
+            continue
+        pos = skip_ws(text, pos)
+        nargs = 0
+        default = None
+        opt = read_optional(text, pos)
+        if opt:
+            value, pos = opt
+            if value.strip().isdigit():
+                nargs = int(value.strip())
+                pos = skip_ws(text, pos)
+                opt2 = read_optional(text, pos)
+                if opt2:
+                    default, pos = opt2
+            else:
+                default = value
+        pos = skip_ws(text, pos)
+        definition = read_braced(text, pos)
+        if not definition:
+            continue
+        repl, end = definition
+        records.append({
+            "document_id": document_id,
+            "command": name,
+            "kind": m.group(1),
+            "num_args": nargs,
+            "default_arg": default,
+            "definition": repl,
+            "source_file": source_file,
+            "line": line_number(text, m.start()),
+        })
+    op_pat = re.compile(r"\\DeclareMathOperator\*?")
+    for m in op_pat.finditer(text):
+        pos = skip_ws(text, m.end())
+        br1 = read_braced(text, pos)
+        if not br1:
+            continue
+        rawname, pos = br1
+        nm = re.search(r"\\([A-Za-z@]+)", rawname)
+        if not nm:
+            continue
+        pos = skip_ws(text, pos)
+        br2 = read_braced(text, pos)
+        if not br2:
+            continue
+        definition, _ = br2
+        records.append({
+            "document_id": document_id,
+            "command": nm.group(1),
+            "kind": "DeclareMathOperator",
+            "num_args": 0,
+            "default_arg": None,
+            "definition": definition,
+            "source_file": source_file,
+            "line": line_number(text, m.start()),
+        })
+    return records
+
+
+def detect_new_environments(text: str) -> dict[str, str]:
+    env_map = dict(FORMAL_ENV_CANONICAL)
+    for m in re.finditer(r"\\newtheorem\*?\{([^}]+)\}", text):
+        env = m.group(1)
+        low = env.lower()
+        canonical = FORMAL_ENV_CANONICAL.get(low)
+        if canonical:
+            env_map[env] = canonical
+            continue
+        for key, val in FORMAL_ENV_CANONICAL.items():
+            if key.rstrip("*") in low:
+                env_map[env] = val
+                break
+    for m in re.finditer(r"\\(?:newenvironment|renewenvironment)\*?\{([^}]+)\}", text):
+        env = m.group(1)
+        if env in FORMAL_ENV_CANONICAL:
+            env_map[env] = FORMAL_ENV_CANONICAL[env]
+    return env_map
+
+
+def title_author_docclass(text: str) -> tuple[str | None, str | None, str | None]:
+    def arg(command: str) -> str | None:
+        m = re.search(r"\\" + command + r"(?:\[[^\]]*\])?", text)
+        if not m:
+            return None
+        pos = skip_ws(text, m.end())
+        br = read_braced(text, pos)
+        return br[0].strip() if br else None
+    return arg("title"), arg("author"), arg("documentclass")
+
+
+def input_targets(text: str) -> list[str]:
+    return re.findall(r"\\(?:input|include|subfile)\s*\{([^}]+)\}", text)
+
+
+def resolve_input(parent: Path, target: str) -> Path | None:
+    candidate = parent / target
+    choices = [candidate]
+    if candidate.suffix.lower() != ".tex":
+        choices.append(candidate.with_suffix(".tex"))
+    for c in choices:
+        if c.exists() and c.is_file():
+            return c.resolve()
+    return None
+
+
+def infer_language(text: str) -> str:
+    # Deliberately conservative; metadata is not always available.
+    low = text.lower()
+    fr = sum(low.count(x) for x in [" le ", " la ", " les ", " définition", " théorème", " soit "])
+    en = sum(low.count(x) for x in [" the ", " and ", " definition", " theorem", " let ", " proof"])
+    if fr > en * 1.3 and fr > 5:
+        return "fr"
+    if en > fr * 1.3 and en > 5:
+        return "en"
+    return "unknown"
+
+
+def find_document_roots(latex_root: Path) -> list[Path]:
+    roots: list[Path] = []
+    for p in sorted(latex_root.rglob("*.tex")):
+        if any(part in {"__MACOSX", ".git", ".venv"} for part in p.parts):
+            continue
+        try:
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        if "\\documentclass" in text:
+            roots.append(p.resolve())
+    return roots
+
+
+def build_document_graph(latex_root: Path) -> tuple[list[dict], dict[str, list[Path]]]:
+    roots = find_document_roots(latex_root)
+    documents: list[dict] = []
+    components: dict[str, list[Path]] = {}
+
+    for root in roots:
+        relroot = str(root.relative_to(latex_root.resolve()))
+        root_text = normalize_unicode(root.read_text(encoding="utf-8", errors="replace"))
+        title, author, docclass = title_author_docclass(root_text)
+        if not title:
+            title = root.stem.replace("-", " ").replace("_", " ").strip()
+        source_group = Path(relroot).parts[0] if Path(relroot).parts else "unknown"
+        document_id = stable_id("doc", relroot)
+        ordered: list[Path] = []
+        seen: set[Path] = set()
+        missing: list[dict] = []
+
+        def visit(path: Path) -> None:
+            rp = path.resolve()
+            if rp in seen:
+                return
+            seen.add(rp)
+            ordered.append(rp)
+            text = normalize_unicode(path.read_text(encoding="utf-8", errors="replace"))
+            for target in input_targets(text):
+                resolved = resolve_input(path.parent, target)
+                if resolved is None:
+                    missing.append({"from": str(path.relative_to(latex_root)), "target": target})
+                else:
+                    visit(resolved)
+
+        visit(root)
+        components[document_id] = ordered
+        combined_sample = "\n".join(
+            p.read_text(encoding="utf-8", errors="replace")[:10000]
+            for p in ordered[:4]
+        )
+        missing_preamble = any(x["target"].lower().endswith("preamble.tex") or x["target"].lower() == "preamble" for x in missing)
+        documents.append({
+            "document_id": document_id,
+            "root_file": relroot,
+            "source_group": source_group,
+            "title": title,
+            "author": author,
+            "documentclass": docclass,
+            "language": infer_language(combined_sample),
+            "component_files": [str(p.relative_to(latex_root)) for p in ordered],
+            "missing_inputs": missing,
+            "complete_inputs": not bool(missing),
+            "macro_context_complete": not missing_preamble,
+            "root_sha256": sha256_text(root_text),
+        })
+
+    return documents, components
+
+
+def canonical_path_state(headings: list[dict], pos: int) -> list[dict]:
+    state: dict[int, dict] = {}
+    for h in headings:
+        if h["start"] > pos:
+            break
+        level = h["level"]
+        state[level] = {"kind": h["kind"], "title": h["title"]}
+        for k in list(state):
+            if k > level:
+                del state[k]
+    return [state[k] for k in sorted(state)]
+
+
+def document_body_bounds(text: str) -> tuple[int, int]:
+    begin = re.search(r"\\begin\{document\}", text)
+    end = re.search(r"\\end\{document\}", text)
+    start = begin.end() if begin else 0
+    finish = end.start() if end else len(text)
+    return start, finish
+
+
+def clean_prose_for_embedding(text: str) -> str:
+    text = strip_comments(text)
+    text = re.sub(r"\\label\{[^}]+\}", " ", text)
+    text = re.sub(r"\\(?:ref|eqref|autoref|cref|Cref)\{([^}]+)\}", r" [REF:\1] ", text)
+    # unwrap common one-argument formatting commands conservatively
+    for cmd in ["emph", "textbf", "textit", "vocab", "mathrm", "mathbf", "mathbb", "mathcal", "mathfrak", "text"]:
+        pattern = re.compile(r"\\" + cmd + r"\{([^{}]*)\}")
+        for _ in range(3):
+            new = pattern.sub(r"\1", text)
+            if new == text:
+                break
+            text = new
+    text = re.sub(r"\\(?:begin|end)\{(?:center)\}", " ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def split_safe_blocks(text: str) -> list[str]:
+    """Split at blank lines only when not inside an environment or display math."""
+    blocks: list[str] = []
+    start = 0
+    env_depth = 0
+    display_depth = 0
+    i = 0
+    while i < len(text):
+        if text.startswith("\\begin{", i):
+            j = text.find("}", i + 7)
+            if j != -1:
+                env_depth += 1
+                i = j + 1
+                continue
+        if text.startswith("\\end{", i):
+            j = text.find("}", i + 5)
+            if j != -1:
+                env_depth = max(0, env_depth - 1)
+                i = j + 1
+                continue
+        if text.startswith("\\[", i):
+            display_depth += 1
+            i += 2
+            continue
+        if text.startswith("\\]", i):
+            display_depth = max(0, display_depth - 1)
+            i += 2
+            continue
+        if text.startswith("$$", i):
+            display_depth = 1 - min(display_depth, 1)
+            i += 2
+            continue
+        if text.startswith("\n\n", i) and env_depth == 0 and display_depth == 0:
+            block = text[start:i].strip()
+            if block:
+                blocks.append(block)
+            while i < len(text) and text[i] == "\n":
+                i += 1
+            start = i
+            continue
+        i += 1
+    tail = text[start:].strip()
+    if tail:
+        blocks.append(tail)
+    return blocks
+
+
+def split_to_size(text: str, max_chars: int, target_chars: int, overlap_chars: int = 0) -> list[str]:
+    if len(text) <= max_chars:
+        return [text.strip()] if text.strip() else []
+    blocks = split_safe_blocks(text)
+    if not blocks:
+        return [text[i:i+max_chars] for i in range(0, len(text), max_chars)]
+    chunks: list[str] = []
+    cur: list[str] = []
+    size = 0
+    for block in blocks:
+        bsize = len(block) + 2
+        if bsize > max_chars:
+            if cur:
+                chunks.append("\n\n".join(cur).strip())
+                cur = []
+                size = 0
+            # Fallback: sentence-aware split for giant prose block.
+            sentences = re.split(r"(?<=[.!?])\s+(?=[A-Z])", block)
+            sub = ""
+            for sentence in sentences:
+                if len(sub) + len(sentence) + 1 > max_chars and sub:
+                    chunks.append(sub.strip())
+                    sub = ""
+                if len(sentence) > max_chars:
+                    for i in range(0, len(sentence), max_chars):
+                        piece = sentence[i:i+max_chars].strip()
+                        if piece:
+                            chunks.append(piece)
+                else:
+                    sub = (sub + " " + sentence).strip()
+            if sub:
+                chunks.append(sub.strip())
+            continue
+        if cur and size + bsize > target_chars:
+            chunks.append("\n\n".join(cur).strip())
+            cur = []
+            size = 0
+        cur.append(block)
+        size += bsize
+    if cur:
+        chunks.append("\n\n".join(cur).strip())
+    # overlap is intentionally not injected for formal blocks; caller controls it.
+    if overlap_chars > 0 and len(chunks) > 1:
+        out = [chunks[0]]
+        for i in range(1, len(chunks)):
+            prev = clean_prose_for_embedding(chunks[i-1])
+            prefix = prev[-overlap_chars:]
+            out.append((prefix + "\n\n" + chunks[i]).strip())
+        return out
+    return chunks
+
+
+def formal_units_for_file(
+    document: dict,
+    source_file: Path,
+    latex_root: Path,
+    macro_names: set[str],
+) -> list[dict]:
+    raw = normalize_unicode(source_file.read_text(encoding="utf-8", errors="replace"))
+    body_start, body_end = document_body_bounds(raw)
+    headings = extract_headings(raw)
+    env_map = detect_new_environments(raw)
+    spans = outermost_formal_spans(raw, env_map)
+    units: list[dict] = []
+    rel = str(source_file.relative_to(latex_root))
+
+    # formal units
+    for idx, span in enumerate(spans):
+        if span.start < body_start or span.end > body_end:
+            continue
+        latex = raw[span.start:span.end].strip()
+        canonical = env_map.get(span.env, FORMAL_ENV_CANONICAL.get(span.env, span.env))
+        title = parse_env_title(raw, span)
+        labels = extract_labels(latex)
+        refs = extract_refs(latex)
+        commands = extract_command_names(latex)
+        macros_used = sorted((commands & macro_names) - STANDARD_COMMANDS)
+        label = labels[0] if labels else None
+        unit_id = stable_id("unit", document["document_id"], rel, str(span.start), canonical, label or "")
+        units.append({
+            "unit_id": unit_id,
+            "document_id": document["document_id"],
+            "source_file": rel,
+            "unit_type": canonical,
+            "environment": span.env,
+            "title": title,
+            "label": label,
+            "labels": labels,
+            "references": refs,
+            "section_path": canonical_path_state(headings, span.start),
+            "line_start": line_number(raw, span.start),
+            "line_end": line_number(raw, span.end),
+            "char_start": span.start,
+            "char_end": span.end,
+            "latex": latex,
+            "macros_used": macros_used,
+            "proof_of": None,
+            "related_unit_ids": [],
+            "content_hash": sha256_text(latex),
+            "kind": "formal",
+        })
+
+    # prose units between headings/formal spans. Headings themselves are boundaries.
+    boundaries = [(body_start, body_start, "start")]
+    for h in headings:
+        if body_start <= h["start"] < body_end:
+            boundaries.append((h["start"], h["end"], "heading"))
+    for span in spans:
+        if body_start <= span.start < body_end:
+            boundaries.append((span.start, span.end, "formal"))
+    boundaries.append((body_end, body_end, "end"))
+    boundaries.sort(key=lambda x: (x[0], x[1]))
+
+    cursor = body_start
+    for start, end, kind in boundaries[1:]:
+        if start > cursor:
+            segment = raw[cursor:start].strip()
+            cleaned = clean_prose_for_embedding(segment)
+            if len(cleaned) >= 180 and not segment.startswith("\\maketitle"):
+                refs = extract_refs(segment)
+                commands = extract_command_names(segment)
+                macros_used = sorted((commands & macro_names) - STANDARD_COMMANDS)
+                unit_id = stable_id("unit", document["document_id"], rel, str(cursor), "prose")
+                units.append({
+                    "unit_id": unit_id,
+                    "document_id": document["document_id"],
+                    "source_file": rel,
+                    "unit_type": "prose",
+                    "environment": None,
+                    "title": None,
+                    "label": None,
+                    "labels": extract_labels(segment),
+                    "references": refs,
+                    "section_path": canonical_path_state(headings, cursor),
+                    "line_start": line_number(raw, cursor),
+                    "line_end": line_number(raw, start),
+                    "char_start": cursor,
+                    "char_end": start,
+                    "latex": segment,
+                    "macros_used": macros_used,
+                    "proof_of": None,
+                    "related_unit_ids": [],
+                    "content_hash": sha256_text(segment),
+                    "kind": "prose",
+                })
+        cursor = max(cursor, end)
+
+    units.sort(key=lambda u: (u["source_file"], u["char_start"]))
+    return units
+
+
+def pair_proofs(units: list[dict], max_gap_chars: int = 3500) -> None:
+    by_file: dict[str, list[dict]] = defaultdict(list)
+    for unit in units:
+        by_file[unit["source_file"]].append(unit)
+    for file_units in by_file.values():
+        file_units.sort(key=lambda u: u["char_start"])
+        last_statement: dict | None = None
+        for unit in file_units:
+            if unit["unit_type"] in STATEMENT_TYPES:
+                last_statement = unit
+                continue
+            if unit["unit_type"] not in PROOF_TYPES:
+                continue
+            if not last_statement:
+                continue
+            same_section = unit["section_path"] == last_statement["section_path"]
+            gap = unit["char_start"] - last_statement["char_end"]
+            if same_section and 0 <= gap <= max_gap_chars:
+                unit["proof_of"] = last_statement["unit_id"]
+                if unit["unit_id"] not in last_statement["related_unit_ids"]:
+                    last_statement["related_unit_ids"].append(unit["unit_id"])
+                if last_statement["unit_id"] not in unit["related_unit_ids"]:
+                    unit["related_unit_ids"].append(last_statement["unit_id"])
+
+
+def macro_context_for_unit(unit: dict, macro_index: dict[tuple[str, str], dict], max_items: int = 20) -> list[dict]:
+    result = []
+    for name in unit.get("macros_used", [])[:max_items]:
+        record = macro_index.get((unit["document_id"], name))
+        if record:
+            result.append({
+                "command": name,
+                "num_args": record.get("num_args", 0),
+                "definition": record.get("definition"),
+                "kind": record.get("kind"),
+            })
+    return result
+
+
+def section_path_text(path: list[dict]) -> str:
+    return " > ".join(x.get("title", "") for x in path if x.get("title"))
+
+
+def make_embedding_text(document: dict, unit: dict, latex_piece: str, macro_context: list[dict], part: int, total: int) -> str:
+    pieces = []
+    if document.get("title"):
+        pieces.append(f"Course: {clean_prose_for_embedding(document['title'])}")
+    path_text = section_path_text(unit.get("section_path", []))
+    if path_text:
+        pieces.append(f"Section: {clean_prose_for_embedding(path_text)}")
+    pieces.append(f"Type: {unit['unit_type']}")
+    if unit.get("title"):
+        pieces.append(f"Title: {clean_prose_for_embedding(unit['title'])}")
+    if unit.get("label"):
+        pieces.append(f"Label: {unit['label']}")
+    if unit.get("proof_of"):
+        pieces.append(f"Relation: proof_of={unit['proof_of']}")
+    if total > 1:
+        pieces.append(f"Part: {part}/{total}")
+    if macro_context:
+        defs = "; ".join(
+            f"\\{m['command']} := {m.get('definition', '')}" for m in macro_context
+        )
+        pieces.append("Local macros: " + defs)
+    pieces.append("Content:\n" + clean_prose_for_embedding(latex_piece))
+    return "\n".join(pieces).strip()
+
+
+def build_chunks(
+    documents: list[dict],
+    units: list[dict],
+    macros: list[dict],
+    max_chars: int = 6000,
+    target_chars: int = 4500,
+    prose_overlap_chars: int = 500,
+    max_macro_context: int = 20,
+) -> list[dict]:
+    doc_index = {d["document_id"]: d for d in documents}
+    macro_index: dict[tuple[str, str], dict] = {}
+    for m in macros:
+        macro_index[(m["document_id"], m["command"])] = m
+    chunks: list[dict] = []
+    for unit in units:
+        latex = unit["latex"]
+        overlap = prose_overlap_chars if unit["unit_type"] == "prose" else 0
+        parts = split_to_size(latex, max_chars=max_chars, target_chars=target_chars, overlap_chars=overlap)
+        if not parts:
+            continue
+        macro_context = macro_context_for_unit(unit, macro_index, max_macro_context)
+        doc = doc_index[unit["document_id"]]
+        for i, piece in enumerate(parts, 1):
+            chunk_id = stable_id("chunk", unit["unit_id"], str(i), sha256_text(piece))
+            embedding_text = make_embedding_text(doc, unit, piece, macro_context, i, len(parts))
+            chunks.append({
+                "chunk_id": chunk_id,
+                "qdrant_id": qdrant_uuid(chunk_id),
+                "document_id": unit["document_id"],
+                "source_group": doc.get("source_group"),
+                "course_title": doc.get("title"),
+                "language": doc.get("language"),
+                "source_file": unit["source_file"],
+                "unit_id": unit["unit_id"],
+                "unit_type": unit["unit_type"],
+                "environment": unit.get("environment"),
+                "title": unit.get("title"),
+                "label": unit.get("label"),
+                "labels": unit.get("labels", []),
+                "section_path": unit.get("section_path", []),
+                "section_path_text": section_path_text(unit.get("section_path", [])),
+                "proof_of": unit.get("proof_of"),
+                "related_unit_ids": unit.get("related_unit_ids", []),
+                "references": unit.get("references", []),
+                "macros_used": unit.get("macros_used", []),
+                "macro_context": macro_context,
+                "part": i,
+                "parts_total": len(parts),
+                "embedding_text": embedding_text,
+                "latex": piece,
+                "content_hash": sha256_text(piece),
+                "source_line_start": unit.get("line_start"),
+                "source_line_end": unit.get("line_end"),
+                "document_complete_inputs": doc.get("complete_inputs"),
+                "macro_context_complete": doc.get("macro_context_complete"),
+            })
+    return chunks
+
+
+def build_relations(documents: list[dict], units: list[dict]) -> tuple[list[dict], dict]:
+    relations: list[dict] = []
+    label_by_doc: dict[tuple[str, str], str] = {}
+    duplicate_scoped: list[tuple[str, str]] = []
+    for unit in units:
+        for label in unit.get("labels", []):
+            key = (unit["document_id"], label)
+            if key in label_by_doc and label_by_doc[key] != unit["unit_id"]:
+                duplicate_scoped.append(key)
+            else:
+                label_by_doc[key] = unit["unit_id"]
+    for unit in units:
+        if unit.get("proof_of"):
+            relations.append({
+                "relation_id": stable_id("rel", "proof_of", unit["unit_id"], unit["proof_of"]),
+                "type": "proof_of",
+                "from_unit_id": unit["unit_id"],
+                "to_unit_id": unit["proof_of"],
+                "document_id": unit["document_id"],
+            })
+        for ref in unit.get("references", []):
+            target = label_by_doc.get((unit["document_id"], ref))
+            relations.append({
+                "relation_id": stable_id("rel", "references", unit["unit_id"], ref, target or "unresolved"),
+                "type": "references",
+                "from_unit_id": unit["unit_id"],
+                "to_unit_id": target,
+                "target_label": ref,
+                "document_id": unit["document_id"],
+                "resolved": target is not None,
+            })
+    unit_by_doc_file = defaultdict(list)
+    for unit in units:
+        unit_by_doc_file[(unit["document_id"], unit["source_file"])].append(unit)
+    for key, seq in unit_by_doc_file.items():
+        seq.sort(key=lambda u: u["char_start"])
+        for a, b in zip(seq, seq[1:]):
+            relations.append({
+                "relation_id": stable_id("rel", "next", a["unit_id"], b["unit_id"]),
+                "type": "next",
+                "from_unit_id": a["unit_id"],
+                "to_unit_id": b["unit_id"],
+                "document_id": a["document_id"],
+            })
+    stats = {
+        "labels_scoped": len(label_by_doc),
+        "duplicate_labels_within_document": len(set(duplicate_scoped)),
+        "reference_edges": sum(1 for r in relations if r["type"] == "references"),
+        "unresolved_reference_edges": sum(1 for r in relations if r["type"] == "references" and not r.get("resolved")),
+        "proof_edges": sum(1 for r in relations if r["type"] == "proof_of"),
+    }
+    return relations, stats
+
+
+def write_jsonl(path: Path, records: Iterable[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8") as f:
+        for record in records:
+            f.write(json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n")
+    tmp.replace(path)
+
+
+def read_jsonl(path: Path) -> list[dict]:
+    records = []
+    with path.open("r", encoding="utf-8") as f:
+        for n, line in enumerate(f, 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise RuntimeError(f"Invalid JSONL {path}:{n}: {exc}") from exc
+            if not isinstance(obj, dict):
+                raise RuntimeError(f"Expected object at {path}:{n}")
+            records.append(obj)
+    return records

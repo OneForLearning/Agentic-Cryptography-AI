@@ -1,0 +1,47 @@
+version: 1
+paths:
+  latex_root: corpus/raw/latex/expanded
+  processed_dir: corpus/processed/latex
+  documents: corpus/processed/latex/documents.jsonl
+  macros: corpus/processed/latex/macros.jsonl
+  units: corpus/processed/latex/units.jsonl
+  relations: corpus/processed/latex/relations.jsonl
+  chunks: corpus/processed/latex/chunks.jsonl
+  lexical_db: corpus/processed/latex/lexical.db
+
+extraction:
+  include_extensions: [".tex"]
+  ignore_dirs: ["__MACOSX", ".git", ".venv", "node_modules"]
+  ignore_files: [".DS_Store"]
+  preserve_raw_latex: true
+  scope_labels_by_document: true
+  pair_proofs: true
+  proof_max_gap_chars: 3500
+
+chunking:
+  max_chars: 6000
+  target_chars: 4500
+  min_prose_chars: 180
+  prose_overlap_chars: 500
+  max_macro_context: 20
+  create_statement_proof_bundle: false
+
+embedding:
+  provider: ollama
+  model: bge-m3
+  batch_size: 24
+  ollama_host: http://127.0.0.1:11434
+
+qdrant:
+  url: http://127.0.0.1:6333
+  collection: livre_crypto_latex_v1
+  distance: cosine
+
+retrieval:
+  dense_top_k: 24
+  lexical_top_k: 24
+  fused_top_k: 12
+  rrf_k: 60
+  structural_expand: true
+  max_context_chars: 30000
+  max_chunks_per_document: 4
